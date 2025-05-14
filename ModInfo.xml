@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mod description="" displayName="Space Diplomacy Overhaul" dllsBuild="$SPOREMOD_DLLS_BUILD" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="SpaceDiplomacyOverhaul">
+  <prerequisite game="GalacticAdventures">Space_Diplomacy_Overhaul.package</prerequisite>
+</mod>
