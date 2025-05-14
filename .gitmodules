@@ -1,0 +1,3 @@
+[submodule "src/Space Diplomacy Overhaul/Ai Empire Diplomacy/Spore-Mod-Utils"]
+	path = src/Space Diplomacy Overhaul/Ai Empire Diplomacy/Spore-Mod-Utils
+	url = https://github.com/Sadicto/Spore-Mod-Utils

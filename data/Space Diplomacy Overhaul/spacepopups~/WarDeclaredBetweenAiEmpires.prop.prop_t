@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "War Declared Between Ai Empires"
+bool eventAllowDuplicates true
+key eventCategory Warning
+texts eventDescription
+	"War"
+end
+float eventRemoveTime 30#15
+float eventStartFadeTime 20#10

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<mod description="" displayName="Space Diplomacy Overhaul" dllsBuild="$SPOREMOD_DLLS_BUILD" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="SpaceDiplomacyOverhaul">
-  <prerequisite game="GalacticAdventures">Space_Diplomacy_Overhaul.package</prerequisite>
+<mod description="" displayName="Space Diplomacy Overhaul" dllsBuild="$SPOREMOD_DLLS_BUILD" githubUrl="https://github.com/Sadicto/Space-Diplomacy-Overhaul" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="SpaceDiplomacyOverhaul" websiteUrl="https://github.com/Sadicto/Space-Diplomacy-Overhaul">
+  <prerequisite game="GalacticAdventures">SpaceDiplomacyOverhaul_Main.package</prerequisite>
+  <prerequisite>Ai Empire Diplomacy.dll</prerequisite>
 </mod>

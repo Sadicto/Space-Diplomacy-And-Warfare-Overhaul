@@ -1,0 +1,162 @@
+key parent space_npc_relationship_effects~!0x4E5855B9.prop
+string16 description "Trader"
+keys AdventureMissionKeys
+	#traderadventure03
+end
+floats RelationshipEventSpaceArchetypeMods
+	-2#0
+	1.5#1
+	0
+	-1#0
+	0
+	-1.5#0
+	0
+	-1.5#0
+end
+floats RelationshipEventSpacePersonalityMean
+	-0.5#-3
+	0
+	-0.5#-3
+	0
+	0
+	0
+end
+#floats RelationshipEventSpaceBadSystemPurchaseOffer
+#	-1
+#	-2
+#	-10
+#	0
+#	-0.5
+#	1
+#end
+#floats RelationshipEventSpaceDestroyBuilding
+#	0
+#	-3
+#	-10
+#	10
+#	-0.2
+#	1
+#end
+#floats RelationshipEventSpaceFloodCity
+#	0
+#	-16
+#	-10
+#	10
+#	-0.1
+#	1
+#end
+floats RelationshipEventSpaceGiveGift
+	0
+	2
+	0#-10
+	6#5
+	-0.5#-0.05
+	0#0.5
+end
+floats RelationshipEventSpaceGoodSystemPurchaseOffer
+	0#1
+	2
+	0
+	6#10
+	-0.5
+	0#1
+end
+#floats RelationshipEventSpacePersonalityNice
+#	3
+#	0
+#	0
+#	3
+#	0
+#	0
+#end
+#floats RelationshipEventSpaceStealCommodity
+#	0
+#	-1
+#	-6
+#	5
+#	-0.5
+#	1
+#end
+#floats RelationshipEventSpaceTradeComplete
+#	0
+#	1
+#	-3
+#	2
+#	-0.1
+#	0.5
+#end
+#floats RelationshipEventSpaceTradeRouteSpice
+#	0
+#	0.5
+#	-5
+#	4
+#	-0.05
+#	0
+#end
+#floats RelationshipEventTrade
+#	0.5
+#	0.5
+#	0
+#	2
+#	-0.05
+#	0
+#end
+int32s missionGeneratorWeight
+	70
+	40
+	40
+	40
+	70
+	40
+	100
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	300
+end
+int32s missionGeneratorWeightDuringAlliance
+	70
+	40
+	40
+	40
+	70
+	40
+	100
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	300
+end
+int32s missionGeneratorWeightDuringWar
+	70
+	40
+	40
+	40
+	70
+	40
+	100
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	40
+	300
+end
+float surrenderChance 0.75
+float surrenderChanceNearDeath 1

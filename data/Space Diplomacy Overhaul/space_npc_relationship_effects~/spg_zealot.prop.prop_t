@@ -1,0 +1,90 @@
+key parent space_npc_relationship_effects~!0x4E5855B9.prop
+string16 description "Zealot"
+keys AdventureMissionKeys
+	#zealotadventure01
+end
+floats RelationshipEventSpaceArchetypeMods
+	-1#0
+	0
+	-2#0
+	-3#0
+	0
+	7#1
+	-2#0
+	-1#0
+end
+floats RelationshipEventSpacePersonalityMean
+	-4#-3
+	0
+	-4#-3
+	0
+	0
+	0
+end
+#floats RelationshipEventSpaceCityPanicked
+#	0
+#	-2
+#	-5
+#	10
+#	-0.1
+#	0.5
+#end
+int32s missionGeneratorWeight
+	100
+	40
+	70
+	50
+	40
+	40
+	40
+	40
+	50
+	40
+	40
+	40
+	100
+	40
+	40
+	10
+	300
+end
+int32s missionGeneratorWeightDuringAlliance
+	100
+	40
+	70
+	50
+	40
+	40
+	40
+	40
+	50
+	40
+	40
+	40
+	100
+	40
+	40
+	10
+	300
+end
+int32s missionGeneratorWeightDuringWar
+	100
+	40
+	70
+	50
+	40
+	40
+	40
+	40
+	50
+	40
+	40
+	40
+	100
+	40
+	40
+	10
+	300
+end
+float surrenderChance 0.25
+float surrenderChanceNearDeath 0
