@@ -23,32 +23,36 @@ void Dispose()
 
 member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
-		original_function(this, pEmpire1, pEmpire2);
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
-		uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
-		bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
-		if (pEmpire1->GetEmpireID() != playerEmpireId && pEmpire2->GetEmpireID() != playerEmpireId && encountered) {
-			uint32_t eventID = UIEventLog.ShowEvent(id("AllianceBetweenAiEmpires"), GroupIDs::SpacePopups);
-			eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
-			eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
-			eastl::string16 str1 = u"The " + empire1 + u" and " + empire2 + u" have formed an alliance.";
-			UIEventLog.SetDescription(eventID, str1.c_str());
+		if (EmpireDiplomacyManager->declareAlliance || pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()) {
+			original_function(this, pEmpire1, pEmpire2);
+			uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
+			bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
+			if (pEmpire1->GetEmpireID() != playerEmpireId && pEmpire2->GetEmpireID() != playerEmpireId && encountered) {
+				uint32_t eventID = UIEventLog.ShowEvent(id("AllianceBetweenAiEmpires"), GroupIDs::SpacePopups);
+				eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
+				eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
+				eastl::string16 str1 = u"The " + empire1 + u" and " + empire2 + u" have formed an alliance.";
+				UIEventLog.SetDescription(eventID, str1.c_str());
+			}
 		}
 	}
 };
 
 member_detour(BreakAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
-		original_function(this, pEmpire1, pEmpire2);
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
-		uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
-		bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
-		if (pEmpire1->GetEmpireID() != playerEmpireId && pEmpire2->GetEmpireID() != playerEmpireId && encountered) {
-			uint32_t eventID = UIEventLog.ShowEvent(id("AllianceEndedBetweenAiEmpires"), GroupIDs::SpacePopups);
-			eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
-			eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
-			eastl::string16 str1 = u"The alliance between the " + empire1 + u" and " + empire2 + u" has broken down.";
-			UIEventLog.SetDescription(eventID, str1.c_str());
+		if (EmpireDiplomacyManager->breakAlliance || pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()) {
+			original_function(this, pEmpire1, pEmpire2);
+			uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
+			bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
+			if (pEmpire1->GetEmpireID() != playerEmpireId && pEmpire2->GetEmpireID() != playerEmpireId && encountered) {
+				uint32_t eventID = UIEventLog.ShowEvent(id("AllianceEndedBetweenAiEmpires"), GroupIDs::SpacePopups);
+				eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
+				eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
+				eastl::string16 str1 = u"The alliance between the " + empire1 + u" and " + empire2 + u" has broken down.";
+				UIEventLog.SetDescription(eventID, str1.c_str());
+			}
 		}
 	}
 };
@@ -56,16 +60,18 @@ member_detour(BreakAlliance__detour, Simulator::cRelationshipManager, void(cEmpi
 member_detour(DeclareWar__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
-		if (!RelationshipManager.IsAtWar(pEmpire1, pEmpire2)) {
-			original_function(this, pEmpire1, pEmpire2);
-			uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
-			bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
-			if (pEmpire1->GetEmpireID() != playerEmpireId && pEmpire2->GetEmpireID() != playerEmpireId && encountered) {
-				uint32_t eventID = UIEventLog.ShowEvent(id("WarDeclaredBetweenAiEmpires"), GroupIDs::SpacePopups);
-				eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
-				eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
-				eastl::string16 str1 = u"The " + empire1 + u" declared war on the " + empire2;
-				UIEventLog.SetDescription(eventID, str1.c_str());
+		if (EmpireDiplomacyManager->declareWar || pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()){
+			if (!RelationshipManager.IsAtWar(pEmpire1, pEmpire2)) {
+				original_function(this, pEmpire1, pEmpire2);
+				uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
+				bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
+				if (pEmpire1->GetEmpireID() != playerEmpireId && pEmpire2->GetEmpireID() != playerEmpireId && encountered) {
+					uint32_t eventID = UIEventLog.ShowEvent(id("WarDeclaredBetweenAiEmpires"), GroupIDs::SpacePopups);
+					eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
+					eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
+					eastl::string16 str1 = u"The " + empire1 + u" declared war on the " + empire2;
+					UIEventLog.SetDescription(eventID, str1.c_str());
+				}
 			}
 		}
 	}

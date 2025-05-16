@@ -2,8 +2,10 @@
 #include "cEmpireDiplomacyManager.h"
 #include <Spore/Simulator/ConversationResource.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
-const float cEmpireDiplomacyManager::activeRadius = 30;
-const int cEmpireDiplomacyManager::cycleInterval = 180000; //3 minutes
+#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+
+using namespace SporeModUtils;
+
 cEmpireDiplomacyManagerPtr cEmpireDiplomacyManager::instance = nullptr;
 
 
@@ -40,8 +42,12 @@ Simulator::Attribute cEmpireDiplomacyManager::ATTRIBUTES[] = {
 
 
 void cEmpireDiplomacyManager::Initialize() {
+	activeRadius = 60;
+	cycleInterval = 180000; //3 minutes
 	cycle = 0;
 	declareWar = false;
+	declareAlliance = false;
+	breakAlliance = false;
 	instance = cEmpireDiplomacyManagerPtr(this);
 	archetypesCompatibilities.resize(8);
 	for (size_t i = 0; i < 8; ++i) {
@@ -131,10 +137,8 @@ void cEmpireDiplomacyManager::Update(int deltaTime, int deltaGameTime) {
 	if (IsSpaceGame()) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
-			EmpireDiplomacyCycle();/*
-			App::ConsolePrintF("cycle: %d", cycle);*/
+			EmpireDiplomacyCycle();
 			elapsedTime = 0;
-			cycle++;
 		}
 	}
 }
@@ -142,8 +146,8 @@ void cEmpireDiplomacyManager::Update(int deltaTime, int deltaGameTime) {
 void cEmpireDiplomacyManager::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) {
 	if (newModeID == GameModeIDs::kGameSpace) {
 		cycle = 0;
+		elapsedTime = 0;
 	}
-	cStrategy::OnModeEntered(previousModeID, newModeID); //idk if it is necessary.
 }
 
 bool cEmpireDiplomacyManager::WriteToXML(XmlSerializer*)
@@ -226,8 +230,7 @@ bool cEmpireDiplomacyManager::EmpireEncountered(cEmpire* empire) {
 }
 
 int cEmpireDiplomacyManager::GetEmpireLevel(cEmpire* empire) {
-	empire->AddStarOwnership(empire->GetHomeStarRecord());
-	return empire->field_D8;
+	return EmpireUtils::GetEmpireLevel(empire);
 }
 
 int cEmpireDiplomacyManager::GetEmpireRange(cEmpire* empire) {
@@ -255,7 +258,7 @@ void cEmpireDiplomacyManager::GetEmpiresInRange(cEmpire* empire, eastl::vector<c
 		Vector3 starCoordinates = empireStar->mPosition;
 		GetEmpiresInRadius(starCoordinates, empireRange, empiresAroundStar, true);
 		for (cEmpirePtr nearEmpire : empiresAroundStar) {
-			if (nearEmpire->GetEmpireID() != empire->GetEmpireID()) {
+			if (nearEmpire != empire && EmpireUtils::ValidNpcEmpire(nearEmpire.get(), true)) {
 				nearEmpiresSet.insert(nearEmpire);
 			}
 		}
@@ -333,6 +336,19 @@ int cEmpireDiplomacyManager::ArchetypeCompatibility(Archetypes archetype1, Arche
 	if (archetype2 > 8) { // if the archetype is an kArchetypePlayerXXX
 		archetype2 = static_cast<Archetypes>(archetype2 - 9); // convert it to an kArchetypeXXX
 	}
+	// Delete after adding suport to knights and wanderers
+	if (archetype1 == Archetypes::kArchetypePlayerWanderer) {
+		archetype1 = Archetypes::kArchetypeDiplomat;
+	}
+	if (archetype2 == Archetypes::kArchetypePlayerWanderer) {
+		archetype2 = Archetypes::kArchetypeDiplomat;
+	}
+	if (archetype1 == Archetypes::kArchetypePlayerKnight) {
+		archetype1 = Archetypes::kArchetypeWarrior;
+	}
+	if (archetype2 == Archetypes::kArchetypePlayerKnight) {
+		archetype2 = Archetypes::kArchetypeWarrior;
+	}
 	return archetypesCompatibilities[archetype1][archetype2];
 }
 
@@ -402,7 +418,9 @@ void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
 
 					if (empireInRange->GetEmpireID() == playerEmpireId) {
 						// maybe change it?
+						breakAlliance = true;
 						RelationshipManager.BreakAlliance(empire, empireInRange.get());
+						breakAlliance = false;
 					}
 					else {
 						RelationshipManager.BreakAlliance(empire, empireInRange.get());
@@ -440,7 +458,9 @@ void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
 							RelationshipManager.ApplyRelationship(empire->GetEmpireID(), empireInRange->GetEmpireID(), kRelationshipEventSpaceAcceptGift, 2.5f);
 						}
 						else {
+							declareAlliance = true;
 							RelationshipManager.DeclareAlliance(empire, empireInRange.get());
+							declareAlliance = false;
 						}
 					}
 				}

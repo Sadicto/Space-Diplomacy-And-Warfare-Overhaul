@@ -110,6 +110,9 @@ public:
 
 	bool declareWar;
 
+	bool declareAlliance;
+
+	bool breakAlliance;
 
 
 
@@ -125,10 +128,10 @@ private:
 	int elapsedTime;
 
 	// Miliseconds of gameTime between expansion cycles.
-	static const int cycleInterval;
+	int cycleInterval;
 
 	// Radius (in parsecs) in which the manager is active.
-	static const float activeRadius;
+	float activeRadius;
 
 	// Matrix of 8x8 that stores the archetypesCompatibilities.
 	eastl::vector<eastl::vector<int>> archetypesCompatibilities;
