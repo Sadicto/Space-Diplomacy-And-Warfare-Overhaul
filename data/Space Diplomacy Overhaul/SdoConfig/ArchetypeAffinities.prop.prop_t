@@ -1,0 +1,21 @@
+int32s ShamanAffinities
+	-2 # Warrior
+	-1 # Trader
+	-3 # Scientist
+	3  # Shaman
+	0  # Bard
+	-5 # Zealot
+	1  # Diplomat
+	2  # Ecologist
+end
+
+int32s TraderAffinities
+	-1 # Warrior
+	2  # Trader
+	0  # Scientist
+	-1 # Shaman
+	0  # Bard
+	-1 # Zealot
+	0  # Diplomat
+	-2 # Ecologist
+end
