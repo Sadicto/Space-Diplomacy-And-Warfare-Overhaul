@@ -24,7 +24,7 @@ void Dispose()
 member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
-		if (EmpireDiplomacyManager->declareAlliance || pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()) {
+		if (pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()) {
 			original_function(this, pEmpire1, pEmpire2);
 			uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
 			bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
@@ -42,7 +42,7 @@ member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEm
 member_detour(BreakAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
-		if (EmpireDiplomacyManager->breakAlliance || pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()) {
+		if (pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()) {
 			original_function(this, pEmpire1, pEmpire2);
 			uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
 			bool encountered = EmpireDiplomacyManager->EmpireEncountered(pEmpire1) || EmpireDiplomacyManager->EmpireEncountered(pEmpire2);
@@ -60,7 +60,7 @@ member_detour(BreakAlliance__detour, Simulator::cRelationshipManager, void(cEmpi
 member_detour(DeclareWar__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
-		if (EmpireDiplomacyManager->declareWar || pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()){
+		if (pEmpire1 == GetPlayerEmpire() || pEmpire2 == GetPlayerEmpire()){
 			if (!RelationshipManager.IsAtWar(pEmpire1, pEmpire2)) {
 				original_function(this, pEmpire1, pEmpire2);
 				uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;

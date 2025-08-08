@@ -1,0 +1,49 @@
+int32 diplomacyCycleInterval 120000 # 2 minutes.
+floats empireDiplomacyRange
+	3.0
+	5.0
+	7.0
+	8.0
+	10.0
+end
+
+int32 MaxAffinitySoftCap  5
+int32 MinAffinitySoftCap -5
+
+int32 AffinityThresholdForStableAlliance  1
+int32 AffinityThresholdForUnstableAlliance  0
+int32 AffinityThresholdForWar 0
+
+int32 AffinityGainForAllyOfAlly 2
+int32 AffinityGainForEnemyOfEnemy 3
+int32 AffinityGainForEnemyOfAlly -5
+
+int32s BaseAggressivityByArchetype 
+	5  # Warrior
+	2  # Trader
+	2  # Scientist
+	-1 # Shaman
+	1  # Bard
+	3  # Zealot
+	-1 # Diplomat
+	0  # Ecologist
+end
+
+int32s AggressivityGrowthByPowerLevel
+	0
+	0
+	1
+	1
+	2
+end
+
+bool autoDeclareWarOnAllyEnemies true
+
+# Does not apply to enemies of allies.
+bool startsWarsWhileAtWar false
+
+# Does not apply to enemies of allies.
+float powerThresholdToAvoidWar 1.20 
+
+
+#key speedConfig SaicConfig!SpeedConfig.prop

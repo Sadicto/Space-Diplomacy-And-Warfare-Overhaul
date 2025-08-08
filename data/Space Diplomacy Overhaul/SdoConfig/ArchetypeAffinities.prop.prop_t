@@ -1,12 +1,12 @@
-int32s ShamanAffinities
-	-2 # Warrior
+int32s WarriorAffinities
+	0  # Warrior
 	-1 # Trader
-	-3 # Scientist
-	3  # Shaman
-	0  # Bard
-	-5 # Zealot
-	1  # Diplomat
-	2  # Ecologist
+	-1 # Scientist
+	-2 # Shaman
+	-1 # Bard
+	-1 # Zealot
+	-5 # Diplomat
+	-2 # Ecologist
 end
 
 int32s TraderAffinities
@@ -19,3 +19,72 @@ int32s TraderAffinities
 	0  # Diplomat
 	-2 # Ecologist
 end
+
+int32s ScientistAffinities
+	-1 # Warrior
+	0  # Trader
+	2  # Scientist
+	-3 # Shaman
+	0  # Bard
+	-5 # Zealot
+	0  # Diplomat
+	-2 # Ecologist
+end
+
+
+int32s ShamanAffinities
+	-2 # Warrior
+	-1 # Trader
+	-3 # Scientist
+	3  # Shaman
+	0  # Bard
+	-5 # Zealot
+	1  # Diplomat
+	2  # Ecologist
+end
+
+int32s BardAffinities
+	-1 # Warrior
+	0  # Trader
+	0  # Scientist
+	0  # Shaman
+	2  # Bard
+	-1 # Zealot
+	-1 # Diplomat
+	0  # Ecologist
+end
+
+int32s ZealotAffinities
+	-1 # Warrior
+	-1 # Trader
+	-5 # Scientist
+	-5 # Shaman
+	-1 # Bard
+	5  # Zealot
+	-2 # Diplomat
+	-2 # Ecologist
+end
+
+int32s DiplomatAffinities
+	-5 # Warrior
+	0  # Trader
+	0  # Scientist
+	1  # Shaman
+	-1 # Bard
+	-2 # Zealot
+	5  # Diplomat
+	1  # Ecologist
+end
+
+int32s EcologistAffinities
+	-2 # Warrior
+	-2 # Trader
+	-2 # Scientist
+	2  # Shaman
+	0  # Bard
+	-2 # Zealot
+	1  # Diplomat
+	5  # Ecologist
+end
+
+

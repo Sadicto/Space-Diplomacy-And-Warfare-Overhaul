@@ -108,22 +108,12 @@ public:
 
 	void EmpireDiplomacyCycle();
 
-	bool declareWar;
-
-	bool declareAlliance;
-
-	bool breakAlliance;
-
-
-
-	
-
 private:
 	//
 	// You can add members here.
 	//
 
-	static cEmpireDiplomacyManagerPtr instance;
+	static cEmpireDiplomacyManager* instance;
 
 	int elapsedTime;
 
@@ -133,8 +123,51 @@ private:
 	// Radius (in parsecs) in which the manager is active.
 	float activeRadius;
 
-	// Matrix of 8x8 that stores the archetypesCompatibilities.
-	eastl::vector<eastl::vector<int>> archetypesCompatibilities;
+	// Diplomacy range per empire level, in parsecs.
+	eastl::vector<float> diplomacyRange;
+
+	// The upper limit beyond which increased affinity has no additional effect.
+	int maxAffinitySoftCap;
+
+	// The lower limit below which decreased affinity has no additional effect.
+	int minAffinitySoftCap;
+
+	// The affinity value required for an alliance to be considered stable.
+	int affinityThresholdForStableAlliance;
+
+	// The affinity value in which an alliance is considered unstable.
+	int affinityThresholdForUnstableAlliance;
+
+	// The maximum affinity at which empires may still declare war.
+	int affinityThresholdForWar;
+
+	// Affinity gained between empires that are allies of the same ally.
+	int affinityGainForAllyOfAlly;
+
+	// Affinity gained between empires that share a common enemy.
+	int affinityGainForEnemyOfEnemy;
+
+	// Affinity lost between empires when one is an enemy of the other's ally (should be negative).
+	int affinityGainForEnemyOfAlly;
+
+	// Stores the base aggressiveness for each archetype.
+	eastl::vector<int> baseAggressivityByArchetype;
+
+	// Extra aggressiveness gained per power level of an empire.
+	eastl::vector<int> aggressivityGrowthByPowerLevel;
+
+	// If true, AI empires automatically declare war on enemies of their allies.
+	bool autoDeclareWarOnAllyEnemies;
+
+	// If true, AI empires may start new wars while already at war against non-enemies of allies.
+	bool startsWarsWhileAtWar;
+
+	// If (power of target + allies) / (power of empire + allies) > powerThresholdToAvoidWar, then the empire will avoid declaring war.
+	float powerThresholdToAvoidWar;
+
+	// An 8x8 matrix storing affinity values between archetypes.
+	eastl::vector<eastl::vector<int>> archetypesAffinities;
+
 
 	int cycle;
 };
