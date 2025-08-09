@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClInclude Include="cEmpireDiplomacyManager.h" />
     <ClInclude Include="DebugDiplomacy.h" />
+    <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\Include\SporeModUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\PlanetUtils\PlanetUtils.h" />
@@ -114,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="cEmpireDiplomacyManager.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />
+    <ClCompile Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

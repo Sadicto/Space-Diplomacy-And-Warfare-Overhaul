@@ -124,49 +124,6 @@ cEmpireDiplomacyManagerPtr cEmpireDiplomacyManager::Get() {
 	return instance;
 }
 
-cStarRecord* cEmpireDiplomacyManager::GetCurrentStar() {
-	cStarRecord* actualStar = SpacePlayerData::Get()->mpActiveStar.get()->mpStarRecord.get();
-	return actualStar;
-}
-
-void cEmpireDiplomacyManager::GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer) {
-	StarRequestFilter filter;
-	filter.RemoveStarType(StarType::None);
-	filter.RemoveStarType(StarType::GalacticCore);
-	filter.RemoveStarType(StarType::ProtoPlanetary);
-	filter.RemoveStarType(StarType::BlackHole);
-	filter.techLevels = 0;
-	filter.AddTechLevel(TechLevel::Empire);
-	filter.minDistance = 0;
-	filter.maxDistance = radius;
-
-	eastl::vector<cStarRecordPtr> starsColonized;
-	StarManager.FindStars(coords, filter, starsColonized);
-
-	// a set prevents duplicates.
-	eastl::set<uint32_t> empireIDSet;
-
-	uint32_t groxEmpireID = StarManager.GetGrobEmpireID();
-	uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
-
-	// Collect unique mEmpireID values owners if the stars, except the grox and player empire.
-	for (cStarRecordPtr star : starsColonized) {
-		if ((star->mEmpireID != playerEmpireId || includePlayer) && star->mEmpireID != groxEmpireID) {
-			empireIDSet.insert(star->mEmpireID);
-		}
-	}
-	//Get the empire for every id.
-	for (uint32_t id : empireIDSet) {
-		empires.push_back(cEmpirePtr(StarManager.GetEmpire(id)));
-	}
-}
-
-float cEmpireDiplomacyManager::GetDistanceBetweenStars(cStarRecord* star1, cStarRecord* star2) {
-	return (star1->mPosition - star2->mPosition).Length();
-}
-
-//new
-
 eastl::string16 cEmpireDiplomacyManager::ArchetypeToString(Archetypes archetype) {
 	switch (archetype) {
 		case kArchetypeWarrior: case kArchetypePlayerWarrior: return u"Warrior";
@@ -184,86 +141,19 @@ eastl::string16 cEmpireDiplomacyManager::ArchetypeToString(Archetypes archetype)
 	}
 }
 
-bool cEmpireDiplomacyManager::EmpireEncountered(cEmpire* empire) {
-	eastl::vector<StarID> starsVisited = GetPlayer()->mStarsVisited;
-	for (cStarRecordPtr star : empire->mStars){
-		if (eastl::find(starsVisited.begin(), starsVisited.end(), star->GetID()) != starsVisited.end()) {
-			return true;
-		}
-	}
-	return false;
+float cEmpireDiplomacyManager::GetEmpireDiplomaticRange(cEmpire* empire) {
+	int empireLevel = EmpireUtils::GetEmpireLevel(empire);
+	return diplomacyRange[empireLevel];
 }
 
-int cEmpireDiplomacyManager::GetEmpireLevel(cEmpire* empire) {
-	return EmpireUtils::GetEmpireLevel(empire);
+void cEmpireDiplomacyManager::GetEmpiresInDiplomaticRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires) {
+	float range = GetEmpireDiplomaticRange(empire);
+	EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empires, true);
 }
 
-int cEmpireDiplomacyManager::GetEmpireRange(cEmpire* empire) {
-	switch (GetEmpireLevel(empire)) {
-	case 0:
-		return 3;
-	case 1:
-		return 5;
-	case 2:
-		return 7;
-	case 3:
-		return 8;
-	case 4:
-		return 10;
-	}
-	//return 5 + empire->field_D8 * 2;
-}
-
-void cEmpireDiplomacyManager::GetEmpiresInRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires) {
-	int empireRange = GetEmpireRange(empire);
-	// a set prevents duplicates.
-	eastl::set<cEmpirePtr> nearEmpiresSet;
-	for (cStarRecordPtr empireStar : empire->mStars) {
-		eastl::vector<cEmpirePtr> empiresAroundStar;
-		Vector3 starCoordinates = empireStar->mPosition;
-		GetEmpiresInRadius(starCoordinates, empireRange, empiresAroundStar, true);
-		for (cEmpirePtr nearEmpire : empiresAroundStar) {
-			if (nearEmpire != empire && EmpireUtils::ValidNpcEmpire(nearEmpire.get(), true)) {
-				nearEmpiresSet.insert(nearEmpire);
-			}
-		}
-	}
-	for (cEmpirePtr empire : nearEmpiresSet) {
-		empires.push_back(empire);
-	}
-}
-
-bool cEmpireDiplomacyManager::Allied(cEmpire* empire1, cEmpire* empire2) {
-	for (cEmpirePtr empireAlly : empire1->mAllies) {
-		if (empireAlly.get() == empire2) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool cEmpireDiplomacyManager::AllianceWithEnemyOfEmpire(cEmpire* empire, cEmpire* target) {
-	for (cEmpirePtr allyEmpire : empire->mAllies) {
-		auto it = eastl::find(target->mEnemies.begin(), target->mEnemies.end(), allyEmpire);
-		if (it != target->mEnemies.end()) { // an ally is an enemy of the target empire
-			return true;
-		}
-	}
-	return false;
-}
-
-int cEmpireDiplomacyManager::CommonEnemiesCount(cEmpire* empire1, cEmpire* empire2) {
-	int commonEnemies = 0;
-	for (cEmpirePtr enemyEmpire : empire1->mEnemies) {
-		auto it = eastl::find(empire2->mEnemies.begin(), empire2->mEnemies.end(), enemyEmpire);
-		if (it != empire2->mEnemies.end()) { // an enemy is an enemy of the target empire
-			commonEnemies++;
-		}
-	}
-	return commonEnemies;
-}
-
-int cEmpireDiplomacyManager::EmpireAgressivity(cEmpire* empire, cEmpire* target) {
+int cEmpireDiplomacyManager::EmpireAgressivity(cEmpire* empire) {
+	int baseAgressity = 1;
+	/*
 	Archetypes archetype = empire->mArchetype;
 	switch (archetype) {
 		case kArchetypeShaman: return -5;
@@ -286,48 +176,22 @@ int cEmpireDiplomacyManager::EmpireAgressivity(cEmpire* empire, cEmpire* target)
 				return 0;
 			}
 		}
-		case kArchetypeScientist: return + 2 * max(GetEmpireLevel(empire) - GetEmpireLevel(target), 0); // +2 aggressiveness for every level the empire has more than the target.
+		case kArchetypeScientist: return + 2 * max(EmpireUtils::GetEmpireLevel(empire) - EmpireUtils::GetEmpireLevel(target), 0); // +2 aggressiveness for every level the empire has more than the target.
 		case kArchetypeZealot: return 3;
 		case kArchetypeWarrior: return 5;
 		default: return 0;
 	}
 	return 1;
+	*/
 }
 
-int cEmpireDiplomacyManager::ArchetypeCompatibility(Archetypes archetype1, Archetypes archetype2) {
-	if (archetype1 > 8) { // if the archetype is an kArchetypePlayerXXX
-		archetype1 = static_cast<Archetypes>(archetype1 - 9); // convert it to an kArchetypeXXX
-	}
-	if (archetype2 > 8) { // if the archetype is an kArchetypePlayerXXX
-		archetype2 = static_cast<Archetypes>(archetype2 - 9); // convert it to an kArchetypeXXX
-	}
-	// Delete after adding suport to knights and wanderers
-	if (archetype1 == Archetypes::kArchetypePlayerWanderer) {
-		archetype1 = Archetypes::kArchetypeDiplomat;
-	}
-	if (archetype2 == Archetypes::kArchetypePlayerWanderer) {
-		archetype2 = Archetypes::kArchetypeDiplomat;
-	}
-	if (archetype1 == Archetypes::kArchetypePlayerKnight) {
-		archetype1 = Archetypes::kArchetypeWarrior;
-	}
-	if (archetype2 == Archetypes::kArchetypePlayerKnight) {
-		archetype2 = Archetypes::kArchetypeWarrior;
-	}
-	return archetypesAffinities[archetype1][archetype2];
-}
-
-float cEmpireDiplomacyManager::BoundedSigmoid(float x) {
-	if (0 > x) {
-		return 0.0f;
-	}
-	else {
-		return min(x / 10, 1.0f);
-	}
+int cEmpireDiplomacyManager::ArchetypeAffinity(Archetypes archetype1, Archetypes archetype2) {
+	return archetypesAffinities[ArchetypeUtils::GetBaseArchetype(archetype1)][ArchetypeUtils::GetBaseArchetype(archetype2)];
 }
 
 float cEmpireDiplomacyManager::AllianceProbability(cEmpire* empire1, cEmpire* empire2) {
-	if (AllianceWithEnemyOfEmpire(empire1, empire2) || AllianceWithEnemyOfEmpire(empire2, empire1)) {
+	/*
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
 		return 0;
 	}
 	else {
@@ -335,29 +199,34 @@ float cEmpireDiplomacyManager::AllianceProbability(cEmpire* empire1, cEmpire* em
 		int compatibility = ArchetypeCompatibility(empire1->mArchetype, empire2->mArchetype);
 		return BoundedSigmoid(2 * CommonEnemies + compatibility) / 2; // /2 because this method will almost always execute twice for a pair of empires during a cycle.
 	}
+	*/
 }
 
 float cEmpireDiplomacyManager::BreakAllianceProbability(cEmpire* empire1, cEmpire* empire2) {
+	/*
 	float pMin = 0;
-	if (AllianceWithEnemyOfEmpire(empire1, empire2) || AllianceWithEnemyOfEmpire(empire2, empire1)) {
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
 		pMin = 0.20;
 	}
 	int CommonEnemies = CommonEnemiesCount(empire1, empire2);
 	int compatibility = ArchetypeCompatibility(empire1->mArchetype, empire2->mArchetype);
 	return max(BoundedSigmoid(-3 * CommonEnemies - compatibility) / 2, pMin); // /2 because this method will almost always execute twice for a pair of empires during a cycle.
+	*/
 }
 
 float cEmpireDiplomacyManager::DeclareWarProbability(cEmpire* empire, cEmpire* target) {
+	/*
 	float pMin = 0;
-	if (AllianceWithEnemyOfEmpire(empire, target)) {
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire, target)) {
 		pMin = 0.20;
 	}
 	int compatibility = ArchetypeCompatibility(empire->mArchetype, target->mArchetype);
 	int warCount = empire->mEnemies.size();
-	int level = GetEmpireLevel(empire);
+	int level = EmpireUtils::GetEmpireLevel(empire);
 	int agressivity = EmpireAgressivity(empire, target);
-	int deltaLevel = GetEmpireLevel(empire) - GetEmpireLevel(target);
+	int deltaLevel = EmpireUtils::GetEmpireLevel(empire) - EmpireUtils::GetEmpireLevel(target);
 	return max(BoundedSigmoid ( - compatibility - 2 * warCount + level - 2 + agressivity + deltaLevel), pMin);
+	*/
 }
 
 void  cEmpireDiplomacyManager::CreateTributeComm(cEmpire* empire) {
@@ -370,9 +239,11 @@ void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
 	uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
 
 	eastl::vector<cEmpirePtr> empiresInRange;
-	GetEmpiresInRange(empire, empiresInRange);
+	GetEmpiresInDiplomaticRange(empire, empiresInRange);
 
 	for (cEmpirePtr empireInRange : empiresInRange) {
+	}
+		/*
 
 		if (!RelationshipManager.IsAtWar(empire, empireInRange.get())) {
 
@@ -428,13 +299,13 @@ void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
 		else { // At war.
 			RelationshipManager.ApplyRelationship(empire->GetEmpireID(), empireInRange->GetEmpireID(), kRelationshipEventSpaceStartedWar, 1.0f);
 		}
-	}
+	}*/
 
 }
 
 void cEmpireDiplomacyManager::EmpireDiplomacyCycle() {
 	eastl::vector<cEmpirePtr> empires;
-	GetEmpiresInRadius(GetCurrentStar()->mPosition, activeRadius, empires);
+	EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, activeRadius, empires);
 
 	for (cEmpirePtr empire : empires) {
 		ManageEmpireDiplomacy(empire.get());

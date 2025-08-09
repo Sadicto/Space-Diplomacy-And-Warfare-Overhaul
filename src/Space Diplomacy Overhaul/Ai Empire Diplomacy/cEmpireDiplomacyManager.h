@@ -33,37 +33,6 @@ public:
 	// You can add more methods here
 	//
 
-	/**
-	* @brief Gets the current star system the player is in.
-	* Preconditions: none.
-	* @return Pointer to the current star system (cStarRecord*).
-	*/
-	cStarRecord* GetCurrentStar();
-
-	/**
-	 * @brief Retrieves all empires within a given radius of coordinates,
-	 * except for the Grox.
-	 * Preconditions: none.
-	 * @param coords Vector3 representing the center coordinates.
-	 * @param radius Float representing the search radius in parsecs.
-	 * @param empires Vector to store the list of empires (eastl::vector<cEmpirePtr>&)
-	 * @param includePlayer if is true includes the player in the search.
-	 * found within the radius.
-	 */
-	void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer = false);
-
-
-	/**
-	 * @brief Calculates the distance between two star systems.
-	 * Preconditions: none.
-	 * @param star1 Pointer to the first star system (cStarRecord*).
-	 * @param star2 Pointer to the second star system (cStarRecord*).
-	 * @return Float representing the distance between the two stars in parsecs.
-	 */
-	float GetDistanceBetweenStars(cStarRecord* star1, cStarRecord* star2);
-
-	//new
-
 	static cEmpireDiplomacyManagerPtr Get();
 
 	eastl::string16 ArchetypeToString(Archetypes archetype);
@@ -76,25 +45,14 @@ public:
 	 * @param empire Pointer to the empire to check.
 	 * @return true if the player has likely encountered the empire, false otherwise.
 	 */
-	bool EmpireEncountered(cEmpire* empire);
 
-	int GetEmpireLevel(cEmpire* empire);
+	float GetEmpireDiplomaticRange(cEmpire* empire);
 
-	int GetEmpireRange(cEmpire* empire);
+	void GetEmpiresInDiplomaticRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
 
-	void GetEmpiresInRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
+	int EmpireAgressivity(cEmpire* empire);
 
-	bool Allied(cEmpire* empire1, cEmpire* empire2);
-
-	bool AllianceWithEnemyOfEmpire(cEmpire* empire, cEmpire* target);
-
-	int CommonEnemiesCount(cEmpire* empire1, cEmpire* empire2);
-
-	int EmpireAgressivity(cEmpire* empire, cEmpire* target);
-
-	int ArchetypeCompatibility(Archetypes archetype1, Archetypes archetype2);
-
-	float BoundedSigmoid(float x);
+	int ArchetypeAffinity(Archetypes archetype1, Archetypes archetype2);
 
 	float AllianceProbability(cEmpire* empire1, cEmpire* empire2);
 
