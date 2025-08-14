@@ -28,6 +28,7 @@
     <ClInclude Include="Spore-Mod-Utils\StarUtils\StarUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\TerraformingUtils\TerraformingUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
+    <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -44,6 +45,7 @@
     <ClCompile Include="Spore-Mod-Utils\StarUtils\StarUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\TerraformingUtils\TerraformingUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.cpp" />
+    <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

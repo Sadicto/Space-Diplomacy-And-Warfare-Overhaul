@@ -3,7 +3,9 @@
 #include <EASTL/string.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include "cEmpireDiplomacyManager.h"
+#include "Spore-Mod-Utils/Include/SporeModUtils.h"
 using namespace Simulator;
+using namespace SporeModUtils;
 DebugDiplomacy::DebugDiplomacy()
 {
 }
@@ -19,6 +21,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     int val = mpFormatParser->ParseInt(args[0]);
     cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
     SpacePlayerData* playerData = SpacePlayerData::Get();
+    cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
 
     switch (val) {
     case 0: { // Set the star
@@ -28,7 +31,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 1: { // Set the empire
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
+        
         this->empireColonizer = empire;
         App::ConsolePrintF("empire: %d", empire->GetEmpireID());
         break;
@@ -56,39 +59,33 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 5: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        EmpireDiplomacyManager->CreateTributeComm(empire);
+        int agressivty = EmpireDiplomacyManager->GetEmpireAgressivity(empire);
         break;
     }
     case 6: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        bool alliance  = RelationshipManager.IsAllied(this->empireColonizer, empire);
+        int affinity = EmpireDiplomacyManager->EmpiresAffinity(this->empireColonizer, empire);
         break;
     }
     case 7: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        RelationshipManager.DeclareAlliance(this->empireColonizer, empire);
+
         break;
     }
     case 8: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        RelationshipManager.BreakAlliance(this->empireColonizer, empire);
+
         break;
 
     }
     case 9: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        RelationshipManager.DeclareWar(this->empireColonizer, empire);
+
         break;
 
     }
     case 10:{
-        RelationshipManager.ApplyRelationship(empireColonizer->GetEmpireID(), GetActiveStarRecord()->mEmpireID, kRelationshipEventSpaceAcceptGift, 2.5f);
+
         break;
      }
     case 11: {
-        cEmpire* playerEmpire = GetPlayerEmpire();
-        cPlayer* player = GetPlayer();
+
         
         break;
     }
@@ -103,8 +100,6 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 13: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        bool encountered = EmpireDiplomacyManager->EmpireEncountered(empire);
         break;
     }
     case 14: {
@@ -121,19 +116,56 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 16: {
-        
+        uint32_t base = baseAddress;
+        int c = 0;
         break;
     }
     case 17: {
+        cBadgeManager* badgeManager = SimulatorSpaceGame.mpBadgeManager.get();
+        int a = 4;
         
         break;
     }
     case 18: {
-        
+        cPlayer* player = Simulator::GetPlayer();
+        int empirePoliticalId = GetActiveStarRecord()->mEmpireID;
+        bool ret = CALL(Address(0x00c7a910), bool, Args(cPlayer*, int), Args(player, empirePoliticalId));
+        int a = 9;
         break;
     }
     case 19: {
+        eastl::vector<cEmpirePtr> empires;
+        EmpireUtils::GetEmpiresInRangeOfEmpire(GetPlayerEmpire(), 40, empires);
+        for (cEmpirePtr empire : empires) {
+            bool found = DiplomacyUtils::PlayerContactedEmpire(empire.get());
+            int b = 5;
+        }
         
+        break;
+    }
+    case 20: {
+        cPlayer* player = Simulator::GetPlayer();
+        int empirePoliticalId = GetActiveStarRecord()->mEmpireID;
+        auto it = player->mPlayerSpecificEmpireData.find(empirePoliticalId);
+        if (it != player->mPlayerSpecificEmpireData.end()) {
+            int value = it->second;
+            int a = 4;
+        }
+        break;
+    }
+    case 21: {
+        int empirePoliticalId = GetActiveStarRecord()->mEmpireID;
+        bool ret = CALL(Address(0x00c7a8b0), bool, Args(Simulator::cPlayer*, int), Args(Simulator::GetPlayer(), empirePoliticalId));
+        int b = 4;
+        break;
+    }
+    case 22: {
+        eastl::vector<cEmpirePtr> empires;
+        EmpireUtils::GetEmpiresInRangeOfEmpire(GetPlayerEmpire(), 40, empires);
+        for (cEmpirePtr empire : empires) {
+            bool found = DiplomacyUtils::EmpireIsAwareOfPlayer(empire.get());
+            int b = 5;
+        }
         break;
     }
     default: { // Print the empire and star

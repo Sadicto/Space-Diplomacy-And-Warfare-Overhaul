@@ -37,22 +37,15 @@ public:
 
 	eastl::string16 ArchetypeToString(Archetypes archetype);
 
-	/**
-	 * @brief Returns true if the player has encountered the given empire.
-	 * This check is based on the player's visited stars and the empire's colonies,
-	 * so it may not be 100% accurate.
-	 * Preconditions: none.
-	 * @param empire Pointer to the empire to check.
-	 * @return true if the player has likely encountered the empire, false otherwise.
-	 */
-
 	float GetEmpireDiplomaticRange(cEmpire* empire);
 
 	void GetEmpiresInDiplomaticRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
 
-	int EmpireAgressivity(cEmpire* empire);
+	int GetEmpireAgressivity(cEmpire* empire);
 
-	int ArchetypeAffinity(Archetypes archetype1, Archetypes archetype2);
+	int ArchetypesAffinity(Archetypes archetype1, Archetypes archetype2);
+
+	int EmpiresAffinity(cEmpire* empire1, cEmpire* empire2);
 
 	float AllianceProbability(cEmpire* empire1, cEmpire* empire2);
 

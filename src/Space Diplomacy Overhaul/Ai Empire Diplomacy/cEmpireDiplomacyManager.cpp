@@ -151,45 +151,33 @@ void cEmpireDiplomacyManager::GetEmpiresInDiplomaticRange(cEmpire* empire, eastl
 	EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empires, true);
 }
 
-int cEmpireDiplomacyManager::EmpireAgressivity(cEmpire* empire) {
-	int baseAgressity = 1;
-	/*
-	Archetypes archetype = empire->mArchetype;
-	switch (archetype) {
-		case kArchetypeShaman: return -5;
-		case kArchetypeDiplomat: {
-			if (AllianceWithEnemyOfEmpire(empire, target)) {
-				return 0;
-			}
-			else {
-				return -4;
-			}
-		}
-		case kArchetypeEcologist: return -3;
-		case kArchetypeBard: return Math::rand(5) - 2; //random between -2 and 2
-		case kArchetypeTrader: {
-			int sizeDifference = empire->mStars.size() - target->mStars.size();
-			if (sizeDifference >= 5) {
-				return sizeDifference % 5; // +1 aggressiveness for every 5 systems the empire has more than the target.
-			}
-			else {
-				return 0;
-			}
-		}
-		case kArchetypeScientist: return + 2 * max(EmpireUtils::GetEmpireLevel(empire) - EmpireUtils::GetEmpireLevel(target), 0); // +2 aggressiveness for every level the empire has more than the target.
-		case kArchetypeZealot: return 3;
-		case kArchetypeWarrior: return 5;
-		default: return 0;
-	}
-	return 1;
-	*/
+int cEmpireDiplomacyManager::GetEmpireAgressivity(cEmpire* empire) {
+	Archetypes archetype = ArchetypeUtils::GetBaseArchetype(empire->mArchetype);
+	int agressivty = baseAggressivityByArchetype[archetype];
+	agressivty += aggressivityGrowthByPowerLevel[EmpireUtils::GetEmpireLevel(empire)];
+	return agressivty;
 }
 
-int cEmpireDiplomacyManager::ArchetypeAffinity(Archetypes archetype1, Archetypes archetype2) {
+int cEmpireDiplomacyManager::ArchetypesAffinity(Archetypes archetype1, Archetypes archetype2) {
 	return archetypesAffinities[ArchetypeUtils::GetBaseArchetype(archetype1)][ArchetypeUtils::GetBaseArchetype(archetype2)];
 }
 
+int cEmpireDiplomacyManager::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
+	int affinity = ArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
+	if (DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)) {
+		affinity += affinityGainForAllyOfAlly;
+	}
+	if (DiplomacyUtils::CommonEnemy(empire1, empire2)) {
+		affinity += affinityGainForEnemyOfEnemy;
+	}
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2)) {
+		affinity += affinityGainForEnemyOfAlly;
+	}
+	return affinity;
+}
+
 float cEmpireDiplomacyManager::AllianceProbability(cEmpire* empire1, cEmpire* empire2) {
+	return 1.0f;
 	/*
 	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
 		return 0;
@@ -203,6 +191,7 @@ float cEmpireDiplomacyManager::AllianceProbability(cEmpire* empire1, cEmpire* em
 }
 
 float cEmpireDiplomacyManager::BreakAllianceProbability(cEmpire* empire1, cEmpire* empire2) {
+	return 1.0f;
 	/*
 	float pMin = 0;
 	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
@@ -215,6 +204,7 @@ float cEmpireDiplomacyManager::BreakAllianceProbability(cEmpire* empire1, cEmpir
 }
 
 float cEmpireDiplomacyManager::DeclareWarProbability(cEmpire* empire, cEmpire* target) {
+	return 1.0f;
 	/*
 	float pMin = 0;
 	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire, target)) {

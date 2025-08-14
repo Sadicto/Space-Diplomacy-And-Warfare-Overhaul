@@ -2,7 +2,10 @@
 #include "stdafx.h"
 #include "DebugDiplomacy.h"
 #include <Spore/Simulator/SubSystem/CommManager.h>
+#include <Spore/App/cMessageManager.h>
+#include <Spore/App/IMessageManager.h>
 #include "cEmpireDiplomacyManager.h"
+#include <Spore/App/cCameraManager.h>
 void Initialize()
 {
 	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
@@ -20,7 +23,7 @@ void Dispose()
 {
 	// This method is called when the game is closing
 }
-
+/*
 member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
 		cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
@@ -744,17 +747,63 @@ member_detour(AIWar__detour, cEmpireGrowthSim, void(int empireID)) {
 		int a = 5;
 	}
 };
+*/
+
+member_detour(AddToBadgeProgress__detour, cBadgeManager, void(BadgeManagerEvent, int)) {
+	void detoured(BadgeManagerEvent event, int value) {
+		if (event == BadgeManagerEvent::ReqEmpiresMet) {
+			int c = 1;
+		}
+		original_function(this, event, value);
+	}
+};
+
+virtual_detour(MessageSend__detour, App::cMessageManager, App::IMessageManager, void(uint32_t, void*, App::IUnmanagedMessageListener*)){
+	void detoured(uint32_t messageID, void* pMessage, App::IUnmanagedMessageListener* pListener) {
+		if (messageID == 1932312912) {
+			int a = 0;
+		}
+		original_function(this, messageID, pMessage, pListener);
+	}
+};
+
+member_detour(MessageManaged__detour, Object, void(uint32_t, void*)) {
+	void detoured(uint32_t messageID, void* message) {
+		int a = 0;
+		original_function(this, messageID, message);
+	}
+};
+
+member_detour(CreateSpaceCommEvent__detour, cCommManager, cCommEvent* (uint32_t, PlanetID, uint32_t, uint32_t, void*, int, unsigned int)) {
+	cCommEvent* detoured(uint32_t sourceEmpire, PlanetID planetKey, uint32_t fileID, uint32_t dialogID, void* pMission, int priority, unsigned int duration) {
+		int a = 0;
+		return original_function(this, sourceEmpire, planetKey, fileID, dialogID, pMission, priority, duration);
+	}
+};
+
+member_detour(KnownEmpire__detour, cPlayer, bool(int)) {
+	bool detoured(int politicalID) {
+		int a = 0;
+		bool ret = original_function(this, politicalID);
+		return ret;
+	}
+};
 
 void AttachDetours()
 {
 	//DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
 	//BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
-	DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
+	//DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
 	// Call the attach() method on any detours you want to add
 	// For example: cViewer_SetRenderType_detour::attach(GetAddress(cViewer, SetRenderType));
-	TargetMinusOne__detour::attach(Address(0x00fea3a0));
-	Creator__detour::attach(Address(0x00feab60));
-	AIWar__detour::attach(Address(0x00fe9410));
+	//TargetMinusOne__detour::attach(Address(0x00fea3a0));
+	//Creator__detour::attach(Address(0x00feab60));
+	//AIWar__detour::attach(Address(0x00fe9410));
+	AddToBadgeProgress__detour::attach(GetAddress(cBadgeManager, AddToBadgeProgress));
+	MessageSend__detour::attach(GetAddress(App::cMessageManager, MessageSend));
+	//MessageManaged__detour::attach(Address(0x00fe3233));
+	//CreateSpaceCommEvent__detour::attach(GetAddress(cCommManager, CreateSpaceCommEvent));
+	KnownEmpire__detour::attach(Address(0x00c7a910));
 }
 
 // Generally, you don't need to touch any code here
