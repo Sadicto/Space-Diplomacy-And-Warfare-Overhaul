@@ -33,7 +33,7 @@ public:
 	// You can add more methods here
 	//
 
-	static cEmpireDiplomacyManagerPtr Get();
+	static cEmpireDiplomacyManager* Get();
 
 	eastl::string16 ArchetypeToString(Archetypes archetype);
 
@@ -82,6 +82,12 @@ private:
 
 	// The lower limit below which decreased affinity has no additional effect.
 	int minAffinitySoftCap;
+
+	// The maximum probability of alliance between two empires during a single cycle.
+	float maxAllianceProbability;
+
+	// The maximum probability of war between two empires during a single cycle.
+	float maxWarProbability;
 
 	// The affinity value required for an alliance to be considered stable.
 	int affinityThresholdForStableAlliance;

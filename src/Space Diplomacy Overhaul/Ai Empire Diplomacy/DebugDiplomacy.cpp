@@ -19,7 +19,7 @@ DebugDiplomacy::~DebugDiplomacy()
 void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     auto args = line.GetArguments(1);
     int val = mpFormatParser->ParseInt(args[0]);
-    cEmpireDiplomacyManagerPtr EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
+    cEmpireDiplomacyManager* EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
     SpacePlayerData* playerData = SpacePlayerData::Get();
     cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
 
@@ -67,51 +67,57 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 7: {
-
+        float allianceProbability = EmpireDiplomacyManager->AllianceProbability(empire, this->empireColonizer);
         break;
     }
     case 8: {
-
+        float breakAllianceProbability = EmpireDiplomacyManager->BreakAllianceProbability(empire, this->empireColonizer);
         break;
 
     }
     case 9: {
-
+        float warProbability = EmpireDiplomacyManager->DeclareWarProbability(empire, this->empireColonizer);
         break;
 
     }
     case 10:{
+        eastl::vector<cEmpirePtr> empiresInRange;
+        eastl::vector<cEmpirePtr> empireAllies;
+        eastl::vector<cEmpirePtr> empireEnemies;
+        DiplomacyUtils::GetEmpiresInRangeByRelation(empire, 30, empiresInRange, empireAllies, empireEnemies);
 
         break;
      }
     case 11: {
-
+        eastl::vector<cEmpirePtr> empireAllies;
+        DiplomacyUtils::GetAlliesInRange(empire, 30, empireAllies);
+        int systemCount = EmpireUtils::GetSystemCountWithAllies(empire, empireAllies);
         
         break;
     }
     case 12: {
-        cEmpire* playerEmpire = GetPlayerEmpire();
-        cEmpire* knownEmpire = playerEmpire->mEnemies[0].get();
-        cEmpire* unkownEmpire = playerEmpire->mEnemies[1].get();
-        bool shouldBeTrue = RelationshipManager.RelationshipExists(playerEmpire->GetEmpireID(), knownEmpire->GetEmpireID());
-        bool shouldBefalse = RelationshipManager.RelationshipExists(playerEmpire->GetEmpireID(), unkownEmpire->GetEmpireID());
+        eastl::vector<cEmpirePtr> empiresAround;
+        float radius = 40.0f;
+        EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, radius, empiresAround, true);
+        for (cEmpirePtr empireAround : empiresAround) {
+            eastl::vector<cEmpirePtr> empiresInRange;
+            eastl::vector<cEmpirePtr> empireAllies;
+            eastl::vector<cEmpirePtr> empireEnemies;
+            DiplomacyUtils::GetEmpiresInRangeByRelation(empireAround.get(), 10, empiresInRange, empireAllies, empireEnemies);
+        }
+        int b = 0;
 
         
         break;
     }
     case 13: {
+        EmpireDiplomacyManager->ManageEmpireDiplomacy(empire);
         break;
     }
     case 14: {
-        eastl::vector<int> field = StarManager.field_3C;
-        eastl::vector<cStar*>& starVector = *reinterpret_cast<eastl::vector<cStar*>*>(&field);
-        for (cStar* star : starVector) {
-            int c = 0;
-        }
         break;
     }
     case 15: {
-        RelationshipManager.ApplyRelationship(playerData->mpActiveStar->mpStarRecord->mEmpireID, GetPlayerEmpireID(), kRelationshipEventSpaceCreateAlliance, 1.0f);
         
         break;
     }

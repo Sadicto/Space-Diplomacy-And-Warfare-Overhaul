@@ -42,7 +42,7 @@ Simulator::Attribute cEmpireDiplomacyManager::ATTRIBUTES[] = {
 
 
 void cEmpireDiplomacyManager::Initialize() {
-	activeRadius = 60;
+	activeRadius = 30;
 	cycle = 0;
 	instance = this;
 
@@ -57,6 +57,10 @@ void cEmpireDiplomacyManager::Initialize() {
 	App::Property::GetInt32(generalConfiguration.get(), 0x74F51B4B, maxAffinitySoftCap);
 
 	App::Property::GetInt32(generalConfiguration.get(), 0x63812B01, minAffinitySoftCap);
+
+	App::Property::GetFloat(generalConfiguration.get(), 0x38D9CD5F, maxAllianceProbability);
+
+	App::Property::GetFloat(generalConfiguration.get(), 0xDCFF754A, maxWarProbability);
 
 	App::Property::GetInt32(generalConfiguration.get(), 0xDB025009, affinityThresholdForStableAlliance);
 
@@ -84,7 +88,7 @@ void cEmpireDiplomacyManager::Initialize() {
 
 	PropManager.GetPropertyList(id("ArchetypeAffinities"), id("SdoConfig"), archetypesAfinitiesConfig);
 	
-	int compatibilitesHash[8] = { 0x36F42279, 0x70C32FF1, 0x9526B215, 0xC225B633, 0xDD439F1C, 0x51DEC400, 0xCC6B3EFB, 0xD2A58F42 };
+	uint32_t compatibilitesHash[8] = { 0x36F42279, 0x70C32FF1, 0x9526B215, 0xC225B633, 0xDD439F1C, 0x51DEC400, 0xCC6B3EFB, 0xD2A58F42 };
 
 	for (int i = 0; i < 8; i++) {
 		eastl::vector<int> affinity;
@@ -102,8 +106,10 @@ void cEmpireDiplomacyManager::Update(int deltaTime, int deltaGameTime) {
 	if (IsSpaceGame()) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
-			//EmpireDiplomacyCycle();
+			EmpireDiplomacyCycle();
 			elapsedTime = 0;
+			cycle++;
+			App::ConsolePrintF("cycle: %d", cycle);
 		}
 	}
 }
@@ -120,7 +126,7 @@ bool cEmpireDiplomacyManager::WriteToXML(XmlSerializer*)
 	return true;
 }
 
-cEmpireDiplomacyManagerPtr cEmpireDiplomacyManager::Get() {
+cEmpireDiplomacyManager* cEmpireDiplomacyManager::Get() {
 	return instance;
 }
 
@@ -170,53 +176,58 @@ int cEmpireDiplomacyManager::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2)
 	if (DiplomacyUtils::CommonEnemy(empire1, empire2)) {
 		affinity += affinityGainForEnemyOfEnemy;
 	}
-	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2)) {
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
 		affinity += affinityGainForEnemyOfAlly;
 	}
 	return affinity;
 }
 
 float cEmpireDiplomacyManager::AllianceProbability(cEmpire* empire1, cEmpire* empire2) {
-	return 1.0f;
-	/*
-	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
-		return 0;
+	int affinity = EmpiresAffinity(empire1, empire2);
+	if ((affinity >= affinityThresholdForStableAlliance) || (affinity >= affinityThresholdForUnstableAlliance && DiplomacyUtils::CommonEnemy(empire1, empire2))) {
+		float allianceProbability = 0.2f + (static_cast<float>(affinity - affinityThresholdForUnstableAlliance) / maxAffinitySoftCap) ;
+		return min(allianceProbability, maxAllianceProbability);
 	}
 	else {
-		int CommonEnemies = CommonEnemiesCount(empire1, empire2);
-		int compatibility = ArchetypeCompatibility(empire1->mArchetype, empire2->mArchetype);
-		return BoundedSigmoid(2 * CommonEnemies + compatibility) / 2; // /2 because this method will almost always execute twice for a pair of empires during a cycle.
+		return 0.0f;
 	}
-	*/
 }
 
 float cEmpireDiplomacyManager::BreakAllianceProbability(cEmpire* empire1, cEmpire* empire2) {
-	return 1.0f;
-	/*
-	float pMin = 0;
-	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
-		pMin = 0.20;
+	int affinity = EmpiresAffinity(empire1, empire2);
+	// If empire1 is allied with an enemy of empire2, check who they favor more based on archetype affinity.
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2)) {
+		eastl::set<cEmpirePtr> alliesEnemiesOfEmpire2;
+		DiplomacyUtils::GetAlliesThatAreEnemiesOf(empire1, empire2, alliesEnemiesOfEmpire2);
+		int archetypeAffinityWithEmpire2 = ArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
+		
+		for (cEmpirePtr allyEnemyOfEmpire2 : alliesEnemiesOfEmpire2) {
+			int archetypeAffinityWithOtherAlly = ArchetypesAffinity(empire1->mArchetype, allyEnemyOfEmpire2->mArchetype);
+			if (archetypeAffinityWithOtherAlly >= archetypeAffinityWithEmpire2) {
+				return 1.0f;
+			}
+		}
+		return 0.0f;
 	}
-	int CommonEnemies = CommonEnemiesCount(empire1, empire2);
-	int compatibility = ArchetypeCompatibility(empire1->mArchetype, empire2->mArchetype);
-	return max(BoundedSigmoid(-3 * CommonEnemies - compatibility) / 2, pMin); // /2 because this method will almost always execute twice for a pair of empires during a cycle.
-	*/
+	if ((affinity < affinityThresholdForUnstableAlliance) || (affinity < affinityThresholdForStableAlliance && !DiplomacyUtils::CommonEnemy(empire1, empire2))) {
+		float breakAllianceProbability = 0.5f + (abs(static_cast<float>(affinity - affinityThresholdForUnstableAlliance)) / maxAffinitySoftCap);
+		return min(breakAllianceProbability, 1.0f);
+	}
+	else {
+		return 0.0f;
+	}
 }
 
 float cEmpireDiplomacyManager::DeclareWarProbability(cEmpire* empire, cEmpire* target) {
-	return 1.0f;
-	/*
-	float pMin = 0;
-	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire, target)) {
-		pMin = 0.20;
+	int affinity = EmpiresAffinity(empire, target);
+	if ((affinity > affinityThresholdForWar) || (affinity == affinityThresholdForWar && DiplomacyUtils::CommonEnemy(empire, target))) {
+		return 0.0f;
 	}
-	int compatibility = ArchetypeCompatibility(empire->mArchetype, target->mArchetype);
-	int warCount = empire->mEnemies.size();
-	int level = EmpireUtils::GetEmpireLevel(empire);
-	int agressivity = EmpireAgressivity(empire, target);
-	int deltaLevel = EmpireUtils::GetEmpireLevel(empire) - EmpireUtils::GetEmpireLevel(target);
-	return max(BoundedSigmoid ( - compatibility - 2 * warCount + level - 2 + agressivity + deltaLevel), pMin);
-	*/
+	else {
+		int aggresivity = GetEmpireAgressivity(empire);
+		float warProbability = static_cast<float>(aggresivity - affinity) / abs(minAffinitySoftCap);;
+		return min(warProbability, maxWarProbability);
+	}
 }
 
 void  cEmpireDiplomacyManager::CreateTributeComm(cEmpire* empire) {
@@ -226,12 +237,88 @@ void  cEmpireDiplomacyManager::CreateTributeComm(cEmpire* empire) {
 }
 
 void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
-	uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
+	//uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
 
+	cEmpirePtr bestAllianceTarget = nullptr;
+	float bestAllianceProbability = 0.01f;
+
+	cEmpirePtr bestBreakAllianceTarget = nullptr;
+	float bestBreakAllianceProbability = 0.01f;
+
+	cEmpirePtr bestWarTarget = nullptr;
+	float bestWarProbability = 0.01f;
+
+
+
+	//eastl::vector<cEmpirePtr> empiresInRange;
+	//GetEmpiresInDiplomaticRange(empire, empiresInRange);
 	eastl::vector<cEmpirePtr> empiresInRange;
-	GetEmpiresInDiplomaticRange(empire, empiresInRange);
+	eastl::vector<cEmpirePtr> empireAllies;
+	eastl::vector<cEmpirePtr> empireEnemies;
+	int diplomacyRange = GetEmpireDiplomaticRange(empire);
+	DiplomacyUtils::GetEmpiresInRangeByRelation(empire, diplomacyRange, empiresInRange, empireAllies, empireEnemies);
+	empiresInRange.erase(
+		eastl::remove_if(empiresInRange.begin(), empiresInRange.end(),
+			[&](const cEmpirePtr& empire) {
+				return eastl::find(empireAllies.begin(), empireAllies.end(), empire) != empireAllies.end() ||
+					eastl::find(empireEnemies.begin(), empireEnemies.end(), empire) != empireEnemies.end();
+			}),
+		empiresInRange.end());
+
+
+	int systemCountOfAlliance = EmpireUtils::GetSystemCountWithAllies(empire, empireAllies);
 
 	for (cEmpirePtr empireInRange : empiresInRange) {
+		if (empireInRange.get() == GetPlayerEmpire()) {
+			continue;
+		}
+		// Form alliance check.
+		float allianceProbability = AllianceProbability(empire, empireInRange.get());
+		if (allianceProbability > bestAllianceProbability) {
+			bestAllianceTarget = empireInRange;
+			bestAllianceProbability = allianceProbability;
+		}
+
+		// Declare war check.
+		float warProbability;
+		if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire, empireInRange.get()) && autoDeclareWarOnAllyEnemies) {
+			bestWarTarget = empireInRange;
+			warProbability = 1.0f;
+		}
+		else if (empireEnemies.size() == 0 || startsWarsWhileAtWar) {
+			warProbability = DeclareWarProbability(empire, empireInRange.get());
+			if (warProbability > bestWarProbability) {
+				if (true) { //TODO check strength of alliances
+					bestWarTarget = empireInRange;
+					bestWarProbability = warProbability;
+				}
+			}
+		}
+	}
+
+	for (cEmpirePtr empireAlly : empireAllies) {
+		if (empireAlly.get() == GetPlayerEmpire()) {
+			continue;
+		}
+		// Break Alliance check.
+		float breakAllianceProbability = BreakAllianceProbability(empire, empireAlly.get());
+		if (breakAllianceProbability > bestBreakAllianceProbability) {
+			bestBreakAllianceTarget = empireAlly;
+			bestBreakAllianceProbability = breakAllianceProbability;
+		}
+
+	}
+
+	cEmpire* playerEmpire = GetPlayerEmpire();
+
+	if (bestAllianceTarget != nullptr) {
+		RelationshipManager.DeclareAlliance(empire, bestAllianceTarget.get());
+	}
+	if (bestBreakAllianceTarget != nullptr) {
+		RelationshipManager.BreakAlliance(empire, bestBreakAllianceTarget.get());
+	}
+	if (bestWarTarget != nullptr) {
+		RelationshipManager.DeclareWar(empire, bestWarTarget.get());
 	}
 		/*
 
@@ -300,5 +387,4 @@ void cEmpireDiplomacyManager::EmpireDiplomacyCycle() {
 	for (cEmpirePtr empire : empires) {
 		ManageEmpireDiplomacy(empire.get());
 	}
-	// TODO, enemies of ally.
 }

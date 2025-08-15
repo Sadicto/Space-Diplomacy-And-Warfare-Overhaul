@@ -6,29 +6,29 @@ int32s WarriorAffinities
 	-1 # Bard
 	-1 # Zealot
 	-5 # Diplomat
-	-2 # Ecologist
+	-1 # Ecologist
 end
 
 int32s TraderAffinities
 	-1 # Warrior
-	2  # Trader
-	0  # Scientist
+	3  # Trader
+	1  # Scientist
 	-1 # Shaman
-	0  # Bard
+	1  # Bard
 	-1 # Zealot
 	0  # Diplomat
-	-2 # Ecologist
+	-3 # Ecologist
 end
 
 int32s ScientistAffinities
 	-1 # Warrior
-	0  # Trader
-	2  # Scientist
+	1  # Trader
+	3  # Scientist
 	-3 # Shaman
-	0  # Bard
+	1  # Bard
 	-5 # Zealot
 	0  # Diplomat
-	-2 # Ecologist
+	-1 # Ecologist
 end
 
 
@@ -45,10 +45,10 @@ end
 
 int32s BardAffinities
 	-1 # Warrior
-	0  # Trader
-	0  # Scientist
+	1  # Trader
+	1  # Scientist
 	0  # Shaman
-	2  # Bard
+	3  # Bard
 	-1 # Zealot
 	-1 # Diplomat
 	0  # Ecologist
@@ -62,7 +62,7 @@ int32s ZealotAffinities
 	-1 # Bard
 	5  # Zealot
 	-2 # Diplomat
-	-2 # Ecologist
+	-1 # Ecologist
 end
 
 int32s DiplomatAffinities
@@ -77,12 +77,12 @@ int32s DiplomatAffinities
 end
 
 int32s EcologistAffinities
-	-2 # Warrior
-	-2 # Trader
-	-2 # Scientist
+	-1 # Warrior
+	-3 # Trader
+	-1 # Scientist
 	2  # Shaman
 	0  # Bard
-	-2 # Zealot
+	-1 # Zealot
 	1  # Diplomat
 	5  # Ecologist
 end
