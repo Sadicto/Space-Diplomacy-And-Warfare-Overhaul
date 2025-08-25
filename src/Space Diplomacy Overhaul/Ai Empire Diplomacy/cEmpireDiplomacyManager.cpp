@@ -3,6 +3,7 @@
 #include <Spore/Simulator/ConversationResource.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include <AllianceEnemyButtonProc.h>
 
 using namespace SporeModUtils;
 
@@ -118,6 +119,12 @@ void cEmpireDiplomacyManager::OnModeEntered(uint32_t previousModeID, uint32_t ne
 	if (newModeID == GameModeIDs::kGameSpace) {
 		cycle = 0;
 		elapsedTime = 0;
+		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
+		if (globalUiLayout != nullptr) {
+			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
+			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
+			window->AddWinProc(proc);
+		}
 	}
 }
 
