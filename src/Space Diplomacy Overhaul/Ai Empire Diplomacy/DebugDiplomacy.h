@@ -8,6 +8,7 @@ class DebugDiplomacy
 public:
 	cStarRecord* starToColonize;
 	cEmpire* empireColonizer;
+	eastl::vector<IVisualEffectPtr> visualEffects;
 	DebugDiplomacy();
 	~DebugDiplomacy();
 

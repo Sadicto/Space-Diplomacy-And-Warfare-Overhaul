@@ -4,6 +4,7 @@
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include "cEmpireDiplomacyManager.h"
 #include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include "AllianceEnemyButtonProc.h"
 using namespace Simulator;
 using namespace SporeModUtils;
 DebugDiplomacy::DebugDiplomacy()
@@ -111,13 +112,42 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 13: {
-        EmpireDiplomacyManager->ManageEmpireDiplomacy(empire);
+        for (IVisualEffectPtr visualEffect : this->visualEffects) {
+            visualEffect->Stop();
+        }
+        this->visualEffects.clear();
         break;
     }
     case 14: {
+        int a = 0;
         break;
     }
     case 15: {
+        for (cEmpirePtr empireEnemy : empire->mEnemies) {
+            for (cStarRecordPtr star : empireEnemy->mStars) {
+                IVisualEffectPtr visualEffect;
+                EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect);
+                visualEffect->Start();
+                Transform transform = Transform();
+                transform.SetOffset(star->mPosition);
+                visualEffect->SetSourceTransform(transform);
+                visualEffects.push_back(visualEffect);
+            }
+        }
+        for (cEmpirePtr empireAlly : empire->mAllies) {
+            for (cStarRecordPtr star : empireAlly->mStars) {
+                IVisualEffectPtr visualEffect;
+                EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect);
+                visualEffect->Start();
+                Transform transform = Transform();
+                transform.SetOffset(star->mPosition);
+                visualEffect->SetSourceTransform(transform);
+                visualEffects.push_back(visualEffect);
+            }
+        }
+        
+
+        int a = 0;
         
         break;
     }
@@ -127,16 +157,17 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 17: {
-        cBadgeManager* badgeManager = SimulatorSpaceGame.mpBadgeManager.get();
-        int a = 4;
+        UILayoutPtr ui = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
+        UTFWin::IWindow* window = ui->FindWindowByID(0x02E1CBD7);
+        UTFWin::IButton* button = object_cast<UTFWin::IButton>(window);
         
         break;
     }
     case 18: {
-        cPlayer* player = Simulator::GetPlayer();
-        int empirePoliticalId = GetActiveStarRecord()->mEmpireID;
-        bool ret = CALL(Address(0x00c7a910), bool, Args(cPlayer*, int), Args(player, empirePoliticalId));
-        int a = 9;
+        UILayoutPtr ui = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
+        UTFWin::IWindow* window = ui->FindWindowByID(0x02E1CBD7);
+        AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
+        window->AddWinProc(proc);
         break;
     }
     case 19: {

@@ -6,6 +6,7 @@
 #include <Spore/App/IMessageManager.h>
 #include "cEmpireDiplomacyManager.h"
 #include <Spore/App/cCameraManager.h>
+#include <Spore/Swarm/cEffectsManager.h>
 void Initialize()
 {
 	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
@@ -126,6 +127,13 @@ member_detour(KnownEmpire__detour, cPlayer, bool(int)) {
 	}
 };
 
+member_detour(CreateVisualEffect__detour, Swarm::cEffectsManager, bool(uint32_t, uint32_t, IVisualEffectPtr&)) {
+	bool detoured(uint32_t instanceID, uint32_t groupID, IVisualEffectPtr & dst) {
+		Swarm::IEffectsManager* manager = Swarm::IEffectsManager::Get();
+		return original_function(this, instanceID, groupID, dst);
+	}
+};
+
 void AttachDetours()
 {
 	DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
@@ -141,6 +149,7 @@ void AttachDetours()
 	//MessageManaged__detour::attach(Address(0x00fe3233));
 	//CreateSpaceCommEvent__detour::attach(GetAddress(cCommManager, CreateSpaceCommEvent));
 	KnownEmpire__detour::attach(Address(0x00c7a910));
+	CreateVisualEffect__detour::attach(Address(0x00a6cad0));
 }
 
 // Generally, you don't need to touch any code here

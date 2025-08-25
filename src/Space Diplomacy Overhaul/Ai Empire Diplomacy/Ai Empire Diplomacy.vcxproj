@@ -100,6 +100,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllianceEnemyButtonProc.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="cEmpireDiplomacyManager.h" />
     <ClInclude Include="DebugDiplomacy.h" />
@@ -114,6 +118,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AllianceEnemyButtonProc.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="cEmpireDiplomacyManager.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />
