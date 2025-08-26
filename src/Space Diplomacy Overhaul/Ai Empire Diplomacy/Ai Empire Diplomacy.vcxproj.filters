@@ -30,6 +30,7 @@
     <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="AllianceEnemyButtonProc.h" />
+    <ClInclude Include="cDiplomaticProfile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -48,6 +49,7 @@
     <ClCompile Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="AllianceEnemyButtonProc.cpp" />
+    <ClCompile Include="cDiplomaticProfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

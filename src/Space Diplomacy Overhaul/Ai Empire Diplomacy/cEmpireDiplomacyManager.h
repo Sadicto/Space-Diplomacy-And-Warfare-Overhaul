@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include <cDiplomaticProfile.h>
 using namespace Simulator;
 
 #define cEmpireDiplomacyManagerPtr intrusive_ptr<cEmpireDiplomacyManager>
@@ -27,6 +28,7 @@ public:
 	void Update(int deltaTime, int deltaGameTime) override;
 	bool WriteToXML(XmlSerializer* xml) override;
 	void OnModeEntered(uint32_t previousModeID, uint32_t newModeID) override;
+	void OnModeExited(uint32_t previousModeID, uint32_t newModeID) override;
 	static Simulator::Attribute ATTRIBUTES[];
 
 	//
@@ -54,6 +56,12 @@ public:
 	float DeclareWarProbability(cEmpire* empire, cEmpire* target);
 
 	void  CreateTributeComm(cEmpire* empire);
+
+	void DeclareWarBetweenEmpires(cEmpire* empire1, cEmpire* empire2);
+
+	void DeclareAlianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2);
+
+	void BreakAllianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2);
 
 	void ManageEmpireDiplomacy(cEmpire* empire);
 
@@ -124,6 +132,8 @@ private:
 
 	// An 8x8 matrix storing affinity values between archetypes.
 	eastl::vector<eastl::vector<int>> archetypesAffinities;
+
+	eastl::map<cEmpirePtr, cDiplomaticProfilePtr> diplomaticProfiles;
 
 
 	int cycle;

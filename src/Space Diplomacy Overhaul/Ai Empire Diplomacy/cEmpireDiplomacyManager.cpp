@@ -128,6 +128,12 @@ void cEmpireDiplomacyManager::OnModeEntered(uint32_t previousModeID, uint32_t ne
 	}
 }
 
+void cEmpireDiplomacyManager::OnModeExited(uint32_t previousModeID, uint32_t newModeID) {
+	if (previousModeID == GameModeIDs::kGameSpace) {
+		diplomaticProfiles.clear();
+	}
+}
+
 bool cEmpireDiplomacyManager::WriteToXML(XmlSerializer*)
 {
 	return true;
@@ -226,6 +232,14 @@ float cEmpireDiplomacyManager::BreakAllianceProbability(cEmpire* empire1, cEmpir
 }
 
 float cEmpireDiplomacyManager::DeclareWarProbability(cEmpire* empire, cEmpire* target) {
+	// Change for functions using the diplomaticProfile
+	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire, target) && autoDeclareWarOnAllyEnemies) {
+		return 1.0f;
+	}
+	// Change for functions using the diplomaticProfile
+	if (empire->mEnemies.size() != 0 && !startsWarsWhileAtWar) {
+		return 0.0f;
+	}
 	int affinity = EmpiresAffinity(empire, target);
 	if ((affinity > affinityThresholdForWar) || (affinity == affinityThresholdForWar && DiplomacyUtils::CommonEnemy(empire, target))) {
 		return 0.0f;
@@ -235,6 +249,87 @@ float cEmpireDiplomacyManager::DeclareWarProbability(cEmpire* empire, cEmpire* t
 		float warProbability = static_cast<float>(aggresivity - affinity) / abs(minAffinitySoftCap);;
 		return min(warProbability, maxWarProbability);
 	}
+}
+
+void cEmpireDiplomacyManager::DeclareWarBetweenEmpires(cEmpire* empire1, cEmpire* empire2) {
+	RelationshipManager.DeclareWar(empire1, empire2);
+	auto it = diplomaticProfiles.find(empire1);
+	if (it != diplomaticProfiles.end()) {
+		it->second->OnWarStarted(empire2);
+	}
+
+	it = diplomaticProfiles.find(empire2);
+	if (it != diplomaticProfiles.end()) {
+		it->second->OnWarStarted(empire1);
+	}
+	/*
+	auto it = diplomaticProfiles.find(empire1);
+	if (it != diplomaticProfiles.end()) {
+		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
+		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire2)), neutrals.end());
+		it->second->enemies.push_back(cEmpirePtr(empire2));
+	}
+	it = diplomaticProfiles.find(empire2);
+	if (it != diplomaticProfiles.end()) {
+		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
+		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire1)), neutrals.end());
+		it->second->enemies.push_back(cEmpirePtr(empire1));
+	}
+	*/
+}
+
+void cEmpireDiplomacyManager::DeclareAlianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2) {
+	RelationshipManager.DeclareAlliance(empire1, empire2);
+	auto it = diplomaticProfiles.find(empire1);
+	if (it != diplomaticProfiles.end()) {
+		it->second->OnAllianceFormed(empire2);
+	}
+
+	it = diplomaticProfiles.find(empire2);
+	if (it != diplomaticProfiles.end()) {
+		it->second->OnAllianceFormed(empire1);
+	}
+	/*
+	auto it = diplomaticProfiles.find(empire1);
+	if (it != diplomaticProfiles.end()) {
+		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
+		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire2)), neutrals.end());
+		it->second->allies.push_back(cEmpirePtr(empire2));
+	}
+	it = diplomaticProfiles.find(empire2);
+	if (it != diplomaticProfiles.end()) {
+		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
+		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire1)), neutrals.end());
+		it->second->allies.push_back(cEmpirePtr(empire1));
+	}
+	*/
+
+}
+
+void cEmpireDiplomacyManager::BreakAllianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2) {
+	RelationshipManager.BreakAlliance(empire1, empire2);
+	auto it = diplomaticProfiles.find(empire1);
+	if (it != diplomaticProfiles.end()) {
+		it->second->OnAllianceBroken(empire2);
+	}
+	
+	it = diplomaticProfiles.find(empire2);
+	if (it != diplomaticProfiles.end()) {
+		it->second->OnAllianceBroken(empire1);
+	}
+	it->second->OnAllianceBroken(empire1);
+	/*
+	auto it = diplomaticProfiles.find(empire1);
+	if (it != diplomaticProfiles.end()) {
+		eastl::vector<cEmpirePtr> allies = it->second->allies;
+		allies.erase(eastl::remove(allies.begin(), allies.end(), cEmpirePtr(empire2)), allies.end());
+	}
+	it = diplomaticProfiles.find(empire2);
+	if (it != diplomaticProfiles.end()) {
+		eastl::vector<cEmpirePtr> allies = it->second->allies;
+		allies.erase(eastl::remove(allies.begin(), allies.end(), cEmpirePtr(empire1)), allies.end());
+	}
+	*/
 }
 
 void  cEmpireDiplomacyManager::CreateTributeComm(cEmpire* empire) {
@@ -327,71 +422,38 @@ void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
 	if (bestWarTarget != nullptr) {
 		RelationshipManager.DeclareWar(empire, bestWarTarget.get());
 	}
-		/*
-
-		if (!RelationshipManager.IsAtWar(empire, empireInRange.get())) {
-
-			if (Allied(empire, empireInRange.get())) {
-				float pOfBreakAlliance = BreakAllianceProbability(empire, empireInRange.get());
-
-				if (pOfBreakAlliance >= Math::randf()) {
-
-					if (empireInRange->GetEmpireID() == playerEmpireId) {
-						// maybe change it?
-						RelationshipManager.BreakAlliance(empire, empireInRange.get());
-					}
-					else {
-						RelationshipManager.BreakAlliance(empire, empireInRange.get());
-					}
-				}
-				else if (pOfBreakAlliance == 0.0f && empireInRange->GetEmpireID() == playerEmpireId) {
-					//strengthen  alliance
-					RelationshipManager.ApplyRelationship(empire->GetEmpireID(), empireInRange->GetEmpireID(), kRelationshipEventSpaceCreateAlliance, 1.0f);
-				}
-			}
-			// not ally or enemy empire.
-			else {
-				float pOfAlliance = AllianceProbability(empire, empireInRange.get());
-				float pOfWar = DeclareWarProbability(empire, empireInRange.get());
-
-				if (pOfWar >= pOfAlliance) {
-
-					if (pOfWar >= Math::randf()) {
-						
-						if (empireInRange->GetEmpireID() == playerEmpireId) {
-							CreateTributeComm(empire);
-						}
-						else {
-							RelationshipManager.DeclareWar(empire, empireInRange.get());
-						}
-					}
-				}
-				// pOfAlliance > pOfWar
-				else {
-					if (pOfAlliance >= Math::randf()) {
-
-						if (empireInRange->GetEmpireID() == playerEmpireId) {
-							RelationshipManager.ApplyRelationship(empire->GetEmpireID(), empireInRange->GetEmpireID(), kRelationshipEventSpaceAcceptGift, 2.5f);
-						}
-						else {
-							RelationshipManager.DeclareAlliance(empire, empireInRange.get());
-						}
-					}
-				}
-			}
-		}
-		else { // At war.
-			RelationshipManager.ApplyRelationship(empire->GetEmpireID(), empireInRange->GetEmpireID(), kRelationshipEventSpaceStartedWar, 1.0f);
-		}
-	}*/
 
 }
 
 void cEmpireDiplomacyManager::EmpireDiplomacyCycle() {
 	eastl::vector<cEmpirePtr> empires;
 	EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, activeRadius, empires);
-
+	diplomaticProfiles.clear();
 	for (cEmpirePtr empire : empires) {
-		ManageEmpireDiplomacy(empire.get());
+		if (EmpireUtils::ValidNpcEmpire(empire.get())) {
+			cDiplomaticProfile * diplomaticProfile = new cDiplomaticProfile(empire.get());
+			diplomaticProfiles[empire] = cDiplomaticProfilePtr(diplomaticProfile);
+		}
+	}
+	// TODO the alliance strenght.
+	for (auto pair : diplomaticProfiles) {
+		if (EmpireUtils::ValidNpcEmpire(pair.first.get())) {
+			cEmpirePtr empire = pair.first;
+			cDiplomaticProfilePtr diplomacyProfile = pair.second;
+			cEmpire* breakAllianceTarget = diplomacyProfile->GetBreakAllianceTarget();
+			if (breakAllianceTarget != nullptr) {
+				BreakAllianceBetweenEmpires(empire.get(), breakAllianceTarget);
+			}
+
+			cEmpire* warTarget = diplomacyProfile->GetWarTarget();
+			if (warTarget != nullptr) {
+				DeclareWarBetweenEmpires(empire.get(), warTarget);
+			}
+
+			cEmpire* allianceTarget = diplomacyProfile->GetAllianceTarget();
+			if (allianceTarget != nullptr) {
+				DeclareAlianceBetweenEmpires(empire.get(), allianceTarget);
+			}
+		}
 	}
 }

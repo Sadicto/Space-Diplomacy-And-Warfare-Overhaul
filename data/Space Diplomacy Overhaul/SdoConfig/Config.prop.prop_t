@@ -17,8 +17,8 @@ int32 AffinityThresholdForStableAlliance  1
 int32 AffinityThresholdForUnstableAlliance  0
 int32 AffinityThresholdForWar 0
 
-int32 AffinityGainForAllyOfAlly 2
-int32 AffinityGainForEnemyOfEnemy 3
+int32 AffinityGainForAllyOfAlly 1
+int32 AffinityGainForEnemyOfEnemy 2
 int32 AffinityGainForEnemyOfAlly -5
 
 int32s BaseAggressivityByArchetype 
