@@ -2,7 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include <cDiplomaticProfile.h>
-using namespace Simulator;
+
 
 #define cEmpireDiplomacyManagerPtr intrusive_ptr<cEmpireDiplomacyManager>
 
@@ -26,7 +26,7 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 	void Update(int deltaTime, int deltaGameTime) override;
-	bool WriteToXML(XmlSerializer* xml) override;
+	bool WriteToXML(Simulator::XmlSerializer* xml) override;
 	void OnModeEntered(uint32_t previousModeID, uint32_t newModeID) override;
 	void OnModeExited(uint32_t previousModeID, uint32_t newModeID) override;
 	static Simulator::Attribute ATTRIBUTES[];
@@ -37,33 +37,42 @@ public:
 
 	static cEmpireDiplomacyManager* Get();
 
-	eastl::string16 ArchetypeToString(Archetypes archetype);
+	eastl::string16 ArchetypeToString(Simulator::Archetypes archetype);
 
-	float GetEmpireDiplomaticRange(cEmpire* empire);
+	float GetEmpireDiplomaticRange(Simulator::cEmpire* empire);
 
-	void GetEmpiresInDiplomaticRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
+	void GetEmpiresInDiplomaticRange(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
 
-	int GetEmpireAgressivity(cEmpire* empire);
+	int GetEmpireAgressivity(Simulator::cEmpire* empire);
 
-	int ArchetypesAffinity(Archetypes archetype1, Archetypes archetype2);
+	int ArchetypesAffinity(Simulator::Archetypes archetype1, Simulator::Archetypes archetype2);
 
-	int EmpiresAffinity(cEmpire* empire1, cEmpire* empire2);
+	int EmpiresAffinity(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	float AllianceProbability(cEmpire* empire1, cEmpire* empire2);
+	float AllianceProbability(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+	
+	float BreakAllianceProbability(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	float BreakAllianceProbability(cEmpire* empire1, cEmpire* empire2);
+	float DeclareWarProbability(Simulator::cEmpire* empire, Simulator::cEmpire* target);
 
-	float DeclareWarProbability(cEmpire* empire, cEmpire* target);
+	void  CreateTributeComm(Simulator::cEmpire* empire);
 
-	void  CreateTributeComm(cEmpire* empire);
+	void DeclareWarBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	void DeclareWarBetweenEmpires(cEmpire* empire1, cEmpire* empire2);
+	void DeclareAlianceBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	void DeclareAlianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2);
+	void BreakAllianceBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	void BreakAllianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2);
+	/**
+	 * @brief Resolves conflicts between allied empires.
+	 * This function checks for cases where two allies are at war with each other.
+	 * When such a conflict is detected, it breaks the alliance with the ally
+	 * that has the lower affinity score toward the empire with the diplomatic profile.
+	 * @param diplomaticProfile 
+	 */
+	void ResolveAlliesWar(cDiplomaticProfile* diplomaticProfile);
 
-	void ManageEmpireDiplomacy(cEmpire* empire);
+	void ManageEmpireDiplomacy(Simulator::cEmpire* empire);
 
 	void EmpireDiplomacyCycle();
 

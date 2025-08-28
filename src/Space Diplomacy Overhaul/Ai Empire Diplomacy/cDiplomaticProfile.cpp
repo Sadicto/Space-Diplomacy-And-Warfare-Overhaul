@@ -84,7 +84,7 @@ void cDiplomaticProfile::OnAllianceFormed(cEmpire* otherEmpire) {
 cEmpire* cDiplomaticProfile::GetBreakAllianceTarget() {
 	cEmpireDiplomacyManager* diplomacyManager = cEmpireDiplomacyManager::Get();
 	eastl::map<cEmpirePtr, float> probabilitiesOfBreakingAlliance;
-	for (cEmpirePtr ally : allies) {
+	for (cEmpirePtr ally : empire->mAllies /*allies*/) {
 		if (EmpireUtils::ValidNpcEmpire(ally.get(), true)) {
 			probabilitiesOfBreakingAlliance[ally] = diplomacyManager->BreakAllianceProbability(empire.get(), ally.get());
 		}

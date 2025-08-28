@@ -6,6 +6,7 @@
 #include <AllianceEnemyButtonProc.h>
 
 using namespace SporeModUtils;
+using namespace Simulator;
 
 cEmpireDiplomacyManager* cEmpireDiplomacyManager::instance = nullptr;
 
@@ -88,7 +89,7 @@ void cEmpireDiplomacyManager::Initialize() {
 	PropertyListPtr archetypesAfinitiesConfig;
 
 	PropManager.GetPropertyList(id("ArchetypeAffinities"), id("SdoConfig"), archetypesAfinitiesConfig);
-	
+
 	uint32_t compatibilitesHash[8] = { 0x36F42279, 0x70C32FF1, 0x9526B215, 0xC225B633, 0xDD439F1C, 0x51DEC400, 0xCC6B3EFB, 0xD2A58F42 };
 
 	for (int i = 0; i < 8; i++) {
@@ -145,18 +146,18 @@ cEmpireDiplomacyManager* cEmpireDiplomacyManager::Get() {
 
 eastl::string16 cEmpireDiplomacyManager::ArchetypeToString(Archetypes archetype) {
 	switch (archetype) {
-		case kArchetypeWarrior: case kArchetypePlayerWarrior: return u"Warrior";
-		case kArchetypeTrader: case kArchetypePlayerTrader: return u"Trader";
-		case kArchetypeScientist: case kArchetypePlayerScientist: return u"Scientist";
-		case kArchetypeShaman: case kArchetypePlayerShaman: return u"Shaman";
-		case kArchetypeBard: case kArchetypePlayerBard: return u"Bard";
-		case kArchetypeZealot: case kArchetypePlayerZealot: return u"Zealot";
-		case kArchetypeDiplomat: case kArchetypePlayerDiplomat: return u"Diplomat";
-		case kArchetypeEcologist: case kArchetypePlayerEcologist: return u"Ecologist";
-		case kArchetypeGrob: return u"Grob";
-		case kArchetypePlayerWanderer: return u"Wanderer";
-		case kArchetypePlayerKnight: return u"Knight";
-		default: return u"Unknown";
+	case kArchetypeWarrior: case kArchetypePlayerWarrior: return u"Warrior";
+	case kArchetypeTrader: case kArchetypePlayerTrader: return u"Trader";
+	case kArchetypeScientist: case kArchetypePlayerScientist: return u"Scientist";
+	case kArchetypeShaman: case kArchetypePlayerShaman: return u"Shaman";
+	case kArchetypeBard: case kArchetypePlayerBard: return u"Bard";
+	case kArchetypeZealot: case kArchetypePlayerZealot: return u"Zealot";
+	case kArchetypeDiplomat: case kArchetypePlayerDiplomat: return u"Diplomat";
+	case kArchetypeEcologist: case kArchetypePlayerEcologist: return u"Ecologist";
+	case kArchetypeGrob: return u"Grob";
+	case kArchetypePlayerWanderer: return u"Wanderer";
+	case kArchetypePlayerKnight: return u"Knight";
+	default: return u"Unknown";
 	}
 }
 
@@ -198,7 +199,7 @@ int cEmpireDiplomacyManager::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2)
 float cEmpireDiplomacyManager::AllianceProbability(cEmpire* empire1, cEmpire* empire2) {
 	int affinity = EmpiresAffinity(empire1, empire2);
 	if ((affinity >= affinityThresholdForStableAlliance) || (affinity >= affinityThresholdForUnstableAlliance && DiplomacyUtils::CommonEnemy(empire1, empire2))) {
-		float allianceProbability = 0.2f + (static_cast<float>(affinity - affinityThresholdForUnstableAlliance) / maxAffinitySoftCap) ;
+		float allianceProbability = 0.2f + (static_cast<float>(affinity - affinityThresholdForUnstableAlliance) / maxAffinitySoftCap);
 		return min(allianceProbability, maxAllianceProbability);
 	}
 	else {
@@ -213,7 +214,7 @@ float cEmpireDiplomacyManager::BreakAllianceProbability(cEmpire* empire1, cEmpir
 		eastl::set<cEmpirePtr> alliesEnemiesOfEmpire2;
 		DiplomacyUtils::GetAlliesThatAreEnemiesOf(empire1, empire2, alliesEnemiesOfEmpire2);
 		int archetypeAffinityWithEmpire2 = ArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
-		
+
 		for (cEmpirePtr allyEnemyOfEmpire2 : alliesEnemiesOfEmpire2) {
 			int archetypeAffinityWithOtherAlly = ArchetypesAffinity(empire1->mArchetype, allyEnemyOfEmpire2->mArchetype);
 			if (archetypeAffinityWithOtherAlly >= archetypeAffinityWithEmpire2) {
@@ -262,20 +263,6 @@ void cEmpireDiplomacyManager::DeclareWarBetweenEmpires(cEmpire* empire1, cEmpire
 	if (it != diplomaticProfiles.end()) {
 		it->second->OnWarStarted(empire1);
 	}
-	/*
-	auto it = diplomaticProfiles.find(empire1);
-	if (it != diplomaticProfiles.end()) {
-		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
-		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire2)), neutrals.end());
-		it->second->enemies.push_back(cEmpirePtr(empire2));
-	}
-	it = diplomaticProfiles.find(empire2);
-	if (it != diplomaticProfiles.end()) {
-		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
-		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire1)), neutrals.end());
-		it->second->enemies.push_back(cEmpirePtr(empire1));
-	}
-	*/
 }
 
 void cEmpireDiplomacyManager::DeclareAlianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2) {
@@ -289,21 +276,6 @@ void cEmpireDiplomacyManager::DeclareAlianceBetweenEmpires(cEmpire* empire1, cEm
 	if (it != diplomaticProfiles.end()) {
 		it->second->OnAllianceFormed(empire1);
 	}
-	/*
-	auto it = diplomaticProfiles.find(empire1);
-	if (it != diplomaticProfiles.end()) {
-		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
-		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire2)), neutrals.end());
-		it->second->allies.push_back(cEmpirePtr(empire2));
-	}
-	it = diplomaticProfiles.find(empire2);
-	if (it != diplomaticProfiles.end()) {
-		eastl::vector<cEmpirePtr> neutrals = it->second->neutrals;
-		neutrals.erase(eastl::remove(neutrals.begin(), neutrals.end(), cEmpirePtr(empire1)), neutrals.end());
-		it->second->allies.push_back(cEmpirePtr(empire1));
-	}
-	*/
-
 }
 
 void cEmpireDiplomacyManager::BreakAllianceBetweenEmpires(cEmpire* empire1, cEmpire* empire2) {
@@ -312,24 +284,29 @@ void cEmpireDiplomacyManager::BreakAllianceBetweenEmpires(cEmpire* empire1, cEmp
 	if (it != diplomaticProfiles.end()) {
 		it->second->OnAllianceBroken(empire2);
 	}
-	
+
 	it = diplomaticProfiles.find(empire2);
 	if (it != diplomaticProfiles.end()) {
 		it->second->OnAllianceBroken(empire1);
 	}
-	it->second->OnAllianceBroken(empire1);
-	/*
-	auto it = diplomaticProfiles.find(empire1);
-	if (it != diplomaticProfiles.end()) {
-		eastl::vector<cEmpirePtr> allies = it->second->allies;
-		allies.erase(eastl::remove(allies.begin(), allies.end(), cEmpirePtr(empire2)), allies.end());
+}
+
+void cEmpireDiplomacyManager::ResolveAlliesWar(cDiplomaticProfile* diplomaticProfile) {
+	for (cEmpirePtr ally1 : diplomaticProfile->allies) {
+		for (cEmpirePtr ally2 : diplomaticProfile->allies) {
+			if (ally1 != ally2 && RelationshipManager.IsAtWar(ally1.get(), ally2.get())) {
+				int affinityWIthAlly1 = EmpiresAffinity(diplomaticProfile->empire.get(), ally1.get());
+				int affinityWIthAlly2 = EmpiresAffinity(diplomaticProfile->empire.get(), ally2.get());
+				// affinityWIthAlly1 == affinityWIthAlly2 it's just random.
+				if (affinityWIthAlly1 > affinityWIthAlly2) {
+					BreakAllianceBetweenEmpires(diplomaticProfile->empire.get(), ally2.get());
+				}
+				else {
+					BreakAllianceBetweenEmpires(diplomaticProfile->empire.get(), ally1.get());
+				}
+			}
+		}
 	}
-	it = diplomaticProfiles.find(empire2);
-	if (it != diplomaticProfiles.end()) {
-		eastl::vector<cEmpirePtr> allies = it->second->allies;
-		allies.erase(eastl::remove(allies.begin(), allies.end(), cEmpirePtr(empire1)), allies.end());
-	}
-	*/
 }
 
 void  cEmpireDiplomacyManager::CreateTributeComm(cEmpire* empire) {
@@ -339,89 +316,6 @@ void  cEmpireDiplomacyManager::CreateTributeComm(cEmpire* empire) {
 }
 
 void cEmpireDiplomacyManager::ManageEmpireDiplomacy(cEmpire* empire) {
-	//uint32_t playerEmpireId = SpacePlayerData::Get()->mPlayerEmpireID;
-
-	cEmpirePtr bestAllianceTarget = nullptr;
-	float bestAllianceProbability = 0.01f;
-
-	cEmpirePtr bestBreakAllianceTarget = nullptr;
-	float bestBreakAllianceProbability = 0.01f;
-
-	cEmpirePtr bestWarTarget = nullptr;
-	float bestWarProbability = 0.01f;
-
-
-
-	//eastl::vector<cEmpirePtr> empiresInRange;
-	//GetEmpiresInDiplomaticRange(empire, empiresInRange);
-	eastl::vector<cEmpirePtr> empiresInRange;
-	eastl::vector<cEmpirePtr> empireAllies;
-	eastl::vector<cEmpirePtr> empireEnemies;
-	int diplomacyRange = GetEmpireDiplomaticRange(empire);
-	DiplomacyUtils::GetEmpiresInRangeByRelation(empire, diplomacyRange, empiresInRange, empireAllies, empireEnemies);
-	empiresInRange.erase(
-		eastl::remove_if(empiresInRange.begin(), empiresInRange.end(),
-			[&](const cEmpirePtr& empire) {
-				return eastl::find(empireAllies.begin(), empireAllies.end(), empire) != empireAllies.end() ||
-					eastl::find(empireEnemies.begin(), empireEnemies.end(), empire) != empireEnemies.end();
-			}),
-		empiresInRange.end());
-
-
-	int systemCountOfAlliance = EmpireUtils::GetSystemCountWithAllies(empire, empireAllies);
-
-	for (cEmpirePtr empireInRange : empiresInRange) {
-		if (empireInRange.get() == GetPlayerEmpire()) {
-			continue;
-		}
-		// Form alliance check.
-		float allianceProbability = AllianceProbability(empire, empireInRange.get());
-		if (allianceProbability > bestAllianceProbability) {
-			bestAllianceTarget = empireInRange;
-			bestAllianceProbability = allianceProbability;
-		}
-
-		// Declare war check.
-		float warProbability;
-		if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire, empireInRange.get()) && autoDeclareWarOnAllyEnemies) {
-			bestWarTarget = empireInRange;
-			warProbability = 1.0f;
-		}
-		else if (empireEnemies.size() == 0 || startsWarsWhileAtWar) {
-			warProbability = DeclareWarProbability(empire, empireInRange.get());
-			if (warProbability > bestWarProbability) {
-				if (true) { //TODO check strength of alliances
-					bestWarTarget = empireInRange;
-					bestWarProbability = warProbability;
-				}
-			}
-		}
-	}
-
-	for (cEmpirePtr empireAlly : empireAllies) {
-		if (empireAlly.get() == GetPlayerEmpire()) {
-			continue;
-		}
-		// Break Alliance check.
-		float breakAllianceProbability = BreakAllianceProbability(empire, empireAlly.get());
-		if (breakAllianceProbability > bestBreakAllianceProbability) {
-			bestBreakAllianceTarget = empireAlly;
-			bestBreakAllianceProbability = breakAllianceProbability;
-		}
-
-	}
-
-	cEmpire* playerEmpire = GetPlayerEmpire();
-
-	if (bestAllianceTarget != nullptr) {
-		RelationshipManager.DeclareAlliance(empire, bestAllianceTarget.get());
-	}
-	if (bestBreakAllianceTarget != nullptr) {
-		RelationshipManager.BreakAlliance(empire, bestBreakAllianceTarget.get());
-	}
-	if (bestWarTarget != nullptr) {
-		RelationshipManager.DeclareWar(empire, bestWarTarget.get());
-	}
 
 }
 
@@ -431,7 +325,7 @@ void cEmpireDiplomacyManager::EmpireDiplomacyCycle() {
 	diplomaticProfiles.clear();
 	for (cEmpirePtr empire : empires) {
 		if (EmpireUtils::ValidNpcEmpire(empire.get())) {
-			cDiplomaticProfile * diplomaticProfile = new cDiplomaticProfile(empire.get());
+			cDiplomaticProfile* diplomaticProfile = new cDiplomaticProfile(empire.get());
 			diplomaticProfiles[empire] = cDiplomaticProfilePtr(diplomaticProfile);
 		}
 	}
@@ -440,6 +334,9 @@ void cEmpireDiplomacyManager::EmpireDiplomacyCycle() {
 		if (EmpireUtils::ValidNpcEmpire(pair.first.get())) {
 			cEmpirePtr empire = pair.first;
 			cDiplomaticProfilePtr diplomacyProfile = pair.second;
+			// Check if two allies, ally1 and ally2 are fighting.
+			ResolveAlliesWar(diplomacyProfile.get());
+
 			cEmpire* breakAllianceTarget = diplomacyProfile->GetBreakAllianceTarget();
 			if (breakAllianceTarget != nullptr) {
 				BreakAllianceBetweenEmpires(empire.get(), breakAllianceTarget);
