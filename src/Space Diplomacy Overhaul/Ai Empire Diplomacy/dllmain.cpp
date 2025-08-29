@@ -4,13 +4,13 @@
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include <Spore/App/cMessageManager.h>
 #include <Spore/App/IMessageManager.h>
-#include "cEmpireDiplomacyManager.h"
+#include "cDiplomacySystem.h"
 #include <Spore/App/cCameraManager.h>
 #include <Spore/Swarm/cEffectsManager.h>
 void Initialize()
 {
 	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
-	cSimulatorSystem::Get()->AddStrategy(new cEmpireDiplomacyManager(), cEmpireDiplomacyManager::NOUN_ID);
+	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
 	//  - Add new cheats
@@ -27,7 +27,7 @@ void Dispose()
 
 member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
-		cEmpireDiplomacyManager* EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
+		cDiplomacySystem* EmpireDiplomacyManager = cDiplomacySystem::Get();
 		uint32_t eventID = UIEventLog.ShowEvent(id("AllianceBetweenAiEmpires"), GroupIDs::SpacePopups);
 		eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
 		eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
@@ -39,7 +39,7 @@ member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEm
 
 member_detour(BreakAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
-		cEmpireDiplomacyManager* EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
+		cDiplomacySystem* EmpireDiplomacyManager = cDiplomacySystem::Get();
 		uint32_t eventID = UIEventLog.ShowEvent(id("AllianceEndedBetweenAiEmpires"), GroupIDs::SpacePopups);
 		eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
 		eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";
@@ -51,7 +51,7 @@ member_detour(BreakAlliance__detour, Simulator::cRelationshipManager, void(cEmpi
 
 member_detour(DeclareWar__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
-		cEmpireDiplomacyManager* EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
+		cDiplomacySystem* EmpireDiplomacyManager = cDiplomacySystem::Get();
 		uint32_t eventID = UIEventLog.ShowEvent(id("WarDeclaredBetweenAiEmpires"), GroupIDs::SpacePopups);
 		eastl::string16 empire1 = pEmpire1->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire1->mArchetype) + u")";
 		eastl::string16 empire2 = pEmpire2->mEmpireName + u" (" + EmpireDiplomacyManager->ArchetypeToString(pEmpire2->mArchetype) + u")";

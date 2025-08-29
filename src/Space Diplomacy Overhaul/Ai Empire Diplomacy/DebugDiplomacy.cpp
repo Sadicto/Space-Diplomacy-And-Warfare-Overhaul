@@ -2,7 +2,7 @@
 #include "DebugDiplomacy.h"
 #include <EASTL/string.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
-#include "cEmpireDiplomacyManager.h"
+#include "cDiplomacySystem.h"
 #include "Spore-Mod-Utils/Include/SporeModUtils.h"
 #include "AllianceEnemyButtonProc.h"
 using namespace Simulator;
@@ -20,7 +20,7 @@ DebugDiplomacy::~DebugDiplomacy()
 void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     auto args = line.GetArguments(1);
     int val = mpFormatParser->ParseInt(args[0]);
-    cEmpireDiplomacyManager* EmpireDiplomacyManager = cEmpireDiplomacyManager::Get();
+    cDiplomacySystem* EmpireDiplomacyManager = cDiplomacySystem::Get();
     SpacePlayerData* playerData = SpacePlayerData::Get();
     cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
 
@@ -38,171 +38,97 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 2: {
-        cCommManager* comma = cCommManager::Get();
-        //cCommEvent* comm = CommManager.CreateSpaceCommEvent(this->empireColonizer->GetEmpireID(), this->empireColonizer->RequireHomePlanet()->GetID(), 0x95bbbbfc, 0x7FC02FBC, nullptr, 2, 0);
-        CnvAction action;
-        action.actionID = 0x4C182387;
-        CommManager.HandleSpaceCommAction(action, this->empireColonizer->GetEmpireID(), this->empireColonizer->RequireHomePlanet()->GetID(), nullptr);
-        //CommManager.ShowCommEvent(comm);
-        //comm->mDuration = 100000;
-        //comm->mbVisibleInGalaxy = true;
+        RelationshipManager.ApplyRelationship(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceMissionComplete);
         break;
     }
     case 3:  {
-        CommManager.CreateSpaceCommEvent(this->empireColonizer->GetEmpireID(), this->empireColonizer->mHomePlanet, 0x95bbbbfc, id("demand_tribute"), nullptr, 1, 120);
+        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceMissionComplete);
         break;
     }
     case 4: {
-        cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
-        float AllianceProbability = EmpireDiplomacyManager->AllianceProbability(this->empireColonizer, empire);
-        float BreakAllianceProbability = EmpireDiplomacyManager->BreakAllianceProbability(this->empireColonizer, empire);
-        float DeclareWarProbability = EmpireDiplomacyManager->DeclareWarProbability(this->empireColonizer, empire);
+        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar, 1.0f);
         break;
     }
     case 5: {
-        int agressivty = EmpireDiplomacyManager->GetEmpireAgressivity(empire);
+
         break;
     }
     case 6: {
-        int affinity = EmpireDiplomacyManager->EmpiresAffinity(this->empireColonizer, empire);
+
         break;
     }
     case 7: {
-        float allianceProbability = EmpireDiplomacyManager->AllianceProbability(empire, this->empireColonizer);
+
         break;
     }
     case 8: {
-        float breakAllianceProbability = EmpireDiplomacyManager->BreakAllianceProbability(empire, this->empireColonizer);
+
         break;
 
     }
     case 9: {
-        float warProbability = EmpireDiplomacyManager->DeclareWarProbability(empire, this->empireColonizer);
+
         break;
 
     }
     case 10:{
-        eastl::vector<cEmpirePtr> empiresInRange;
-        eastl::vector<cEmpirePtr> empireAllies;
-        eastl::vector<cEmpirePtr> empireEnemies;
-        DiplomacyUtils::GetEmpiresInRangeByRelation(empire, 30, empiresInRange, empireAllies, empireEnemies);
+
 
         break;
      }
     case 11: {
-        eastl::vector<cEmpirePtr> empireAllies;
-        DiplomacyUtils::GetAlliesInRange(empire, 30, empireAllies);
-        int systemCount = EmpireUtils::GetSystemCountWithAllies(empire, empireAllies);
+
         
         break;
     }
     case 12: {
-        eastl::vector<cEmpirePtr> empiresAround;
-        float radius = 40.0f;
-        EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, radius, empiresAround, true);
-        for (cEmpirePtr empireAround : empiresAround) {
-            eastl::vector<cEmpirePtr> empiresInRange;
-            eastl::vector<cEmpirePtr> empireAllies;
-            eastl::vector<cEmpirePtr> empireEnemies;
-            DiplomacyUtils::GetEmpiresInRangeByRelation(empireAround.get(), 10, empiresInRange, empireAllies, empireEnemies);
-        }
-        int b = 0;
+
+
 
         
         break;
     }
     case 13: {
-        for (IVisualEffectPtr visualEffect : this->visualEffects) {
-            visualEffect->Stop();
-        }
-        this->visualEffects.clear();
+
         break;
     }
     case 14: {
-        int a = 0;
+
         break;
     }
     case 15: {
-        for (cEmpirePtr empireEnemy : empire->mEnemies) {
-            for (cStarRecordPtr star : empireEnemy->mStars) {
-                IVisualEffectPtr visualEffect;
-                EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect);
-                visualEffect->Start();
-                Transform transform = Transform();
-                transform.SetOffset(star->mPosition);
-                visualEffect->SetSourceTransform(transform);
-                visualEffects.push_back(visualEffect);
-            }
-        }
-        for (cEmpirePtr empireAlly : empire->mAllies) {
-            for (cStarRecordPtr star : empireAlly->mStars) {
-                IVisualEffectPtr visualEffect;
-                EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect);
-                visualEffect->Start();
-                Transform transform = Transform();
-                transform.SetOffset(star->mPosition);
-                visualEffect->SetSourceTransform(transform);
-                visualEffects.push_back(visualEffect);
-            }
-        }
+
         
 
-        int a = 0;
         
         break;
     }
     case 16: {
-        uint32_t base = baseAddress;
-        int c = 0;
+
         break;
     }
     case 17: {
-        UILayoutPtr ui = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
-        UTFWin::IWindow* window = ui->FindWindowByID(0x02E1CBD7);
-        UTFWin::IButton* button = object_cast<UTFWin::IButton>(window);
+
         
         break;
     }
     case 18: {
-        UILayoutPtr ui = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
-        UTFWin::IWindow* window = ui->FindWindowByID(0x02E1CBD7);
-        AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
-        window->AddWinProc(proc);
+
         break;
     }
     case 19: {
-        eastl::vector<cEmpirePtr> empires;
-        EmpireUtils::GetEmpiresInRangeOfEmpire(GetPlayerEmpire(), 40, empires);
-        for (cEmpirePtr empire : empires) {
-            bool found = DiplomacyUtils::PlayerContactedEmpire(empire.get());
-            int b = 5;
-        }
+
         
         break;
     }
     case 20: {
-        cPlayer* player = Simulator::GetPlayer();
-        int empirePoliticalId = GetActiveStarRecord()->mEmpireID;
-        auto it = player->mPlayerSpecificEmpireData.find(empirePoliticalId);
-        if (it != player->mPlayerSpecificEmpireData.end()) {
-            int value = it->second;
-            int a = 4;
-        }
+
         break;
     }
     case 21: {
-        int empirePoliticalId = GetActiveStarRecord()->mEmpireID;
-        bool ret = CALL(Address(0x00c7a8b0), bool, Args(Simulator::cPlayer*, int), Args(Simulator::GetPlayer(), empirePoliticalId));
-        int b = 4;
         break;
     }
     case 22: {
-        eastl::vector<cEmpirePtr> empires;
-        EmpireUtils::GetEmpiresInRangeOfEmpire(GetPlayerEmpire(), 40, empires);
-        for (cEmpirePtr empire : empires) {
-            bool found = DiplomacyUtils::EmpireIsAwareOfPlayer(empire.get());
-            int b = 5;
-        }
         break;
     }
     default: { // Print the empire and star

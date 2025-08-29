@@ -104,13 +104,34 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomaticProfile.h">
+    <ClInclude Include="cDiplomacyConfig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cDiplomacyEvent.h" />
+    <ClInclude Include="cDiplomacyEventDispatcher.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cDiplomacyEventListener.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cEmpireDiplomacy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cEmpireRelationsAnalyzer.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
-    <ClInclude Include="cEmpireDiplomacyManager.h" />
+    <ClInclude Include="cDiplomacySystem.h" />
     <ClInclude Include="DebugDiplomacy.h" />
+    <ClInclude Include="cArchetypesAffinities.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\Include\SporeModUtils.h" />
@@ -126,13 +147,34 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomaticProfile.cpp">
+    <ClCompile Include="cDiplomacyConfig.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cDiplomacyEvent.cpp" />
+    <ClCompile Include="cDiplomacyEventDispatcher.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cDiplomacyEventListener.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cEmpireDiplomacy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cEmpireRelationsAnalyzer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
-    <ClCompile Include="cEmpireDiplomacyManager.cpp" />
+    <ClCompile Include="cDiplomacySystem.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />
+    <ClCompile Include="cArchetypesAffinities.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

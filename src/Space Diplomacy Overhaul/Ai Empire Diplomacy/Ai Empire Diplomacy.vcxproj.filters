@@ -20,7 +20,7 @@
       <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="DebugDiplomacy.h" />
-    <ClInclude Include="cEmpireDiplomacyManager.h" />
+    <ClInclude Include="cDiplomacySystem.h" />
     <ClInclude Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\Include\SporeModUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\PlanetUtils\PlanetUtils.h" />
@@ -30,7 +30,13 @@
     <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="AllianceEnemyButtonProc.h" />
-    <ClInclude Include="cDiplomaticProfile.h" />
+    <ClInclude Include="cEmpireDiplomacy.h" />
+    <ClInclude Include="cDiplomacyConfig.h" />
+    <ClInclude Include="cEmpireRelationsAnalyzer.h" />
+    <ClInclude Include="cArchetypesAffinities.h" />
+    <ClInclude Include="cDiplomacyEventDispatcher.h" />
+    <ClInclude Include="cDiplomacyEvent.h" />
+    <ClInclude Include="cDiplomacyEventListener.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -39,7 +45,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
-    <ClCompile Include="cEmpireDiplomacyManager.cpp" />
+    <ClCompile Include="cDiplomacySystem.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />
     <ClCompile Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\PlanetUtils\PlanetUtils.cpp" />
@@ -49,7 +55,13 @@
     <ClCompile Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="AllianceEnemyButtonProc.cpp" />
-    <ClCompile Include="cDiplomaticProfile.cpp" />
+    <ClCompile Include="cEmpireDiplomacy.cpp" />
+    <ClCompile Include="cDiplomacyConfig.cpp" />
+    <ClCompile Include="cEmpireRelationsAnalyzer.cpp" />
+    <ClCompile Include="cArchetypesAffinities.cpp" />
+    <ClCompile Include="cDiplomacyEventDispatcher.cpp" />
+    <ClCompile Include="cDiplomacyEvent.cpp" />
+    <ClCompile Include="cDiplomacyEventListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />
