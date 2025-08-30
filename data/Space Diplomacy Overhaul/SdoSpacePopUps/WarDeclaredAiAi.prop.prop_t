@@ -3,7 +3,7 @@ string16 description "War Declared Between Ai Empires"
 bool eventAllowDuplicates true
 key eventCategory Warning
 texts eventDescription
-	"War"
+	"War Declared"
 end
-float eventRemoveTime 30#15
-float eventStartFadeTime 20#10
+float eventRemoveTime 50
+float eventStartFadeTime 30

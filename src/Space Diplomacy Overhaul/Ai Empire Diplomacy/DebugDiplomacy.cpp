@@ -46,14 +46,18 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 4: {
-        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar, 1.0f);
+        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
         break;
     }
     case 5: {
-
+        Simulator::CnvAction action;
+        action.actionID = 0x4C182387;
+        //when the relation is blue face or better this doesn´t work
+        CommManager.HandleSpaceCommAction(action, empire->GetEmpireID(), empire->RequireHomePlanet()->GetID(), nullptr);
         break;
     }
     case 6: {
+        LocaleManager;
 
         break;
     }

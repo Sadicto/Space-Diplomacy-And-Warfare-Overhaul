@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "Alliance Ended Between Ai Empires"
+bool eventAllowDuplicates true
+key eventCategory Info
+texts eventDescription
+	"Alliance Ended"
+end
+float eventRemoveTime 50
+float eventStartFadeTime 30

@@ -52,12 +52,16 @@ void cDiplomacySystem::Initialize() {
 	archetypesAffinities = nullptr;
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
-	diplomacyEventListener = new cDiplomacyEventListener();
-	MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 
 	PropertyListPtr managerConfigProp;
 
 	PropManager.GetPropertyList(id("ManagerConfig"), id("SdoConfig"), managerConfigProp);
+
+	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
+
+	diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey);
+	diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get());
+	MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
 	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
@@ -119,38 +123,9 @@ cDiplomacySystem* cDiplomacySystem::Get() {
 	return instance;
 }
 
-eastl::string16 cDiplomacySystem::ArchetypeToString(Archetypes archetype) {
-	switch (archetype) {
-	case kArchetypeWarrior: case kArchetypePlayerWarrior: return u"Warrior";
-	case kArchetypeTrader: case kArchetypePlayerTrader: return u"Trader";
-	case kArchetypeScientist: case kArchetypePlayerScientist: return u"Scientist";
-	case kArchetypeShaman: case kArchetypePlayerShaman: return u"Shaman";
-	case kArchetypeBard: case kArchetypePlayerBard: return u"Bard";
-	case kArchetypeZealot: case kArchetypePlayerZealot: return u"Zealot";
-	case kArchetypeDiplomat: case kArchetypePlayerDiplomat: return u"Diplomat";
-	case kArchetypeEcologist: case kArchetypePlayerEcologist: return u"Ecologist";
-	case kArchetypeGrob: return u"Grob";
-	case kArchetypePlayerWanderer: return u"Wanderer";
-	case kArchetypePlayerKnight: return u"Knight";
-	default: return u"Unknown";
-	}
-}
-
 void cDiplomacySystem::GetEmpiresInDiplomaticRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires) {
 	//float range = GetEmpireDiplomaticRange(empire);
 	//EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empires, true);
-}
-
-
-void  cDiplomacySystem::CreateTributeComm(cEmpire* empire) {
-	CnvAction action;
-	action.actionID = 0x4C182387;
-	//when the relation is blue face or better this doesn´t work
-	CommManager.HandleSpaceCommAction(action, empire->GetEmpireID(), empire->RequireHomePlanet()->GetID(), nullptr); 
-}
-
-void cDiplomacySystem::ManageEmpireDiplomacy(cEmpire* empire) {
-
 }
 
 void cDiplomacySystem::EmpireDiplomacyCycle() {

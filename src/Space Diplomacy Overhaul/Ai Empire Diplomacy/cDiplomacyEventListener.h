@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include <cDiplomacyPopupManager.h>
 
 #define cDiplomacyEventListenerPtr intrusive_ptr<cDiplomacyEventListener>
 
@@ -12,7 +13,7 @@ class cDiplomacyEventListener
 public:
 	static const uint32_t TYPE = id("cDiplomacyEventListener");
 
-	cDiplomacyEventListener();
+	cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager);
 	~cDiplomacyEventListener();
 
 	int AddRef() override;
@@ -60,5 +61,8 @@ public:
 	/// @param empire1
 	/// @param empire2
 	void OnContinueWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	// Pointer to the loaded diplomacy popup manager.
+	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
 };

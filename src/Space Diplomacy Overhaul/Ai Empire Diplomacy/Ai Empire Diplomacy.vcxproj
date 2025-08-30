@@ -132,6 +132,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="cDiplomacyPopupManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\Include\SporeModUtils.h" />
@@ -172,6 +176,10 @@
     <ClCompile Include="cDiplomacySystem.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />
     <ClCompile Include="cArchetypesAffinities.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cDiplomacyPopupManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -37,6 +37,7 @@
     <ClInclude Include="cDiplomacyEventDispatcher.h" />
     <ClInclude Include="cDiplomacyEvent.h" />
     <ClInclude Include="cDiplomacyEventListener.h" />
+    <ClInclude Include="cDiplomacyPopupManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -62,6 +63,7 @@
     <ClCompile Include="cDiplomacyEventDispatcher.cpp" />
     <ClCompile Include="cDiplomacyEvent.cpp" />
     <ClCompile Include="cDiplomacyEventListener.cpp" />
+    <ClCompile Include="cDiplomacyPopupManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

@@ -29,14 +29,14 @@ end
 #	-0.1
 #	0.5
 #end
-floats RelationshipEventSpaceTerraformImproved
-	0
-	2#6
-	0#-10
-	10
-	-0.5#-0.1
-	0#0.5
-end
+#floats RelationshipEventSpaceTerraformImproved
+#	0
+#	2#6
+#	0#-10
+#	10
+#	-0.5#-0.1
+#	0#0.5
+#end
 #floats RelationshipEventSpaceTerraformWorsened
 #	0
 #	-6

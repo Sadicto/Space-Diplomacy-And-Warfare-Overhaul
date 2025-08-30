@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "Alliance Conflict Between Ai Empires"
+bool eventAllowDuplicates true
+key eventCategory info
+texts eventDescription
+	"Alliance Conflict Between Ai Empires"
+end
+float eventRemoveTime 50
+float eventStartFadeTime 30

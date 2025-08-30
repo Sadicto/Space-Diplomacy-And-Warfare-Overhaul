@@ -25,6 +25,7 @@ void Dispose()
 	// This method is called when the game is closing
 }
 
+/*
 member_detour(DeclareAlliance__detour, Simulator::cRelationshipManager, void(cEmpire* pEmpire1, cEmpire* pEmpire2)) {
 	void detoured(cEmpire * pEmpire1, cEmpire * pEmpire2) {
 		cDiplomacySystem* EmpireDiplomacyManager = cDiplomacySystem::Get();
@@ -61,7 +62,7 @@ member_detour(DeclareWar__detour, Simulator::cRelationshipManager, void(cEmpire*
 
 	}
 };
-
+*/
 /*
 member_detour(TargetMinusOne__detour, cEmpireGrowthSim, void(uint32_t a, uint32_t b)) {
 	void detoured(int a, int b) {
@@ -136,20 +137,20 @@ member_detour(CreateVisualEffect__detour, Swarm::cEffectsManager, bool(uint32_t,
 
 void AttachDetours()
 {
-	DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
-	BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
-	DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
+	//DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
+	//BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
+	//DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
 	// Call the attach() method on any detours you want to add
 	// For example: cViewer_SetRenderType_detour::attach(GetAddress(cViewer, SetRenderType));
 	//TargetMinusOne__detour::attach(Address(0x00fea3a0));
 	//Creator__detour::attach(Address(0x00feab60));
 	//AIWar__detour::attach(Address(0x00fe9410));
-	AddToBadgeProgress__detour::attach(GetAddress(cBadgeManager, AddToBadgeProgress));
-	MessageSend__detour::attach(GetAddress(App::cMessageManager, MessageSend));
+	//AddToBadgeProgress__detour::attach(GetAddress(cBadgeManager, AddToBadgeProgress));
+	//MessageSend__detour::attach(GetAddress(App::cMessageManager, MessageSend));
 	//MessageManaged__detour::attach(Address(0x00fe3233));
 	//CreateSpaceCommEvent__detour::attach(GetAddress(cCommManager, CreateSpaceCommEvent));
-	KnownEmpire__detour::attach(Address(0x00c7a910));
-	CreateVisualEffect__detour::attach(Address(0x00a6cad0));
+	//KnownEmpire__detour::attach(Address(0x00c7a910));
+	//CreateVisualEffect__detour::attach(Address(0x00a6cad0));
 }
 
 // Generally, you don't need to touch any code here

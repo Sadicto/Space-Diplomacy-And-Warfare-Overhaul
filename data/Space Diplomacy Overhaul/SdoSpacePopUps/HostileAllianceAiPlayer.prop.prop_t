@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "Alliance With the Player is Hostile"
+bool eventAllowDuplicates true
+key eventCategory warking
+texts eventDescription
+	"Alliance With the Player is Hostile"
+end
+float eventRemoveTime 50
+float eventStartFadeTime 30

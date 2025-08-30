@@ -21,14 +21,14 @@ floats RelationshipEventSpacePersonalityMean
 	0
 	0
 end
-floats RelationshipEventSpaceUpliftedCiv
-	0
-	6#0
-	0
-	6#0
-	-0.1#0
-	0
-end
+#floats RelationshipEventSpaceUpliftedCiv
+#	0
+#	6#0
+#	0
+#	6#0
+#	-0.1#0
+#	0
+#end
 #floats RelationshipEventSpaceMissionComplete
 #	0
 #	1

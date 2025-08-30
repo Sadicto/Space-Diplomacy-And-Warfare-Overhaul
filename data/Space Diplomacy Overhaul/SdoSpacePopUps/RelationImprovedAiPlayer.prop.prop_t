@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "Relation Improved With the Player"
+bool eventAllowDuplicates true
+key eventCategory Reward
+texts eventDescription
+	"Relation Improved With the Player"
+end
+float eventRemoveTime 50
+float eventStartFadeTime 30

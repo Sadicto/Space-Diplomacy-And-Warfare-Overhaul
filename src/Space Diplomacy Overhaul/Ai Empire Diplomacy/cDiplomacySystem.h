@@ -8,7 +8,7 @@
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
 #include <cDiplomacyEventDispatcher.h>
 #include <cDiplomacyEventListener.h>
-#include <cEmpireDiplomacy.h>
+#include <cDiplomacyPopupManager.h>
 
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>
@@ -44,11 +44,7 @@ public:
 
 	static cDiplomacySystem* Get();
 
-	eastl::string16 ArchetypeToString(Simulator::Archetypes archetype);
-
 	void GetEmpiresInDiplomaticRange(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
-
-	void  CreateTributeComm(Simulator::cEmpire* empire);
 
 	void ManageEmpireDiplomacy(Simulator::cEmpire* empire);
 
@@ -67,7 +63,7 @@ private:
 	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;
 
-	// Key used to load the archetypes affinities prop .
+	// Key used to load the archetypes affinities prop.
 	ResourceKey archetypesAffinitiesKey;
 
 	// Pointer to the loaded archetypes affinities object.
@@ -81,6 +77,12 @@ private:
 
 	// Pointer to the loaded diplomacy event listener object.
 	cDiplomacyEventListenerPtr diplomacyEventListener;
+
+	// Pointer to the loaded diplomacy popup manager.
+	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
+
+	// Key used to load the popups texts prop .
+	ResourceKey spacePopUpsTextsKey;
 
 
 	int elapsedTime;

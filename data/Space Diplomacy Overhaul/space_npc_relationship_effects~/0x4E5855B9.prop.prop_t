@@ -121,10 +121,10 @@ floats RelationshipEventSpaceAbductCitizen
 end
 floats RelationshipEventSpaceAcceptGift #we value your friendship
 	0
-	1#2
+	5#2
 	0
-	5#10
-	-0.5#-0.1
+	15#10
+	-0.2#-0.1
 	0#0.5
 end
 floats RelationshipEventSpaceAlliedWithGrob
@@ -265,10 +265,10 @@ floats RelationshipEventSpaceCommunicatedNice
 end
 floats RelationshipEventSpaceCreateAlliance
 	0
-	5
+	7
 	-5#-10
-	5
-	-0.5
+	7
+	-0.1
 	0#1
 end
 floats RelationshipEventSpaceDestroyAllyUFO
@@ -505,10 +505,10 @@ floats RelationshipEventSpaceWasAtWar
 end
 floats RelationshipEventSpaceWitholdTribute
 	0#-2.5
-	-7#-1.5
+	-10#-1.5
 	-20#-10
 	0
-	-0.5
+	-0.2
 	0
 end
 floats RelationshipEventTrade

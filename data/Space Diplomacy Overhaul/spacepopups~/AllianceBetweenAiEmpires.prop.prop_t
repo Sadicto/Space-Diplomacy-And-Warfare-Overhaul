@@ -1,9 +1,0 @@
-key parent civpopupbase~!EventTemplate.prop
-string16 description "Alliance Between Ai Empires"
-bool eventAllowDuplicates true
-key eventCategory Info
-texts eventDescription
-	"Alliance"
-end
-float eventRemoveTime 30#15
-float eventStartFadeTime 20#10
