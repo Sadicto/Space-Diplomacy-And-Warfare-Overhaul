@@ -172,6 +172,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="cEmpireRelationshipController.cpp" />
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="cDiplomacySystem.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />

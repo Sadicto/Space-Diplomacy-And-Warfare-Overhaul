@@ -202,6 +202,7 @@ void cEmpireDiplomacy::ManageNeutrals() {
 }
 
 void cEmpireDiplomacy::ManageDiplomacy() {
+	ResolveAlliesWar();
 	EmpireUtils::GetEmpiresInRangeOfEmpire(empire.get(), empireRelationsAnalyzer->GetEmpireDiplomaticRange(empire.get()), neutrals, true);
 	// Delete all the enemies and allies from the neutrals vector.
 	neutrals.erase(

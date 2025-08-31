@@ -57,12 +57,13 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 6: {
-        LocaleManager;
+        GameTimeManager.SetSpeed(0);
 
         break;
     }
     case 7: {
-
+        GameTimeManager.SetSpeedFactors(1.0, 2.0, 4.0, 20.0);
+        GameTimeManager.SetSpeed(3);
         break;
     }
     case 8: {

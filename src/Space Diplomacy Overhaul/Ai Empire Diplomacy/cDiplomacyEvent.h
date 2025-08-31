@@ -14,7 +14,7 @@ enum DiplomacyEventType {
 	ContinueWar
 };
 
-/// @brief Represents a diplomacy event exchanged between empires.
+/// Represents a diplomacy event exchanged between empires.
 /// This class is used as the body of diplomacy messages.
 class cDiplomacyEvent
 {

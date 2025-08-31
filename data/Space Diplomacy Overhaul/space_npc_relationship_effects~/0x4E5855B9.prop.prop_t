@@ -123,8 +123,8 @@ floats RelationshipEventSpaceAcceptGift #we value your friendship
 	0
 	5#2
 	0
-	15#10
-	-0.2#-0.1
+	10#10
+	-0.5#-0.1
 	0#0.5
 end
 floats RelationshipEventSpaceAlliedWithGrob
@@ -268,7 +268,7 @@ floats RelationshipEventSpaceCreateAlliance
 	7
 	-5#-10
 	7
-	-0.1
+	-0.25
 	0#1
 end
 floats RelationshipEventSpaceDestroyAllyUFO

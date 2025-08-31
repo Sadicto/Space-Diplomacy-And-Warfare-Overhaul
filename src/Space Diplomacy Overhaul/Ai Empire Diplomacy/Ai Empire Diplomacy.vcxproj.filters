@@ -64,6 +64,7 @@
     <ClCompile Include="cDiplomacyEvent.cpp" />
     <ClCompile Include="cDiplomacyEventListener.cpp" />
     <ClCompile Include="cDiplomacyPopupManager.cpp" />
+    <ClCompile Include="cEmpireRelationshipController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

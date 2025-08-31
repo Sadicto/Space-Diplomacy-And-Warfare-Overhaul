@@ -1,4 +1,4 @@
-int32 diplomacyCycleInterval 10000#120000 # 2 minutes.
+int32 diplomacyCycleInterval 120000 # 2 minutes.
 key ArchetypeAffinities SdoConfig!ArchetypeAffinities.prop
 key DiplomacyConfig SdoConfig!DiplomacyConfig.prop
 key SpacePopUpsTexts SdoConfig!SpacePopUpsTexts.prop

@@ -4,7 +4,7 @@
 
 #define cArchetypesAffinitiesPtr intrusive_ptr<cArchetypesAffinities>
 
-/// @brief Stores and provides access to affinity values between different archetypes.
+/// Stores and provides access to affinity values between different archetypes.
 class cArchetypesAffinities 
 	: public Object
 	, public DefaultRefCounted
