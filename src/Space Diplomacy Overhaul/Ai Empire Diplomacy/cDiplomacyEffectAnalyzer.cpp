@@ -65,3 +65,27 @@ float cDiplomacyEffectAnalyzer::GetMaxDecay(uint32_t effectID, float currentValu
 	return 0.0f;
 }
 
+float cDiplomacyEffectAnalyzer::GetScaleToMax(uint32_t effectID, float currentValue) {
+	eastl::vector<float> effectInfo;
+	if (diplomacyEffectInfoProvider->GetEffectInfo(effectID, effectInfo)) {
+		float effectMax = 0.0f;
+		float effectBaseMagnitude = diplomacyEffectInfoProvider->GetEffectMagnitude(effectInfo);
+		bool positiveEffect = effectBaseMagnitude > 0.0f;
+
+		if (positiveEffect) {
+			effectMax = diplomacyEffectInfoProvider->GetEffectMax(effectInfo);
+		}
+		else {
+			effectMax = diplomacyEffectInfoProvider->GetEffectMin(effectInfo);
+		}
+		float normalizedEffectMax = effectMax / effectBaseMagnitude;
+		return normalizedEffectMax - currentValue;
+
+	}
+	return 0.0f;
+}
+
+float cDiplomacyEffectAnalyzer::GetScaleToZero(uint32_t effectID, float currentValue) {
+	return -currentValue;
+}
+

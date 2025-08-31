@@ -89,7 +89,7 @@ private:
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
-	// Key used to load the popups texts prop .
+	// Key used to load the popups texts prop.
 	ResourceKey spacePopUpsTextsKey;
 
 	// Pointer to the loaded empire relationship controller.
@@ -97,6 +97,8 @@ private:
 
 	// Pointer to the loaded diplomacy effect analyzer.
 	cDiplomacyEffectAnalyzerPtr diplomacyEffectAnalyzer;
+
+	ResourceKey relationshipEffectsKey;
 
 	// Pointer to the loaded diplomacy effect info provider.
 	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;

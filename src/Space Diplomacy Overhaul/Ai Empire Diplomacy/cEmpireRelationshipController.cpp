@@ -31,18 +31,39 @@ void* cEmpireRelationshipController::Cast(uint32_t type) const
 	return nullptr;
 }
 
-void cEmpireRelationshipController::ApplyRelationshipEffect(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
+float cEmpireRelationshipController::ApplyRelationshipEffect(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
 	float currentValue = RelationshipManager.GetRelationshipEventValue(politicalID, causePoliticalID, effectID);
 	float maxScale = diplomacyEffectAnalyzer->GetMaxScale(effectID, currentValue, true);
 	if (maxScale != 0.0f) {
 		RelationshipManager.ApplyRelationship(politicalID, causePoliticalID, effectID, maxScale);
 	}
+	return maxScale;
 }
 
-void cEmpireRelationshipController::DecayRelationshipEffect(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
+float cEmpireRelationshipController::DecayRelationshipEffect(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
 	float currentValue = RelationshipManager.GetRelationshipEventValue(politicalID, causePoliticalID, effectID);
 	float maxDecay = diplomacyEffectAnalyzer->GetMaxDecay(effectID, currentValue);
 	if (maxDecay != 0.0f) {
 		RelationshipManager.ApplyRelationship(politicalID, causePoliticalID, effectID, maxDecay);
 	}
+	return maxDecay;
 }
+
+float cEmpireRelationshipController::SetRelationshipEffectMax(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
+	float currentValue = RelationshipManager.GetRelationshipEventValue(politicalID, causePoliticalID, effectID);
+	float scaleToMax = diplomacyEffectAnalyzer->GetScaleToMax(effectID, currentValue);
+	if (scaleToMax != 0.0f) {
+		RelationshipManager.ApplyRelationship(politicalID, causePoliticalID, effectID, scaleToMax);
+	}
+	return scaleToMax;
+}
+
+float cEmpireRelationshipController::SetRelationshipEffectZero(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
+	float currentValue = RelationshipManager.GetRelationshipEventValue(politicalID, causePoliticalID, effectID);
+	float scaleToZero = diplomacyEffectAnalyzer->GetScaleToZero(effectID, currentValue);
+	if (scaleToZero != 0.0f) {
+		RelationshipManager.ApplyRelationship(politicalID, causePoliticalID, effectID, scaleToZero);
+	}
+	return scaleToZero;
+}
+

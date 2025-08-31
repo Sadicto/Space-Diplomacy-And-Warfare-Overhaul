@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "War Declared Against the Player"
+bool eventAllowDuplicates true
+key eventCategory Warning
+texts eventDescription
+	"War Declared Against the Player"
+end
+float eventRemoveTime 50
+float eventStartFadeTime 30

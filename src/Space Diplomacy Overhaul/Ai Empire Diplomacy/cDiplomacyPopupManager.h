@@ -57,13 +57,17 @@ public:
 	void ShowConflictBreakAllianceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
 	/// @brief Notification when an alliance breaks due to conflicted alliances with the player.
-	/// @param empire1
+	/// @param empire
 	void ShowConflictBreakAlliancePlayer(Simulator::cEmpire* empire);
 
 	/// @brief Shows a notification when two AI empires declare war on each other.
 	/// @param empire1
 	/// @param empire2
 	void ShowDeclareWarAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Shows a notification when an AI declares war to the player.
+	/// @param empire
+	void ShowDeclareWarPlayer(Simulator::cEmpire* empire);
 
 	/// @brief Shows a notification when the player has an unstable alliance.
 	/// @param empire
@@ -73,28 +77,31 @@ public:
 	/// @param empire
 	void ShowHostileAlliance(Simulator::cEmpire* empire);
 
-	// Popup text: AI vs AI alliance ended due to conflict
+	// Popup text: AI vs AI alliance ended due to conflict.
 	eastl::string16 AllianceConflictAiAiText;
 
-	// Popup text: AI ended alliance with player due to conflict
+	// Popup text: AI ended alliance with player due to conflict.
 	eastl::string16 AllianceConflictAiPlayerText;
 
-	// Popup text: AI formed an alliance with another AI
+	// Popup text: AI formed an alliance with another AI.
 	eastl::string16 AllianceDeclaredAiAiText;
 
-	// Popup text: AI ended alliance with another AI
+	// Popup text: AI ended alliance with another AI.
 	eastl::string16 AllianceEndedAiAiText;
 
-	// Popup text: AI is hostile towards the player due to low affinity
+	// Popup text: AI is hostile towards the player due to low affinity.
 	eastl::string16 HostileAllianceAiPlayerText;
 
-	// Popup text: AI improved relations with the player
+	// Popup text: AI improved relations with the player.
 	eastl::string16 RelationImprovedAiPlayer;
 
-	// Popup text: AI declared war on another AI
+	// Popup text: AI declared war on another AI.
 	eastl::string16 WarDeclaredAiAiText;
 
-	// Popup text: AI weakened alliance with the player due to low affinity
+	// Popup text: AI declared war on the player.
+	eastl::string16 WarDeclaredAiPlayerText;
+
+	// Popup text: AI weakened alliance with the player due to low affinity.
 	eastl::string16 WeakAllianceAiPlayerText;
 
 

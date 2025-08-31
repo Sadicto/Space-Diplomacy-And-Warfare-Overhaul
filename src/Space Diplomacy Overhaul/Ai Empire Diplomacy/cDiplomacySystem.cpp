@@ -52,29 +52,17 @@ void cDiplomacySystem::Initialize() {
 	archetypesAffinities = nullptr;
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
+	diplomacyPopUpManager = nullptr;
+	diplomacyEffectInfoProvider = nullptr;
+	diplomacyEffectAnalyzer = nullptr;
+	empireRelationshipController = nullptr;
+	diplomacyEventListener = nullptr;
 
 	PropertyListPtr managerConfigProp;
 
 	PropManager.GetPropertyList(id("ManagerConfig"), id("SdoConfig"), managerConfigProp);
 
 	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
-
-	diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey);
-
-	PropertyListPtr effectsProp;
-
-	PropManager.GetPropertyList(0x4e5855b9, 0x0568de14, effectsProp); // space_npc_relationship_effects~!0x4E5855B9.prop
-
-	diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(effectsProp.get());
-
-	diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
-
-	empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
-
-	/// IMPORTANT check later deleting a listener from the MessageManager also releases the pointer.
-	diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get());
-	MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
-
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
 	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x57252EFE, archetypesAffinitiesKey);
@@ -100,15 +88,35 @@ void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
 void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) {
 	if (newModeID == GameModeIDs::kGameSpace) {
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
+
 		archetypesAffinities = new cArchetypesAffinities(archetypesAffinitiesKey);
+
 		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesAffinities.get());
+
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
+
+		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey);
+
+		PropertyListPtr effectsProp;
+		PropManager.GetPropertyList(0x4e5855b9, 0x0568de14, effectsProp); // space_npc_relationship_effects~!0x4E5855B9.prop
+
+		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(effectsProp.get());
+
+		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
+
+		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
+
+		diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get());
+
+		MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
+
 		empiresDiplomacy.clear();
 
 		cycle = 0;
 		elapsedTime = 0;
 		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
 		if (globalUiLayout != nullptr) {
+			// BAD if entering space stage many times its add the same proc every time.
 			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
 			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
 			window->AddWinProc(proc);
@@ -122,6 +130,14 @@ void cDiplomacySystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		archetypesAffinities.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
+		diplomacyPopUpManager.reset();
+		diplomacyEffectInfoProvider.reset();
+		diplomacyEffectAnalyzer.reset();
+		empireRelationshipController.reset();
+
+		MessageManager.RemoveListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
+		diplomacyEventListener.reset();
+
 		empiresDiplomacy.clear();
 	}
 }

@@ -45,7 +45,9 @@ void* cEmpireDiplomacy::Cast(uint32_t type) const
 void cEmpireDiplomacy::ResolveAlliesWar() {
 	for (cEmpirePtr ally1 : empire->mAllies) {
 		for (cEmpirePtr ally2 : empire->mAllies) {
-			if (ally1 != ally2 && RelationshipManager.IsAtWar(ally1.get(), ally2.get())) {
+			if (ally1 != ally2 && RelationshipManager.IsAtWar(ally1.get(), ally2.get()) && 
+				DiplomacyUtils::Alliance(empire.get(), ally1.get()) && DiplomacyUtils::Alliance(empire.get(), ally2.get())) {
+
 				int affinityWIthAlly1 = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally1.get());
 				int affinityWIthAlly2 = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally2.get());
 				// affinityWIthAlly1 == affinityWIthAlly2 it's just random.

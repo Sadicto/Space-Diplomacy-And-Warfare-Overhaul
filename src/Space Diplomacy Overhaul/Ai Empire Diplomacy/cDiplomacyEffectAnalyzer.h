@@ -36,6 +36,19 @@ public:
 	/// @return Maximum decay value that can be applied without exceeding limits.
 	float GetMaxDecay(uint32_t effectID, float currentValue);
 
+	/// @brief Returns the scale required to raise the diplomacy effect to its maximum value.
+	/// @param effectID.
+	/// @param currentValue The current value of the event.
+	/// @return Scale value needed to reach the maximum.
+	float GetScaleToMax(uint32_t effectID, float currentValue);
+
+	/// @brief Returns the scale required to reduce the diplomacy effect to zero.
+	/// @param effectID.
+	/// @param currentValue The current value of the event.
+	/// @return Scale value needed to reach zero.
+	float GetScaleToZero(uint32_t effectID, float currentValue);
+
+
 	// Pointer to the loaded diplomacy effect info provider.
 	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;
 };

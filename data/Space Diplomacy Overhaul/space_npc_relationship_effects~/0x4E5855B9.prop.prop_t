@@ -265,9 +265,9 @@ floats RelationshipEventSpaceCommunicatedNice
 end
 floats RelationshipEventSpaceCreateAlliance
 	0
-	7
+	10
 	-5#-10
-	7
+	10
 	-0.25
 	0#1
 end
@@ -409,7 +409,7 @@ floats RelationshipEventSpacePersonalityNice
 end
 floats RelationshipEventSpacePushedTooFar
 	0
-	-10
+	-1#-10
 	-10
 	0
 	-0.5
@@ -417,7 +417,7 @@ floats RelationshipEventSpacePushedTooFar
 end
 floats RelationshipEventSpaceStartedWar
 	0#-5
-	-5#0
+	-20#0
 	-20
 	0
 	-0.2
@@ -433,9 +433,9 @@ floats RelationshipEventSpaceStealCommodity
 end
 floats RelationshipEventSpaceSuperPower
 	0
-	0,5#1
+	0.5#1
 	0
-	0,5#1
+	0.5#1
 	0
 	0
 end
