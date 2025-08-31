@@ -9,6 +9,8 @@
 #include <cDiplomacyEventDispatcher.h>
 #include <cDiplomacyEventListener.h>
 #include <cDiplomacyPopupManager.h>
+#include <cDiplomacyEffectAnalyzer.h>
+#include <cEmpireRelationshipController.h>
 
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>
@@ -18,6 +20,12 @@
 /// ModAPI::AddSimulatorStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 ///
 
+/// Main class of the diplomatic system.
+/// Instantiate the class of the system when
+/// entering space stage and controls
+/// the diplomatic cycles, creating cEmpireDiplomacy 
+/// objects acording to the number of empires to
+/// manage.
 class cDiplomacySystem
 	: public Simulator::cStrategy
 {
@@ -83,6 +91,17 @@ private:
 
 	// Key used to load the popups texts prop .
 	ResourceKey spacePopUpsTextsKey;
+
+	// Pointer to the loaded empire relationship controller.
+	cEmpireRelationshipControllerPtr empireRelationshipController;
+
+	// Pointer to the loaded diplomacy effect analyzer.
+	cDiplomacyEffectAnalyzerPtr diplomacyEffectAnalyzer;
+
+	// Pointer to the loaded diplomacy effect info provider.
+	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;
+
+
 
 
 	int elapsedTime;

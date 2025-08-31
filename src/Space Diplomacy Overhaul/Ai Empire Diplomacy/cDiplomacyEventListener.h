@@ -2,6 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include <cDiplomacyPopupManager.h>
+#include <cEmpireRelationshipController.h>
 
 #define cDiplomacyEventListenerPtr intrusive_ptr<cDiplomacyEventListener>
 
@@ -13,7 +14,7 @@ class cDiplomacyEventListener
 public:
 	static const uint32_t TYPE = id("cDiplomacyEventListener");
 
-	cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager);
+	cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController);
 	~cDiplomacyEventListener();
 
 	int AddRef() override;
@@ -65,4 +66,7 @@ public:
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
+	// Pointer to the loaded empire relationship controller.
+	cEmpireRelationshipControllerPtr empireRelationshipController;
+	
 };

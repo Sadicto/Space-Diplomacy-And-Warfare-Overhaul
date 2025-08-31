@@ -8,7 +8,7 @@
 #define cEmpireDiplomacyPtr intrusive_ptr<cEmpireDiplomacy>
 
 
-/// @brief Handles diplomatic decisions for an empire.
+/// Handles diplomatic decisions for an empire.
 /// This class manages alliances, wars, and alliance breakups, 
 class cEmpireDiplomacy 
 	: public Object

@@ -108,8 +108,16 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="cDiplomacyEffectAnalyzer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="cDiplomacyEvent.h" />
     <ClInclude Include="cDiplomacyEventDispatcher.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cDiplomacyEffectInfoProvider.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -122,6 +130,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="cEmpireRelationsAnalyzer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cEmpireRelationshipController.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -155,8 +167,16 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="cDiplomacyEffectAnalyzer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="cDiplomacyEvent.cpp" />
     <ClCompile Include="cDiplomacyEventDispatcher.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cDiplomacyEffectInfoProvider.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -172,7 +192,10 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cEmpireRelationshipController.cpp" />
+    <ClCompile Include="cEmpireRelationshipController.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="cDiplomacySystem.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />

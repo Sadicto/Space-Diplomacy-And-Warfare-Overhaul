@@ -7,9 +7,10 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
-cDiplomacyEventListener::cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager)
+cDiplomacyEventListener::cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController)
 {
 	this->diplomacyPopUpManager = diplomacyPopUpManager;
+	this->empireRelationshipController = empireRelationshipController;
 }
 
 
@@ -83,6 +84,9 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 
 void cDiplomacyEventListener::OnFormAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	if (empire2 == GetPlayerEmpire()) {
+		empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
+		diplomacyPopUpManager->ShowAIRelationImproved(empire1);
+		/*
 		float currentValue = RelationshipManager.GetRelationshipEventValue(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
 		if (currentValue <= 2) {
 			RelationshipManager.ApplyRelationship(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift, min(2.0f - currentValue + 0.5f, 1.0f));
@@ -91,8 +95,7 @@ void cDiplomacyEventListener::OnFormAlliance(Simulator::cEmpire* empire1, Simula
 
 			}
 		}
-
-		
+		*/
 	}
 	else {
 		diplomacyPopUpManager->ShowFormAllianceAI(empire1, empire2);
@@ -121,16 +124,20 @@ void cDiplomacyEventListener::OnConflictBreakAlliance(Simulator::cEmpire* empire
 }
 
 void cDiplomacyEventListener::OnStableAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+	empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
+	/*
 	float currentValue = RelationshipManager.GetRelationshipEventValue(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
 	if (currentValue <= 1 ) {
 		RelationshipManager.ApplyRelationship(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance, 1.0f - currentValue + 0.25f);
 	}
+	*/
 }
 
 void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	//TODO no notification is no ally modifier.
 	if (empire2 == GetPlayerEmpire()) {
 		diplomacyPopUpManager->ShowUnstableAlliance(empire1);
+		empireRelationshipController->DecayRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
 	}
 	else {
 
@@ -141,7 +148,7 @@ void cDiplomacyEventListener::OnHostileAlliance(Simulator::cEmpire* empire1, Sim
 	// TODO no notification if already negative.
 	if (empire2 == GetPlayerEmpire()) {
 		diplomacyPopUpManager->ShowHostileAlliance(empire1);
-		RelationshipManager.ApplyRelationship(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance, -0.20f);
+		empireRelationshipController->DecayRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
 	}
 }
 
@@ -159,6 +166,6 @@ void cDiplomacyEventListener::OnDeclareWar(Simulator::cEmpire* empire1, Simulato
 }
 
 void cDiplomacyEventListener::OnContinueWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	RelationshipManager.ApplyRelationship(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
+	empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
 }
 

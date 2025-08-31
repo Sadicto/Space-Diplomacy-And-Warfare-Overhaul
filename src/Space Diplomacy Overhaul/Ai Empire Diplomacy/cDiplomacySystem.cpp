@@ -60,7 +60,19 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
 
 	diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey);
-	diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get());
+
+	PropertyListPtr effectsProp;
+
+	PropManager.GetPropertyList(0x4e5855b9, 0x0568de14, effectsProp); // space_npc_relationship_effects~!0x4E5855B9.prop
+
+	diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(effectsProp.get());
+
+	diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
+
+	empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
+
+	/// IMPORTANT check later deleting a listener from the MessageManager also releases the pointer.
+	diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get());
 	MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
