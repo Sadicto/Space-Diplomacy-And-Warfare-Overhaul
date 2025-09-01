@@ -9,7 +9,8 @@
 
 
 /// Handles diplomatic decisions for an empire.
-/// This class manages alliances, wars, and alliance breakups, 
+/// This class decides alliances, wars, and alliance breakups, 
+/// for a given empire.
 class cEmpireDiplomacy 
 	: public Object
 	, public DefaultRefCounted
@@ -31,7 +32,7 @@ public:
 	 * @brief Resolves conflicts between allied empires.
 	 * This function checks for cases where two allies are at war with each other.
 	 * When such a conflict is detected, it breaks the alliance with the ally
-	 * that has the lower affinity score toward the empire with the diplomatic profile.
+	 * that has the lower affinity.
 	 */
 	void ResolveAlliesWar();
 

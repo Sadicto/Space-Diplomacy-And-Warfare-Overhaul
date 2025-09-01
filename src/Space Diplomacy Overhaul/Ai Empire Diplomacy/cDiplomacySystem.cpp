@@ -114,7 +114,6 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		elapsedTime = 0;
 		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
 		if (globalUiLayout != nullptr) {
-			// BAD if entering space stage many times its add the same proc every time.
 			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
 			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
 			window->AddWinProc(proc);
@@ -147,11 +146,6 @@ bool cDiplomacySystem::WriteToXML(XmlSerializer*)
 
 cDiplomacySystem* cDiplomacySystem::Get() {
 	return instance;
-}
-
-void cDiplomacySystem::GetEmpiresInDiplomaticRange(cEmpire* empire, eastl::vector<cEmpirePtr>& empires) {
-	//float range = GetEmpireDiplomaticRange(empire);
-	//EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empires, true);
 }
 
 void cDiplomacySystem::EmpireDiplomacyCycle() {

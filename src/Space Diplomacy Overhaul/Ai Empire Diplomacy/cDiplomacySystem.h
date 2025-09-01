@@ -52,8 +52,6 @@ public:
 
 	static cDiplomacySystem* Get();
 
-	void GetEmpiresInDiplomaticRange(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires);
-
 	void ManageEmpireDiplomacy(Simulator::cEmpire* empire);
 
 	void EmpireDiplomacyCycle();
