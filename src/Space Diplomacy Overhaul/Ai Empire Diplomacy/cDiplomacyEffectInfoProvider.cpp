@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "cDiplomacyEffectInfoProvider.h"
 
-cDiplomacyEffectInfoProvider::cDiplomacyEffectInfoProvider(App::PropertyList* effectsProp)
+cDiplomacyEffectInfoProvider::cDiplomacyEffectInfoProvider(ResourceKey effectsKey)
 {
-	this->effectsProp = effectsProp;
+	PropManager.GetPropertyList(effectsKey.instanceID, effectsKey.groupID, effectsProp);
 }
 
 

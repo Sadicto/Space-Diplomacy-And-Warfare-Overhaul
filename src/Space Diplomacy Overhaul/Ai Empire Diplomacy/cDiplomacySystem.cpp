@@ -66,6 +66,7 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
 	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x57252EFE, archetypesAffinitiesKey);
+	App::Property::GetKey(managerConfigProp.get(), 0x82AE7927, relationshipEffectsKey);
 }
 
 void cDiplomacySystem::Dispose() {
@@ -97,10 +98,7 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey);
 
-		PropertyListPtr effectsProp;
-		PropManager.GetPropertyList(0x4e5855b9, 0x0568de14, effectsProp); // space_npc_relationship_effects~!0x4E5855B9.prop
-
-		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(effectsProp.get());
+		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(relationshipEffectsKey);
 
 		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
 

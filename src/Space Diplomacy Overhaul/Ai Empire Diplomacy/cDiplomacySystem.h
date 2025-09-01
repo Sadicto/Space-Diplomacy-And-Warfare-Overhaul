@@ -98,6 +98,7 @@ private:
 	// Pointer to the loaded diplomacy effect analyzer.
 	cDiplomacyEffectAnalyzerPtr diplomacyEffectAnalyzer;
 
+	// Key used to load the relationship effects prop.
 	ResourceKey relationshipEffectsKey;
 
 	// Pointer to the loaded diplomacy effect info provider.

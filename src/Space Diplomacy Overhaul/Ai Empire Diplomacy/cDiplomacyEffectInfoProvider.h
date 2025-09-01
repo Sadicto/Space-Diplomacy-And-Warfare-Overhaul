@@ -13,7 +13,7 @@ class cDiplomacyEffectInfoProvider
 public:
 	static const uint32_t TYPE = id("cDiplomacyEffectInfoProvider");
 	
-	cDiplomacyEffectInfoProvider(App::PropertyList* effectsProp);
+	cDiplomacyEffectInfoProvider(ResourceKey effectsKey);
 	~cDiplomacyEffectInfoProvider();
 
 	int AddRef() override;
