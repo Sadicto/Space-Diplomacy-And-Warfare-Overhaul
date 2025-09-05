@@ -63,7 +63,7 @@ void cEmpireDiplomacy::ResolveAlliesWar() {
 	}
 }
 
-Simulator::cEmpire* cEmpireDiplomacy::JoinAlliesWar() {
+Simulator::cEmpire* cEmpireDiplomacy::GetAllyEnemy() {
 	for (cEmpirePtr neutral : neutrals) {
 		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true) && DiplomacyUtils::AllianceWithEnemyOfEmpire(empire.get(), neutral.get())) {
 			return neutral.get();
@@ -105,17 +105,9 @@ float cEmpireDiplomacy::BreakAllianceProbability(cEmpire* target) {
 }
 
 float cEmpireDiplomacy::DeclareWarProbability(cEmpire* target) {
-	bool autoDeclareWarOnAllyEnemies = diplomacyConfig->GetAutoDeclareWarOnAllyEnemies();
-	bool startsWarsWhileAtWar = diplomacyConfig->GetStartsWarsWhileAtWar();
 	int affinityThresholdForWar = diplomacyConfig->GetAffinityThresholdForWar();
 	int minAffinitySoftCap = diplomacyConfig->GetMinAffinitySoftCap();
 	float maxWarProbability = diplomacyConfig->GetMaxWarProbability();
-	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire.get(), target) && autoDeclareWarOnAllyEnemies) {
-		return 1.0f;
-	}
-	if (empire->mEnemies.size() != 0 && !startsWarsWhileAtWar) {
-		return 0.0f;
-	}
 	int affinity = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), target);
 	if ((affinity > affinityThresholdForWar) || (affinity == affinityThresholdForWar && DiplomacyUtils::CommonEnemy(empire.get(), target))) {
 		return 0.0f;
@@ -205,9 +197,9 @@ void cEmpireDiplomacy::ManageEnemies() {
 void cEmpireDiplomacy::ManageNeutrals() {
 	cEmpire* wartarget = nullptr;
 	if (diplomacyConfig->GetAutoDeclareWarOnAllyEnemies()) {
-		wartarget = JoinAlliesWar();
+		wartarget = GetAllyEnemy();
 	}
-	if (wartarget != nullptr && (diplomacyConfig->GetStartsWarsWhileAtWar() || empire->mEnemies.size() == 0)) {
+	if (wartarget == nullptr && (diplomacyConfig->GetStartsWarsWhileAtWar() || empire->mEnemies.size() == 0)) {
 		wartarget = GetWarTarget();
 	}
 	if (wartarget != nullptr) {
