@@ -2,7 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include <cDiplomacyConfig.h>
-#include <cArchetypesAffinities.h>
+#include <cArchetypesConfig.h>
 
 #define cEmpireRelationsAnalyzerPtr intrusive_ptr<cEmpireRelationsAnalyzer>
 
@@ -15,7 +15,7 @@ class cEmpireRelationsAnalyzer
 public:
 	static const uint32_t TYPE = id("cEmpireRelationsAnalyzer");
 	
-	cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesAffinities* archetyipesAffinities);
+	cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesConfig);
 	~cEmpireRelationsAnalyzer();
 
 	int AddRef() override;
@@ -43,5 +43,5 @@ public:
 	cDiplomacyConfigPtr diplomacyConfig;
 
 	// Pointer to the loaded archetypes affinities object.
-	cArchetypesAffinitiesPtr archetypesAffinities;
+	cArchetypesConfigPtr archetypesConfig;
 };

@@ -50,7 +50,7 @@ int32s BardAffinities
 	0  # Shaman
 	3  # Bard
 	-1 # Zealot
-	-1 # Diplomat
+	-2 # Diplomat
 	0  # Ecologist
 end
 
@@ -70,7 +70,7 @@ int32s DiplomatAffinities
 	0  # Trader
 	0  # Scientist
 	1  # Shaman
-	-1 # Bard
+	-2 # Bard
 	-2 # Zealot
 	5  # Diplomat
 	1  # Ecologist

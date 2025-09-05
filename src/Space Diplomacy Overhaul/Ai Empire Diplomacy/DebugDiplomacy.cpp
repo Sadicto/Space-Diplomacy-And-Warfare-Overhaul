@@ -83,8 +83,17 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
      }
     case 11: {
-
-        
+        eastl::array<int, 9> count;
+        for (int i = 0; i < 9; i++) {
+            count[i] = 0;
+        }
+        eastl::map<uint32_t, cEmpirePtr> empires = StarManager.GetEmpires();
+        for (const eastl::pair<const uint32_t, cEmpirePtr>& pair : empires) {
+            if (pair.second->mArchetype < 9) {
+                count[pair.second->mArchetype]++;
+            }
+        }
+        int a = 9;
         break;
     }
     case 12: {

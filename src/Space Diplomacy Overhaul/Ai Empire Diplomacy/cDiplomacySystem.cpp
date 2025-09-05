@@ -49,7 +49,7 @@ void cDiplomacySystem::Initialize() {
 	cycle = 0;
 	instance = this;
 	diplomacyConfig = nullptr;
-	archetypesAffinities = nullptr;
+	archetypesConfig = nullptr;
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
 	diplomacyPopUpManager = nullptr;
@@ -66,6 +66,7 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
 	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x57252EFE, archetypesAffinitiesKey);
+	App::Property::GetKey(managerConfigProp.get(), 0x142ECBFA, archetypesAgressivitiesKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x82AE7927, relationshipEffectsKey);
 }
 
@@ -90,9 +91,9 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 	if (newModeID == GameModeIDs::kGameSpace) {
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 
-		archetypesAffinities = new cArchetypesAffinities(archetypesAffinitiesKey);
+		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
 
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesAffinities.get());
+		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get());
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
@@ -124,7 +125,7 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 void cDiplomacySystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID) {
 	if (previousModeID == GameModeIDs::kGameSpace) {
 		diplomacyConfig.reset();
-		archetypesAffinities.reset();
+		archetypesConfig.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
 		diplomacyPopUpManager.reset();

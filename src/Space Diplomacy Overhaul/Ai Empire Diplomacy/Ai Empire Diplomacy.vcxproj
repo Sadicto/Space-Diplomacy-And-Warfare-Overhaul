@@ -140,7 +140,7 @@
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="cDiplomacySystem.h" />
     <ClInclude Include="DebugDiplomacy.h" />
-    <ClInclude Include="cArchetypesAffinities.h">
+    <ClInclude Include="cArchetypesConfig.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -199,7 +199,7 @@
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="cDiplomacySystem.cpp" />
     <ClCompile Include="DebugDiplomacy.cpp" />
-    <ClCompile Include="cArchetypesAffinities.cpp">
+    <ClCompile Include="cArchetypesConfig.cpp">
       <SubType>
       </SubType>
     </ClCompile>

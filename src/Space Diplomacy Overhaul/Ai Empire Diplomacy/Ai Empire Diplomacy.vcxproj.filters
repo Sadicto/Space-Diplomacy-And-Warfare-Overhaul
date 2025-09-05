@@ -33,7 +33,7 @@
     <ClInclude Include="cEmpireDiplomacy.h" />
     <ClInclude Include="cDiplomacyConfig.h" />
     <ClInclude Include="cEmpireRelationsAnalyzer.h" />
-    <ClInclude Include="cArchetypesAffinities.h" />
+    <ClInclude Include="cArchetypesConfig.h" />
     <ClInclude Include="cDiplomacyEventDispatcher.h" />
     <ClInclude Include="cDiplomacyEvent.h" />
     <ClInclude Include="cDiplomacyEventListener.h" />
@@ -62,7 +62,7 @@
     <ClCompile Include="cEmpireDiplomacy.cpp" />
     <ClCompile Include="cDiplomacyConfig.cpp" />
     <ClCompile Include="cEmpireRelationsAnalyzer.cpp" />
-    <ClCompile Include="cArchetypesAffinities.cpp" />
+    <ClCompile Include="cArchetypesConfig.cpp" />
     <ClCompile Include="cDiplomacyEventDispatcher.cpp" />
     <ClCompile Include="cDiplomacyEvent.cpp" />
     <ClCompile Include="cDiplomacyEventListener.cpp" />

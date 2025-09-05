@@ -114,8 +114,8 @@ float cEmpireDiplomacy::DeclareWarProbability(cEmpire* target) {
 	}
 	else {
 		int aggresivity = empireRelationsAnalyzer->GetEmpireAgressivity(empire.get());
-		float warProbability = static_cast<float>(aggresivity - affinity) / abs(minAffinitySoftCap);;
-		return min(warProbability, maxWarProbability);
+		float warProbability = static_cast<float>(affinity - aggresivity - minAffinitySoftCap - 1) / (minAffinitySoftCap - 1);
+		return min (warProbability * maxWarProbability, maxWarProbability);
 	}
 }
 

@@ -3,7 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include <cEmpireDiplomacy.h>
 #include <cDiplomacyConfig.h>
-#include <cArchetypesAffinities.h>
+#include <cArchetypesConfig.h>
 #include "cEmpireRelationsAnalyzer.h"
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
 #include <cDiplomacyEventDispatcher.h>
@@ -72,8 +72,11 @@ private:
 	// Key used to load the archetypes affinities prop.
 	ResourceKey archetypesAffinitiesKey;
 
+	// Key used to load the archetypes agressivities prop.
+	ResourceKey archetypesAgressivitiesKey;
+
 	// Pointer to the loaded archetypes affinities object.
-	cArchetypesAffinitiesPtr archetypesAffinities;
+	cArchetypesConfigPtr archetypesConfig;
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;

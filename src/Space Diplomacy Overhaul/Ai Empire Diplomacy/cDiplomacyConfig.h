@@ -111,6 +111,8 @@ public:
 	// Extra aggressiveness gained per power level of an empire.
 	eastl::vector<int> aggressivityGrowthByPowerLevel;
 
+	eastl::vector<eastl::vector<int>> archetypeAgressivityByPowerLevel;
+
 	// If true, AI empires automatically declare war on enemies of their allies.
 	bool autoDeclareWarOnAllyEnemies;
 

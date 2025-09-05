@@ -10,7 +10,7 @@ int32 MaxAffinitySoftCap  5
 int32 MinAffinitySoftCap -5
 
 float MaxAllianceProbability 0.75
-float MaxWarProbability 0.75
+float MaxWarProbability 0.60
 
 int32 AffinityThresholdForStableAlliance  1
 int32 AffinityThresholdForUnstableAlliance  0
@@ -19,25 +19,6 @@ int32 AffinityThresholdForWar 0
 int32 AffinityGainForAllyOfAlly 1
 int32 AffinityGainForEnemyOfEnemy 2
 int32 AffinityGainForEnemyOfAlly -5
-
-int32s BaseAggressivityByArchetype 
-	4  # Warrior
-	1  # Trader
-	1  # Scientist
-	-2 # Shaman
-	0  # Bard
-	2  # Zealot
-	-1 # Diplomat
-	0  # Ecologist
-end
-
-int32s AggressivityGrowthByPowerLevel
-	-3
-	-2
-	-1
-	0
-	1
-end
 
 bool autoDeclareWarOnAllyEnemies true
 

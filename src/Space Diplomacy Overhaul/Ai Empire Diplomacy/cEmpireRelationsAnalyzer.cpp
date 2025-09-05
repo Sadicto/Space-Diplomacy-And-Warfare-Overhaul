@@ -4,10 +4,10 @@
 using namespace Simulator;
 using namespace SporeModUtils;
 
-cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesAffinities* archetyipesAffinities)
+cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesAffinities)
 {
 	this->diplomacyConfig = diplomacyConfig;
-	this->archetypesAffinities = archetyipesAffinities;
+	this->archetypesConfig = archetyipesAffinities;
 }
 
 
@@ -41,14 +41,11 @@ float cEmpireRelationsAnalyzer::GetEmpireDiplomaticRange(cEmpire* empire) {
 }
 
 int cEmpireRelationsAnalyzer::GetEmpireAgressivity(cEmpire* empire) {
-	Archetypes archetype = ArchetypeUtils::GetBaseArchetype(empire->mArchetype);
-	int agressivty = diplomacyConfig->GetArchetypeAgressivity(empire->mArchetype);
-	agressivty += diplomacyConfig->GetAggressivityGrowthByPowerLevel(EmpireUtils::GetEmpireLevel(empire));
-	return agressivty;
+	return archetypesConfig->GetArchetypeAgressivtyByPowerLevel(empire->mArchetype, EmpireUtils::GetEmpireLevel(empire));
 }
 
 int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
-	int affinity = archetypesAffinities->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
+	int affinity = archetypesConfig->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
 	if (DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)) {
 		affinity += diplomacyConfig->GetAffinityGainForAllyOfAlly();
 	}
