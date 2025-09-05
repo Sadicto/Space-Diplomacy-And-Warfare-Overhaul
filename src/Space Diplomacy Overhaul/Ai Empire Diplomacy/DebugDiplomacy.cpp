@@ -38,11 +38,11 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 2: {
-        RelationshipManager.ApplyRelationship(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceMissionComplete);
+        RelationshipManager.ApplyRelationship(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceTradeComplete);
         break;
     }
     case 3:  {
-        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceMissionComplete);
+        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceTradeRouteSpice);
         break;
     }
     case 4: {

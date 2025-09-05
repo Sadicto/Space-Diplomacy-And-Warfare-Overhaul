@@ -1,0 +1,40 @@
+uint32s removeProperties
+	0x05590199 #RelationshipEventSpaceBadSystemPurchaseOffer
+	0x0526E53C #RelationshipEventSpaceDestroyBuilding
+	0x0526E51F #RelationshipEventSpaceGiveGift
+	0x055901B3 #RelationshipEventSpaceGoodSystemPurchaseOffer
+	0x055901B3 #RelationshipEventSpaceGoodSystemPurchaseOffer
+	0x0526E5D8 #RelationshipEventSpaceStealCommodity
+	0x0526E527 #RelationshipEventSpaceTradeComplete
+	0x0667AF08 #RelationshipEventSpaceTradeRouteSpice
+	0x0526E4EE #RelationshipEventTrade
+end
+
+floats RelationshipEventSpaceArchetypeMods
+	-1 # Warrior
+	3  # Trader
+	1  # Scientist
+	-1 # Shaman
+	1  # Bard
+	-1 # Zealot
+	0  # Diplomat
+	-3 # Ecologist
+end
+
+floats RelationshipEventSpacePersonalityNice
+	0
+	0
+	0
+	0
+	0
+	0
+end
+
+floats RelationshipEventSpacePersonalityMean
+	-0.5
+	0
+	-0.5
+	0
+	0
+	0
+end

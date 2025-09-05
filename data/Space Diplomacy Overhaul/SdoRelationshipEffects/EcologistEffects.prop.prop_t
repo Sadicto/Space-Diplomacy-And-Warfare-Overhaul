@@ -1,0 +1,34 @@
+uint32s removeProperties
+	0x0526E537 #RelationshipEventSpaceTerraformExtinction
+	0x0526E535 #RelationshipEventSpaceTerraformImproved
+	0x0526E531 #RelationshipEventSpaceTerraformWorsened
+end
+
+floats RelationshipEventSpaceArchetypeMods
+	-1 # Warrior
+	-3 # Trader
+	-1 # Scientist
+	2  # Shaman
+	0  # Bard
+	-1 # Zealot
+	1  # Diplomat
+	5  # Ecologist
+end
+
+floats RelationshipEventSpacePersonalityNice
+	0
+	0
+	0
+	0
+	0
+	0
+end
+
+floats RelationshipEventSpacePersonalityMean
+	0
+	0
+	0
+	0
+	0
+	0
+end

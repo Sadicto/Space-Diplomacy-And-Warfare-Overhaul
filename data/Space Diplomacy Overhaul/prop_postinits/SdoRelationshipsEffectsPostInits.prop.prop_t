@@ -1,0 +1,38 @@
+string8s postinitList
+	"BaseEffects BaseEffectsPostInits"
+	"BardEffects BardEffectsPostInits"
+	"DiplomatEffects DiplomatEffectsPostInits"
+	"EcologistEffects EcologistEffectsPostInits"
+	"ScientistEffects ScientistEffectsPostInits"
+	"ShamanEffects ShamanEffectsPostInits"
+	"TraderEffects TraderEffectsPostInits"
+	"WarriorEffects WarriorEffectsPostInits"
+	"ZealotEffects ZealotEffectsPostInits"
+end
+
+key BaseEffects space_npc_relationship_effects~!0x4E5855B9.prop
+key BaseEffectsPostInits SdoRelationshipEffects!BaseEffects.prop
+
+key BardEffects space_npc_relationship_effects~!spg_bard.prop
+key BardEffectsPostInits SdoRelationshipEffects!BardEffects.prop
+
+key DiplomatEffects space_npc_relationship_effects~!spg_diplomat.prop
+key DiplomatEffectsPostInits SdoRelationshipEffects!DiplomatEffects.prop
+
+key EcologistEffects space_npc_relationship_effects~!spg_ecologist.prop
+key EcologistEffectsPostInits SdoRelationshipEffects!EcologistEffects.prop
+
+key ScientistEffects space_npc_relationship_effects~!spg_scientist.prop
+key ScientistEffectsPostInits SdoRelationshipEffects!ScientistEffects.prop
+
+key ShamanEffects space_npc_relationship_effects~!spg_shaman.prop
+key ShamanEffectsPostInits SdoRelationshipEffects!ShamanEffects.prop
+
+key TraderEffects space_npc_relationship_effects~!spg_trader.prop
+key TraderEffectsPostInits SdoRelationshipEffects!TraderEffects.prop
+
+key WarriorEffects space_npc_relationship_effects~!spg_warrior.prop
+key WarriorEffectsPostInits SdoRelationshipEffects!WarriorEffects.prop
+
+key ZealotEffects space_npc_relationship_effects~!spg_zealot.prop
+key ZealotEffectsPostInits SdoRelationshipEffects!ZealotEffects.prop

@@ -1,0 +1,35 @@
+uint32s removeProperties
+	0x05661A77 #RelationshipEventSpaceBadPeaceOffer
+	0x0526E521 #RelationshipEventSpaceBreakAlliance
+	0x0526E524 #RelationshipEventSpaceCreateAlliance
+	0x0526E542 #RelationshipEventSpaceDestroyAllyUFO
+end
+
+floats RelationshipEventSpaceArchetypeMods
+	0  # Warrior
+	-1 # Trader
+	-1 # Scientist
+	-2 # Shaman
+	-1 # Bard
+	-1 # Zealot
+	-5 # Diplomat
+	-1 # Ecologist
+end
+
+floats RelationshipEventSpacePersonalityNice
+	0
+	0
+	0
+	0
+	0
+	0
+end
+
+floats RelationshipEventSpacePersonalityMean
+	-2
+	0
+	-2
+	0
+	0
+	0
+end

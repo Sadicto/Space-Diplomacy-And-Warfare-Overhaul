@@ -1,0 +1,33 @@
+uint32s removeProperties
+	0x0526E519 #RelationshipEventSpaceMissionComplete
+	0x0526E51C #RelationshipEventSpaceMissionFailed
+end
+
+floats RelationshipEventSpaceArchetypeMods
+	-1 # Warrior
+	1  # Trader
+	3  # Scientist
+	-3 # Shaman
+	1  # Bard
+	-5 # Zealot
+	0  # Diplomat
+	-1 # Ecologist
+end
+
+floats RelationshipEventSpacePersonalityNice
+	0
+	0
+	0
+	0
+	0
+	0
+end
+
+floats RelationshipEventSpacePersonalityMean
+	-1
+	0
+	-1
+	0
+	0
+	0
+end

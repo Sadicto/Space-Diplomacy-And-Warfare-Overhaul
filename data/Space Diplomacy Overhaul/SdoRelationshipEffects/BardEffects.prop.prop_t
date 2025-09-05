@@ -1,0 +1,32 @@
+uint32s removeProperties
+	0x0526E5D4 #RelationshipEventSpaceAbductCitizen
+end
+
+floats RelationshipEventSpaceArchetypeMods
+	-1 # Warrior
+	1  # Trader
+	1  # Scientist
+	0  # Shaman
+	3  # Bard
+	-1 # Zealot
+	-1 # Diplomat
+	0  # Ecologist
+end
+
+floats RelationshipEventSpacePersonalityNice
+	0
+	0
+	0
+	0
+	0
+	0
+end
+
+floats RelationshipEventSpacePersonalityMean
+	0
+	0
+	0
+	0
+	0
+	0
+end
