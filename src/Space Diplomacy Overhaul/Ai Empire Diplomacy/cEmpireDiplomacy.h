@@ -36,6 +36,8 @@ public:
 	 */
 	void ResolveAlliesWar();
 
+	Simulator::cEmpire* JoinAlliesWar();
+
 	float AllianceProbability(Simulator::cEmpire* target);
 
 	float BreakAllianceProbability(Simulator::cEmpire* target);

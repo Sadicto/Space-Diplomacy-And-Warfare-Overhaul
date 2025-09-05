@@ -63,6 +63,15 @@ void cEmpireDiplomacy::ResolveAlliesWar() {
 	}
 }
 
+Simulator::cEmpire* cEmpireDiplomacy::JoinAlliesWar() {
+	for (cEmpirePtr neutral : neutrals) {
+		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true) && DiplomacyUtils::AllianceWithEnemyOfEmpire(empire.get(), neutral.get())) {
+			return neutral.get();
+		}
+	}
+	return nullptr;
+}
+
 float cEmpireDiplomacy::AllianceProbability(cEmpire* target) {
 	int affinity = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), target);
 
@@ -194,9 +203,15 @@ void cEmpireDiplomacy::ManageEnemies() {
 }
 
 void cEmpireDiplomacy::ManageNeutrals() {
-	cEmpire* targetWar = GetWarTarget();
-	if (targetWar != nullptr) {
-		diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::DeclareWar, empire.get(), targetWar);
+	cEmpire* wartarget = nullptr;
+	if (diplomacyConfig->GetAutoDeclareWarOnAllyEnemies()) {
+		wartarget = JoinAlliesWar();
+	}
+	if (wartarget != nullptr && (diplomacyConfig->GetStartsWarsWhileAtWar() || empire->mEnemies.size() == 0)) {
+		wartarget = GetWarTarget();
+	}
+	if (wartarget != nullptr) {
+		diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::DeclareWar, empire.get(), wartarget);
 	}
 	cEmpire* targetAlliance = GetAllianceTarget();
 	if (targetAlliance != nullptr) {
