@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cDiplomacyEvent.h>
+#include "cDiplomacyEvent.h"
 
 #define cDiplomacyEventDispatcherPtr intrusive_ptr<cDiplomacyEventDispatcher>
 

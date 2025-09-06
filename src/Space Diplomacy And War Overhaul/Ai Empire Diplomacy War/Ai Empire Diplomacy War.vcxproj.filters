@@ -19,8 +19,8 @@
     <ClInclude Include="stdafx.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="DebugDiplomacy.h" />
-    <ClInclude Include="cDiplomacySystem.h" />
+    <ClInclude Include="Diplomacy\DebugDiplomacy.h" />
+    <ClInclude Include="Diplomacy\cDiplomacySystem.h" />
     <ClInclude Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\Include\SporeModUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\PlanetUtils\PlanetUtils.h" />
@@ -29,18 +29,18 @@
     <ClInclude Include="Spore-Mod-Utils\TerraformingUtils\TerraformingUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.h" />
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
-    <ClInclude Include="AllianceEnemyButtonProc.h" />
-    <ClInclude Include="cEmpireDiplomacy.h" />
-    <ClInclude Include="cDiplomacyConfig.h" />
-    <ClInclude Include="cEmpireRelationsAnalyzer.h" />
-    <ClInclude Include="cArchetypesConfig.h" />
-    <ClInclude Include="cDiplomacyEventDispatcher.h" />
-    <ClInclude Include="cDiplomacyEvent.h" />
-    <ClInclude Include="cDiplomacyEventListener.h" />
-    <ClInclude Include="cDiplomacyPopupManager.h" />
-    <ClInclude Include="cEmpireRelationshipController.h" />
-    <ClInclude Include="cDiplomacyEffectInfoProvider.h" />
-    <ClInclude Include="cDiplomacyEffectAnalyzer.h" />
+    <ClInclude Include="Diplomacy\AllianceEnemyButtonProc.h" />
+    <ClInclude Include="Diplomacy\cEmpireDiplomacy.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyConfig.h" />
+    <ClInclude Include="Diplomacy\cEmpireRelationsAnalyzer.h" />
+    <ClInclude Include="Diplomacy\cArchetypesConfig.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyEventDispatcher.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyEvent.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyEventListener.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyPopupManager.h" />
+    <ClInclude Include="Diplomacy\cEmpireRelationshipController.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyEffectInfoProvider.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyEffectAnalyzer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -49,8 +49,8 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
-    <ClCompile Include="cDiplomacySystem.cpp" />
-    <ClCompile Include="DebugDiplomacy.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacySystem.cpp" />
+    <ClCompile Include="Diplomacy\DebugDiplomacy.cpp" />
     <ClCompile Include="Spore-Mod-Utils\EmpireUtils\EmpireUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\PlanetUtils\PlanetUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\SpiceUtils\SpiceUtils.cpp" />
@@ -58,18 +58,18 @@
     <ClCompile Include="Spore-Mod-Utils\TerraformingUtils\TerraformingUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\DiplomacyUtils\DiplomacyUtils.cpp" />
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
-    <ClCompile Include="AllianceEnemyButtonProc.cpp" />
-    <ClCompile Include="cEmpireDiplomacy.cpp" />
-    <ClCompile Include="cDiplomacyConfig.cpp" />
-    <ClCompile Include="cEmpireRelationsAnalyzer.cpp" />
-    <ClCompile Include="cArchetypesConfig.cpp" />
-    <ClCompile Include="cDiplomacyEventDispatcher.cpp" />
-    <ClCompile Include="cDiplomacyEvent.cpp" />
-    <ClCompile Include="cDiplomacyEventListener.cpp" />
-    <ClCompile Include="cDiplomacyPopupManager.cpp" />
-    <ClCompile Include="cEmpireRelationshipController.cpp" />
-    <ClCompile Include="cDiplomacyEffectInfoProvider.cpp" />
-    <ClCompile Include="cDiplomacyEffectAnalyzer.cpp" />
+    <ClCompile Include="Diplomacy\AllianceEnemyButtonProc.cpp" />
+    <ClCompile Include="Diplomacy\cEmpireDiplomacy.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyConfig.cpp" />
+    <ClCompile Include="Diplomacy\cEmpireRelationsAnalyzer.cpp" />
+    <ClCompile Include="Diplomacy\cArchetypesConfig.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyEventDispatcher.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyEvent.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyEventListener.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyPopupManager.cpp" />
+    <ClCompile Include="Diplomacy\cEmpireRelationshipController.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyEffectInfoProvider.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyEffectAnalyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

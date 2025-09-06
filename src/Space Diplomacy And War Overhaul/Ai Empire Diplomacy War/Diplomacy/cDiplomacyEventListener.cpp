@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cDiplomacyEventListener.h"
-#include <cDiplomacyEvent.h>
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include "cDiplomacyEvent.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 
 using namespace SporeModUtils;

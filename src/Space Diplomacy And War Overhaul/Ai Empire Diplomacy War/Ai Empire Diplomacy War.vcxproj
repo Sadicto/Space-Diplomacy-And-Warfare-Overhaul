@@ -100,51 +100,51 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllianceEnemyButtonProc.h">
+    <ClInclude Include="Diplomacy\AllianceEnemyButtonProc.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomacyConfig.h">
+    <ClInclude Include="Diplomacy\cDiplomacyConfig.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomacyEffectAnalyzer.h">
+    <ClInclude Include="Diplomacy\cDiplomacyEffectAnalyzer.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomacyEvent.h" />
-    <ClInclude Include="cDiplomacyEventDispatcher.h">
+    <ClInclude Include="Diplomacy\cDiplomacyEvent.h" />
+    <ClInclude Include="Diplomacy\cDiplomacyEventDispatcher.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomacyEffectInfoProvider.h">
+    <ClInclude Include="Diplomacy\cDiplomacyEffectInfoProvider.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomacyEventListener.h">
+    <ClInclude Include="Diplomacy\cDiplomacyEventListener.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cEmpireDiplomacy.h">
+    <ClInclude Include="Diplomacy\cEmpireDiplomacy.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cEmpireRelationsAnalyzer.h">
+    <ClInclude Include="Diplomacy\cEmpireRelationsAnalyzer.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cEmpireRelationshipController.h">
+    <ClInclude Include="Diplomacy\cEmpireRelationshipController.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
-    <ClInclude Include="cDiplomacySystem.h" />
-    <ClInclude Include="DebugDiplomacy.h" />
-    <ClInclude Include="cArchetypesConfig.h">
+    <ClInclude Include="Diplomacy\cDiplomacySystem.h" />
+    <ClInclude Include="Diplomacy\DebugDiplomacy.h" />
+    <ClInclude Include="Diplomacy\cArchetypesConfig.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cDiplomacyPopupManager.h">
+    <ClInclude Include="Diplomacy\cDiplomacyPopupManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -159,51 +159,51 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AllianceEnemyButtonProc.cpp">
+    <ClCompile Include="Diplomacy\AllianceEnemyButtonProc.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomacyConfig.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacyConfig.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomacyEffectAnalyzer.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacyEffectAnalyzer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomacyEvent.cpp" />
-    <ClCompile Include="cDiplomacyEventDispatcher.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacyEvent.cpp" />
+    <ClCompile Include="Diplomacy\cDiplomacyEventDispatcher.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomacyEffectInfoProvider.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacyEffectInfoProvider.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomacyEventListener.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacyEventListener.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cEmpireDiplomacy.cpp">
+    <ClCompile Include="Diplomacy\cEmpireDiplomacy.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cEmpireRelationsAnalyzer.cpp">
+    <ClCompile Include="Diplomacy\cEmpireRelationsAnalyzer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cEmpireRelationshipController.cpp">
+    <ClCompile Include="Diplomacy\cEmpireRelationshipController.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
-    <ClCompile Include="cDiplomacySystem.cpp" />
-    <ClCompile Include="DebugDiplomacy.cpp" />
-    <ClCompile Include="cArchetypesConfig.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacySystem.cpp" />
+    <ClCompile Include="Diplomacy\DebugDiplomacy.cpp" />
+    <ClCompile Include="Diplomacy\cArchetypesConfig.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cDiplomacyPopupManager.cpp">
+    <ClCompile Include="Diplomacy\cDiplomacyPopupManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

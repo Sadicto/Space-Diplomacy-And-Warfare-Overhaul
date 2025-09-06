@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cDiplomacyConfig.h"
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 
 using namespace SporeModUtils;
 using namespace Simulator;

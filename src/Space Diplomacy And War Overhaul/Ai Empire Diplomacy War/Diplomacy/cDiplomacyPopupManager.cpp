@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cDiplomacyPopupManager.h"
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 
 cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey){
 	PropertyListPtr spacePopUpsConfigProp;

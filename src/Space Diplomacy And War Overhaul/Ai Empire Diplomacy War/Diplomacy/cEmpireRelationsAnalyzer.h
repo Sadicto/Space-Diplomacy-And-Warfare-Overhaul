@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cDiplomacyConfig.h>
-#include <cArchetypesConfig.h>
+#include "cDiplomacyConfig.h"
+#include "cArchetypesConfig.h"
 
 #define cEmpireRelationsAnalyzerPtr intrusive_ptr<cEmpireRelationsAnalyzer>
 

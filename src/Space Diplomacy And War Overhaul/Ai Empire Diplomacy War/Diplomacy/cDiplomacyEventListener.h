@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cDiplomacyPopupManager.h>
-#include <cEmpireRelationshipController.h>
+#include "cDiplomacyPopupManager.h"
+#include "cEmpireRelationshipController.h"
 
 #define cDiplomacyEventListenerPtr intrusive_ptr<cDiplomacyEventListener>
 

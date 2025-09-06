@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cEmpireRelationsAnalyzer.h"
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 using namespace Simulator;
 using namespace SporeModUtils;
 

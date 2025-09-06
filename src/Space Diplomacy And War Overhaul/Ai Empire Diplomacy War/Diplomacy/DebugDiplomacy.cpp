@@ -3,7 +3,7 @@
 #include <EASTL/string.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include "cDiplomacySystem.h"
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "AllianceEnemyButtonProc.h"
 using namespace Simulator;
 using namespace SporeModUtils;

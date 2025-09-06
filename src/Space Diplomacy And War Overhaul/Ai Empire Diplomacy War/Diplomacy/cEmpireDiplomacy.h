@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cDiplomacyConfig.h>
-#include <cEmpireRelationsAnalyzer.h>
-#include <cDiplomacyEventDispatcher.h>
+#include "cDiplomacyConfig.h"
+#include "cEmpireRelationsAnalyzer.h"
+#include "cDiplomacyEventDispatcher.h"
 
 #define cEmpireDiplomacyPtr intrusive_ptr<cEmpireDiplomacy>
 

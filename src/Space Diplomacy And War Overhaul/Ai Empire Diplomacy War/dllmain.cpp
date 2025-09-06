@@ -1,10 +1,10 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "stdafx.h"
-#include "DebugDiplomacy.h"
+#include "Diplomacy\DebugDiplomacy.h"
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include <Spore/App/cMessageManager.h>
 #include <Spore/App/IMessageManager.h>
-#include "cDiplomacySystem.h"
+#include "Diplomacy\cDiplomacySystem.h"
 #include <Spore/App/cCameraManager.h>
 #include <Spore/Swarm/cEffectsManager.h>
 void Initialize()

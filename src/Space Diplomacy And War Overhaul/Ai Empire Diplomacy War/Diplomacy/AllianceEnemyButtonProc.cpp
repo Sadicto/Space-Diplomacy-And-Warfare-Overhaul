@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "AllianceEnemyButtonProc.h"
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 
 AllianceEnemyButtonProc::AllianceEnemyButtonProc()
 {

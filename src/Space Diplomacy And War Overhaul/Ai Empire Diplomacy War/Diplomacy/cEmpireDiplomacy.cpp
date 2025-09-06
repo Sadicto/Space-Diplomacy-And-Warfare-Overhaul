@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "cEmpireDiplomacy.h"
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
-#include <cDiplomacySystem.h>
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
+#include "cDiplomacySystem.h"
 using namespace Simulator;
 using namespace SporeModUtils;
 

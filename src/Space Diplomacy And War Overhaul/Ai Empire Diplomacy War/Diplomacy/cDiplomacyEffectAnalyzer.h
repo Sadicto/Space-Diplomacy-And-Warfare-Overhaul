@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cDiplomacyEffectInfoProvider.h>
+#include "cDiplomacyEffectInfoProvider.h"
 
 #define cDiplomacyEffectAnalyzerPtr intrusive_ptr<cDiplomacyEffectAnalyzer>
 

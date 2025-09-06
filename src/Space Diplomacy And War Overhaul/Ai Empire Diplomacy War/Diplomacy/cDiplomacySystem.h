@@ -1,16 +1,16 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cEmpireDiplomacy.h>
-#include <cDiplomacyConfig.h>
-#include <cArchetypesConfig.h>
+#include "cEmpireDiplomacy.h"
+#include "cDiplomacyConfig.h"
+#include "cArchetypesConfig.h"
 #include "cEmpireRelationsAnalyzer.h"
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
-#include <cDiplomacyEventDispatcher.h>
-#include <cDiplomacyEventListener.h>
-#include <cDiplomacyPopupManager.h>
-#include <cDiplomacyEffectAnalyzer.h>
-#include <cEmpireRelationshipController.h>
+#include "cDiplomacyEventDispatcher.h"
+#include "cDiplomacyEventListener.h"
+#include "cDiplomacyPopupManager.h"
+#include "cDiplomacyEffectAnalyzer.h"
+#include "cEmpireRelationshipController.h"
 
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cDiplomacyEffectAnalyzer.h>
+#include "cDiplomacyEffectAnalyzer.h"
 
 #define cEmpireRelationshipControllerPtr intrusive_ptr<cEmpireRelationshipController>
 

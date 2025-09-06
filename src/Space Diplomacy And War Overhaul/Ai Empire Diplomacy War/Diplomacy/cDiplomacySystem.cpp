@@ -2,9 +2,9 @@
 #include "cDiplomacySystem.h"
 #include <Spore/Simulator/ConversationResource.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
-#include "Spore-Mod-Utils/Include/SporeModUtils.h"
-#include <AllianceEnemyButtonProc.h>
-#include <cDiplomacyEvent.h>
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
+#include "AllianceEnemyButtonProc.h"
+#include "cDiplomacyEvent.h"
 
 using namespace SporeModUtils;
 using namespace Simulator;
