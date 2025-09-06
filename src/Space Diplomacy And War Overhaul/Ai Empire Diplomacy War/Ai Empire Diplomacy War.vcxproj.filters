@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
-      <Filter>Ai Empire Diplomacy</Filter>
+      <Filter>Ai Empire Diplomacy War</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Internal</Filter>
