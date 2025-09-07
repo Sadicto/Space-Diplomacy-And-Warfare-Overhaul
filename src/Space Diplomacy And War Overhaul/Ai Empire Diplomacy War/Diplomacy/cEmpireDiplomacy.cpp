@@ -46,7 +46,7 @@ void cEmpireDiplomacy::ResolveAlliesWar() {
 	for (cEmpirePtr ally1 : empire->mAllies) {
 		for (cEmpirePtr ally2 : empire->mAllies) {
 			if (EmpireUtils::ValidNpcEmpire(ally1.get(), true) && EmpireUtils::ValidNpcEmpire(ally1.get(), true) && 
-				ally1 != ally2 && RelationshipManager.IsAtWar(ally1.get(), ally2.get()) &&
+				ally1 != ally2 && DiplomacyUtils::War(ally1.get(), ally2.get()) &&
 				DiplomacyUtils::Alliance(empire.get(), ally1.get()) && DiplomacyUtils::Alliance(empire.get(), ally2.get())) {
 
 				int affinityWIthAlly1 = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally1.get());
