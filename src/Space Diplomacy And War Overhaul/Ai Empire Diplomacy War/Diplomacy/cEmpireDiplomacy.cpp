@@ -138,7 +138,7 @@ cEmpire* cEmpireDiplomacy::GetBreakAllianceTarget() {
 cEmpire* cEmpireDiplomacy::GetWarTarget() {
 	eastl::map<cEmpirePtr, float> probabilitiesOfWar;
 	for (cEmpirePtr neutral : neutrals) {
-		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true)) {
+		if (EmpireUtils::ValidNpcEmpire(neutral.get(), false)) { // FALSE FOR DEBUG ONLY
 			probabilitiesOfWar[neutral] = DeclareWarProbability(neutral.get());
 		}
 	}

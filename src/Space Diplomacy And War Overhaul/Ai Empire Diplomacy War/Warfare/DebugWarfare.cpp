@@ -3,6 +3,7 @@
 #include "cSpaceCombatMetrics.h"
 #include "cWarfareConfig.h"
 #include "cWarfareStrengthAnalyzer.h"
+#include "cEmpireWarfare.h"
 
 DebugWarfare::DebugWarfare()
 {
@@ -30,6 +31,8 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
     cSpaceCombatMetricsPtr spaceCombatMetrics = new cSpaceCombatMetrics(spaceCombatKey);
 
     cWarfareStrengthAnalyzerPtr warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get());
+
+    cEmpireWarfarePtr empireWarfare = new cEmpireWarfare(empire, warfareConfig.get(), warfareStrengthAnalyzer.get());
 
     switch (val) {
     case 0: { // Set the star
@@ -89,7 +92,7 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
         break;
     }
     case 8: {
-
+        empireWarfare->SelectAndAttackTargets();
         break;
 
     }
