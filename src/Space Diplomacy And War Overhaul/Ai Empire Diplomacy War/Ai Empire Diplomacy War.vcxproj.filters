@@ -41,11 +41,12 @@
     <ClInclude Include="Diplomacy\cEmpireRelationshipController.h" />
     <ClInclude Include="Diplomacy\cDiplomacyEffectInfoProvider.h" />
     <ClInclude Include="Diplomacy\cDiplomacyEffectAnalyzer.h" />
+    <ClInclude Include="Warfare\cSpaceCombatMetrics.h" />
+    <ClInclude Include="Warfare\DebugWarfare.h" />
+    <ClInclude Include="Warfare\cWarfareStrengthAnalyzer.h" />
+    <ClInclude Include="Warfare\cWarfareConfig.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Ai Empire Diplomacy War</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
@@ -70,6 +71,11 @@
     <ClCompile Include="Diplomacy\cEmpireRelationshipController.cpp" />
     <ClCompile Include="Diplomacy\cDiplomacyEffectInfoProvider.cpp" />
     <ClCompile Include="Diplomacy\cDiplomacyEffectAnalyzer.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Warfare\cSpaceCombatMetrics.cpp" />
+    <ClCompile Include="Warfare\DebugWarfare.cpp" />
+    <ClCompile Include="Warfare\cWarfareStrengthAnalyzer.cpp" />
+    <ClCompile Include="Warfare\cWarfareConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />
