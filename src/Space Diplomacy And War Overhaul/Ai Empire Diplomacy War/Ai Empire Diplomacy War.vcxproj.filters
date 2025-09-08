@@ -46,6 +46,9 @@
     <ClInclude Include="Warfare\cWarfareStrengthAnalyzer.h" />
     <ClInclude Include="Warfare\cWarfareConfig.h" />
     <ClInclude Include="Warfare\cEmpireWarfare.h" />
+    <ClInclude Include="Warfare\cPlanetAttackedEvent.h" />
+    <ClInclude Include="Warfare\cWarfareEventDispatcher.h" />
+    <ClInclude Include="Warfare\cWarfareEventListener.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="Warfare\cWarfareStrengthAnalyzer.cpp" />
     <ClCompile Include="Warfare\cWarfareConfig.cpp" />
     <ClCompile Include="Warfare\cEmpireWarfare.cpp" />
+    <ClCompile Include="Warfare\cPlanetAttackedEvent.cpp" />
+    <ClCompile Include="Warfare\cWarfareEventDispatcher.cpp" />
+    <ClCompile Include="Warfare\cWarfareEventListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

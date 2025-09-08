@@ -169,6 +169,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Warfare\cPlanetAttackedEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Warfare\cWarfareEventDispatcher.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Warfare\cWarfareEventListener.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Warfare\cWarfareStrengthAnalyzer.h">
       <SubType>
       </SubType>
@@ -254,6 +266,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Warfare\cWarfareConfig.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Warfare\cPlanetAttackedEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Warfare\cWarfareEventDispatcher.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Warfare\cWarfareEventListener.cpp">
       <SubType>
       </SubType>
     </ClCompile>

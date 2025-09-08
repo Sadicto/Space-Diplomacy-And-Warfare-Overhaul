@@ -4,6 +4,9 @@
 #include "cWarfareConfig.h"
 #include "cWarfareStrengthAnalyzer.h"
 #include "cEmpireWarfare.h"
+#include "cWarfareEventDispatcher.h"
+#include "cWarfareEventListener.h"
+#include "cPlanetAttackedEvent.h"
 
 DebugWarfare::DebugWarfare()
 {
@@ -32,7 +35,9 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
 
     cWarfareStrengthAnalyzerPtr warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get());
 
-    cEmpireWarfarePtr empireWarfare = new cEmpireWarfare(empire, warfareConfig.get(), warfareStrengthAnalyzer.get());
+    cWarfareEventDispatcherPtr warfareEventDispatcher = new cWarfareEventDispatcher();
+
+    cEmpireWarfarePtr empireWarfare = new cEmpireWarfare(empire, warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
 
     switch (val) {
     case 0: { // Set the star
@@ -47,8 +52,8 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
         break;
     }
     case 2: {
-        ResourceKey key = ResourceKey(0x9f9f0139, 0, 0x02ae0c7e);
-        cSpaceCombatMetricsPtr test = new cSpaceCombatMetrics(key);
+        cWarfareEventListener* warfareEventListener = new cWarfareEventListener();
+        MessageManager.AddListener(warfareEventListener, cPlanetAttackedEvent::ID);
         break;
     }
     case 3: {

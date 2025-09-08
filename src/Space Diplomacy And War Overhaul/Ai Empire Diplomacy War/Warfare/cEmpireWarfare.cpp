@@ -5,12 +5,16 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
-cEmpireWarfare::cEmpireWarfare(Simulator::cEmpire* empire, cWarfareConfig* warfareConfig, cWarfareStrengthAnalyzer* warfareStrengthAnalyzer)
+cEmpireWarfare::cEmpireWarfare(Simulator::cEmpire* empire, 
+	cWarfareConfig* warfareConfig, 
+	cWarfareStrengthAnalyzer* warfareStrengthAnalyzer, 
+	cWarfareEventDispatcher* warfareEventDispatcher)
 {
 	this->empire = empire;
 	this->range = 0;
 	this->warfareConfig = warfareConfig;
 	this->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
+	this->warfareEventDispatcher = warfareEventDispatcher;
 }
 
 
@@ -82,8 +86,31 @@ void cEmpireWarfare::CalculateAttackPriorities() {
 	}
 }
 
+void cEmpireWarfare::AttackStar(Simulator::cStarRecord* star, int bombers) {
+	eastl::vector<pair<cPlanetRecordPtr, int>> bombersPerPlanet;
+	int totalRequiredBombers = 0;
+	for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+		if (PlanetUtils::InteractablePlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire && !MissionManager.ThereIsEventInPlanet(planet.get())) {
+			int planetRequiredBombers = warfareStrengthAnalyzer->GetBomberForceForPlanet(empire.get(), planet.get());
+			totalRequiredBombers += planetRequiredBombers;
+			bombersPerPlanet.push_back(make_pair(planet, planetRequiredBombers));
+		}
+	}
+	if (bombersPerPlanet.size() > 0) {
+		int extraBombersPerPlanet = (bombers - totalRequiredBombers) / bombersPerPlanet.size();
+		int surplusBombers = (bombers - totalRequiredBombers) % bombersPerPlanet.size();
+		for (auto& bomberForPlanet : bombersPerPlanet) {
+			bomberForPlanet.second += extraBombersPerPlanet;
+			if (surplusBombers > 0) {
+				bomberForPlanet.second++;
+				surplusBombers--;
+			}
+			warfareEventDispatcher->DispatchPlanetAttackedEvent(empire.get(), bomberForPlanet.first.get(), bomberForPlanet.second);
+		}
+	}
+}
+
 void cEmpireWarfare::SelectAndAttackTargets() {
-	eastl::vector<cStarRecordPtr> debugVector;
 	if (empire->mEnemies.size() == 0) {
 		return;
 	}
@@ -112,43 +139,20 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 			float pOfAttack = currentBombers / bombersToAttackTarget;
 			float n = Math::randf();
 			if (pOfAttack > n) {
-				// Attack with bombersToAttackTarget.
+				AttackStar(bestTarget.get(), static_cast<int>(round(bombersToAttackTarget)));
 				currentBombers = 0;
-				debugVector.push_back(bestTarget);
-				DebugAttackStar(bestTarget.get());
 			}
 		}
 		else {
 			if (attackPriorityMap.empty()) {
-				// Attack with all available bombers.
-				debugVector.push_back(bestTarget);
-				DebugAttackStar(bestTarget.get());
+				AttackStar(bestTarget.get(), static_cast<int>(round(currentBombers)));
+				currentBombers = 0;
 			}
 			else {
-				// Attack with bombersToAttackTarget.
-				debugVector.push_back(bestTarget);
-				DebugAttackStar(bestTarget.get());
+				AttackStar(bestTarget.get(), static_cast<int>(round(bombersToAttackTarget)));
+				currentBombers -= bombersToAttackTarget;
 			}
-			currentBombers -= bombersToAttackTarget;
-		}
-	}
-}
-
-void cEmpireWarfare::DebugAttackStar(cStarRecord* star) {
-	for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
-		if (planet->GetTechLevel() == TechLevel::Empire && !MissionManager.ThereIsEventInPlanet(planet.get())) {
-			uint32_t eventId = id("RaidWar");;
-			uint32_t targetEmpireiD = planet->GetStarRecord()->mEmpireID;
-			cEmpire* targetEmpire = StarManager.GetEmpire(targetEmpireiD);
-			cMission* mission = MissionManager.CreateMission(eventId, planet.get(), targetEmpire);
-
-			cRaidEvent* raidEvent = static_cast<cRaidEvent*>(mission);
-			cPlanetPtr planetTargetPtr;
-			StarManager.RecordToPlanet(planet.get(), planetTargetPtr);
-			raidEvent->mAttackerEmpire = empire->GetEmpireID();
-			raidEvent->mpTargetPlanet = planetTargetPtr;
-			raidEvent->mNumBombers = warfareStrengthAnalyzer->GetBomberForceForPlanet(empire.get(), planet.get());
-			raidEvent->AcceptMission();
+			
 		}
 	}
 }
