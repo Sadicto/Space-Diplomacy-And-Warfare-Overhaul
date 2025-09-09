@@ -45,7 +45,6 @@ Simulator::Attribute cDiplomacySystem::ATTRIBUTES[] = {
 
 
 void cDiplomacySystem::Initialize() {
-	activeRadius = 30;
 	cycle = 0;
 	instance = this;
 	diplomacyConfig = nullptr;
@@ -62,8 +61,10 @@ void cDiplomacySystem::Initialize() {
 
 	PropManager.GetPropertyList(id("ManagerConfig"), id("SdoConfig"), managerConfigProp);
 
-	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
+	App::Property::GetFloat(managerConfigProp.get(), 0x0D00F9E5, activeRadius);
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
+
+	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x57252EFE, archetypesAffinitiesKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x142ECBFA, archetypesAgressivitiesKey);
@@ -82,7 +83,7 @@ void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
 			EmpireDiplomacyCycle();
 			elapsedTime = 0;
 			cycle++;
-			App::ConsolePrintF("cycle: %d", cycle);
+			App::ConsolePrintF("diplomacy cycle: %d", cycle);
 		}
 	}
 }

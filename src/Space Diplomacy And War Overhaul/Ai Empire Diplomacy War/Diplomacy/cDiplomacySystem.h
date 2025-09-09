@@ -105,9 +105,10 @@ private:
 	// Pointer to the loaded diplomacy effect info provider.
 	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;
 
+	// Actives empireDiplomacy;
+	eastl::vector<cEmpireDiplomacyPtr> empiresDiplomacy;
 
-
-
+	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;
 
 	// Miliseconds of gameTime between expansion cycles.
@@ -115,9 +116,6 @@ private:
 
 	// Radius (in parsecs) in which the manager is active.
 	float activeRadius;
-
-	eastl::vector<cEmpireDiplomacyPtr> empiresDiplomacy;
-
 
 	int cycle;
 };

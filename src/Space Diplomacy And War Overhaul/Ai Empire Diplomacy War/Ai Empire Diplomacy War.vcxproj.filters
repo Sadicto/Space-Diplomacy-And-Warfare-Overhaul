@@ -49,6 +49,7 @@
     <ClInclude Include="Warfare\cPlanetAttackedEvent.h" />
     <ClInclude Include="Warfare\cWarfareEventDispatcher.h" />
     <ClInclude Include="Warfare\cWarfareEventListener.h" />
+    <ClInclude Include="Warfare\cWarfareSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -84,6 +85,7 @@
     <ClCompile Include="Warfare\cPlanetAttackedEvent.cpp" />
     <ClCompile Include="Warfare\cWarfareEventDispatcher.cpp" />
     <ClCompile Include="Warfare\cWarfareEventListener.cpp" />
+    <ClCompile Include="Warfare\cWarfareSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

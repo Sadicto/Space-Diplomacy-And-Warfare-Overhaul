@@ -8,11 +8,13 @@
 #include <Spore/App/cCameraManager.h>
 #include <Spore/Swarm/cEffectsManager.h>
 #include "Warfare/DebugWarfare.h"
+#include "Warfare/cWarfareSystem.h"
 void Initialize()
 {
 	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
 	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
+	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
 	//  - Add new cheats

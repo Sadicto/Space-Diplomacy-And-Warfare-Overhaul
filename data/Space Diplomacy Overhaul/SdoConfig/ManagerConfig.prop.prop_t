@@ -1,8 +1,7 @@
 int32 diplomacyCycleInterval 120000 # 2 minutes.
+float activeRadius 40
 key ArchetypeAffinities SdoConfig!ArchetypeAffinities.prop
 key ArchetypeAgressivities SdoConfig!AgressivityByArchetypeByLevel.prop
 key DiplomacyConfig SdoConfig!DiplomacyConfig.prop
 key SpacePopUpsTexts SdoConfig!SpacePopUpsTexts.prop
 key RelationshipEffects space_npc_relationship_effects~!0x4E5855B9.prop
-
-#key speedConfig SaicConfig!SpeedConfig.prop
