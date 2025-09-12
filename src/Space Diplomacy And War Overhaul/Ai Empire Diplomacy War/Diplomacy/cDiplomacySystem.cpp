@@ -68,6 +68,7 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x57252EFE, archetypesAffinitiesKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x142ECBFA, archetypesAgressivitiesKey);
+	App::Property::GetKey(managerConfigProp.get(), 0x76F0A8F2, popupsFilterConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x82AE7927, relationshipEffectsKey);
 }
 
@@ -98,7 +99,7 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
-		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey);
+		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey, popupsFilterConfigKey);
 
 		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(relationshipEffectsKey);
 

@@ -1,0 +1,8 @@
+# 0 None
+# 1 Allies
+# 2 Enemies
+# 3 Enemies or Allies
+# 4 All
+uint32 popupFilterCreateAlliance 1
+uint32 popupFilterBreakAlliance 1
+uint32 popupFilterDeclareWar 1

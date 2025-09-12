@@ -87,11 +87,14 @@ private:
 	// Pointer to the loaded diplomacy event listener object.
 	cDiplomacyEventListenerPtr diplomacyEventListener;
 
-	// Pointer to the loaded diplomacy popup manager.
-	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
-
 	// Key used to load the popups texts prop.
 	ResourceKey spacePopUpsTextsKey;
+
+	// Key used to load the popups filter config.
+	ResourceKey popupsFilterConfigKey;
+
+	// Pointer to the loaded diplomacy popup manager.
+	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
 	// Pointer to the loaded empire relationship controller.
 	cEmpireRelationshipControllerPtr empireRelationshipController;

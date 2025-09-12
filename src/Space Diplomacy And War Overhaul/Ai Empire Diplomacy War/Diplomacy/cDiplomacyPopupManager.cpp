@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "cDiplomacyPopupManager.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
+using namespace SporeModUtils;
 
-cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey){
+cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey, ResourceKey popupsFilterConfigKey){
 	PropertyListPtr spacePopUpsConfigProp;
 	PropManager.GetPropertyList(spacePopUpsConfigKey.instanceID, spacePopUpsConfigKey.groupID, spacePopUpsConfigProp);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0xBCF79B3B, AllianceConflictAiAiText);
@@ -14,6 +15,18 @@ cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey)
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x3AEEDDBA, WarDeclaredAiAiText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x671BF14B, WarDeclaredAiPlayerText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x1AAB0A46, WeakAllianceAiPlayerText);
+
+	PropertyListPtr popupsFilterConfigProp;
+	PropManager.GetPropertyList(popupsFilterConfigKey.instanceID, popupsFilterConfigKey.groupID, popupsFilterConfigProp);
+	uint32_t popupFilterCreateAllianceUint;
+	uint32_t popupFilterBreakAllianceUint;
+	uint32_t popupFilterDeclareWarUint;
+	App::Property::GetUInt32(popupsFilterConfigProp.get(), 0x08ECCDAC, popupFilterCreateAllianceUint);
+	App::Property::GetUInt32(popupsFilterConfigProp.get(), 0x1EF681FF, popupFilterBreakAllianceUint);
+	App::Property::GetUInt32(popupsFilterConfigProp.get(), 0xE3273E1B, popupFilterDeclareWarUint);
+	this->popupFilterCreateAlliance = static_cast<PopupFilter>(popupFilterCreateAllianceUint);
+	this->popupFilterBreakAlliance = static_cast<PopupFilter>(popupFilterBreakAllianceUint);
+	this->popupFilterDeclareWar = static_cast<PopupFilter>(popupFilterDeclareWarUint);
 }
 
 
@@ -51,9 +64,9 @@ void cDiplomacyPopupManager::FormatDiplomaticActionMessage(Simulator::cEmpire* e
 
 	eastl::string16 archetypeToken = eastl::string16(u"[archetype") + tokenString + eastl::string16(u"]");
 
-	eastl::string16 relationName = SporeModUtils::DiplomacyUtils::GetPlayerRelationString(empire);
+	eastl::string16 relationName = DiplomacyUtils::GetPlayerRelationString(empire);
 	eastl::string16 empireName = empire->mEmpireName;
-	eastl::string16 archetypeName = SporeModUtils::ArchetypeUtils::ArchetypeToString(empire->mArchetype) ;
+	eastl::string16 archetypeName = ArchetypeUtils::ArchetypeToString(empire->mArchetype) ;
 
 	size_t pos = messageText.find(relationToken);
 	if (pos != eastl::string16::npos) {
@@ -95,10 +108,12 @@ void cDiplomacyPopupManager::ShowPopup(ResourceKey eventKey, eastl::string16 pop
 }
 
 void cDiplomacyPopupManager::ShowFormAllianceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	eastl::string16 popupText = AllianceDeclaredAiAiText;
-	FormatDiplomaticActionMessage(empire1, empire2, popupText);
-	ResourceKey eventKey = ResourceKey(id("AllianceDeclaredAiAi"), 0, id("SdoSpacePopUps"));
-	ShowPopup(eventKey, popupText);
+	if (ShowToPlayerCreateAlliance(empire1, empire2)) {
+		eastl::string16 popupText = AllianceDeclaredAiAiText;
+		FormatDiplomaticActionMessage(empire1, empire2, popupText);
+		ResourceKey eventKey = ResourceKey(id("AllianceDeclaredAiAi"), 0, id("SdoSpacePopUps"));
+		ShowPopup(eventKey, popupText);
+	}
 }
 
 void cDiplomacyPopupManager::ShowAIRelationImproved(Simulator::cEmpire* empire) {
@@ -109,10 +124,12 @@ void cDiplomacyPopupManager::ShowAIRelationImproved(Simulator::cEmpire* empire) 
 }
 
 void cDiplomacyPopupManager::ShowBreakAllianceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	eastl::string16 popupText = AllianceEndedAiAiText;
-	FormatDiplomaticActionMessage(empire1, empire2, popupText);
-	ResourceKey eventKey = ResourceKey(id("AllianceEndedAiAi"), 0, id("SdoSpacePopUps"));
-	ShowPopup(eventKey, popupText);
+	if (ShowToPlayerBreakAlliance(empire1, empire2)) {
+		eastl::string16 popupText = AllianceEndedAiAiText;
+		FormatDiplomaticActionMessage(empire1, empire2, popupText);
+		ResourceKey eventKey = ResourceKey(id("AllianceEndedAiAi"), 0, id("SdoSpacePopUps"));
+		ShowPopup(eventKey, popupText);
+	}
 }
 
 void cDiplomacyPopupManager::ShowConflictBreakAllianceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
@@ -130,10 +147,12 @@ void cDiplomacyPopupManager::ShowConflictBreakAlliancePlayer(Simulator::cEmpire*
 }
 
 void cDiplomacyPopupManager::ShowDeclareWarAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	eastl::string16 popupText = WarDeclaredAiAiText;
-	FormatDiplomaticActionMessage(empire1, empire2, popupText);
-	ResourceKey eventKey = ResourceKey(id("WarDeclaredAiAi"), 0, id("SdoSpacePopUps"));
-	ShowPopup(eventKey, popupText);
+	if (ShowToPlayerDeclareWar(empire1, empire2)) {
+		eastl::string16 popupText = WarDeclaredAiAiText;
+		FormatDiplomaticActionMessage(empire1, empire2, popupText);
+		ResourceKey eventKey = ResourceKey(id("WarDeclaredAiAi"), 0, id("SdoSpacePopUps"));
+		ShowPopup(eventKey, popupText);
+	}
 }
 
 void cDiplomacyPopupManager::ShowDeclareWarPlayer(Simulator::cEmpire* empire) {
@@ -155,5 +174,92 @@ void cDiplomacyPopupManager::ShowHostileAlliance(Simulator::cEmpire* empire) {
 	FormatDiplomaticActionMessage(empire, 1, popupText);
 	ResourceKey eventKey = ResourceKey(id("HostileAllianceAiPlayer"), 0, id("SdoSpacePopUps"));
 	ShowPopup(eventKey, popupText);
+}
+
+bool cDiplomacyPopupManager::ShowToPlayerCreateAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+		switch (popupFilterCreateAlliance) {
+		case(PopupFilter::None): {
+			return false;
+		}
+		case(PopupFilter::Allies): {
+			return DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::Enemies): {
+			return DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::AlliesOrEnemies): {
+			return DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire2) ||
+				DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::All): {
+			return true;
+		}
+		default: {
+			return false;
+		}
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+bool cDiplomacyPopupManager::ShowToPlayerBreakAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+		switch (popupFilterBreakAlliance) {
+		case(PopupFilter::None): {
+			return false;
+		}
+		case(PopupFilter::Allies): {
+			return DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::Enemies): {
+			return DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::AlliesOrEnemies): {
+			return DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire2) ||
+				DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::All): {
+			return true;
+		}
+		default: {
+			return false;
+		}
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+bool cDiplomacyPopupManager::ShowToPlayerDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+		switch (popupFilterDeclareWar) {
+		case(PopupFilter::None): {
+			return false;
+		}
+		case(PopupFilter::Allies): {
+			return DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::Enemies): {
+			return DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::AlliesOrEnemies): {
+			return DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::Alliance(Simulator::GetPlayerEmpire(), empire2) ||
+				DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire1) || DiplomacyUtils::War(Simulator::GetPlayerEmpire(), empire2);
+		}
+		case(PopupFilter::All): {
+			return true;
+		}
+		default: {
+			return false;
+		}
+		}
+	}
+	else {
+		return false;
+	}
 }
 

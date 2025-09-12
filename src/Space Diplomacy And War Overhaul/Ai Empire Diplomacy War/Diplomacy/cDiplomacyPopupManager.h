@@ -2,6 +2,16 @@
 
 #include <Spore\BasicIncludes.h>
 
+/// Defines the popup filter type for diplomatic events.
+enum class PopupFilter
+{
+	None = 0,			 /// Show no popups.
+	Allies = 1,          /// Show popups only for allied empires.
+	Enemies = 2,         /// Show popups only for enemy empires.
+	AlliesOrEnemies = 3, /// Show popups for allies or enemies.
+	All = 4              /// Show popups for all known empires.
+};
+
 #define cDiplomacyPopupManagerPtr intrusive_ptr<cDiplomacyPopupManager>
 
 /// Manages the creation and display of diplomacy popups.
@@ -12,7 +22,7 @@ class cDiplomacyPopupManager
 public:
 	static const uint32_t TYPE = id("cDiplomacyPopupManager");
 	
-	cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey);
+	cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey, ResourceKey popupsFilterConfigKey);
 	~cDiplomacyPopupManager();
 
 	int AddRef() override;
@@ -77,6 +87,26 @@ public:
 	/// @param empire
 	void ShowHostileAlliance(Simulator::cEmpire* empire);
 
+	/// @brief Checks if an alliance creation event should trigger a notification for the player.
+	/// @param empire1 First empire involved in the alliance.
+	/// @param empire2 Second empire involved in the alliance.
+	/// @return True if the notification should be shown, false otherwise.
+	bool ShowToPlayerCreateAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Checks if an alliance break event should trigger a notification for the player.
+	/// @param empire1 First empire involved in the alliance break.
+	/// @param empire2 Second empire involved in the alliance break.
+	/// @return True if the notification should be shown, false otherwise.
+	bool ShowToPlayerBreakAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Checks if a war declaration event should trigger a notification for the player.
+	/// @param empire1 First empire declaring war.
+	/// @param empire2 Second empire receiving the declaration.
+	/// @return True if the notification should be shown, false otherwise.
+	bool ShowToPlayerDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+
+
 	// Popup text: AI vs AI alliance ended due to conflict.
 	eastl::string16 AllianceConflictAiAiText;
 
@@ -104,5 +134,13 @@ public:
 	// Popup text: AI weakened alliance with the player due to low affinity.
 	eastl::string16 WeakAllianceAiPlayerText;
 
+	// Stores the notification filter for alliance creation events between AI empires.
+	PopupFilter popupFilterCreateAlliance;
+
+	// Stores the notification filter for alliance break events between AI empires.
+	PopupFilter popupFilterBreakAlliance;
+
+	// Stores the notification filter for war declaration events between AI empires.
+	PopupFilter popupFilterDeclareWar;
 
 };
