@@ -16,6 +16,9 @@
 /// ModAPI::AddSimulatorStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
 ///
 
+/// Main class of the warfare system.
+/// Coordinates warfare cycles and subcycles, and manages
+/// cEmpireWarfare objects for all empires in range.
 class cWarfareSystem
 	: public Simulator::cStrategy
 {
@@ -36,7 +39,12 @@ public:
 	void OnModeExited(uint32_t previousModeID, uint32_t newModeID) override;
 	static Simulator::Attribute ATTRIBUTES[];
 
+	/// @brief Executes one subcycle of the warfare system.
+	/// Processes the next empire in the queue and manages its warfare actions.
 	void WarfareSubCycle();
+
+	/// @brief Starts a new warfare cycle.
+	/// Initializes the list of empires, resets timers, and distributes empires across subcycles.
 	void StartWarfareCycle();
 
 
