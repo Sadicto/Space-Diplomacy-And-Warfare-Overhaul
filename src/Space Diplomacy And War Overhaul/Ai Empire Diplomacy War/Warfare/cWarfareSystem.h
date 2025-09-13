@@ -17,7 +17,8 @@
 ///
 
 /// Main class of the warfare system.
-/// Coordinates warfare cycles and subcycles, and manages
+/// Coordinates warfare cycles and subcycles, instantiates and owns
+/// the other warfare-related subsystem classes, and manages
 /// cEmpireWarfare objects for all empires in range.
 class cWarfareSystem
 	: public Simulator::cStrategy
