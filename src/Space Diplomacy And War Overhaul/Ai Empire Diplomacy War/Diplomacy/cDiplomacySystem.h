@@ -20,12 +20,10 @@
 /// ModAPI::AddSimulatorStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 ///
 
-/// Main class of the diplomatic system.
-/// Instantiate the class of the system when
-/// entering space stage and controls
-/// the diplomatic cycles, creating cEmpireDiplomacy 
-/// objects acording to the number of empires to
-/// manage.
+/// Main class of the diplomacy system.
+/// Coordinates diplomacy cycles, instantiates and owns
+/// the other diplomacy-related subsystem classes, and manages
+/// cEmpireDiplomacy objects for all relevant empires.
 class cDiplomacySystem
 	: public Simulator::cStrategy
 {
@@ -52,9 +50,14 @@ public:
 
 	static cDiplomacySystem* Get();
 
-	void ManageEmpireDiplomacy(Simulator::cEmpire* empire);
+	/// @brief Executes one subcycle of the diplomacy system.
+	/// Processes the next empire in the queue and handles its diplomatic actions.
+	void DiplomacySubCycle();
 
-	void EmpireDiplomacyCycle();
+	/// @brief Starts a new diplomacy cycle.
+	/// Initializes the list of empires, resets timers, and distributes empires across subcycles.
+	void StartDiplomacyCycle();
+
 
 private:
 	//
@@ -111,11 +114,26 @@ private:
 	// Actives empireDiplomacy;
 	eastl::vector<cEmpireDiplomacyPtr> empiresDiplomacy;
 
+	// Iterator to the next empire whose diplomacy will be managed..
+	eastl::vector<cEmpireDiplomacyPtr>::iterator empireToManage;
+
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;
 
 	// Miliseconds of gameTime between expansion cycles.
 	int cycleInterval;
+
+	// Number of empires evaluated per subcycle.
+	int empiresPerSubCycle;
+
+	// Timestamp (in milliseconds) of the next subcycle execution.
+	int nextSubcycleTime;
+
+	// Minimum time (in milliseconds) that must pass between subcycles.
+	int minSubcycleStep;
+
+	// Time (in milliseconds) that will pass between subcycles.
+	int subcycleStep;
 
 	// Radius (in parsecs) in which the manager is active.
 	float activeRadius;

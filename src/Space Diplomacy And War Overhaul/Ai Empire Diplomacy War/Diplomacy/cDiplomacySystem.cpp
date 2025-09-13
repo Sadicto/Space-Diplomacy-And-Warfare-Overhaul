@@ -62,6 +62,7 @@ void cDiplomacySystem::Initialize() {
 	PropManager.GetPropertyList(id("ManagerConfig"), id("SdoConfig"), managerConfigProp);
 
 	App::Property::GetFloat(managerConfigProp.get(), 0x0D00F9E5, activeRadius);
+	App::Property::GetInt32(managerConfigProp.get(), 0x9EC13ACD, minSubcycleStep);
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
 
 	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
@@ -70,6 +71,11 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetKey(managerConfigProp.get(), 0x142ECBFA, archetypesAgressivitiesKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x76F0A8F2, popupsFilterConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x82AE7927, relationshipEffectsKey);
+	elapsedTime = 0;
+	subcycleStep = 0;
+	empiresPerSubCycle = 0;
+	nextSubcycleTime = 0;
+	cycle = 0;
 }
 
 void cDiplomacySystem::Dispose() {
@@ -81,10 +87,14 @@ void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
 	if (IsSpaceGame()) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
-			EmpireDiplomacyCycle();
-			elapsedTime = 0;
+			StartDiplomacyCycle();
 			cycle++;
 			App::ConsolePrintF("diplomacy cycle: %d", cycle);
+		}
+		// Start of a subcycle.
+		while (elapsedTime > nextSubcycleTime) {
+			DiplomacySubCycle();
+			nextSubcycleTime += subcycleStep;
 		}
 	}
 }
@@ -113,8 +123,10 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		empiresDiplomacy.clear();
 
+		// Randomizes the start of the first cycle to avoid being synchronized with the cycles of other managers.
+		elapsedTime = Math::rand(cycleInterval / 2);
+		nextSubcycleTime = 9999999;
 		cycle = 0;
-		elapsedTime = 0;
 		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
 		if (globalUiLayout != nullptr) {
 			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
@@ -151,8 +163,18 @@ cDiplomacySystem* cDiplomacySystem::Get() {
 	return instance;
 }
 
-void cDiplomacySystem::EmpireDiplomacyCycle() {
+void cDiplomacySystem::DiplomacySubCycle() {
+	if (empireToManage != empiresDiplomacy.end()) {
+		if (EmpireUtils::ValidNpcEmpire(empireToManage->get()->empire.get())) {
+			empireToManage->get()->ManageDiplomacy();
+		}
+		++empireToManage;
+	}
+}
+
+void cDiplomacySystem::StartDiplomacyCycle() {
 	empiresDiplomacy.clear();
+
 	eastl::vector<cEmpirePtr> empires;
 	EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
@@ -161,10 +183,15 @@ void cDiplomacySystem::EmpireDiplomacyCycle() {
 			empiresDiplomacy.push_back(empireDiplomacy);
 		}
 	}
-	// TODO the alliance strenght.
-	for (cEmpireDiplomacyPtr empireDiplomacy : empiresDiplomacy) {
-		if (EmpireUtils::ValidNpcEmpire(empireDiplomacy->empire.get())) {
-			empireDiplomacy->ManageDiplomacy();
-		}
-	}
+
+	empireToManage = empiresDiplomacy.begin();
+	int numEmpires = empiresDiplomacy.size();
+	int calculatedStep = cycleInterval / (numEmpires + 1);
+	subcycleStep = max(calculatedStep, minSubcycleStep);
+	// substract subcycleStep because the first subcycle is at subcycleStep miliseconds.
+	int numSubcycles = cycleInterval / subcycleStep;
+	// Division rounding up.
+	empiresPerSubCycle = (numEmpires + numSubcycles - 1) / (numSubcycles);
+	elapsedTime = 0;
+	nextSubcycleTime = subcycleStep;
 }
