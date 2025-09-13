@@ -67,7 +67,7 @@ private:
 	// Actives empireWarfare;
 	eastl::vector<cEmpireWarfarePtr> empiresWarfare;
 
-	// Iterator pointing to the next empire to manage its warfare.
+	// Iterator to the next empire whose warfare will be managed..
 	eastl::vector<cEmpireWarfarePtr>::iterator empireToManage;
 
 	// Time passed (in miliseconds) since the cycle has started.
