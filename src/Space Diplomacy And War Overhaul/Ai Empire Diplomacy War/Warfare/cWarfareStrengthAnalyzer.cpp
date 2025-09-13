@@ -52,7 +52,7 @@ int cWarfareStrengthAnalyzer::GetBomberForceForPlanet(Simulator::cEmpire* empire
     int planetTurrets = spaceCombatMetrics->GetTurretsInPlanet(planet);
 
     float fightersToDefeatDefenders = max((planetDefenders * targetDefenderHealth) / empireFighterHealth, static_cast<float>(empireFightersPerBomber));
-    float bombersToDefeatTurrets = max((planetTurrets * targetTurretHealth) / empireBomberHealth, 1.0f);
+    float bombersToDefeatTurrets = max((planetTurrets * targetTurretHealth) / (empireBomberHealth + empireFightersPerBomber * empireFighterHealth), 1.0f);
 
     int requiredBombers = static_cast<int>(round(bombersToDefeatTurrets + fightersToDefeatDefenders / empireFightersPerBomber));
     return requiredBombers;

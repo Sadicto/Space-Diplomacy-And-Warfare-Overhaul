@@ -1,0 +1,25 @@
+key parent spacetools~!ToolTemplate.prop
+string16 description "Planet Invasion"
+int32 spaceToolBuyCost 30
+key spaceToolContext planet
+texts spaceToolDescription
+	"Planet Invasion"
+end
+texts spaceToolDetailDescription
+	"Planet Invasion"
+end
+bool spaceToolDisableOn201Ruins true
+bool spaceToolDisableOnHomeworld true
+bool spaceToolDisableOnSaveGames true
+key spaceToolImageID ufotools~!spg_main_planetscan.png
+texts spaceToolLockedDescription
+	(spacegame_tools!0xa0bb7099) "Requires ~commodity_requirements~"
+end
+int32 spaceToolUseCost 50000
+key spaceToolPanelKey TravelConsumablePanel
+float spaceToolRechargeRate 5
+key spaceToolStrategy cToolInvasionStrategy
+key spaceToolType special
+bool toolDeselectsAfterUse true
+bool toolUseOnActivate true
+bool spaceToolUsesAmmo false
