@@ -28,9 +28,15 @@ public:
 	int Release() override;
 	void* Cast(uint32_t type) const override;
 
-	// Returns the closest enemy-controlled star to the given star within the empire's range.
-	// @param star.
-	// @return Pointer to the closest enemy star, or nullptr if none found within range.
+	/// @brief Checks whether a star can be attacked.
+	/// A star is considered attackable if none of its planets currently have active events.
+	/// @param star The star to check.
+	/// @return True if the star can be attacked, false otherwise.
+	bool AtackableStar(Simulator::cStarRecord* star);
+
+	/// Returns the closest enemy-controlled star to the given star within the empire's range.
+	/// @param star.
+	/// @return Pointer to the closest enemy star, or nullptr if none found within range.
 	Simulator::cStarRecord* GetClosestEnemyStar(Simulator::cStarRecord* star);
 
 	/// @brief Calculates and fills the attackPriorityMap with all enemy stars within the empire's range.

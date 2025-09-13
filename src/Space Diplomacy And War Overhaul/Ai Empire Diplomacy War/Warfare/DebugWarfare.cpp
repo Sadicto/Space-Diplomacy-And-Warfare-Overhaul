@@ -102,12 +102,18 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
 
     }
     case 9: {
-
+        bool a = MissionManager.ThereIsEventInPlanet(GetActivePlanetRecord());
         break;
 
     }
     case 10: {
-
+        bool a = false;
+        for (cPlanetRecordPtr planet : GetActiveStarRecord()->GetPlanetRecords()) {
+            if (MissionManager.ThereIsEventInPlanet(planet.get())) {
+                a = true;
+                break;
+            }
+        }
 
         break;
     }

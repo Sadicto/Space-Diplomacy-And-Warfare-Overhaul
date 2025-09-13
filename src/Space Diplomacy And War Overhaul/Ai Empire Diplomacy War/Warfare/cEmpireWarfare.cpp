@@ -42,6 +42,15 @@ void* cEmpireWarfare::Cast(uint32_t type) const
 	return nullptr;
 }
 
+bool cEmpireWarfare::AtackableStar(Simulator::cStarRecord* star) {
+	for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+		if (MissionManager.ThereIsEventInPlanet(planet.get())) {
+			return false;
+		}
+	}
+	return true;
+}
+
 Simulator::cStarRecord* cEmpireWarfare::GetClosestEnemyStar(Simulator::cStarRecord* star) {
 	eastl::vector<cStarRecordPtr> closeStars;
 
@@ -60,7 +69,7 @@ Simulator::cStarRecord* cEmpireWarfare::GetClosestEnemyStar(Simulator::cStarReco
 	float closestDistance = range + 1.0f;
 	for (cStarRecordPtr closeStar : closeStars) {
 		cEmpire* starEmpire = StarManager.GetEmpire(closeStar->mEmpireID);
-		if (EmpireUtils::ValidNpcEmpire(starEmpire, true) && DiplomacyUtils::War(empire.get(), starEmpire)) {
+		if (EmpireUtils::ValidNpcEmpire(starEmpire, true) && DiplomacyUtils::War(empire.get(), starEmpire) && AtackableStar(closeStar.get())) {
 			float distance = StarUtils::GetDistanceBetweenStars(star, closeStar.get());
 			if (distance < closestDistance) {
 				closestStar = closeStar.get();

@@ -36,7 +36,8 @@ public:
 	void OnModeExited(uint32_t previousModeID, uint32_t newModeID) override;
 	static Simulator::Attribute ATTRIBUTES[];
 
-	void WarfareCycle();
+	void WarfareSubCycle();
+	void StartWarfareCycle();
 
 
 
@@ -66,11 +67,26 @@ private:
 	// Actives empireWarfare;
 	eastl::vector<cEmpireWarfarePtr> empiresWarfare;
 
+	// Iterator pointing to the next empire to manage its warfare.
+	eastl::vector<cEmpireWarfarePtr>::iterator empireToManage;
+
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;
 
 	// Miliseconds of gameTime between expansion cycles.
 	int cycleInterval;
+
+	// Number of empires evaluated per subcycle.
+	int empiresPerSubCycle;
+
+	// Timestamp (in milliseconds) of the next subcycle execution.
+	int nextSubcycleTime;
+
+	// Minimum time (in milliseconds) that must pass between subcycles.
+	int minSubcycleStep;
+
+	// Time (in milliseconds) that will pass between subcycles.
+	int subcycleStep;
 
 	// Radius (in parsecs) in which the manager is active.
 	float activeRadius;

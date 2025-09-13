@@ -48,11 +48,15 @@ void cWarfareSystem::Initialize() {
 	PropManager.GetPropertyList(id("ManagerConfig"), id("SwoConfig"), managerConfigProp);
 
 	App::Property::GetInt32(managerConfigProp.get(), 0x86C25CEA, cycleInterval);
+	App::Property::GetInt32(managerConfigProp.get(), 0x9EC13ACD, minSubcycleStep);
 	App::Property::GetFloat(managerConfigProp.get(), 0x0D00F9E5, activeRadius);
 
 	App::Property::GetKey(managerConfigProp.get(), 0x0FCF340F, warfareConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x9BD9B276, spaceCombatKey);
 	elapsedTime = 0;
+	subcycleStep = 0;
+	empiresPerSubCycle = 0;
+	nextSubcycleTime = 0;
 	cycle = 0;
 	
 }
@@ -65,10 +69,14 @@ void cWarfareSystem::Update(int deltaTime, int deltaGameTime) {
 	if (IsSpaceGame()) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
-			WarfareCycle();
-			elapsedTime = 0;
+			StartWarfareCycle();
 			cycle++;
 			App::ConsolePrintF("warfare cycle: %d", cycle);
+		}
+		// Start of a subcycle.
+		while (elapsedTime > nextSubcycleTime) {
+			WarfareSubCycle();
+			nextSubcycleTime += subcycleStep;
 		}
 	}
 }
@@ -83,7 +91,9 @@ void cWarfareSystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) 
 		MessageManager.AddListener(warfareEventListener.get(), cPlanetAttackedEvent::ID);
 		empiresWarfare.clear();
 
-		elapsedTime = 0;
+		// Randomizes the start of the first cycle to avoid being synchronized with the cycles of other managers.
+		elapsedTime = Math::rand(cycleInterval / 2);
+		nextSubcycleTime = 9999999;
 		cycle = 0;
 	}
 }
@@ -106,8 +116,18 @@ bool cWarfareSystem::WriteToXML(XmlSerializer*)
 	return true;
 }
 
-void cWarfareSystem::WarfareCycle() {
+void cWarfareSystem::WarfareSubCycle() {
+	if (empireToManage != empiresWarfare.end()) {
+		if (EmpireUtils::ValidNpcEmpire(empireToManage->get()->empire.get())) {
+			empireToManage->get()->SelectAndAttackTargets();
+		}
+		++empireToManage;
+	}
+}
+
+void cWarfareSystem::StartWarfareCycle() {
 	empiresWarfare.clear();
+
 	eastl::vector<cEmpirePtr> empires;
 	EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
@@ -116,9 +136,17 @@ void cWarfareSystem::WarfareCycle() {
 			empiresWarfare.push_back(empireDiplomacy);
 		}
 	}
-	for (cEmpireWarfarePtr empireWarfare : empiresWarfare) {
-		if (EmpireUtils::ValidNpcEmpire(empireWarfare->empire.get())) {
-			empireWarfare->SelectAndAttackTargets();
-		}
-	}
+
+
+	
+	empireToManage = empiresWarfare.begin();
+	int numEmpires = empiresWarfare.size();
+	int calculatedStep = cycleInterval / (numEmpires + 1);
+	subcycleStep = max(calculatedStep, minSubcycleStep);
+	// substract subcycleStep because the first subcycle is at subcycleStep miliseconds.
+	int numSubcycles = cycleInterval / subcycleStep;
+	// Division rounding up.
+	empiresPerSubCycle = (numEmpires + numSubcycles - 1) / (numSubcycles);
+	elapsedTime = 0;
+	nextSubcycleTime = subcycleStep;
 }
