@@ -1,4 +1,5 @@
-int32 diplomacyCycleInterval 120000 # 2 minutes.
+int32 diplomacyCycleInterval 360000 # 6 minutes.
+int32 minSubcycleStep 2000 # 2 seconds.
 float activeRadius 40
 key ArchetypeAffinities SdoConfig!ArchetypeAffinities.prop
 key ArchetypeAgressivities SdoConfig!AgressivityByArchetypeByLevel.prop

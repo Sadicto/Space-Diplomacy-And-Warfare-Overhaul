@@ -6,7 +6,7 @@ using namespace SporeModUtils;
 cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey, ResourceKey popupsFilterConfigKey){
 	PropertyListPtr spacePopUpsConfigProp;
 	PropManager.GetPropertyList(spacePopUpsConfigKey.instanceID, spacePopUpsConfigKey.groupID, spacePopUpsConfigProp);
-	App::Property::GetString16(spacePopUpsConfigProp.get(), 0xBCF79B3B, AllianceConflictAiAiText);
+	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x4A921559, AllianceConflictAiAiText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x07335A90, AllianceConflictAiPlayerText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x56F71779, AllianceDeclaredAiAiText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x8CEF63AB, AllianceEndedAiAiText);
@@ -133,10 +133,12 @@ void cDiplomacyPopupManager::ShowBreakAllianceAI(Simulator::cEmpire* empire1, Si
 }
 
 void cDiplomacyPopupManager::ShowConflictBreakAllianceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	eastl::string16 popupText = AllianceConflictAiAiText;
-	FormatDiplomaticActionMessage(empire1, empire2, popupText);
-	ResourceKey eventKey = ResourceKey(id("AllianceConflictAiAi"), 0, id("SdoSpacePopUps"));
-	ShowPopup(eventKey, popupText);
+	if (ShowToPlayerBreakAlliance(empire1, empire2)) {
+		eastl::string16 popupText = AllianceConflictAiAiText;
+		FormatDiplomaticActionMessage(empire1, empire2, popupText);
+		ResourceKey eventKey = ResourceKey(id("AllianceConflictAiAi"), 0, id("SdoSpacePopUps"));
+		ShowPopup(eventKey, popupText);
+	}
 }
 
 void cDiplomacyPopupManager::ShowConflictBreakAlliancePlayer(Simulator::cEmpire* empire) {
