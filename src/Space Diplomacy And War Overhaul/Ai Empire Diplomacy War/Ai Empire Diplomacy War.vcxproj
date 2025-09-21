@@ -161,7 +161,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Warfare\cPlayerWarshipsManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Warfare\cSpaceCombatMetrics.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Warfare\cToolInvasionStrategy.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -265,7 +273,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Warfare\cPlayerWarshipsManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Warfare\cSpaceCombatMetrics.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Warfare\cToolInvasionStrategy.cpp">
       <SubType>
       </SubType>
     </ClCompile>

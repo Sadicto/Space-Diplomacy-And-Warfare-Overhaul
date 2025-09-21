@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cWarfareSystem.h"
 #include "cPlanetAttackedEvent.h"
+#include "cToolInvasionStrategy.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 using namespace SporeModUtils;
 using namespace Simulator;
@@ -90,6 +91,12 @@ void cWarfareSystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) 
 		warfareEventListener = new cWarfareEventListener();
 		MessageManager.AddListener(warfareEventListener.get(), cPlanetAttackedEvent::ID);
 		empiresWarfare.clear();
+		cToolStrategy* toolStrategy = ToolManager.GetStrategy(cToolInvasionStrategy::TYPE);
+		cToolInvasionStrategy* toolInvasionStrategy = static_cast<cToolInvasionStrategy*>(toolStrategy);
+		if (toolInvasionStrategy) {
+			toolInvasionStrategy->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
+			toolInvasionStrategy->warfareEventDispatcher = warfareEventDispatcher;
+		}
 
 		// Randomizes the start of the first cycle to avoid being synchronized with the cycles of other managers.
 		elapsedTime = Math::rand(cycleInterval / 2);
@@ -108,6 +115,12 @@ void cWarfareSystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID) {
 		MessageManager.RemoveListener(warfareEventListener.get(), cPlanetAttackedEvent::ID);
 		warfareEventListener.reset();
 		empiresWarfare.clear();
+		cToolStrategy* toolStrategy = ToolManager.GetStrategy(cToolInvasionStrategy::TYPE);
+		cToolInvasionStrategy* toolInvasionStrategy = static_cast<cToolInvasionStrategy*>(toolStrategy);
+		if (toolInvasionStrategy) {
+			toolInvasionStrategy->warfareStrengthAnalyzer.reset();
+			toolInvasionStrategy->warfareEventDispatcher.reset();
+		}
 	}
 }
 

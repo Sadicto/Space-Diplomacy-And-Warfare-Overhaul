@@ -3,6 +3,6 @@
 # 2 Enemies
 # 3 Enemies or Allies
 # 4 All
-uint32 popupFilterCreateAlliance 4
-uint32 popupFilterBreakAlliance 4
+uint32 popupFilterCreateAlliance 3
+uint32 popupFilterBreakAlliance 3
 uint32 popupFilterDeclareWar 4

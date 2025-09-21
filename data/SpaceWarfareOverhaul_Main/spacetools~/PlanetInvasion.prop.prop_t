@@ -15,7 +15,7 @@ key spaceToolImageID ufotools~!spg_main_planetscan.png
 texts spaceToolLockedDescription
 	(spacegame_tools!0xa0bb7099) "Requires ~commodity_requirements~"
 end
-int32 spaceToolUseCost 50000
+int32 spaceToolUseCost 75000
 key spaceToolPanelKey TravelConsumablePanel
 float spaceToolRechargeRate 5
 key spaceToolStrategy cToolInvasionStrategy

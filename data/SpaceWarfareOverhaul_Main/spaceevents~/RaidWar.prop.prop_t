@@ -11,7 +11,7 @@ float missionGenerousRewardRelation 3
 bool missionHideStarName true
 bool missionIsEvent true
 float missionRaidAllyCompleteRelationshipDelta 2
-float missionRaidAllyFailRelationshipDelta -1
+float missionRaidAllyFailRelationshipDelta 0#-1
 float missionRaidAllyWaitDuration 60
 float missionRaidBuildingsDestroyed 12
 float missionRaidBuildingsSavedPerTurret 1

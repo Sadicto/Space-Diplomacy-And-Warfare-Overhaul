@@ -97,33 +97,65 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 12: {
-
-
+        PropertyListPtr prop;
+        PropManager.GetPropertyList(0xb7cb9f7a, 0x0568de14, prop);
+        eastl::vector<float> a;
+        App::Property::GetArrayFloat(prop.get(), 0x05FF85B4, a);
+        int b = 1;
 
         
         break;
     }
     case 13: {
+        uint32_t lAddress = baseAddress;
 
         break;
     }
     case 14: {
+        cPlanetRecord* planet = GetActivePlanetRecord();
+        planet->mPlantSpecies.clear();
+        planet->mAnimalSpecies.clear();
+        PlanetUtils::FillPlanetEcosystem(planet);
 
         break;
     }
     case 15: {
-
+        cPlanetRecord* planet = GetActivePlanetRecord();
+        planet->mTribeData.clear();
         
 
         
         break;
     }
     case 16: {
+        Simulator::StarRequestFilter filter;
+        filter.RemoveStarType(Simulator::StarType::None);
+        filter.RemoveStarType(Simulator::StarType::GalacticCore);
+        filter.RemoveStarType(Simulator::StarType::ProtoPlanetary);
+        filter.RemoveStarType(Simulator::StarType::BlackHole);
+        filter.techLevels = 0;
+
+        //even stars with all planet in T0 have this techLevel
+        filter.AddTechLevel(Simulator::TechLevel::Empire);
+        filter.minDistance = 0;
+        filter.maxDistance = 100;
+        eastl::vector<cStarRecordPtr> stars;
+        StarManager.FindStars(GetActiveStarRecord()->mPosition, filter, stars);
+        for (cStarRecordPtr star : stars) {
+            eastl::vector<cPlanetRecordPtr> planets = star->GetPlanetRecords();
+            for (cPlanetRecordPtr planet : planets) {
+                if (planet->GetTechLevel() == TechLevel::Empire && !planet->mTribeData.empty()) {
+                    planet->mTribeData.clear();
+                }
+            }
+        }
 
         break;
     }
     case 17: {
-
+        UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
+        UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0x04C71F00);
+        textWindow->SetCaption(u"holaaa");
         
         break;
     }

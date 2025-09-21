@@ -133,6 +133,9 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
 			window->AddWinProc(proc);
 		}
+		UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
+		UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0x880803AE);
+		textWindow->SetCaption(u"1");
 	}
 }
 

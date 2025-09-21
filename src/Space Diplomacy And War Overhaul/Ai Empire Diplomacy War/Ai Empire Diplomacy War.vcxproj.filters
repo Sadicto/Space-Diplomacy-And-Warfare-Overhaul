@@ -50,6 +50,8 @@
     <ClInclude Include="Warfare\cWarfareEventDispatcher.h" />
     <ClInclude Include="Warfare\cWarfareEventListener.h" />
     <ClInclude Include="Warfare\cWarfareSystem.h" />
+    <ClInclude Include="Warfare\cPlayerWarshipsManager.h" />
+    <ClInclude Include="Warfare\cToolInvasionStrategy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -86,6 +88,8 @@
     <ClCompile Include="Warfare\cWarfareEventDispatcher.cpp" />
     <ClCompile Include="Warfare\cWarfareEventListener.cpp" />
     <ClCompile Include="Warfare\cWarfareSystem.cpp" />
+    <ClCompile Include="Warfare\cPlayerWarshipsManager.cpp" />
+    <ClCompile Include="Warfare\cToolInvasionStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

@@ -118,6 +118,16 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
         break;
     }
     case 11: {
+        uint32_t eventId = id("RaidWar");
+        Simulator::cEmpire* targetEmpire = StarManager.GetEmpire(GetActivePlanetRecord()->GetStarRecord()->mEmpireID);
+        Simulator::cMission* mission = MissionManager.CreateMission(eventId, GetActivePlanetRecord(), targetEmpire);
+        Simulator::cRaidEvent* raidEvent = static_cast<Simulator::cRaidEvent*>(mission);
+        cPlanetPtr planetTarget;
+        StarManager.RecordToPlanet(GetActivePlanetRecord(), planetTarget);
+        raidEvent->mAttackerEmpire = GetPlayerEmpire()->GetEmpireID();
+        raidEvent->mpTargetPlanet = planetTarget;
+        raidEvent->mNumBombers = 6;
+        raidEvent->AcceptMission();
 
         break;
     }
