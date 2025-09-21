@@ -7,6 +7,7 @@
 // To avoid repeating UTFWin:: all the time.
 using namespace UTFWin;
 
+// Procedure triggered when the player presses the allies/enemies button while hovering over an NPC empire star.
 class AllianceEnemyButtonProc 
 	: public IWinProc
 	, public DefaultRefCounted
