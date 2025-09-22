@@ -1,0 +1,5 @@
+colorRGBA red     (1.0,     0.0,     0.0,     1.0)
+colorRGBA orange  (1.0, 0.6471,     0.0,     1.0)
+colorRGBA yellow  (1.0,     1.0,     0.0,     1.0)
+colorRGBA cyan    (0.5294, 0.8078, 0.9216, 1.0)
+colorRGBA green   (0.0,     1.0,     0.0,     1.0)

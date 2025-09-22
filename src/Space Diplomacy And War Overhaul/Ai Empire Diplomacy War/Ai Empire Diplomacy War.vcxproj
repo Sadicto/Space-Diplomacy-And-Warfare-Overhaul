@@ -100,6 +100,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Diplomacy\AffinityTextProc.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Diplomacy\AllianceEnemyButtonProc.h">
       <SubType>
       </SubType>
@@ -203,6 +207,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Diplomacy\AffinityTextProc.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Diplomacy\AllianceEnemyButtonProc.cpp">
       <SubType>
       </SubType>

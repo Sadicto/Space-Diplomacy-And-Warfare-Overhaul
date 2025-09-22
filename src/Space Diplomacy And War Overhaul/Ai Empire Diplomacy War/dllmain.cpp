@@ -9,12 +9,16 @@
 #include <Spore/Swarm/cEffectsManager.h>
 #include "Warfare/DebugWarfare.h"
 #include "Warfare/cWarfareSystem.h"
+#include "Warfare/cToolInvasionStrategy.h"
+#include "Diplomacy/AffinityTextProc.h"
+
 void Initialize()
 {
 	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
 	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
+	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
 	//  - Add new cheats
@@ -139,6 +143,36 @@ member_detour(CreateVisualEffect__detour, Swarm::cEffectsManager, bool(uint32_t,
 	}
 };
 
+/*
+static_detour(crashMethod__detour, int(int, int, int)) {
+	int detoured(int a, int b, int c) {
+		__try {
+			int ret = original_function(a, b, c);
+			return ret;
+		}
+		__except ((GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION)
+			? EXCEPTION_EXECUTE_HANDLER
+			: EXCEPTION_CONTINUE_SEARCH) {
+			return 0;
+		}
+	}
+};
+*/
+
+member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
+	void detoured(cCommEvent * pEvent) {
+		original_function(this, pEvent);
+		if (IsSpaceGame()) {
+			UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
+			UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0xAE85024E);
+			AffinityTextProc* affinityTextProcAux = nullptr;
+			UTFWin::IWinProc* proc = textWindow->GetNextWinProc(affinityTextProcAux);
+			AffinityTextProc* affinityTextProc = object_cast<AffinityTextProc>(proc);
+			affinityTextProc->SetAffinityText(pEvent->mSource);
+		}
+	}
+};
+
 void AttachDetours()
 {
 	//DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
@@ -155,6 +189,7 @@ void AttachDetours()
 	//CreateSpaceCommEvent__detour::attach(GetAddress(cCommManager, CreateSpaceCommEvent));
 	//KnownEmpire__detour::attach(Address(0x00c7a910));
 	//CreateVisualEffect__detour::attach(Address(0x00a6cad0));
+	ShowCommEvent__detour::attach(GetAddress(cCommManager, ShowCommEvent));
 }
 
 // Generally, you don't need to touch any code here

@@ -52,6 +52,7 @@
     <ClInclude Include="Warfare\cWarfareSystem.h" />
     <ClInclude Include="Warfare\cPlayerWarshipsManager.h" />
     <ClInclude Include="Warfare\cToolInvasionStrategy.h" />
+    <ClInclude Include="Diplomacy\AffinityTextProc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -90,6 +91,7 @@
     <ClCompile Include="Warfare\cWarfareSystem.cpp" />
     <ClCompile Include="Warfare\cPlayerWarshipsManager.cpp" />
     <ClCompile Include="Warfare\cToolInvasionStrategy.cpp" />
+    <ClCompile Include="Diplomacy\AffinityTextProc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

@@ -5,6 +5,7 @@
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "AllianceEnemyButtonProc.h"
 #include "cDiplomacyEvent.h"
+#include "AffinityTextProc.h"
 
 using namespace SporeModUtils;
 using namespace Simulator;
@@ -56,6 +57,7 @@ void cDiplomacySystem::Initialize() {
 	diplomacyEffectAnalyzer = nullptr;
 	empireRelationshipController = nullptr;
 	diplomacyEventListener = nullptr;
+	affinityLayout = nullptr;
 
 	PropertyListPtr managerConfigProp;
 
@@ -71,6 +73,7 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetKey(managerConfigProp.get(), 0x142ECBFA, archetypesAgressivitiesKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x76F0A8F2, popupsFilterConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x82AE7927, relationshipEffectsKey);
+	App::Property::GetKey(managerConfigProp.get(), 0xD96A8912, affinityTextConfigKey);
 	elapsedTime = 0;
 	subcycleStep = 0;
 	empiresPerSubCycle = 0;
@@ -127,15 +130,26 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		elapsedTime = Math::rand(cycleInterval / 2);
 		nextSubcycleTime = 9999999;
 		cycle = 0;
+
+		// Add the AllianceEnemyButtonProc to the allies button.
 		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
 		if (globalUiLayout != nullptr) {
 			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
 			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
 			window->AddWinProc(proc);
 		}
+		// Loads the affinity number layout, attaches it to the communications layout,
+		// and creates the AffinityTextProc.
+		affinityLayout = new UTFWin::UILayout();
+		affinityLayout->LoadByID(0x7db34bf7); // layouts_atlas~!AffinityLayout.spui.
+
 		UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
-		UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0x880803AE);
-		textWindow->SetCaption(u"1");
+		UTFWin::IWindow* commScreenWindow = mainWindow->FindWindowByID(0x0493AB00)->GetParent();
+		affinityLayout->SetParentWindow(commScreenWindow);
+
+		UTFWin::IWindow* textWindow = affinityLayout->FindWindowByID(0xAE85024E);
+		AffinityTextProc* affinityTextProc = new AffinityTextProc(textWindow, empireRelationsAnalyzer.get(), affinityTextConfigKey);
+		textWindow->AddWinProc(affinityTextProc);
 	}
 }
 
@@ -154,6 +168,8 @@ void cDiplomacySystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		diplomacyEventListener.reset();
 
 		empiresDiplomacy.clear();
+		delete affinityLayout;
+		affinityLayout = nullptr;
 	}
 }
 

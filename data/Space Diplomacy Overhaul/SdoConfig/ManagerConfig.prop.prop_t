@@ -7,3 +7,4 @@ key DiplomacyConfig SdoConfig!DiplomacyConfig.prop
 key SpacePopUpsTexts SdoConfig!SpacePopUpsTexts.prop
 key PopupsFilter SdoConfig!PopupsFilter.prop
 key RelationshipEffects space_npc_relationship_effects~!0x4E5855B9.prop
+key AffinityTextConfig SdoConfig!AffinityTextConfig.prop

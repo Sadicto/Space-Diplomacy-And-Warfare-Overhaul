@@ -117,6 +117,12 @@ private:
 	// Iterator to the next empire whose diplomacy will be managed..
 	eastl::vector<cEmpireDiplomacyPtr>::iterator empireToManage;
 
+	// Pointer to the loaded affinityLayout.
+	UTFWin::UILayout* affinityLayout;
+
+	// Key used to load the affinityTextConfig.
+	ResourceKey affinityTextConfigKey;
+
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;
 
