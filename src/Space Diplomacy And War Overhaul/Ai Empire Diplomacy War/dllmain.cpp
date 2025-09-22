@@ -164,7 +164,7 @@ member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
 		original_function(this, pEvent);
 		if (IsSpaceGame()) {
 			UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
-			UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0xAE85024E);
+			UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0x434EB9AD);
 			AffinityTextProc* affinityTextProcAux = nullptr;
 			UTFWin::IWinProc* proc = textWindow->GetNextWinProc(affinityTextProcAux);
 			AffinityTextProc* affinityTextProc = object_cast<AffinityTextProc>(proc);

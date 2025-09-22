@@ -147,9 +147,9 @@ void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		UTFWin::IWindow* commScreenWindow = mainWindow->FindWindowByID(0x0493AB00)->GetParent();
 		affinityLayout->SetParentWindow(commScreenWindow);
 
-		UTFWin::IWindow* textWindow = affinityLayout->FindWindowByID(0xAE85024E);
-		AffinityTextProc* affinityTextProc = new AffinityTextProc(textWindow, empireRelationsAnalyzer.get(), affinityTextConfigKey);
-		textWindow->AddWinProc(affinityTextProc);
+		UTFWin::IWindow* affinityMainWindow = affinityLayout->FindWindowByID(0x434EB9AD);
+		AffinityTextProc* affinityTextProc = new AffinityTextProc(affinityMainWindow, empireRelationsAnalyzer.get(), affinityTextConfigKey);
+		affinityMainWindow->AddWinProc(affinityTextProc);
 	}
 }
 

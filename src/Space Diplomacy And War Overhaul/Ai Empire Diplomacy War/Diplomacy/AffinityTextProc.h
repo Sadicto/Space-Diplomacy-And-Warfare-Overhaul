@@ -16,7 +16,7 @@ class AffinityTextProc
 public:
 	static const uint32_t TYPE = id("AffinityTextProc");
 	
-	AffinityTextProc(IWindow* textWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
+	AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
 	~AffinityTextProc();
 
 	int AddRef() override;
@@ -27,6 +27,8 @@ public:
 	// This is the function you have to implement, called when a window you added this winproc to received an event
 	bool HandleUIMessage(IWindow* pWindow, const Message& message) override;
 
+	IWindow* mainWindow;
+	IWindow* tooltipWindow;
 	IWindow* textWindow;
 
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;

@@ -3,9 +3,13 @@
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 using namespace SporeModUtils;
 
-AffinityTextProc::AffinityTextProc(IWindow* textWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
+AffinityTextProc::AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
 {
-	this->textWindow = textWindow;
+	this->mainWindow = mainWindow;
+	this->tooltipWindow = mainWindow->FindWindowByID(0x2A2D1FD2);
+	tooltipWindow->SetVisible(false);
+	this->textWindow = mainWindow->FindWindowByID(0xAE85024E);
+	//textWindow->FindWindowByID(0xFA2B32AF)->SetVisible(false);
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 
 	PropertyListPtr affinityTextConfig;
@@ -58,14 +62,23 @@ void* AffinityTextProc::Cast(uint32_t type) const
 // By default, it receives mouse/keyboard input and advanced messages.
 int AffinityTextProc::GetEventFlags() const
 {
-	return kEventFlagBasicInput | kEventFlagAdvanced;
+	return kEventFlagBasicInput | kEventFlagAdvanced | kEventRefresh;
 }
 
 // The method that receives the message. The first thing you should do is probably
 // checking what kind of message was sent...
 bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 {
-	
+	if (message.IsType(UTFWin::MessageType::kMsgMouseEnter)) {
+		App::ConsolePrintF("Mouse enter");
+		tooltipWindow->SetVisible(true);
+		return true;
+	}
+	else if (message.IsType(UTFWin::MessageType::kMsgMouseLeave)) {
+		App::ConsolePrintF("Mouse leave");
+		tooltipWindow->SetVisible(false);
+		return true;
+	}
 	// Return true if the message was handled, and therefore no other window procedure should receive it.
 	return false;
 }

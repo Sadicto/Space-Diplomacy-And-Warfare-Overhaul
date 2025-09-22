@@ -38,6 +38,7 @@ CommScreen-3
 SdoRelationshipEffects
 WarriorEffects
 AllianceEndedAiAi
+graphics_atlas~	0x31a44893
 AgressivityByArchetypeByLevel
 auto_SdoSpacePopUps_AllianceDeclaredAiAi
 auto_prop_postinits_SdoRelationshipsEffectsPostInits
@@ -67,6 +68,7 @@ spg_shaman
 auto_SdoRelationshipEffects_EcologistEffects
 warking
 ArchetypeAffinities
+auto_SdoConfig_AffinityTextConfig
 AllianceDeclaredAiAi
 auto_SdoSpacePopUps_WarDeclaredAiPlayer
 RelationImprovedAiPlayer
@@ -80,6 +82,7 @@ WeakAllianceAiPlayer
 ZealotEffects
 auto_SdoRelationshipEffects_ZealotEffects
 spg_scientist
+AffinityTextConfig
 auto_SdoConfig_PopupsFilter
 auto_SdoConfig_SpacePopUpsTexts
 auto_prop_postinits_SdoPostInits
