@@ -159,6 +159,7 @@ static_detour(crashMethod__detour, int(int, int, int)) {
 };
 */
 
+// Call the affinityTextProc when starting a commEvent with an empire.
 member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
 	void detoured(cCommEvent * pEvent) {
 		original_function(this, pEvent);

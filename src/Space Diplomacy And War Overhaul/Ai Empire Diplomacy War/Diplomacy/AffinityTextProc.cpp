@@ -6,11 +6,17 @@ using namespace SporeModUtils;
 AffinityTextProc::AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
 {
 	this->mainWindow = mainWindow;
+	this->mainAffinityText = mainWindow->FindWindowByID(0xAE85024E);
 	this->tooltipWindow = mainWindow->FindWindowByID(0x2A2D1FD2);
+	this->secondaryAffinityText = tooltipWindow->FindWindowByID(0xB64FAF85);
 	tooltipWindow->SetVisible(false);
-	this->textWindow = mainWindow->FindWindowByID(0xAE85024E);
+	this->tooltipModifiersWindow = tooltipWindow->FindWindowByID(0xFB0CF1A7);
+	ResetAffinityToltip();
+
+
 	//textWindow->FindWindowByID(0xFA2B32AF)->SetVisible(false);
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
+	currentEmpire = nullptr;
 
 	PropertyListPtr affinityTextConfig;
 	PropManager.GetPropertyList(affinityTextConfigKey.instanceID, affinityTextConfigKey.groupID, affinityTextConfig);
@@ -29,6 +35,11 @@ AffinityTextProc::AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer
 
 	App::Property::GetColorRGBA(affinityTextConfig.get(), 0xF73297B2, aux);
 	green = aux.ToIntColor();
+
+	App::Property::GetString16(affinityTextConfig.get(), 0x4DB402BB, archetypeAffinityText);
+	App::Property::GetString16(affinityTextConfig.get(), 0x529A946B, commonEnemyText);
+	App::Property::GetString16(affinityTextConfig.get(), 0x58BA9D91, commonAllyText);
+	App::Property::GetString16(affinityTextConfig.get(), 0x01FFE8D2, warWithAllyText);
 }
 
 
@@ -71,7 +82,7 @@ bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 {
 	if (message.IsType(UTFWin::MessageType::kMsgMouseEnter)) {
 		App::ConsolePrintF("Mouse enter");
-		tooltipWindow->SetVisible(true);
+		SetAffinityTooltip();
 		return true;
 	}
 	else if (message.IsType(UTFWin::MessageType::kMsgMouseLeave)) {
@@ -86,6 +97,7 @@ bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 void AffinityTextProc::SetAffinityText(uint32_t empireID) {
 	Simulator::cEmpire* empire = StarManager.GetEmpire(empireID);
 	if (EmpireUtils::ValidNpcEmpire(empire)) {
+		currentEmpire = empire;
 		int affinity = empireRelationsAnalyzer->EmpiresAffinity(Simulator::GetPlayerEmpire(), empire);
 		eastl::string str;
 		if (affinity > 0)
@@ -98,22 +110,130 @@ void AffinityTextProc::SetAffinityText(uint32_t empireID) {
 		for (char c : str)
 			str16.push_back(static_cast<char16_t>(c));
 
-		Color verde(0, 255, 0, 255);
-		textWindow->SetCaption(str16.c_str());
-		if (affinity <= -2)
-			textWindow->SetShadeColor(red);
-		else if (affinity == -1)
-			textWindow->SetShadeColor(orange);
-		else if (affinity == 0)
-			textWindow->SetShadeColor(yellow);
-		else if (affinity == 1)
-			textWindow->SetShadeColor(cyan);
-		else if (affinity >= 2)
-			textWindow->SetShadeColor(green);
+		// For the secondary text, remove the '+' sign if the number is positive
+		eastl::basic_string<char16_t> str16Secondary = str16;
+		if (!str16Secondary.empty() && str16Secondary[0] == u'+') {
+			str16Secondary.erase(0, 1);
+		}
 
-		textWindow->SetVisible(true);
+
+		mainAffinityText->SetCaption(str16.c_str());
+		secondaryAffinityText->SetCaption(str16Secondary.c_str());
+		if (affinity <= -2) 
+		{
+			mainAffinityText->SetShadeColor(red);
+			secondaryAffinityText->SetShadeColor(red);
+		}
+		else if (affinity == -1)
+		{
+			mainAffinityText->SetShadeColor(orange);
+			secondaryAffinityText->SetShadeColor(orange);
+		}
+		else if (affinity == 0)
+		{
+			mainAffinityText->SetShadeColor(yellow);
+			secondaryAffinityText->SetShadeColor(yellow);
+		}
+		else if (affinity == 1)
+		{
+			mainAffinityText->SetShadeColor(cyan);
+			secondaryAffinityText->SetShadeColor(cyan);
+		}
+		else if (affinity >= 2)
+		{
+			mainAffinityText->SetShadeColor(green);
+			secondaryAffinityText->SetShadeColor(green);
+		}
+
+		mainAffinityText->SetVisible(true);
 	}
 	else {
-		textWindow->SetVisible(false);
+		currentEmpire = nullptr;
+		mainAffinityText->SetVisible(false);
+	}
+}
+
+eastl::string16 AffinityTextProc::GetAffinityModifierText(AffinityModifier affinityModifier) {
+	switch (affinityModifier) {
+	case AffinityModifier::ArchetypeAffinity:
+		return archetypeAffinityText;
+	case AffinityModifier::CommonEnemy:
+		return commonEnemyText;
+	case AffinityModifier::CommonAlly:
+		return commonAllyText;
+	case AffinityModifier::WarWithAlly:
+		return warWithAllyText;
+	default:
+		return u"";
+	}
+}
+
+IWindow* AffinityTextProc::GetUnusedAffinityModifier() {
+	for (IWindow* children : tooltipModifiersWindow->children()) {
+		if (children->GetControlID() == 0xE2D40949 && !children->IsVisible()) {
+			return children;
+		}
+	}
+}
+
+void AffinityTextProc::ResetAffinityToltip() {
+	for (IWindow* children : tooltipModifiersWindow->children()) {
+		if (children->GetControlID() == 0xE2D40949) {
+			Math::Rectangle area = children->GetArea();
+			area.y1 = 0;
+			area.y2 = area.y1 + 21;
+			children->SetArea(area);
+			children->SetVisible(false);
+		}
+	}
+}
+
+void AffinityTextProc::SetAffinityTooltip() {
+	if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())) {
+		ResetAffinityToltip();
+		eastl::vector<pair<AffinityModifier, int>> affinityModifiers = 
+			empireRelationsAnalyzer->GetEmpiresAffinityModifier(currentEmpire.get(), Simulator::GetPlayerEmpire());
+
+		int modifiersCount = 0;
+		for (pair<AffinityModifier, int> modifier : affinityModifiers) {
+			if (modifier.second != 0) {
+				IWindow* modifierUI = GetUnusedAffinityModifier();
+				Math::Rectangle area = modifierUI->GetArea();
+				area.y1 = 21 * modifiersCount;
+				area.y2 = area.y1 + 21;
+				modifierUI->SetArea(area);
+				modifierUI->SetCaption(GetAffinityModifierText(modifier.first).c_str());
+
+				eastl::string str;
+
+				if (modifier.second > 0)
+					str = "+" + eastl::to_string(modifier.second);
+				else
+					str = eastl::to_string(modifier.second);
+
+				eastl::basic_string<char16_t> str16;
+				str16.reserve(str.size());
+				for (char c : str)
+					str16.push_back(static_cast<char16_t>(c));
+
+				IWindow* affinityModifierText = modifierUI->FindWindowByID(0xD08B205F);
+				affinityModifierText->SetCaption(str16.c_str());
+
+				Color color = (modifier.second > 0) ? green
+					: red;
+				affinityModifierText->SetShadeColor(color);
+				modifierUI->SetVisible(true);
+				modifiersCount++;
+			}
+		}
+		IWindow* tooltipContainer = tooltipModifiersWindow->FindWindowByID(0xFB0CF1A7);
+
+		Math::Rectangle area = tooltipWindow->GetArea();
+		area.y2 = area.y1 + 6 + 50 + 21 * modifiersCount;
+		tooltipWindow->SetArea(area);
+		tooltipWindow->SetVisible(true);
+	}
+	else {
+		tooltipWindow->SetVisible(false);
 	}
 }

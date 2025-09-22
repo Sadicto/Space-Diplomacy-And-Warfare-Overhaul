@@ -57,3 +57,26 @@ int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2
 	}
 	return affinity;
 }
+
+eastl::vector<pair<AffinityModifier, int>> cEmpireRelationsAnalyzer::GetEmpiresAffinityModifier(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+	eastl::vector<pair<AffinityModifier, int>> affinityModifiers;
+
+	int archetypesAffinity = archetypesConfig->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
+	affinityModifiers.emplace_back(AffinityModifier::ArchetypeAffinity, archetypesAffinity);
+
+	int commonAllyAffinity = DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)
+		? diplomacyConfig->GetAffinityGainForAllyOfAlly()
+		: 0;
+	affinityModifiers.emplace_back(AffinityModifier::CommonAlly, commonAllyAffinity);
+
+	int commonEnemyAffinity = DiplomacyUtils::CommonEnemy(empire1, empire2)
+		? diplomacyConfig->GetAffinityGainForEnemyOfEnemy()
+		: 0;
+	affinityModifiers.emplace_back(AffinityModifier::CommonEnemy, commonEnemyAffinity);
+
+	int warWithAllyAffinity = (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1))
+		? diplomacyConfig->GetAffinityGainForEnemyOfAlly()
+		: 0;
+	affinityModifiers.emplace_back(AffinityModifier::WarWithAlly, warWithAllyAffinity);
+	return affinityModifiers;
+}
