@@ -37,7 +37,12 @@ public:
 	/// Returns the closest enemy-controlled star to the given star within the empire's range.
 	/// @param star.
 	/// @return Pointer to the closest enemy star, or nullptr if none found within range.
-	Simulator::cStarRecord* GetClosestEnemyStar(Simulator::cStarRecord* star);
+	///Simulator::cStarRecord* GetClosestEnemyStar(Simulator::cStarRecord* star);
+
+	/// Returns a vector of enemy-controlled stars within the empire's range of the given star, sorted by distance (closest first).
+	/// @param star Pointer to the star from which distances are measured.
+	/// @return Vector cStarRecord*, ordered from closest to farthest.
+	eastl::vector<Simulator::cStarRecord*> GetEnemyStarsInRangeOfStar(Simulator::cStarRecord* star);
 
 	/// @brief Calculates and fills the attackPriorityMap with all enemy stars within the empire's range.
 	void CalculateAttackPriorities();
@@ -72,7 +77,5 @@ public:
 
 	// Maps each star to its calculated priority for being targeted in an invasion.
 	eastl::map<cStarRecordPtr, float> attackPriorityMap;
-
-
 
 };
