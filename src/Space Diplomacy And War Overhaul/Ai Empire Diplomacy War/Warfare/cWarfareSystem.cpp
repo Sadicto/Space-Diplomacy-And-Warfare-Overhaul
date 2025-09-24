@@ -150,7 +150,7 @@ void cWarfareSystem::StartWarfareCycle() {
 	empiresWarfare.clear();
 
 	eastl::vector<cEmpirePtr> empires;
-	EmpireUtils::GetEmpiresInRadius(GetActiveStarRecord()->mPosition, activeRadius, empires);
+	EmpireUtils::GetEmpiresInRadius(GetPlayerHomePlanet()->GetStarRecord()->mPosition, activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
 		if (EmpireUtils::ValidNpcEmpire(empire.get())) {
 			cEmpireWarfarePtr empireDiplomacy = new cEmpireWarfare(empire.get(), warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
