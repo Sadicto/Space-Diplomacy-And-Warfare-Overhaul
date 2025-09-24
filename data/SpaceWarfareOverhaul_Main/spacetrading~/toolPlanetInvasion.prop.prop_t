@@ -2,9 +2,9 @@ texts spaceToolDescription
 	"Planet Invasion"
 end
 texts spaceToolDetailDescription
-	"Planet Invasion"
+	"Use on a planet to summon an invasion force from your empire."
 end
-key spaceToolImageID ufotools~!spg_main_planetscan.png
+key spaceToolImageID ufotools~!0xD08C0068.png
 float spaceTradingAbundance 20
 bool spaceTradingAlliesOnly false
 float spaceTradingBaseCost 10000

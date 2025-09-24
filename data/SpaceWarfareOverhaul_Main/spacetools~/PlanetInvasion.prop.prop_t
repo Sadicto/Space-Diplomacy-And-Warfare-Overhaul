@@ -6,12 +6,12 @@ texts spaceToolDescription
 	"Planet Invasion"
 end
 texts spaceToolDetailDescription
-	"Planet Invasion"
+	"Use on a planet to summon an invasion force from your empire."
 end
 bool spaceToolDisableOn201Ruins true
 bool spaceToolDisableOnHomeworld true
 bool spaceToolDisableOnSaveGames true
-key spaceToolImageID ufotools~!spg_main_planetscan.png
+key spaceToolImageID ufotools~!0xD08C0068.png
 texts spaceToolLockedDescription
 	(spacegame_tools!0xa0bb7099) "Requires ~commodity_requirements~"
 end
