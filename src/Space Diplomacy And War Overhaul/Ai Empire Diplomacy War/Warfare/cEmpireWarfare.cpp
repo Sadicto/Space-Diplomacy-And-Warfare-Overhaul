@@ -209,7 +209,7 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 		else {
 			// If there´s no more targets attack with all available bombers.
 			if (attackPriorityMap.empty()) {
-				AttackStar(bestTarget.get(), static_cast<int>(round(currentBombers)));
+				AttackStar(bestTarget.get(), static_cast<int>(round(max(1.0f, currentBombers))));
 				currentBombers = 0;
 			}
 			else {
