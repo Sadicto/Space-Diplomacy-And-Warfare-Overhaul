@@ -6,10 +6,11 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
-cWarfareStrengthAnalyzer::cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics)
+cWarfareStrengthAnalyzer::cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics, cArchetypeStrengthConfig* archetypeStrengthConfig)
 {
     this->warfareConfig = warfareConfig;
 	this->spaceCombatMetrics = spaceCombatMetrics;
+    this->archetypeStrengthConfig = archetypeStrengthConfig;
     SpiceUtils::GetSpawnableSpiceBaseCosts(spiceCosts);
 }
 
@@ -128,7 +129,9 @@ float cWarfareStrengthAnalyzer::GetBombersProducedByEmpire(Simulator::cEmpire* e
             bombersProduced += GetBombersProducedBySystem(star.get());
         }
     }
-    return bombersProduced;
+    float baseStrength = archetypeStrengthConfig->GetArchetypeBaseStrength(empire->mArchetype);
+    float bonusStrength = archetypeStrengthConfig->GetArchetypeBonusStrength(empire->mArchetype);
+    return bombersProduced * baseStrength + bonusStrength;
 }
 
 float cWarfareStrengthAnalyzer::GetEmpireStrenghtFactor(Simulator::cEmpire* empire){

@@ -40,6 +40,7 @@ Simulator::Attribute cWarfareSystem::ATTRIBUTES[] = {
 void cWarfareSystem::Initialize() {
 	warfareConfig = nullptr;
 	spaceCombatMetrics = nullptr;
+	archetypeStrengthConfig = nullptr;
 	warfareStrengthAnalyzer = nullptr;
 	warfareEventDispatcher = nullptr;
 	warfareEventListener = nullptr;
@@ -54,6 +55,11 @@ void cWarfareSystem::Initialize() {
 
 	App::Property::GetKey(managerConfigProp.get(), 0x0FCF340F, warfareConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x9BD9B276, spaceCombatKey);
+
+	App::Property::GetKey(managerConfigProp.get(), 0x38528DA6, archetypeBaseStrengthKey);
+	App::Property::GetKey(managerConfigProp.get(), 0x696C4958, archetypeBonusStrengthKey);
+	App::Property::GetKey(managerConfigProp.get(), 0xDAE99764, archetypeHostilityMultiplierKey);
+
 	elapsedTime = 0;
 	subcycleStep = 0;
 	empiresPerSubCycle = 0;
@@ -86,7 +92,8 @@ void cWarfareSystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) 
 	if (newModeID == GameModeIDs::kGameSpace) {
 		warfareConfig = new cWarfareConfig(warfareConfigKey);
 		spaceCombatMetrics = new cSpaceCombatMetrics(spaceCombatKey);
-		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get());
+		archetypeStrengthConfig = new cArchetypeStrengthConfig(archetypeBaseStrengthKey, archetypeBonusStrengthKey, archetypeHostilityMultiplierKey);
+		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get(), archetypeStrengthConfig.get());
 		warfareEventDispatcher = new cWarfareEventDispatcher();
 		warfareEventListener = new cWarfareEventListener();
 		MessageManager.AddListener(warfareEventListener.get(), cPlanetAttackedEvent::ID);
@@ -109,6 +116,7 @@ void cWarfareSystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID) {
 	if (previousModeID == GameModeIDs::kGameSpace) {
 		warfareConfig.reset();
 		spaceCombatMetrics.reset();
+		archetypeStrengthConfig.reset();
 		warfareStrengthAnalyzer.reset();
 		warfareEventDispatcher.reset();
 

@@ -3,6 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include "cWarfareConfig.h"
 #include "cSpaceCombatMetrics.h"
+#include "cArchetypeStrengthConfig.h"
 
 
 #define cWarfareStrengthAnalyzerPtr intrusive_ptr<cWarfareStrengthAnalyzer>
@@ -16,7 +17,7 @@ class cWarfareStrengthAnalyzer
 public:
 	static const uint32_t TYPE = id("cWarfareStrengthAnalyzer");
 	
-	cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics);
+	cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics, cArchetypeStrengthConfig* archetypeStrengthConfig);
 	~cWarfareStrengthAnalyzer();
 
 	int AddRef() override;
@@ -71,6 +72,9 @@ public:
 
 	// Pointer to the loaded spaceCombatMetrics.
 	cSpaceCombatMetricsPtr spaceCombatMetrics;
+
+	// Pointer to the loaded archetypeStrengthConfig.
+	cArchetypeStrengthConfigPtr archetypeStrengthConfig;
 
 	// spiceCosts map used to calculate factory output.
 	eastl::map<ResourceKey, float> spiceCosts;

@@ -8,6 +8,7 @@
 #include "cWarfareEventDispatcher.h"
 #include "cEmpireWarfare.h"
 #include "cWarfareEventListener.h"
+#include "cArchetypeStrengthConfig.h"
 
 #define cWarfareSystemPtr intrusive_ptr<cWarfareSystem>
 
@@ -72,6 +73,18 @@ private:
 
 	// Pointer to the loaded warfareEventListener.
 	cWarfareEventListenerPtr warfareEventListener;
+
+	// Key used to load the archetypeBaseStrengt prop.
+	ResourceKey archetypeBaseStrengthKey;
+
+	// Key used to load the archetypeBonusStrength prop.
+	ResourceKey archetypeBonusStrengthKey;
+
+	// Key used to load the archetypeHostilityMultiplier prop.
+	ResourceKey archetypeHostilityMultiplierKey;
+
+	// Pointer to the loaded ArchetypeStrengthConfig
+	cArchetypeStrengthConfigPtr archetypeStrengthConfig;
 
 	// Actives empireWarfare;
 	eastl::vector<cEmpireWarfarePtr> empiresWarfare;

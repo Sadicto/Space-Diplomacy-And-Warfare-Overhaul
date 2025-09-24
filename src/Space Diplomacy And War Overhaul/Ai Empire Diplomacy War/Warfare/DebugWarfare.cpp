@@ -27,18 +27,6 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
 	SpacePlayerData* playerData = SpacePlayerData::Get();
 	cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
 
-    ResourceKey warfareConfigKey = ResourceKey(0x0fcf340f, 0, 0x4c9daa54);
-    cWarfareConfigPtr warfareConfig = new cWarfareConfig(warfareConfigKey);
-
-    ResourceKey spaceCombatKey = ResourceKey(0x9f9f0139, 0, 0x02ae0c7e);
-    cSpaceCombatMetricsPtr spaceCombatMetrics = new cSpaceCombatMetrics(spaceCombatKey);
-
-    cWarfareStrengthAnalyzerPtr warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get());
-
-    cWarfareEventDispatcherPtr warfareEventDispatcher = new cWarfareEventDispatcher();
-
-    cEmpireWarfarePtr empireWarfare = new cEmpireWarfare(empire, warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
-
     switch (val) {
     case 0: { // Set the star
         this->selectedStar = GetActiveStarRecord();
@@ -76,28 +64,28 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
         break;
     }
     case 4: {
-        float bombers = warfareStrengthAnalyzer->GetBombersProducedByEmpire(empire);
+
 
         break;
     }
     case 5: {
 
-        float bombers = warfareStrengthAnalyzer->GetBombersProducedBySystem(GetActiveStarRecord());
+
 
         break;
     }
     case 6: {
 
-        float stregnthFactor = warfareStrengthAnalyzer->GetEmpireStrenghtFactor(empire);
+
 
         break;
     }
     case 7: {
-        int bombersNeeded = warfareStrengthAnalyzer->GetBomberForceForSystem(selectedEmpire, GetActiveStarRecord());
+
         break;
     }
     case 8: {
-        empireWarfare->SelectAndAttackTargets();
+
         break;
 
     }

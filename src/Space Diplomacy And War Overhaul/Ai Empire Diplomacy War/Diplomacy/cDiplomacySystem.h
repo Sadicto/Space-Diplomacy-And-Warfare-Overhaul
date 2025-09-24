@@ -58,7 +58,8 @@ public:
 	/// Initializes the list of empires, resets timers, and distributes empires across subcycles.
 	void StartDiplomacyCycle();
 
-
+	// Pointer to the loaded archetypes affinities object.
+	cArchetypesConfigPtr archetypesConfig;
 private:
 	//
 	// You can add members here.
@@ -78,8 +79,7 @@ private:
 	// Key used to load the archetypes agressivities prop.
 	ResourceKey archetypesAgressivitiesKey;
 
-	// Pointer to the loaded archetypes affinities object.
-	cArchetypesConfigPtr archetypesConfig;
+
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
