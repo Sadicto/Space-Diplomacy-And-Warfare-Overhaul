@@ -81,12 +81,10 @@ int AffinityTextProc::GetEventFlags() const
 bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 {
 	if (message.IsType(UTFWin::MessageType::kMsgMouseEnter)) {
-		App::ConsolePrintF("Mouse enter");
 		SetAffinityTooltip();
 		return true;
 	}
 	else if (message.IsType(UTFWin::MessageType::kMsgMouseLeave)) {
-		App::ConsolePrintF("Mouse leave");
 		tooltipWindow->SetVisible(false);
 		return true;
 	}
