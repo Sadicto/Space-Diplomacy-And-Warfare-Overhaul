@@ -25,6 +25,8 @@ public:
 
 	int ProcessCost(int useCost) override;
 
+	int useCost;
+
 	cWarfareStrengthAnalyzerPtr warfareStrengthAnalyzer;
 	cWarfareEventDispatcherPtr warfareEventDispatcher;
 };
