@@ -87,7 +87,7 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 
 void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 	for (cEmpirePtr empireEnemy : selectedEmpire->mEnemies) {
-		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireEnemy.get(), true) /* && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())*/) {
+		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireEnemy.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())) {
 			for (cStarRecordPtr star : empireEnemy->mStars) {
 				IVisualEffectPtr visualEffect;
 				EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect);
@@ -100,7 +100,7 @@ void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 		}
 	}
 	for (cEmpirePtr empireAlly : selectedEmpire->mAllies) {
-		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireAlly.get(), true) /* && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())*/) {
+		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireAlly.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())) {
 			for (cStarRecordPtr star : empireAlly->mStars) {
 				IVisualEffectPtr visualEffect;
 				EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect);
