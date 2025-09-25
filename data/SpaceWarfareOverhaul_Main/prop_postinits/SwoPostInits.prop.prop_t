@@ -5,6 +5,9 @@ string8s postinitList
 	"ArchetypeStrengthConfig ArchetypeStrengthConfig-BaseStrength"
 	"ArchetypeStrengthConfig ArchetypeStrengthConfig-BonusStrength"
 	"ArchetypeStrengthConfig ArchetypeStrengthConfig-HostilityMultiplier"
+	"RaidWar RaidWar-PostInits"
+	"RaidWarPlayer RaidWarPlayer-PostInits"
+	
 end
 
 key ManagerConfig SwoConfig!ManagerConfig.prop
@@ -18,3 +21,9 @@ key ArchetypeStrengthConfig-GlobalMultiplier SwoConfig!ArchetypeStrengthConfig-G
 key ArchetypeStrengthConfig-BaseStrength SwoConfig!ArchetypeStrengthConfig-BaseStrength.prop
 key ArchetypeStrengthConfig-BonusStrength SwoConfig!ArchetypeStrengthConfig-BonusStrength.prop
 key ArchetypeStrengthConfig-HostilityMultiplier SwoConfig!ArchetypeStrengthConfig-HostilityMultiplier.prop
+
+key RaidWar spaceevents~!RaidWar.prop
+key RaidWar-PostInits SwoSpaceevents!RaidWar.prop
+
+key RaidWarPlayer spaceevents~!RaidWarPlayer.prop
+key RaidWarPlayer-PostInits SwoSpaceevents!RaidWarPlayer.prop

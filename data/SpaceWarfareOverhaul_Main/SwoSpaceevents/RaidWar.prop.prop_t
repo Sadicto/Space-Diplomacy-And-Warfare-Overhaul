@@ -1,0 +1,3 @@
+float missionRaidAllyFailRelationshipDelta 0
+int32 missionRaidMaxFighters 5
+int32 missionRaidMinFighters 5
