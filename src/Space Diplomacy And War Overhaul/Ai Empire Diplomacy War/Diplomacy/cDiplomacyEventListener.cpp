@@ -125,7 +125,7 @@ void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Si
 	if (empire2 == GetPlayerEmpire()) {
 		empireRelationshipController->DecayRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
 		float decayApplied = empireRelationshipController->DecayRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
-		if (decayApplied >= 0.1f) {
+		if (decayApplied <= -0.1f) {
 			diplomacyPopUpManager->ShowUnstableAlliance(empire1);
 		}
 	}
