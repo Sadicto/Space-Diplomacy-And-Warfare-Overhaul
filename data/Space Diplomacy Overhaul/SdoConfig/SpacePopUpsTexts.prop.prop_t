@@ -2,7 +2,7 @@ string16 AllianceConflictAiAiText       "[relation1] the [empire1] ([archetype1]
 string16 AllianceConflictAiPlayerText   "[relation1] the [empire1] ([archetype1]) have ended their alliance with you due to your war with their ally."
 string16 AllianceDeclaredAiAiText       "[relation1] the [empire1] ([archetype1]) have formed an alliance with [relation2] the [empire2] ([archetype2])."
 string16 AllianceEndedAiAiText          "[relation1] the [empire1] ([archetype1]) have ended their alliance with [relation2] the [empire2] ([archetype2])."
-string16 HostileAllianceAiPlayer        "[relation1] the [empire1] ([archetype1]) are hostile towards you due to low affinity."
+string16 HostileAllianceAiPlayer        "[relation1] the [empire1] ([archetype1]) is hostile towards you due to low affinity."
 string16 RelationImprovedAiPlayer       "[relation1] the [empire1] ([archetype1]) have improved relations with you."
 string16 WarDeclaredAiAiText            "[relation1] the [empire1] ([archetype1]) have declared war on [relation2] the [empire2] ([archetype2])."
 string16 WarDeclaredAiPlayerText        "[relation1] the [empire1] ([archetype1]) have declared war on you!"
