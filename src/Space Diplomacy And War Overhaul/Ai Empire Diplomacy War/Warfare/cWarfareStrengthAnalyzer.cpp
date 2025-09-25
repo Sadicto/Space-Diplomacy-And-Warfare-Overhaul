@@ -131,7 +131,7 @@ float cWarfareStrengthAnalyzer::GetBombersProducedByEmpire(Simulator::cEmpire* e
     }
     float baseStrength = archetypeStrengthConfig->GetArchetypeBaseStrength(empire->mArchetype);
     float bonusStrength = archetypeStrengthConfig->GetArchetypeBonusStrength(empire->mArchetype);
-    return bombersProduced * baseStrength + bonusStrength;
+    return (bombersProduced + bonusStrength) * baseStrength ;
 }
 
 float cWarfareStrengthAnalyzer::GetEmpireStrenghtFactor(Simulator::cEmpire* empire){
