@@ -45,8 +45,10 @@
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_HighBuffHostileArchetypes_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoBuffHostileArchetypes_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoBuffWarriorsZealots_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoRallyRebalancedCombatSpaceBalancing_Module.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_RebalancedCombatSpaceBalancing_Module.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_SlightBuffHostileArchetypes_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">SpaceWarfareOverhaul_Main.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_VanillaCombatSpaceBalancing_Module.package</prerequisite>
+  <prerequisite game="GalacticAdventures">SpaceWarfareOverhaul_Main.package</prerequisite>
   <prerequisite>Ai Empire Diplomacy War.dll</prerequisite>
 </mod>

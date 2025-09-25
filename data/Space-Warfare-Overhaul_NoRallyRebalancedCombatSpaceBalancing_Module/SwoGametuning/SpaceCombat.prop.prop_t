@@ -1,0 +1,82 @@
+floats UFOHealthAlly
+	900#300
+	1100#450
+	1350#750
+	1600#1200
+	1800#1800
+	2400#2400
+end
+
+floats UFOHealthBomber
+	750#250
+	950#375
+	1150#625
+	1350#1000
+	1500#1500
+	2000#2000
+end
+
+floats UFOHealthDefender
+	900#300
+	1100#450
+	1350#750
+	1600#1200
+	1800#1800
+	2400#2400
+end
+
+floats UFOHealthFighter
+	150#50
+	200#75
+	225#125
+	275#200
+	300#300
+	400#400
+end
+
+floats UFOHealthInterceptor
+	300#100
+	375#150
+	450#250
+	525#400
+	600#600
+	800#800
+end
+
+floats turretHealth
+	600#200
+	750#300
+	900#500
+	1050#800
+	1200#1200
+	1600#1600
+end
+
+float UFOHealthPlayer 900	#1000
+
+floats spaceCombatBomberBackgroundDPS
+	4.5#3
+	6#4.5
+	7#7.5
+	8#12
+	9#18
+	12#24
+end
+
+floats spaceCombatFighterBackgroundDPS
+	1.5#1
+	1.90#1.5
+	2.25#2.5
+	2.75#4
+	3#6
+	4#8
+end
+
+floats spaceCombatTurretBackgroundDPS
+	3#2
+	3.7#3
+	4.5#5
+	5.3#8
+	6#12
+	8#16
+end
