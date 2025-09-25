@@ -1,4 +1,4 @@
-float globalMultiplier 0.5
+float globalMultiplier 1.0
 
 floats baseStrength 
 	1  # Warrior
@@ -6,13 +6,13 @@ floats baseStrength
 	1 # Scientist
 	1 # Shaman
 	1 # Bard
-	1.25 # Zealot
+	1 # Zealot
 	1 # Diplomat
 	1 # Ecologist
 end
 
 floats bonusStrength
-	4  # Warrior
+	0  # Warrior
 	0 # Trader
 	0 # Scientist
 	0 # Shaman

@@ -1,0 +1,10 @@
+floats baseStrength 
+	1  # Warrior
+	1 # Trader
+	1 # Scientist
+	1 # Shaman
+	1 # Bard
+	1.20 # Zealot
+	1 # Diplomat
+	1 # Ecologist
+end

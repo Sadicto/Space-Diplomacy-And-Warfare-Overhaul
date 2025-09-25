@@ -1,0 +1,10 @@
+floats bonusStrength
+	4  # Warrior
+	0 # Trader
+	0 # Scientist
+	0 # Shaman
+	0 # Bard
+	0 # Zealot
+	0 # Diplomat
+	0 # Ecologist
+end

@@ -1,6 +1,20 @@
 string8s postinitList
 	"ManagerConfig ManagerConfig-ActiveRadius"
+	"PlanetInvasion PlanetInvasion-UseCost"
+	"ArchetypeStrengthConfig ArchetypeStrengthConfig-GlobalMultiplier"
+	"ArchetypeStrengthConfig ArchetypeStrengthConfig-BaseStrength"
+	"ArchetypeStrengthConfig ArchetypeStrengthConfig-BonusStrength"
+	"ArchetypeStrengthConfig ArchetypeStrengthConfig-HostilityMultiplier"
 end
 
 key ManagerConfig SwoConfig!ManagerConfig.prop
 key ManagerConfig-ActiveRadius SwoConfig!ManagerConfig-ActiveRadius.prop
+
+key PlanetInvasion spacetools~!PlanetInvasion.prop
+key PlanetInvasion-UseCost SwoSpacetools!PlanetInvasion-UseCost.prop
+
+key ArchetypeStrengthConfig SwoConfig!ArchetypeStrengthConfig.prop
+key ArchetypeStrengthConfig-GlobalMultiplier SwoConfig!ArchetypeStrengthConfig-GlobalMultiplier.prop
+key ArchetypeStrengthConfig-BaseStrength SwoConfig!ArchetypeStrengthConfig-BaseStrength.prop
+key ArchetypeStrengthConfig-BonusStrength SwoConfig!ArchetypeStrengthConfig-BonusStrength.prop
+key ArchetypeStrengthConfig-HostilityMultiplier SwoConfig!ArchetypeStrengthConfig-HostilityMultiplier.prop
