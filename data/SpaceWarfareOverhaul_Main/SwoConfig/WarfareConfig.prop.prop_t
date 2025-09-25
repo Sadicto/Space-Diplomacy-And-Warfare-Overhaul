@@ -9,3 +9,4 @@ end
 float bombersPerRedSpiceFactory 0.10#0.25
 int32 buildingsPerFactoryRatio 5
 int32 citiesInHomeworld 8
+int32 maxBombersInRaid 20
