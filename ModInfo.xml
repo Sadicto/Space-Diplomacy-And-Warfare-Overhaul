@@ -27,25 +27,26 @@
   <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsAll_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsEnemies_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsNone_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_100PlayerBomberCost_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_150PlayerBomberCost_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_20PlayerBomberCost_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_50PlayerBomberCost_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_75PlayerBomberCost_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">SpaceWarfareOverhaul_Main.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_0.15AIBomberProductionRate_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_0.30AIBomberProductionRate_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_0.50AIBomberProductionRate_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_0.80AIBomberProductionRate_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_1AIBomberProductionRate_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_1.5AIBomberProductionRate_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_100PlayerBomberCost_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_150PlayerBomberCost_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_1AIBomberProductionRate_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_20PlayerBomberCost_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_2AIBomberProductionRate_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_4AIBomberProductionRate_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_50PlayerBomberCost_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_75PlayerBomberCost_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_BuffWarriorsZealots_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoBuffWarriorsZealots_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoBuffHostileArchetypes_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_SlightBuffHostileArchetypes_Config.package</prerequisite>
-  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_HighBuffHostileArchetypes_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_ExtremeBuffHostileArchetypes_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_HighBuffHostileArchetypes_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoBuffHostileArchetypes_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_NoBuffWarriorsZealots_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_SlightBuffHostileArchetypes_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">SpaceWarfareOverhaul_Main.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_VanillaCombatSpaceBalancing_Module.package</prerequisite>
   <prerequisite>Ai Empire Diplomacy War.dll</prerequisite>
 </mod>

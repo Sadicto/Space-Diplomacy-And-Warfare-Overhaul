@@ -1,0 +1,92 @@
+string8s postinitList
+	"dumbbomblevel1 dumbbomblevel1Balance"
+	"dumbbomblevel2 dumbbomblevel2Balance"
+	"dumbbomblevel3 dumbbomblevel3Balance"
+	
+	"laserlevel1 laserlevel1Balance"
+	"laserlevel2 laserlevel2Balance"
+	"laserlevel3 laserlevel3Balance"
+	
+	"protonmissilelevel1 protonmissilelevel1Balance"
+	"protonmissilelevel2 protonmissilelevel2Balance"
+	"protonmissilelevel3 protonmissilelevel3Balance"
+	
+	"pulselevel1 pulselevel1Balance"
+	"pulselevel2 pulselevel2Balance"
+	"pulselevel3 pulselevel3Balance"
+	
+	"torpedogalaxy1 torpedogalaxy1Balance"
+	"torpedogalaxy2 torpedogalaxy2Balance"
+	"torpedogalaxy3 torpedogalaxy3Balance"
+	
+	"torpedoplanet1 torpedoplanet1Balance"
+	"torpedoplanet2 torpedoplanet2Balance"
+	"torpedoplanet3 torpedoplanet3Balance"
+	
+	"torpedosolar1 torpedosolar1Balance"
+	"torpedosolar2 torpedosolar2Balance"
+	"torpedosolar3 torpedosolar3Balance"
+	
+	"healthupgrade2 healthupgrade2Balance"
+	"healthupgrade3 healthupgrade3Balance"
+	"healthupgrade4 healthupgrade4Balance"
+	"healthupgrade5 healthupgrade5Balance"
+end
+
+key dumbbomblevel1 spacetools~!dumbbomblevel1.prop
+key dumbbomblevel1Balance SwoSpacetoolsPlayer!dumbbomblevel1Balance.prop
+key dumbbomblevel2 spacetools~!dumbbomblevel2.prop
+key dumbbomblevel2Balance SwoSpacetoolsPlayer!dumbbomblevel2Balance.prop
+key dumbbomblevel3 spacetools~!dumbbomblevel3.prop
+key dumbbomblevel3Balance SwoSpacetoolsPlayer!dumbbomblevel3Balance.prop
+
+key laserlevel1 spacetools~!laserlevel1.prop
+key laserlevel1Balance SwoSpacetoolsPlayer!laserlevel1Balance.prop
+key laserlevel2 spacetools~!laserlevel2.prop
+key laserlevel2Balance SwoSpacetoolsPlayer!laserlevel2Balance.prop
+key laserlevel3 spacetools~!laserlevel3.prop
+key laserlevel3Balance SwoSpacetoolsPlayer!laserlevel3Balance.prop
+
+key protonmissilelevel1 spacetools~!protonmissilelevel1.prop
+key protonmissilelevel1Balance SwoSpacetoolsPlayer!protonmissilelevel1Balance.prop
+key protonmissilelevel2 spacetools~!protonmissilelevel2.prop
+key protonmissilelevel2Balance SwoSpacetoolsPlayer!protonmissilelevel2Balance.prop
+key protonmissilelevel3 spacetools~!protonmissilelevel3.prop
+key protonmissilelevel3Balance SwoSpacetoolsPlayer!protonmissilelevel3Balance.prop
+
+key pulselevel1 spacetools~!pulselevel1.prop
+key pulselevel1Balance SwoSpacetoolsPlayer!pulselevel1Balance.prop
+key pulselevel2 spacetools~!pulselevel2.prop
+key pulselevel2Balance SwoSpacetoolsPlayer!pulselevel2Balance.prop
+key pulselevel3 spacetools~!pulselevel3.prop
+key pulselevel3Balance SwoSpacetoolsPlayer!pulselevel3Balance.prop
+
+key torpedogalaxy1 spacetools~!torpedogalaxy1.prop
+key torpedogalaxy1Balance SwoSpacetoolsPlayer!torpedogalaxy1Balance.prop
+key torpedogalaxy2 spacetools~!torpedogalaxy2.prop
+key torpedogalaxy2Balance SwoSpacetoolsPlayer!torpedogalaxy2Balance.prop
+key torpedogalaxy3 spacetools~!torpedogalaxy3.prop
+key torpedogalaxy3Balance SwoSpacetoolsPlayer!torpedogalaxy3Balance.prop
+
+key torpedoplanet1 spacetools~!torpedoplanet1.prop
+key torpedoplanet1Balance SwoSpacetoolsPlayer!torpedoplanet1Balance.prop
+key torpedoplanet2 spacetools~!torpedoplanet2.prop
+key torpedoplanet2Balance SwoSpacetoolsPlayer!torpedoplanet2Balance.prop
+key torpedoplanet3 spacetools~!torpedoplanet3.prop
+key torpedoplanet3Balance SwoSpacetoolsPlayer!torpedoplanet3Balance.prop
+
+key torpedosolar1 spacetools~!torpedosolar1.prop
+key torpedosolar1Balance SwoSpacetoolsPlayer!torpedosolar1Balance.prop
+key torpedosolar2 spacetools~!torpedosolar2.prop
+key torpedosolar2Balance SwoSpacetoolsPlayer!torpedosolar2Balance.prop
+key torpedosolar3 spacetools~!torpedosolar3.prop
+key torpedosolar3Balance SwoSpacetoolsPlayer!torpedosolar3Balance.prop
+
+key healthupgrade2 spacetools~!healthupgrade2.prop
+key healthupgrade2Balance SwoSpacetoolsPlayer!healthupgrade2Balance.prop
+key healthupgrade3 spacetools~!healthupgrade3.prop
+key healthupgrade3Balance SwoSpacetoolsPlayer!healthupgrade3Balance.prop
+key healthupgrade4 spacetools~!healthupgrade4.prop
+key healthupgrade4Balance SwoSpacetoolsPlayer!healthupgrade4Balance.prop
+key healthupgrade5 spacetools~!healthupgrade5.prop
+key healthupgrade5Balance SwoSpacetoolsPlayer!healthupgrade5Balance.prop

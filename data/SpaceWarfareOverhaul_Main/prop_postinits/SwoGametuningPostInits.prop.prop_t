@@ -1,0 +1,10 @@
+string8s postinitList
+	"DificultyTuning DificultyTuningPostInits"
+	"SpaceCombat SpaceCombatPostInits"
+end
+
+key DificultyTuning gametuning~!DifficultyTuning.prop
+key DificultyTuningPostInits SwoGametuning!DificultyTuning.prop
+
+key SpaceCombat gametuning~!SpaceCombat.prop
+key SpaceCombatPostInits SwoGametuning!SpaceCombat.prop

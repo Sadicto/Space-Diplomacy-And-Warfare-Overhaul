@@ -1,0 +1,194 @@
+string8s postinitList
+	"allylaser1 allylaser1Balance"
+	"allylaser2 allylaser2Balance"
+	"allylaser3 allylaser3Balance"
+	"allylaser4 allylaser4Balance"
+	"allylaser5 allylaser5Balance"
+	"allylaser6 allylaser6Balance"
+
+	"allyminipulse1 allyminipulse1Balance"
+	"allyminipulse2 allyminipulse2Balance"
+	"allyminipulse3 allyminipulse3Balance"
+	"allyminipulse4 allyminipulse4Balance"
+	"allyminipulse5 allyminipulse5Balance"
+	"allyminipulse6 allyminipulse6Balance"
+
+	"allymissile1 allymissile1Balance"
+	"allymissile2 allymissile2Balance"
+	"allymissile3 allymissile3Balance"
+	"allymissile4 allymissile4Balance"
+	"allymissile5 allymissile5Balance"
+	"allymissile6 allymissile6Balance"
+
+	"allytorpedogalaxy1 allytorpedogalaxy1Balance"
+	"allytorpedogalaxy2 allytorpedogalaxy2Balance"
+	"allytorpedogalaxy3 allytorpedogalaxy3Balance"
+	"allytorpedogalaxy4 allytorpedogalaxy4Balance"
+	"allytorpedogalaxy5 allytorpedogalaxy5Balance"
+	"allytorpedogalaxy6 allytorpedogalaxy6Balance"
+
+	"allytorpedosolar1 allytorpedosolar1Balance"
+	"allytorpedosolar2 allytorpedosolar2Balance"
+	"allytorpedosolar3 allytorpedosolar3Balance"
+	"allytorpedosolar4 allytorpedosolar4Balance"
+	"allytorpedosolar5 allytorpedosolar5Balance"
+	"allytorpedosolar6 allytorpedosolar6Balance"
+
+	"defendercannon1 defendercannon1Balance"
+	"defendercannon2 defendercannon2Balance"
+	"defendercannon3 defendercannon3Balance"
+	"defendercannon4 defendercannon4Balance"
+	"defendercannon5 defendercannon5Balance"
+	"defendercannon6 defendercannon6Balance"
+
+	"defenderlaser1 defenderlaser1Balance"
+	"defenderlaser2 defenderlaser2Balance"
+	"defenderlaser3 defenderlaser3Balance"
+	"defenderlaser4 defenderlaser4Balance"
+	"defenderlaser5 defenderlaser5Balance"
+	"defenderlaser6 defenderlaser6Balance"
+
+	"defendermissile1 defendermissile1Balance"
+	"defendermissile2 defendermissile2Balance"
+	"defendermissile3 defendermissile3Balance"
+	"defendermissile4 defendermissile4Balance"
+	"defendermissile5 defendermissile5Balance"
+	"defendermissile6 defendermissile6Balance"
+
+	"enemycannon1 enemycannon1Balance"
+	"enemycannon2 enemycannon2Balance"
+	"enemycannon3 enemycannon3Balance"
+	"enemycannon4 enemycannon4Balance"
+	"enemycannon5 enemycannon5Balance"
+	"enemycannon6 enemycannon6Balance"
+
+	"enemylaser1 enemylaser1Balance"
+	"enemylaser2 enemylaser2Balance"
+	"enemylaser3 enemylaser3Balance"
+	"enemylaser4 enemylaser4Balance"
+	"enemylaser5 enemylaser5Balance"
+	"enemylaser6 enemylaser6Balance"
+
+	"enemyminipulse1 enemyminipulse1Balance"
+	"enemyminipulse2 enemyminipulse2Balance"
+	"enemyminipulse3 enemyminipulse3Balance"
+	"enemyminipulse4 enemyminipulse4Balance"
+	"enemyminipulse5 enemyminipulse5Balance"
+	"enemyminipulse6 enemyminipulse6Balance"
+
+	"enemymissile1 enemymissile1Balance"
+	"enemymissile2 enemymissile2Balance"
+	"enemymissile3 enemymissile3Balance"
+	"enemymissile4 enemymissile4Balance"
+	"enemymissile5 enemymissile5Balance"
+	"enemymissile6 enemymissile6Balance"
+
+	"enemypulse1 enemypulse1Balance"
+	"enemypulse2 enemypulse2Balance"
+	"enemypulse3 enemypulse3Balance"
+	"enemypulse4 enemypulse4Balance"
+	"enemypulse5 enemypulse5Balance"
+	"enemypulse6 enemypulse6Balance"
+
+	"enemytorpedogalaxy1 enemytorpedogalaxy1Balance"
+	"enemytorpedogalaxy2 enemytorpedogalaxy2Balance"
+	"enemytorpedogalaxy3 enemytorpedogalaxy3Balance"
+	"enemytorpedogalaxy4 enemytorpedogalaxy4Balance"
+	"enemytorpedogalaxy5 enemytorpedogalaxy5Balance"
+	"enemytorpedogalaxy6 enemytorpedogalaxy6Balance"
+
+	"enemytorpedosolar1 enemytorpedosolar1Balance"
+	"enemytorpedosolar2 enemytorpedosolar2Balance"
+	"enemytorpedosolar3 enemytorpedosolar3Balance"
+	"enemytorpedosolar4 enemytorpedosolar4Balance"
+	"enemytorpedosolar5 enemytorpedosolar5Balance"
+	"enemytorpedosolar6 enemytorpedosolar6Balance"
+
+	"turretdefensemissile1 turretdefensemissile1Balance"
+	"turretdefensemissile2 turretdefensemissile2Balance"
+	"turretdefensemissile3 turretdefensemissile3Balance"
+	"turretdefensemissile4 turretdefensemissile4Balance"
+	"turretdefensemissile5 turretdefensemissile5Balance"
+	"turretdefensemissile6 turretdefensemissile6Balance"
+
+	"turretflak1 turretflak1Balance"
+	"turretflak2 turretflak2Balance"
+	"turretflak3 turretflak3Balance"
+	"turretflak4 turretflak4Balance"
+	"turretflak5 turretflak5Balance"
+	"turretflak6 turretflak6Balance"
+
+	"turretlaser1 turretlaser1Balance"
+	"turretlaser2 turretlaser2Balance"
+	"turretlaser3 turretlaser3Balance"
+	"turretlaser4 turretlaser4Balance"
+	"turretlaser5 turretlaser5Balance"
+	"turretlaser6 turretlaser6Balance"
+end
+
+
+key allylaser1 spacetools~!allylaser1.prop
+key allylaser1Balance SwoSpacetoolsAI!allylaser1Balance.prop
+key allylaser2 spacetools~!allylaser2.prop
+key allylaser2Balance SwoSpacetoolsAI!allylaser2Balance.prop
+key allylaser3 spacetools~!allylaser3.prop
+key allylaser3Balance SwoSpacetoolsAI!allylaser3Balance.prop
+key allylaser4 spacetools~!allylaser4.prop
+key allylaser4Balance SwoSpacetoolsAI!allylaser4Balance.prop
+key allylaser5 spacetools~!allylaser5.prop
+key allylaser5Balance SwoSpacetoolsAI!allylaser5Balance.prop
+key allylaser6 spacetools~!allylaser6.prop
+key allylaser6Balance SwoSpacetoolsAI!allylaser6Balance.prop
+
+key allyminipulse1 spacetools~!allyminipulse1.prop
+key allyminipulse1Balance SwoSpacetoolsAI!allyminipulse1Balance.prop
+key allyminipulse2 spacetools~!allyminipulse2.prop
+key allyminipulse2Balance SwoSpacetoolsAI!allyminipulse2Balance.prop
+key allyminipulse3 spacetools~!allyminipulse3.prop
+key allyminipulse3Balance SwoSpacetoolsAI!allyminipulse3Balance.prop
+key allyminipulse4 spacetools~!allyminipulse4.prop
+key allyminipulse4Balance SwoSpacetoolsAI!allyminipulse4Balance.prop
+key allyminipulse5 spacetools~!allyminipulse5.prop
+key allyminipulse5Balance SwoSpacetoolsAI!allyminipulse5Balance.prop
+key allyminipulse6 spacetools~!allyminipulse6.prop
+key allyminipulse6Balance SwoSpacetoolsAI!allyminipulse6Balance.prop
+
+key allymissile1 spacetools~!allymissile1.prop
+key allymissile1Balance SwoSpacetoolsAI!allymissile1Balance.prop
+key allymissile2 spacetools~!allymissile2.prop
+key allymissile2Balance SwoSpacetoolsAI!allymissile2Balance.prop
+key allymissile3 spacetools~!allymissile3.prop
+key allymissile3Balance SwoSpacetoolsAI!allymissile3Balance.prop
+key allymissile4 spacetools~!allymissile4.prop
+key allymissile4Balance SwoSpacetoolsAI!allymissile4Balance.prop
+key allymissile5 spacetools~!allymissile5.prop
+key allymissile5Balance SwoSpacetoolsAI!allymissile5Balance.prop
+key allymissile6 spacetools~!allymissile6.prop
+key allymissile6Balance SwoSpacetoolsAI!allymissile6Balance.prop
+
+key allytorpedogalaxy1 spacetools~!allytorpedogalaxy1.prop
+key allytorpedogalaxy1Balance SwoSpacetoolsAI!allytorpedogalaxy1Balance.prop
+key allytorpedogalaxy2 spacetools~!allytorpedogalaxy2.prop
+key allytorpedogalaxy2Balance SwoSpacetoolsAI!allytorpedogalaxy2Balance.prop
+key allytorpedogalaxy3 spacetools~!allytorpedogalaxy3.prop
+key allytorpedogalaxy3Balance SwoSpacetoolsAI!allytorpedogalaxy3Balance.prop
+key allytorpedogalaxy4 spacetools~!allytorpedogalaxy4.prop
+key allytorpedogalaxy4Balance SwoSpacetoolsAI!allytorpedogalaxy4Balance.prop
+key allytorpedogalaxy5 spacetools~!allytorpedogalaxy5.prop
+key allytorpedogalaxy5Balance SwoSpacetoolsAI!allytorpedogalaxy5Balance.prop
+key allytorpedogalaxy6 spacetools~!allytorpedogalaxy6.prop
+key allytorpedogalaxy6Balance SwoSpacetoolsAI!allytorpedogalaxy6Balance.prop
+
+key allytorpedosolar1 spacetools~!allytorpedosolar1.prop
+key allytorpedosolar1Balance SwoSpacetoolsAI!allytorpedosolar1Balance.prop
+key allytorpedosolar2 spacetools~!allytorpedosolar2.prop
+key allytorpedosolar2Balance SwoSpacetoolsAI!allytorpedosolar2Balance.prop
+key allytorpedosolar3 spacetools~!allytorpedosolar3.prop
+key allytorpedosolar3Balance SwoSpacetoolsAI!allytorpedosolar3Balance.prop
+key allytorpedosolar4 spacetools~!allytorpedosolar4.prop
+key allytorpedosolar4Balance SwoSpacetoolsAI!allytorpedosolar4Balance.prop
+key allytorpedosolar5 spacetools~!allytorpedosolar5.prop
+key allytorpedosolar5Balance SwoSpacetoolsAI!allytorpedosolar5Balance.prop
+key allytorpedosolar6 spacetools~!allytorpedosolar6.prop
+key allytorpedosolar6Balance SwoSpacetoolsAI!allytorpedosolar6Balance.prop
+

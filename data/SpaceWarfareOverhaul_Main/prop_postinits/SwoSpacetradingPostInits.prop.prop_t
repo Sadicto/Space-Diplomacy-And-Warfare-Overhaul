@@ -1,0 +1,6 @@
+string8s postinitList
+	"toolrallycall toolrallycallBalance"
+end
+
+key toolrallycall spacetrading~!toolrallycall.prop
+key toolrallycallBalance SwoSpacetrading!toolrallycallBalance.prop
