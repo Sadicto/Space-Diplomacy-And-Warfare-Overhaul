@@ -41,6 +41,8 @@ public:
 	// Returns the number of cities on the empire's homeworld.
 	int GetCitiesInHomeworld();
 
+	// Returns the maximum number of bombers allowed in a raid.
+	int GetMaxBombersInRaid();
 
 	// Vector storing the warfare range for different empire levels.
 	eastl::vector<float> warfareRange;
@@ -62,5 +64,8 @@ public:
 
 	// Number of cities on the empire's homeworld.
 	int citiesInHomeworld;
+
+	// Max bombers per raid.
+	int maxBombersInRaid;
 
 };

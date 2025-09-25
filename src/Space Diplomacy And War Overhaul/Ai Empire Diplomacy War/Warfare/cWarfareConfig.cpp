@@ -14,12 +14,15 @@ cWarfareConfig::cWarfareConfig(ResourceKey warfareConfigKey)
 
 	App::Property::GetInt32(warfareConfigProp.get(), 0xC30095A4, citiesInHomeworld);
 
+	App::Property::GetInt32(warfareConfigProp.get(), 0x9A2EE896, maxBombersInRaid);
+
 	PropertyListPtr terraformTuningProp;
 	PropManager.GetPropertyList(0xa6d1bc70, 0x02ae0c7e, terraformTuningProp);
 
 	App::Property::GetInt32(terraformTuningProp.get(), 0x04A5D473, buildingsInT1Colony);
 	App::Property::GetInt32(terraformTuningProp.get(), 0x04A5D46D, buildingsInT2Colony);
 	App::Property::GetInt32(terraformTuningProp.get(), 0x052F046E, buildingsInT3Colony);
+
 }
 
 
@@ -81,5 +84,9 @@ int cWarfareConfig::GetBuildingsInT3Colony()
 int cWarfareConfig::GetCitiesInHomeworld()
 {
 	return citiesInHomeworld;
+}
+
+int cWarfareConfig::GetMaxBombersInRaid() {
+	return maxBombersInRaid;
 }
 
