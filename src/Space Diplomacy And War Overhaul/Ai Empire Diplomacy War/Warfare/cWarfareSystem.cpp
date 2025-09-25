@@ -56,9 +56,7 @@ void cWarfareSystem::Initialize() {
 	App::Property::GetKey(managerConfigProp.get(), 0x0FCF340F, warfareConfigKey);
 	App::Property::GetKey(managerConfigProp.get(), 0x9BD9B276, spaceCombatKey);
 
-	App::Property::GetKey(managerConfigProp.get(), 0x38528DA6, archetypeBaseStrengthKey);
-	App::Property::GetKey(managerConfigProp.get(), 0x696C4958, archetypeBonusStrengthKey);
-	App::Property::GetKey(managerConfigProp.get(), 0xDAE99764, archetypeHostilityMultiplierKey);
+	App::Property::GetKey(managerConfigProp.get(), 0xFC012E03, archetypeStrengthConfigKey);
 
 	elapsedTime = 0;
 	subcycleStep = 0;
@@ -92,7 +90,7 @@ void cWarfareSystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) 
 	if (newModeID == GameModeIDs::kGameSpace) {
 		warfareConfig = new cWarfareConfig(warfareConfigKey);
 		spaceCombatMetrics = new cSpaceCombatMetrics(spaceCombatKey);
-		archetypeStrengthConfig = new cArchetypeStrengthConfig(archetypeBaseStrengthKey, archetypeBonusStrengthKey, archetypeHostilityMultiplierKey);
+		archetypeStrengthConfig = new cArchetypeStrengthConfig(archetypeStrengthConfigKey);
 		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get(), archetypeStrengthConfig.get());
 		warfareEventDispatcher = new cWarfareEventDispatcher();
 		warfareEventListener = new cWarfareEventListener();

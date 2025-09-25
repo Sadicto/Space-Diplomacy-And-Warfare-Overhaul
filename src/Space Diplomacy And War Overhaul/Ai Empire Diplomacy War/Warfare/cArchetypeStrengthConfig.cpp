@@ -6,20 +6,19 @@
 
 using namespace SporeModUtils;
 
-cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeBaseStrengthKey, ResourceKey archetypeBonusStrengthKey, ResourceKey archetypeHostilityMultiplierKey)
+cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfigKey)
 {
-	PropertyListPtr archetypeBaseStrengthProp;
-	PropManager.GetPropertyList(archetypeBaseStrengthKey.instanceID, archetypeBaseStrengthKey.groupID, archetypeBaseStrengthProp);
-	App::Property::GetArrayFloat(archetypeBaseStrengthProp.get(), 0xC6FD9391, archetypeBaseStrengths);
+	PropertyListPtr archetypeStrengthConfigProp;
+	PropManager.GetPropertyList(archetypeStrengthConfigKey.instanceID, archetypeStrengthConfigKey.groupID, archetypeStrengthConfigProp);
+	App::Property::GetArrayFloat(archetypeStrengthConfigProp.get(), 0xC6FD9391, archetypeBaseStrengths);
 
-	PropertyListPtr archetypeBonusStrengthProp;
-	PropManager.GetPropertyList(archetypeBonusStrengthKey.instanceID, archetypeBonusStrengthKey.groupID, archetypeBonusStrengthProp);
-	App::Property::GetArrayFloat(archetypeBonusStrengthProp.get(), 0xA3608DC1, archetypeBonusStrengths);
+	App::Property::GetArrayFloat(archetypeStrengthConfigProp.get(), 0xA3608DC1, archetypeBonusStrengths);
+
+	float globalMultiplier;
+	App::Property::GetFloat(archetypeStrengthConfigProp.get(), 0x9935D339, globalMultiplier);
 
 	float hostilityMultiplier;
-	PropertyListPtr archetypeHostilityMultiplierProp;
-	PropManager.GetPropertyList(archetypeHostilityMultiplierKey.instanceID, archetypeHostilityMultiplierKey.groupID, archetypeHostilityMultiplierProp);
-	App::Property::GetFloat(archetypeHostilityMultiplierProp.get(), 0x0FAE7B8D, hostilityMultiplier);
+	App::Property::GetFloat(archetypeStrengthConfigProp.get(), 0x0FAE7B8D, hostilityMultiplier);
 
 	// This is extremely nasty and i should change it asap.
 	cArchetypesConfig* archetypesConfig = cDiplomacySystem::Get()->archetypesConfig.get();
@@ -27,9 +26,11 @@ cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeBaseStre
 	if (archetypesConfig != nullptr) {
 		for (int i = 0; i < 8; i++) {
 			Simulator::Archetypes archetype = static_cast<Simulator::Archetypes>(i);
+			archetypeBaseStrengths[archetype] = archetypeBaseStrengths[archetype] * globalMultiplier;
 			int archetypeAffinity = archetypesConfig->GetArchetypesAffinity(playerArchetype, archetype);
 			if (archetypeAffinity < 0) {
-				archetypeBaseStrengths[archetype] = archetypeBaseStrengths[archetype] + abs(archetypeAffinity) * hostilityMultiplier;
+				archetypeBaseStrengths[archetype] *= (1.0f + abs(archetypeAffinity) * hostilityMultiplier);
+
 			}
 		}
 	}

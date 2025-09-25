@@ -74,14 +74,8 @@ private:
 	// Pointer to the loaded warfareEventListener.
 	cWarfareEventListenerPtr warfareEventListener;
 
-	// Key used to load the archetypeBaseStrengt prop.
-	ResourceKey archetypeBaseStrengthKey;
-
-	// Key used to load the archetypeBonusStrength prop.
-	ResourceKey archetypeBonusStrengthKey;
-
-	// Key used to load the archetypeHostilityMultiplier prop.
-	ResourceKey archetypeHostilityMultiplierKey;
+	// Key used to load the archetypeStrengthConfig prop.
+	ResourceKey archetypeStrengthConfigKey;
 
 	// Pointer to the loaded ArchetypeStrengthConfig
 	cArchetypeStrengthConfigPtr archetypeStrengthConfig;

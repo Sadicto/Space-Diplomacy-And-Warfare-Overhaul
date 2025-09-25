@@ -13,7 +13,7 @@ class cArchetypeStrengthConfig
 public:
 	static const uint32_t TYPE = id("cArchetypeStrengthConfig");
 	
-	cArchetypeStrengthConfig(ResourceKey archetypeBaseStrengthKey, ResourceKey archetypeBonusStrengthKey, ResourceKey archetypeHostilityMultiplierKey);
+	cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfiggKey);
 	~cArchetypeStrengthConfig();
 
 	int AddRef() override;
