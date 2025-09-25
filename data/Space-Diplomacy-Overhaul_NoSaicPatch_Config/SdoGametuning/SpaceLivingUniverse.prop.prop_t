@@ -1,0 +1,35 @@
+string8s NPCActionRulesColonise
+	"0 outpost -color Blue" #"10 outpost -color Blue -nearMe 1 -nearEnemy -5"
+	"9 upgrade -color Blue"
+	"8 upgrade -color Yellow"
+	"0 outpost -color Yellow" #"7 outpost -color Yellow -nearMe -1 -nearEnemy -1 -nearNeutral -1"
+	#"5 nasty -nearMe 2 -ally -3 -player 1 -enemy -99 -empireColonies -1"
+	"0 outpost -color Red" #"2 outpost -color Red" 
+	"1 upgrade -color Red"
+	#"0 nice -nearMe 2 -enemy 3 -player 2 -ally -99 -empireStars 0.5"
+	#"0 attack -color Blue -nearMe 1 -player 1 -enemy 9 -ally -99"
+	#"0 attack -color Yellow -nearMe 1 -player 1 -enemy 8 -ally -99"
+	#"0 attack -color Red -nearMe 1 -player 1 -enemy 7 -ally -99"
+end
+string8s NPCActionRulesEconomic
+	"0 outpost -color Red" #"8 outpost -color Red -nearMe -1 -nearEnemy -1 -nearAlly -1 -nearNeutral 1"
+	#"5 nice -enemy 1 -nearMe 2 -ally -99"
+	"0 outpost -color Yellow "#"4 outpost -color Yellow -nearMe -1 -nearEnemy -1 -nearNeutral -1"
+	"0 outpost -color Blue"#"3 outpost -color Blue -nearMe -1 -nearEnemy -1 -nearNeutral -1"
+	"2 upgrade -color Red -nearMe 1"
+	"1 upgrade -color Yellow -nearMe 1"
+	"0 upgrade -color Blue -nearMe 1"
+end
+string8s NPCActionRulesMilitary
+	"0 outpost -color Blue"#"10 outpost -color Blue -nearMe 1 -nearEnemy 1 -nearNeutral -3"
+	"9 upgrade -color Blue"
+	"0 outpost -color Yellow"#"8 outpost -color Yellow -nearMe -1 -nearEnemy -3 -nearNeutral -1"
+	#"1 nasty -nearMe 2 -ally -8 -player 3 -enemy -99 -empireStars 0.5"
+	"2 upgrade -color Yellow"
+	"0 outpost -color Red"#"1 outpost -color Red -nearMe -1"
+	"0 outpost -color Red"#"1 outpost -color Red"
+	#"0 nice -nearMe 2 -enemy 3 -ally -99"
+	#"0 attack -color Blue -nearMe 1 -player 1 -enemy 9 -ally -99"
+	#"0 attack -color Yellow -nearMe 1 -player 1 -enemy 8 -ally -99"
+	#"0 attack -color Red -nearMe 1 -player 1 -enemy 7 -ally -99"
+end

@@ -1,2 +1,18 @@
 string8s postinitList
+	"ManagerConfig ManagerConfig-ActiveRadius"
+	"DiplomacyConfig DiplomacyConfig-Agressiveness"
+	"PopupsFilter PopupsFilter-CreateAlliance"
+	"PopupsFilter PopupsFilter-BreakAlliance"
+	"PopupsFilter PopupsFilter-DeclareWar"
 end
+
+key ManagerConfig SdoConfig!ManagerConfig.prop
+key ManagerConfig-ActiveRadius SdoConfig!ManagerConfig-ActiveRadius.prop
+
+key DiplomacyConfig SdoConfig!DiplomacyConfig.prop
+key DiplomacyConfig-Agressiveness SdoConfig!DiplomacyConfig-MaxWarProbability.prop
+
+key PopupsFilter SdoConfig!PopupsFilter.prop
+key PopupsFilter-CreateAlliance SdoConfig!PopupsFilter-CreateAlliance.prop
+key PopupsFilter-BreakAlliance SdoConfig!PopupsFilter-BreakAlliance.prop
+key PopupsFilter-DeclareWar SdoConfig!PopupsFilter-DeclareWar.prop

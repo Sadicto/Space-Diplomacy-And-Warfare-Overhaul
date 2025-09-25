@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mod description="" displayName="Space Diplomacy And War Overhaul" dllsBuild="$SPOREMOD_DLLS_BUILD" githubUrl="https://github.com/Sadicto/Space-Diplomacy-And-War-Overhaul" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="SpaceDiplomacyAndWarOverhaul" websiteUrl="https://github.com/Sadicto/Space-Diplomacy-And-War-Overhaul">
   <prerequisite game="GalacticAdventures">SpaceDiplomacyOverhaul_Main.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_SaicPatch_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">SpaceWarfareOverhaul_Main.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_NoSaicPatch_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_40Radius_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_60Radius_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_100Radius_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_200Radius_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_IntendedEffects_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_Vanilla-LikeEffects_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_LowAgressiveness_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_NormalAgressiveness_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_HighAgressiveness_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceNotificationsNone_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceNotificationsAllies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceNotificationsEnemies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceNotificationsAlliesAndEnemies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceNotificationsAll_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceBreakNotificationsNone_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceBreakNotificationsAllies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceBreakNotificationsEnemies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceBreakNotificationsAlliesAndEnemies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceBreakNotificationsAll_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsNone_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsAllies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsEnemies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsAlliesAndEnemies_Config.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_WarNotificationsAll_Config.package</prerequisite>
   <prerequisite>Ai Empire Diplomacy War.dll</prerequisite>
 </mod>

@@ -1,6 +1,10 @@
 string8s postinitList
 	"SpaceRelationship SpaceRelationshipPostInits"
+	"SpaceLivingUniverse SpaceLivingUniversePostInits"
 end
 
 key SpaceRelationship gametuning~!SpaceRelationship.prop
 key SpaceRelationshipPostInits SdoGametuning!SpaceRelationship.prop
+
+key SpaceLivingUniverse gametuning~!SpaceLivingUniverse.prop
+key SpaceLivingUniversePostInits SdoGametuning!SpaceLivingUniverse.prop

@@ -1,0 +1,6 @@
+int32 largeGiftAmount 100000
+float largeGiftRelationshipMultiplier 10
+int32 mediumGiftAmount 50000
+float mediumGiftRelationshipMultiplier 5
+int32 smallGiftAmount 10000
+float smallGiftRelationshipMultiplier 1

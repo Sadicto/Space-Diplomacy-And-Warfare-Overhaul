@@ -1,0 +1,6 @@
+string8s postinitList
+	"ManagerConfig ManagerConfig-ActiveRadius"
+end
+
+key ManagerConfig SwoConfig!ManagerConfig.prop
+key ManagerConfig-ActiveRadius SwoConfig!ManagerConfig-ActiveRadius.prop

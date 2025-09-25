@@ -10,7 +10,7 @@ int32 MaxAffinitySoftCap  5
 int32 MinAffinitySoftCap -5
 
 float MaxAllianceProbability 0.8
-float MaxWarProbability 0.7
+float MaxWarProbability 0.6
 
 int32 AffinityThresholdForStableAlliance  1
 int32 AffinityThresholdForUnstableAlliance  0

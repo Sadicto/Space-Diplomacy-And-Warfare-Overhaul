@@ -1,0 +1,321 @@
+# ZeroBonus
+# Magnitude
+# Minimum
+# Maximum
+# Decay
+# UknownMultiplier
+
+floats RelationshipEventSpaceAbductCitizen
+	-1
+	-1
+	-10
+	0
+	-0.1
+	0
+end
+# Empire gives a gift to the player.
+floats RelationshipEventSpaceAcceptGift
+	0
+	5
+	0
+	10
+	-0.5
+	0
+end
+# Incompatible archetype malus.
+floats RelationshipEventSpaceArchetypeMean
+	0
+	-1
+	-10
+	0
+	0
+	0
+end
+# Compatible archetype bonus.
+floats RelationshipEventSpaceArchetypeNice
+	 0
+	1
+	0
+	10
+	0
+	0
+end
+
+floats RelationshipEventSpaceAvoidedContact
+	-0.5
+	-1
+	-1.5
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceBadSystemPurchaseOffer
+	0
+	-1.5
+	-5
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceBadToolUse
+	0
+	-3
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceBreakAlliance
+	-2
+	-2
+	-10
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceCapturedASystem
+	-10
+	-10
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceCityPanicked
+	0
+	-1
+	-10
+	0
+	-0.2
+	0
+end
+# Malus bad introduction.
+floats RelationshipEventSpaceCommunicatedMean
+	0
+	-1
+	-1
+	0
+	-0.5
+	0
+end
+# Bonus good introduction.
+floats RelationshipEventSpaceCommunicatedNice
+	0
+	0.5
+	0
+	0.5
+	-0.5
+	0
+end
+
+floats RelationshipEventSpaceCreateAlliance
+	0
+	10
+	0
+	10
+	-0.25
+	0
+end
+
+floats RelationshipEventSpaceDestroyAllyUFO
+	0
+	-0.5
+	-2
+	0
+	-1
+	0
+end
+
+floats RelationshipEventSpaceDestroyBuilding
+	-2
+	-4
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceDestroyUFO
+	-1
+	-2
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceEmbassyBonus
+	0
+	1
+	0
+	5
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceGiveGift
+	0
+	0.5
+	0
+	5
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceGoodSystemPurchaseOffer
+	0
+	5
+	0
+	10
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceGoodToolUse
+	0
+	1
+	0
+	5
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceMissionAborted
+	0
+	-1
+	-5
+	0
+	-0.5
+	0
+end
+
+floats RelationshipEventSpaceMissionComplete
+	0
+	1
+	0
+	5
+	-1.0
+	0
+end
+
+floats RelationshipEventSpaceMissionFailed
+	0
+	-1
+	-5
+	0
+	-0.5
+	0
+end
+
+floats RelationshipEventSpaceMissionRejected
+	0
+	-1
+	-5
+	0
+	-0.5
+	0
+end
+
+floats RelationshipEventSpaceMissionStarted
+	0
+	1
+	0
+	1
+	-1
+	0
+end
+# Hostile alliance.
+floats RelationshipEventSpacePushedTooFar
+	0
+	-1#-10
+	-10
+	0
+	-0.5
+	0
+end
+
+floats RelationshipEventSpaceStartedWar
+	0
+	-20
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceStealCommodity
+	0
+	-5
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceSuperPower
+	0
+	1
+	0
+	1
+	0
+	0
+end
+
+floats RelationshipEventSpaceTerraformExtinction
+	-10
+	-10
+	-20
+	0
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceTerraformImproved
+	0
+	3
+	0
+	6
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceTerraformWorsened
+	-5
+	-5
+	-20
+	0
+	-0.2
+	0
+end
+# General trading.
+floats RelationshipEventSpaceTradeComplete
+	0
+	0.25
+	0
+	1
+	-0.2
+	0
+end
+# Trade route.
+floats RelationshipEventSpaceTradeRouteSpice
+	0
+	0.25
+	0
+	2
+	-0.2
+	0
+end
+
+floats RelationshipEventSpaceUpliftedCiv
+	3
+	1
+	0
+	3
+	-0.1
+	0
+end
