@@ -1,0 +1,26 @@
+floats spaceCombatBomberBackgroundDPS
+	1.5#3
+	2.25#4.5
+	3.75#7.5
+	6#12
+	9#18
+	12#24
+end
+
+floats spaceCombatFighterBackgroundDPS
+	0.5#1
+	0.75#1.5
+	1.25#2.5
+	2#4
+	3#6
+	4#8
+end
+
+floats spaceCombatTurretBackgroundDPS
+	1#2
+	1.5#3
+	2.5#5
+	4#8
+	6#12
+	8#16
+end
