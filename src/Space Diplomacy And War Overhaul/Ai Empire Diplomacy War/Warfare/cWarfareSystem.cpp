@@ -76,7 +76,6 @@ void cWarfareSystem::Update(int deltaTime, int deltaGameTime) {
 		if (elapsedTime > cycleInterval) {
 			StartWarfareCycle();
 			cycle++;
-			App::ConsolePrintF("warfare cycle: %d", cycle);
 		}
 		// Start of a subcycle.
 		while (elapsedTime > nextSubcycleTime) {

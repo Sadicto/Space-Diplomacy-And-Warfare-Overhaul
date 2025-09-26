@@ -92,7 +92,6 @@ void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
 		if (elapsedTime > cycleInterval) {
 			StartDiplomacyCycle();
 			cycle++;
-			App::ConsolePrintF("diplomacy cycle: %d", cycle);
 		}
 		// Start of a subcycle.
 		while (elapsedTime > nextSubcycleTime) {
