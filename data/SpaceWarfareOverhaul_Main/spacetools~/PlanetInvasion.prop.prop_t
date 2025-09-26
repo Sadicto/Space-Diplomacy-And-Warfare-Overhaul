@@ -18,7 +18,7 @@ end
 int32 spaceToolUseCost 75000
 key spaceToolPanelKey TravelConsumablePanel
 float spaceToolRechargeRate 5
-key spaceToolStrategy cToolInvasionStrategy
+key spaceToolStrategy SpaceWarfareOverhaul::cToolInvasionStrategy
 key spaceToolType special
 bool toolDeselectsAfterUse true
 bool toolUseOnActivate true
