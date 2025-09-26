@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mod
-  description="This mod completely overhauls warfare and diplomacy in the Space Stage. AI empires now choose their allies and enemies based on archetype compatibility and shared relationships. During war, AI empires no longer attack random planets every few minutes; instead, they produce bombers and use them to strategically attack enemy systems using a much more logical algorithm.."
+  description="This mod completely overhauls warfare and diplomacy in the Space Stage. AI empires now choose their allies and enemies based on archetype compatibility and shared relationships. During war, AI empires no longer attack random planets every few minutes, instead, they produce bombers and use them to attack enemy systems using a much more logical algorithm."
   displayName="Space Diplomacy And Warfare Overhaul"
   dllsBuild="$SPOREMOD_DLLS_BUILD"
   githubUrl="https://github.com/Sadicto/Space-Diplomacy-And-Warfare-Overhaul"
@@ -51,8 +51,8 @@
 
 	<!-- War Notifications -->
 	<componentGroup displayName="War Notifications" unique="SpaceDiplomacyAndWarOverhaul_WarNotifications_Config">
-		<component game="GalacticAdventures" displayName="All" description="Notifications will appear for all wars declared." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsAll_Config" defaultChecked="false">Space-Diplomacy-Overhaul_WarNotificationsAll_Config.package</component>
-		<component game="GalacticAdventures" displayName="Allies and Enemies" description="Notifications will appear for both allies and enemies declaring wars." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsAlliesAndEnemies_Config" defaultChecked="true">Space-Diplomacy-Overhaul_WarNotificationsAlliesAndEnemies_Config.package</component>
+		<component game="GalacticAdventures" displayName="All" description="Notifications will appear for all wars declared." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsAll_Config" defaultChecked="true">Space-Diplomacy-Overhaul_WarNotificationsAll_Config.package</component>
+		<component game="GalacticAdventures" displayName="Allies and Enemies" description="Notifications will appear for both allies and enemies declaring wars." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsAlliesAndEnemies_Config" defaultChecked="false">Space-Diplomacy-Overhaul_WarNotificationsAlliesAndEnemies_Config.package</component>
 		<component game="GalacticAdventures" displayName="Allies" description="Notifications will only appear when allies declare wars." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsAllies_Config" defaultChecked="false">Space-Diplomacy-Overhaul_WarNotificationsAllies_Config.package</component>
 		<component game="GalacticAdventures" displayName="Enemies" description="Notifications will only appear when enemies declare wars." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsEnemies_Config" defaultChecked="false">Space-Diplomacy-Overhaul_WarNotificationsEnemies_Config.package</component>
 		<component game="GalacticAdventures" displayName="None" description="Disables all war notifications." unique="SpaceDiplomacyAndWarOverhaul_WarNotificationsNone_Config" defaultChecked="false">Space-Diplomacy-Overhaul_WarNotificationsNone_Config.package</component>
