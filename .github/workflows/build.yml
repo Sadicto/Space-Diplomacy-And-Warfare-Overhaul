@@ -75,7 +75,7 @@ jobs:
               # Increment the index for each directory
               index=$((index + 1))
             done < <(find "$dir" -mindepth 1 -maxdepth 1 -type f -name "*.sln"  -printf "%f\n")
-          done < <(find "src/" -mindepth 1 -maxdepth 1 -type d)
+          done < <(find "src/" -mindepth 0 -maxdepth 1 -type d)
 
           solutions="matrix={ \"solution\": [ $solutions ] }"
           echo "$solutions"
@@ -85,6 +85,7 @@ jobs:
     name: Build Project .package
     needs: find-package-projects
     runs-on: ubuntu-latest
+    if: ${{ toJSON(fromJSON(needs.find-package-projects.outputs.matrix).project) != '[]' }}
     strategy:
       matrix: ${{ fromJSON(needs.find-package-projects.outputs.matrix) }}
     steps:
@@ -100,7 +101,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: 'emd4600/SporeModder-FX'
-          latest: true
+          tag: v2.2.24
           fileName: ${{ env.SPORE_MODDER_FX_FILE }}
           tarBall: false
           zipBall: false
