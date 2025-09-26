@@ -172,6 +172,7 @@ IWindow* AffinityTextProc::GetUnusedAffinityModifier() {
 			return children;
 		}
 	}
+	return nullptr;
 }
 
 void AffinityTextProc::ResetAffinityToltip() {
@@ -197,7 +198,7 @@ void AffinityTextProc::SetAffinityTooltip() {
 			if (modifier.second != 0) {
 				IWindow* modifierUI = GetUnusedAffinityModifier();
 				Math::Rectangle area = modifierUI->GetArea();
-				area.y1 = 21 * modifiersCount;
+				area.y1 = 21.0f * modifiersCount;
 				area.y2 = area.y1 + 21;
 				modifierUI->SetArea(area);
 				modifierUI->SetCaption(GetAffinityModifierText(modifier.first).c_str());
@@ -224,7 +225,6 @@ void AffinityTextProc::SetAffinityTooltip() {
 				modifiersCount++;
 			}
 		}
-		IWindow* tooltipContainer = tooltipModifiersWindow->FindWindowByID(0xFB0CF1A7);
 
 		Math::Rectangle area = tooltipWindow->GetArea();
 		area.y2 = area.y1 + 6 + 50 + 21 * modifiersCount;
