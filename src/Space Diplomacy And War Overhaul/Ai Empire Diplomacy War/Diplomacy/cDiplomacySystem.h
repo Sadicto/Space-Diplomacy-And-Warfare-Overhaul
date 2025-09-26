@@ -28,7 +28,7 @@ class cDiplomacySystem
 	: public Simulator::cStrategy
 {
 public:
-	static const uint32_t TYPE = id("HarderSpaceDiplomacy::cDiplomacySystem");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacySystem");
 	static const uint32_t NOUN_ID = TYPE;
 
 	int AddRef() override;

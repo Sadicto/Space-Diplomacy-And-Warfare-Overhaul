@@ -9,7 +9,7 @@ class cPlayerWarshipsManager
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cPlayerWarshipsManager");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cPlayerWarshipsManager");
 	
 	cPlayerWarshipsManager();
 	~cPlayerWarshipsManager();

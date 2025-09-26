@@ -14,7 +14,7 @@ class AffinityTextProc
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("AffinityTextProc");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::AffinityTextProc");
 	
 	AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
 	~AffinityTextProc();

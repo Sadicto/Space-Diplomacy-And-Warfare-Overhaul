@@ -9,7 +9,7 @@
 class cPlanetAttackedEvent 
 {
 public:
-	static const uint32_t ID = id("WarfareOverhaul::cPlanetAttackedEvent");
+	static const uint32_t ID = id("SpaceWarfareOverhaul::cPlanetAttackedEvent");
 	
 	cPlanetAttackedEvent(Simulator::cEmpire* aggressorEmpire, Simulator::cPlanetRecord* target, int bombers);
 	~cPlanetAttackedEvent();

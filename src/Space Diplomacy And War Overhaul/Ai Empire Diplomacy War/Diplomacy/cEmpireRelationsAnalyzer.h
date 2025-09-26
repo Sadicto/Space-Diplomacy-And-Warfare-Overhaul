@@ -21,7 +21,7 @@ class cEmpireRelationsAnalyzer
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cEmpireRelationsAnalyzer");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireRelationsAnalyzer");
 	
 	cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesConfig);
 	~cEmpireRelationsAnalyzer();

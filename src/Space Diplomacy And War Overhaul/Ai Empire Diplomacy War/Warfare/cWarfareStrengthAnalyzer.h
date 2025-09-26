@@ -15,7 +15,7 @@ class cWarfareStrengthAnalyzer
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cWarfareStrengthAnalyzer");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cWarfareStrengthAnalyzer");
 	
 	cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics, cArchetypeStrengthConfig* archetypeStrengthConfig);
 	~cWarfareStrengthAnalyzer();

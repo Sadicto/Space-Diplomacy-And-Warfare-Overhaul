@@ -11,7 +11,7 @@ class cDiplomacyEffectInfoProvider
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cDiplomacyEffectInfoProvider");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyEffectInfoProvider");
 	
 	cDiplomacyEffectInfoProvider(ResourceKey effectsKey);
 	~cDiplomacyEffectInfoProvider();

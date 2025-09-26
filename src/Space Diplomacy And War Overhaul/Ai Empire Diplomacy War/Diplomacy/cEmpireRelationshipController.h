@@ -13,7 +13,7 @@ class cEmpireRelationshipController
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cEmpireRelationshipController");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireRelationshipController");
 	
 	cEmpireRelationshipController(cDiplomacyEffectAnalyzer* diplomacyEffectAnalyzer);
 	~cEmpireRelationshipController();

@@ -12,7 +12,7 @@ class cDiplomacyEventListener
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cDiplomacyEventListener");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyEventListener");
 
 	cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController);
 	~cDiplomacyEventListener();

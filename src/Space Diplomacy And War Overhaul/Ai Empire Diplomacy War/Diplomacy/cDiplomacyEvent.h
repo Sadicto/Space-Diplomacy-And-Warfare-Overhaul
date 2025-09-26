@@ -19,7 +19,7 @@ enum DiplomacyEventType {
 class cDiplomacyEvent
 {
 public:
-	static const uint32_t ID = id("DiplomacyOverhaul::cDiplomacyEvent");
+	static const uint32_t ID = id("SpaceDiplomacyOverhaul::cDiplomacyEvent");
 
 	cDiplomacyEvent(DiplomacyEventType eventType, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 	~cDiplomacyEvent();

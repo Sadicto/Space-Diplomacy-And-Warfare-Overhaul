@@ -10,7 +10,7 @@ class cToolInvasionStrategy
 	: public Simulator::cToolStrategy
 {
 public:
-	static const uint32_t TYPE = id("cToolInvasionStrategy");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cToolInvasionStrategy");
 	
 	cToolInvasionStrategy();
 	~cToolInvasionStrategy();

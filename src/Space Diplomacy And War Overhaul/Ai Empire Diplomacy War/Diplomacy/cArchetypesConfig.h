@@ -10,7 +10,7 @@ class cArchetypesConfig
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cArchetypesConfig");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cArchetypesConfig");
 	
 	cArchetypesConfig(ResourceKey archetypesAffinitiesKey, ResourceKey archetypesAgressivitiesKey);
 	~cArchetypesConfig();

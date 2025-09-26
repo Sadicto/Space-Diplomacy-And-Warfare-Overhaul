@@ -16,7 +16,7 @@ class cEmpireDiplomacy
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cEmpireDiplomacy");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireDiplomacy");
 	
 	cEmpireDiplomacy(Simulator::cEmpire* empire, 
 		cDiplomacyConfig* diplomacyConfig, 

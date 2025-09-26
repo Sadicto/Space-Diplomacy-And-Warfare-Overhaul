@@ -11,7 +11,7 @@ class cDiplomacyEffectAnalyzer
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cDiplomacyEffectAnalyzer");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyEffectAnalyzer");
 	
 	cDiplomacyEffectAnalyzer(cDiplomacyEffectInfoProvider* diplomacyEfectInfoProvider);
 	~cDiplomacyEffectAnalyzer();

@@ -11,7 +11,7 @@ class cDiplomacyEventDispatcher
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cDiplomacyEventDispatcher");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyEventDispatcher");
 	
 	cDiplomacyEventDispatcher();
 	~cDiplomacyEventDispatcher();

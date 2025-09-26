@@ -14,7 +14,7 @@ class cDiplomacyConfig
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cDiplomacyConfig");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyConfig");
 	
 	cDiplomacyConfig(ResourceKey configKey);
 	~cDiplomacyConfig();

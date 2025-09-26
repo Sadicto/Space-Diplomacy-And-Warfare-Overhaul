@@ -11,7 +11,7 @@ class cWarfareConfig
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cWarfareConfig");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cWarfareConfig");
 
 	cWarfareConfig(ResourceKey warfareConfigKey);
 	~cWarfareConfig();

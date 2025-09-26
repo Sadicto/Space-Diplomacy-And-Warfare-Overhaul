@@ -20,7 +20,7 @@ class cDiplomacyPopupManager
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cDiplomacyPopupManager");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyPopupManager");
 	
 	cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey, ResourceKey popupsFilterConfigKey);
 	~cDiplomacyPopupManager();

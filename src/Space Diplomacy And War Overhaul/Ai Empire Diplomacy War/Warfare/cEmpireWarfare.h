@@ -15,7 +15,7 @@ class cEmpireWarfare
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cEmpireWarfare");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cEmpireWarfare");
 	
 	cEmpireWarfare(Simulator::cEmpire* empire, 
 		cWarfareConfig* warfareConfig, 

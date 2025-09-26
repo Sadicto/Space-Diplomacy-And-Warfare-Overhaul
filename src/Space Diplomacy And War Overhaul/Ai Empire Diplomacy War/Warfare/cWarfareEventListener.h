@@ -10,7 +10,7 @@ class cWarfareEventListener
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cWarfareEventListener");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cWarfareEventListener");
 
 	cWarfareEventListener();
 	~cWarfareEventListener();

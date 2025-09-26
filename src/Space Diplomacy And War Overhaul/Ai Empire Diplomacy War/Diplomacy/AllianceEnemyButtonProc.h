@@ -13,7 +13,7 @@ class AllianceEnemyButtonProc
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("AllianceEnemyButtonProc");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::AllianceEnemyButtonProc");
 	
 	AllianceEnemyButtonProc();
 	~AllianceEnemyButtonProc();

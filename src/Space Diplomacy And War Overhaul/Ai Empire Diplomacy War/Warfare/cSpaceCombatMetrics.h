@@ -11,7 +11,7 @@ class cSpaceCombatMetrics
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cSpaceCombatMetrics");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cSpaceCombatMetrics");
 	
 	cSpaceCombatMetrics(ResourceKey spaceCombatKey);
 	~cSpaceCombatMetrics();

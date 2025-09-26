@@ -25,7 +25,7 @@ class cWarfareSystem
 	: public Simulator::cStrategy
 {
 public:
-	static const uint32_t TYPE = id("Ai_Empire_Diplomacy::cWarfareSystem");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cWarfareSystem");
 	static const uint32_t NOUN_ID = TYPE;
 
 	int AddRef() override;

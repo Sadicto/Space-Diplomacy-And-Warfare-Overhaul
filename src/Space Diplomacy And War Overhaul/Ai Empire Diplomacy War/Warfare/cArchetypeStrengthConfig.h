@@ -11,7 +11,7 @@ class cArchetypeStrengthConfig
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cArchetypeStrengthConfig");
+	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cArchetypeStrengthConfig");
 	
 	cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfiggKey);
 	~cArchetypeStrengthConfig();
