@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mod
-  description="This mod overhauls Space Stage diplomacy and warfare, introducing new mechanics and configuration options for AI empires, notifications, and combat balancing."
+  description="This mod completely overhauls warfare and diplomacy in the Space Stage. AI empires now choose their allies and enemies based on archetype compatibility and shared relationships. During war, AI empires no longer attack random planets every few minutes; instead, they produce bombers and use them to strategically attack enemy systems using a much more logical algorithm.."
   displayName="Space Diplomacy And Warfare Overhaul"
   dllsBuild="$SPOREMOD_DLLS_BUILD"
   githubUrl="https://github.com/Sadicto/Space-Diplomacy-And-Warfare-Overhaul"
-  hasCustomInstaller="false"
+  hasCustomInstaller="true"
   installerSystemVersion="1.0.1.2"
   isExperimental="$SPOREMOD_EXPERIMENTAL"
   unique="SpaceDiplomacyAndWarfareOverhaul"
