@@ -14,8 +14,8 @@
 
 void Initialize()
 {
-	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
-	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
+	//CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
+	//CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);

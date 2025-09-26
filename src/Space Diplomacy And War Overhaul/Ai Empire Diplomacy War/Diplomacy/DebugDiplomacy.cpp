@@ -155,7 +155,6 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     case 17: {
         UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
         UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0x04C71F00);
-        textWindow->SetCaption(u"holaaa");
         
         break;
     }
