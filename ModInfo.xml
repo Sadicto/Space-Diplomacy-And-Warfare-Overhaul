@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<mod description="" displayName="Space Diplomacy And War Overhaul" dllsBuild="$SPOREMOD_DLLS_BUILD" githubUrl="https://github.com/Sadicto/Space-Diplomacy-And-War-Overhaul" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="SpaceDiplomacyAndWarOverhaul" websiteUrl="https://github.com/Sadicto/Space-Diplomacy-And-War-Overhaul">
-  <prerequisite game="GalacticAdventures">SpaceDiplomacyOverhaul_Main.package</prerequisite>
+<mod description="" displayName="Space Diplomacy And War Overhaul" dllsBuild="$SPOREMOD_DLLS_BUILD" githubUrl="https://github.com/Sadicto/Space-Diplomacy-And-Warfare-Overhaul" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="SpaceDiplomacyAndWarOverhaul" websiteUrl="https://github.com/Sadicto/Space-Diplomacy-And-Warfare-Overhaul">
+  <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_Main.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_100Radius_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_200Radius_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Diplomacy-Overhaul_40Radius_Config.package</prerequisite>
@@ -49,6 +49,6 @@
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_RebalancedCombatSpaceBalancing_Module.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_SlightBuffHostileArchetypes_Config.package</prerequisite>
   <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_VanillaCombatSpaceBalancing_Module.package</prerequisite>
-  <prerequisite game="GalacticAdventures">SpaceWarfareOverhaul_Main.package</prerequisite>
+  <prerequisite game="GalacticAdventures">Space-Warfare-Overhaul_Main.package</prerequisite>
   <prerequisite>Ai Empire Diplomacy War.dll</prerequisite>
 </mod>
