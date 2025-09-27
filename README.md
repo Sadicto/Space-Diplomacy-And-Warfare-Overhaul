@@ -1,7 +1,7 @@
 # Space Diplomacy and Warfare Overhaul
 
 ## Overview
-This mod completely overhauls the original AI logic for diplomacy and warfare during the space stage. Empires no longer act randomly, instead make decisions based on their archetype, both when forming alliances and declaring wars. And, during wars, the AI now produces ships according to its economic capacity and selects planets to attack using a fully reworked algorithm. The result is a more dynamic galaxy, where political relationships evolve coherently and conflicts generate logical and coherent battlefronts.
+This mod completely overhauls the original AI logic for diplomacy and warfare during the space stage. Empires no longer act randomly, instead make decisions based on their archetype, both when forming alliances and declaring wars. And, during wars, the AI now produces ships according to its economic capacity and selects planets to attack using a fully reworked algorithm. The result is a more dynamic galaxy, where political relationships evolve coherently and wars generate logical and coherent battlefronts.
 
 ## Diplomacy
 
