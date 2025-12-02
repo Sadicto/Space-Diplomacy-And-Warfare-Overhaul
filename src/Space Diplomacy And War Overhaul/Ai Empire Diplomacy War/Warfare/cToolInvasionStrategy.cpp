@@ -45,8 +45,12 @@ bool cToolInvasionStrategy::OnSelect(Simulator::cSpaceToolData* pTool) {
 
 	cEmpire* playerEmpire = GetPlayerEmpire();
 	cPlanetRecord* activePlanet = GetActivePlanetRecord();
+	int beforeUsingToolMoney = playerEmpire->mEmpireMoney;
 
-	if (!cToolStrategy::OnSelect(pTool) || playerEmpire->mEmpireMoney < ProcessCost(useCost)) return false;
+	// OnSelect tries to charge the player for the tool.
+	// If the balance doesn’t change, the player can’t afford it,
+	// so we exit early without summoning the fleet.
+	if (!cToolStrategy::OnSelect(pTool) || beforeUsingToolMoney == playerEmpire->mEmpireMoney  ) return false;
 
 	warfareEventDispatcher->DispatchPlanetAttackedEvent(
 		playerEmpire,
