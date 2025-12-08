@@ -16,6 +16,14 @@ cWarfareConfig::cWarfareConfig(ResourceKey warfareConfigKey)
 
 	App::Property::GetInt32(warfareConfigProp.get(), 0x9A2EE896, maxBombersInRaid);
 
+	App::Property::GetFloat(warfareConfigProp.get(), 0x23E25F41, bombersSoftCap);
+
+	App::Property::GetFloat(warfareConfigProp.get(), 0xE9CBFB94, bombersSoftCapFactor);
+
+	App::Property::GetFloat(warfareConfigProp.get(), 0xE1E9202C, bombersHardCap);
+
+	App::Property::GetFloat(warfareConfigProp.get(), 0xE5E20C95, bombersHardCapFactor);
+
 	PropertyListPtr terraformTuningProp;
 	PropManager.GetPropertyList(0xa6d1bc70, 0x02ae0c7e, terraformTuningProp);
 
@@ -88,5 +96,25 @@ int cWarfareConfig::GetCitiesInHomeworld()
 
 int cWarfareConfig::GetMaxBombersInRaid() {
 	return maxBombersInRaid;
+}
+
+float cWarfareConfig::GetBombersSoftCap()
+{
+	return bombersSoftCap;
+}
+
+float cWarfareConfig::GetBombersSoftCapFactor()
+{
+	return bombersSoftCapFactor;
+}
+
+float cWarfareConfig::GetBombersHardCap()
+{
+	return bombersHardCap;
+}
+
+float cWarfareConfig::GetBombersHardCapFactor()
+{
+	return bombersHardCapFactor;
 }
 

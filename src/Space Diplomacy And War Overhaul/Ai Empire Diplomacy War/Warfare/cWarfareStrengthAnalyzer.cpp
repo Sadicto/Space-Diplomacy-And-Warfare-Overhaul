@@ -122,6 +122,16 @@ float cWarfareStrengthAnalyzer::GetBombersProducedBySystem(Simulator::cStarRecor
     return bombersProduced;
 }
 
+float cWarfareStrengthAnalyzer::AdjustBombersForCaps(float bomberCount) {
+    float excessBomberSoftCap = max(bomberCount - warfareConfig->GetBombersSoftCap(), 0.0f);
+    bomberCount = (bomberCount - excessBomberSoftCap) + (excessBomberSoftCap * warfareConfig->GetBombersSoftCapFactor());
+
+    float excessBomberHardCap = max(bomberCount - warfareConfig->GetBombersHardCap(), 0.0f);
+    bomberCount = (bomberCount - excessBomberHardCap) + (excessBomberHardCap * warfareConfig->GetBombersHardCapFactor());
+
+    return bomberCount;
+}
+
 
 float cWarfareStrengthAnalyzer::GetBombersProducedByEmpire(Simulator::cEmpire* empire){
     float bombersProduced = 0;
@@ -132,7 +142,9 @@ float cWarfareStrengthAnalyzer::GetBombersProducedByEmpire(Simulator::cEmpire* e
     }
     float baseStrength = archetypeStrengthConfig->GetArchetypeBaseStrength(empire->mArchetype);
     float bonusStrength = archetypeStrengthConfig->GetArchetypeBonusStrength(empire->mArchetype);
-    return (bombersProduced + bonusStrength) * baseStrength ;
+    bombersProduced = (bombersProduced + bonusStrength) * baseStrength;
+    bombersProduced = AdjustBombersForCaps(bombersProduced);
+    return bombersProduced;
 }
 
 float cWarfareStrengthAnalyzer::GetEmpireStrenghtFactor(Simulator::cEmpire* empire){

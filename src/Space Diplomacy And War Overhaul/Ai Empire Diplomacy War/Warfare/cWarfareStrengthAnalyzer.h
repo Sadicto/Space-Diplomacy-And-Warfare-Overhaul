@@ -57,6 +57,11 @@ public:
 	/// @return Number of bombers produced by the specified system.
 	float GetBombersProducedBySystem(Simulator::cStarRecord* star);
 
+	/// @brief Adjusts a bomber count using the soft and hard cap thresholds and their factors.
+	/// @param bomberCount Raw number of bombers.
+	/// @return Adjusted bomber count after applying the applicable caps.
+	float AdjustBombersForCaps(float bomberCount);
+
 	/// @brief Returns the number of bombers an empire can produce in a cycle.
 	/// @param empire Pointer to the empire.
 	/// @return Number of bombers..

@@ -44,6 +44,18 @@ public:
 	// Returns the maximum number of bombers allowed in a raid.
 	int GetMaxBombersInRaid();
 
+	// Returns the number of bombers required to reach the soft cap.
+	float GetBombersSoftCap();
+
+	// Returns the multiplier applied to bombers that exceed the soft cap.
+	float GetBombersSoftCapFactor();
+
+	// Returns the number of bombers required to reach the hard cap.
+	float GetBombersHardCap();
+
+	// Returns the multiplier applied to bombers that exceed the hard cap.
+	float GetBombersHardCapFactor();
+
 	// Vector storing the warfare range for different empire levels.
 	eastl::vector<float> warfareRange;
 
@@ -67,5 +79,17 @@ public:
 
 	// Max bombers per raid.
 	int maxBombersInRaid;
+
+	// Number of bombers required to reach the soft cap.
+	float bombersSoftCap;
+
+	// Multiplier applied to the bombers that exceed the soft cap.
+	float bombersSoftCapFactor;
+
+	// Number of bombers required to reach the hard cap.
+	float bombersHardCap;
+
+	// Multiplier applied to the bombers that exceed the hard cap.
+	float bombersHardCapFactor;
 
 };
