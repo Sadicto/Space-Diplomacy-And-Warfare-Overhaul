@@ -32,7 +32,7 @@ public:
 
 	/// @brief Calculates the number of bombers required for an empire to conquer a specific system.
 	/// @param empire Pointer to the empire attempting the conquest.
-	/// @param system Pointer to the target star system.
+	/// @param star Pointer to the target star system.
 	/// @return Number of bombers needed to successfully invade the system.
 	int GetBomberForceForSystem(Simulator::cEmpire* empire, Simulator::cStarRecord* star);
 

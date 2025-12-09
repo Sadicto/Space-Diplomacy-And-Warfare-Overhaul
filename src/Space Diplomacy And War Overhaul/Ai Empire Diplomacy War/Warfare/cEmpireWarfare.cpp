@@ -14,6 +14,7 @@ cEmpireWarfare::cEmpireWarfare(Simulator::cEmpire* empire,
 {
 	this->empire = empire;
 	this->range = 0;
+	this->attackedPlanets = 0;
 	this->warfareConfig = warfareConfig;
 	this->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
 	this->warfareEventDispatcher = warfareEventDispatcher;
@@ -148,6 +149,24 @@ void cEmpireWarfare::CalculateAttackPriorities() {
 	}
 }
 
+int cEmpireWarfare::GetEmpireBomberForceForPlanet(Simulator::cPlanetRecord* planet) {
+	int requiredBombers = warfareStrengthAnalyzer->GetBomberForceForPlanet(this->empire.get(), planet);
+	requiredBombers += static_cast<int>(round(static_cast<float>(requiredBombers) * warfareConfig->GetBombersMultiPlanetPenaltyFactor() * log(attackedPlanets + 1)));
+	return requiredBombers;
+}
+
+int cEmpireWarfare::GetEmpireBomberForceForSystem(Simulator::cStarRecord* star) {
+	int requiredBombers = 0;
+	for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+		if (planet->GetTechLevel() == TechLevel::Empire) {
+			requiredBombers += GetEmpireBomberForceForPlanet(planet.get());
+			attackedPlanets++;
+		}
+	}
+	return requiredBombers;
+
+}
+
 
 void cEmpireWarfare::AttackStar(Simulator::cStarRecord* star, int bombers) {
 	eastl::vector<pair<cPlanetRecordPtr, int>> bombersPerPlanet;
@@ -179,7 +198,6 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 	}
 	range = warfareConfig->GetWarfareRange(EmpireUtils::GetEmpireLevel(empire.get()));
 	CalculateAttackPriorities();
-
 	float bombersPerCycle = warfareStrengthAnalyzer->GetBombersProducedByEmpire(empire.get());
 	float currentBombers = bombersPerCycle;
 	while (currentBombers > 0 && !attackPriorityMap.empty()) {
@@ -214,7 +232,7 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 			}
 			else {
 				AttackStar(bestTarget.get(), static_cast<int>(round(bombersToAttackTarget)));
-				currentBombers -= bombersToAttackTarget;
+				currentBombers -= GetEmpireBomberForceForSystem(bestTarget.get());
 			}
 			
 		}

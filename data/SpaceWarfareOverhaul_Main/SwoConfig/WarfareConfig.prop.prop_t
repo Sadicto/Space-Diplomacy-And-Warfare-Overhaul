@@ -10,7 +10,8 @@ float bombersPerRedSpiceFactory 0.10#0.25
 int32 buildingsPerFactoryRatio 5
 int32 citiesInHomeworld 8
 int32 maxBombersInRaid 20
-float bombersSoftCap 40.0
+float bombersSoftCap 30.0
 float bombersSoftCapFactor 0.5
 float bombersHardCap 80.0
 float bombersHardCapFactor 0.1
+float bombersMultiPlanetPenaltyFactor 0.5

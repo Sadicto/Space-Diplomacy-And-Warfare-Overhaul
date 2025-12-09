@@ -46,6 +46,18 @@ public:
 
 	/// @brief Calculates and fills the attackPriorityMap with all enemy stars within the empire's range.
 	void CalculateAttackPriorities();
+	
+	/// @brief Calculates the number of bombers required for the empire to conquer a specific planet taking into account 
+	/// the penalty for the current number of planets attacked.
+	/// @param planet Pointer to the target planet.
+	/// @return Number of bombers needed to successfully invade the planet.
+	int GetEmpireBomberForceForPlanet(Simulator::cPlanetRecord* planet);
+
+	/// @brief Calculates the number of bombers required for the empire to conquer a specific system taking into account 
+	/// the penalty for the current number of planets attacked.
+	/// @param star Pointer to the target star system.
+	/// @return Number of bombers needed to successfully invade the system.
+	int GetEmpireBomberForceForSystem(Simulator::cStarRecord* star);
 
 	/// @brief Executes an attack against all valid planets in a star system using a given number of bombers.
 	/// Determines the bomber force required for each planet, distributes any surplus evenly, and 
@@ -74,6 +86,9 @@ public:
 
 	// Agression range of the empire.
 	float range;
+
+	// Number of planets attacked this turn.
+	int attackedPlanets;
 
 	// Maps each star to its calculated priority for being targeted in an invasion.
 	eastl::map<cStarRecordPtr, float> attackPriorityMap;

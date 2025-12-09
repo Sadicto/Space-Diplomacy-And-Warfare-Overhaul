@@ -24,6 +24,8 @@ cWarfareConfig::cWarfareConfig(ResourceKey warfareConfigKey)
 
 	App::Property::GetFloat(warfareConfigProp.get(), 0xE5E20C95, bombersHardCapFactor);
 
+	App::Property::GetFloat(warfareConfigProp.get(), 0x1DB4DD7A, bombersMultiPlanetPenaltyFactor);
+
 	PropertyListPtr terraformTuningProp;
 	PropManager.GetPropertyList(0xa6d1bc70, 0x02ae0c7e, terraformTuningProp);
 
@@ -116,5 +118,10 @@ float cWarfareConfig::GetBombersHardCap()
 float cWarfareConfig::GetBombersHardCapFactor()
 {
 	return bombersHardCapFactor;
+}
+
+float cWarfareConfig::GetBombersMultiPlanetPenaltyFactor() 
+{
+	return bombersMultiPlanetPenaltyFactor;
 }
 

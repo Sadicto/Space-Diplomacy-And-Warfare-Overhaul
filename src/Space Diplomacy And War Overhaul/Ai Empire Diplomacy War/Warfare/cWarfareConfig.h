@@ -56,6 +56,9 @@ public:
 	// Returns the multiplier applied to bombers that exceed the hard cap.
 	float GetBombersHardCapFactor();
 
+	// Returns the factor applied to the number of bombers required when attacking more than one planet in the same turn.
+	float GetBombersMultiPlanetPenaltyFactor();
+
 	// Vector storing the warfare range for different empire levels.
 	eastl::vector<float> warfareRange;
 
@@ -91,5 +94,8 @@ public:
 
 	// Multiplier applied to the bombers that exceed the hard cap.
 	float bombersHardCapFactor;
+
+	// Penalty factor applied to the bomber count required when an empire attack more than one planet in the same turn.
+	float bombersMultiPlanetPenaltyFactor;
 
 };
