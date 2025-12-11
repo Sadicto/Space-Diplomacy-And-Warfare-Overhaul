@@ -96,8 +96,8 @@
 
 	<!-- Warrior/Zealot Buffs -->
 	<componentGroup displayName="Warrior and Zealot Buffs" unique="Space-Warfare-Overhaul_WarriorZealotBuffs_Config">
-		<component game="GalacticAdventures" displayName="Enabled" description="Warrior and Zealot empires gain additional buffs." unique="SpaceWarfareOverhaul_BuffWarriorsZealots_Config" defaultChecked="true">Space-Warfare-Overhaul_BuffWarriorsZealots_Config.package</component>
-		<component game="GalacticAdventures" displayName="Disabled" description="Warrior and Zealot empires have no additional buffs." unique="SpaceWarfareOverhaul_NoBuffWarriorsZealots_Config" defaultChecked="false">Space-Warfare-Overhaul_NoBuffWarriorsZealots_Config.package</component>
+		<component game="GalacticAdventures" displayName="Enabled" description="Warrior and Zealot empires gain additional buffs." unique="SpaceWarfareOverhaul_BuffWarriorsZealots_Config" defaultChecked="false">Space-Warfare-Overhaul_BuffWarriorsZealots_Config.package</component>
+		<component game="GalacticAdventures" displayName="Disabled" description="Warrior and Zealot empires have no additional buffs." unique="SpaceWarfareOverhaul_NoBuffWarriorsZealots_Config" defaultChecked="true">Space-Warfare-Overhaul_NoBuffWarriorsZealots_Config.package</component>
 	</componentGroup>
 
 	<!-- SAIC Patch -->
