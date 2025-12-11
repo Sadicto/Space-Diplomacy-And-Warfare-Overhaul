@@ -134,6 +134,7 @@ void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Si
 	}
 }
 
+// Unused.
 void cDiplomacyEventListener::OnHostileAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	// TODO no notification if already negative.
 	if (empire2 == GetPlayerEmpire()) {

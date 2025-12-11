@@ -176,11 +176,8 @@ void cEmpireDiplomacy::ManageAllies() {
 			if (affinity > 0 || (affinity == 0 && DiplomacyUtils::CommonEnemy(empire.get(), ally.get()))) {
 				diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::StableAlliance, empire.get(), ally.get());
 			}
-			else if (affinity == 0) {
-				diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::UnstableAlliance, empire.get(), ally.get());
-			}
 			else {
-				diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::HostileAlliance, empire.get(), ally.get());
+				diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::UnstableAlliance, empire.get(), ally.get());
 			}
 		}
 	}
