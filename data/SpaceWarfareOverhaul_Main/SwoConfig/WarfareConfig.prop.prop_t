@@ -6,7 +6,7 @@ floats empireWarfareRange
 	10.0
 end
 
-float bombersPerRedSpiceFactory 0.10#0.25
+float bombersPerRedSpiceFactory 0.8#0.25
 int32 buildingsPerFactoryRatio 5
 int32 citiesInHomeworld 8
 int32 maxBombersInRaid 20
