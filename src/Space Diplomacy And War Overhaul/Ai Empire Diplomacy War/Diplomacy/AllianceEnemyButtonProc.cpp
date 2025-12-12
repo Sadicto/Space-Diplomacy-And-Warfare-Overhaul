@@ -88,29 +88,27 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 	for (cEmpirePtr empireEnemy : selectedEmpire->mEnemies) {
 		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireEnemy.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())) {
-			for (cStarRecordPtr star : empireEnemy->mStars) {
-				IVisualEffectPtr visualEffect;
-				if (EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect)){
-					visualEffect->Start();
-					Transform transform = Transform();
-					transform.SetOffset(star->mPosition);
-					visualEffect->SetSourceTransform(transform);
-					alliesAndEnemiesEffects.push_back(visualEffect);
-				}
+			Simulator::cStarRecord* enemyHomeworld = SporeModUtils::EmpireUtils::GetHomeStar(empireEnemy.get());
+			IVisualEffectPtr visualEffect;
+			if (EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect)) {
+				visualEffect->Start();
+				Transform transform = Transform();
+				transform.SetOffset(enemyHomeworld->mPosition);
+				visualEffect->SetSourceTransform(transform);
+				alliesAndEnemiesEffects.push_back(visualEffect);
 			}
 		}
 	}
 	for (cEmpirePtr empireAlly : selectedEmpire->mAllies) {
 		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireAlly.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())) {
-			for (cStarRecordPtr star : empireAlly->mStars) {
-				IVisualEffectPtr visualEffect;
-				if (EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect)){
-					visualEffect->Start();
-					Transform transform = Transform();
-					transform.SetOffset(star->mPosition);
-					visualEffect->SetSourceTransform(transform);
-					alliesAndEnemiesEffects.push_back(visualEffect);
-				}
+			Simulator::cStarRecord* allyHomeworld = SporeModUtils::EmpireUtils::GetHomeStar(empireAlly.get());
+			IVisualEffectPtr visualEffect;
+			if (EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect)) {
+				visualEffect->Start();
+				Transform transform = Transform();
+				transform.SetOffset(allyHomeworld->mPosition);
+				visualEffect->SetSourceTransform(transform);
+				alliesAndEnemiesEffects.push_back(visualEffect);
 			}
 		}
 	}
