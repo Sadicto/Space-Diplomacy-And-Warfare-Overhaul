@@ -81,8 +81,8 @@ float cEmpireDiplomacy::AllianceProbability(cEmpire* target) {
 
 	float maxAllianceProbability = diplomacyConfig->GetMaxAllianceProbability();
 	if ((affinity >= affinityThresholdForStableAlliance) || (affinity >= affinityThresholdForUnstableAlliance && DiplomacyUtils::CommonEnemy(empire.get(), target))) {
-		float allianceProbability = 0.2f + (static_cast<float>(affinity - affinityThresholdForUnstableAlliance) / maxAffinitySoftCap);
-		return min(allianceProbability, maxAllianceProbability);
+		float allianceProbability = min(0.1f + (float(affinity - affinityThresholdForUnstableAlliance) / float(maxAffinitySoftCap)), 1.0f);
+		return allianceProbability * maxAllianceProbability;
 	}
 	else {
 		return 0.0f;
@@ -106,18 +106,30 @@ float cEmpireDiplomacy::BreakAllianceProbability(cEmpire* target) {
 
 float cEmpireDiplomacy::DeclareWarProbability(cEmpire* target) {
 	int affinityThresholdForWar = diplomacyConfig->GetAffinityThresholdForWar();
-	int minAffinitySoftCap = diplomacyConfig->GetMinAffinitySoftCap();
-	float maxWarProbability = diplomacyConfig->GetMaxWarProbability();
 	int affinity = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), target);
 	if ((affinity > affinityThresholdForWar) || (affinity == affinityThresholdForWar && DiplomacyUtils::CommonEnemy(empire.get(), target))) {
 		return 0.0f;
 	}
 	else {
+		int maxAgressivity = diplomacyConfig->GetMaxAgressivity();
+		int minAgressivity = diplomacyConfig->GetMinAgressivity();
+		int minAffinitySoftCap = diplomacyConfig->GetMinAffinitySoftCap();
+		float aggressivityWeightForWar = diplomacyConfig->GetAgressivityWeightForWar();
+		float affinityWeightForWar = diplomacyConfig->GetAffinityWeightForWar();
+		float maxWarProbability = diplomacyConfig->GetMaxWarProbability();
+		float minWarProbability = diplomacyConfig->GetMinWarProbability();
+
 		int aggresivity = empireRelationsAnalyzer->GetEmpireAgressivity(empire.get());
-		float warProbability = static_cast<float>(affinity - aggresivity - minAffinitySoftCap - 1) / (minAffinitySoftCap - 1);
-		return min (warProbability * maxWarProbability, maxWarProbability);
+
+		float effectiveAffinity = float(pow((float(affinity) / float(minAffinitySoftCap)), 2.0f));
+		float effectiveAgressivity = float(pow((float(aggresivity) + maxAgressivity) / (maxAgressivity - minAgressivity), 3.0f));
+
+		float warProbability = min (effectiveAgressivity * (aggressivityWeightForWar + affinityWeightForWar * effectiveAffinity), 1.0f);
+		warProbability = warProbability * maxWarProbability;
+		return max (warProbability, minWarProbability);
 	}
 }
+
 
 
 cEmpire* cEmpireDiplomacy::GetBreakAllianceTarget() {

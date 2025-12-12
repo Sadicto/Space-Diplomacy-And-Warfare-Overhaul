@@ -32,11 +32,26 @@ public:
 	/// @brief Gets the lower limit below which decreased affinity has no additional effect.
 	int GetMinAffinitySoftCap();
 
+	/// @brief Gets the upper bound for an empire’s aggressivity.
+	int GetMaxAgressivity();
+
+	/// @brief Gets the lower bound for an empire’s aggressivity.
+	int GetMinAgressivity();
+
 	/// @brief Gets the maximum probability of alliance between two empires during a single cycle.
 	float GetMaxAllianceProbability();
 
 	/// @brief Gets the maximum probability of war between two empires during a single cycle.
 	float GetMaxWarProbability();
+
+	/// @brief Gets the factor that controls how much the aggressivity of an empire influences the probability of war.
+	float GetAgressivityWeightForWar();
+
+	/// @brief Gets the factor that controls how much the affinity between two empires influences the probability of war.
+	float GetAffinityWeightForWar();
+
+	/// @brief Gets minimum probability of war between two empires that have equal or less affinity than affinityThresholdForWar.
+	float GetMinWarProbability();
 
 	/// @brief Gets the affinity value required for an alliance to be considered stable.
 	int GetAffinityThresholdForStableAlliance();
@@ -81,11 +96,26 @@ public:
 	// The lower limit below which decreased affinity has no additional effect.
 	int minAffinitySoftCap;
 
+	// Upper bound for an empire’s aggressivity.
+	int maxAgressivity;
+
+	// Lower bound for an empire’s aggressivity.
+	int minAgressivity;
+
 	// The maximum probability of alliance between two empires during a single cycle.
 	float maxAllianceProbability;
 
 	// The maximum probability of war between two empires during a single cycle.
 	float maxWarProbability;
+
+	// Factor that controls how much the aggressivity of an empire influences the probability of war.
+	float aggressivityWeightForWar;
+
+	// Factor that controls how much the affinity between two empires influences the probability of war.
+	float affinityWeightForWar;
+
+	// Minimum probability of war between two empires that have equal or less affinity than affinityThresholdForWar.
+	float minWarProbability;
 
 	// The affinity value required for an alliance to be considered stable.
 	int affinityThresholdForStableAlliance;

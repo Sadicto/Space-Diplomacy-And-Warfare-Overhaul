@@ -6,11 +6,17 @@ floats empireDiplomacyRange
 	10.0
 end
 
-int32 MaxAffinitySoftCap  5
-int32 MinAffinitySoftCap -5
+int32 MaxAffinitySoftCap  7
+int32 MinAffinitySoftCap -7
+int32 MaxAgressivity 6
+int32 MinAgressivity -6
 
-float MaxAllianceProbability 0.8
-float MaxWarProbability 0.6
+float MaxAllianceProbability 0.50
+float MaxWarProbability 0.50
+
+float AgressivityWeightForWar 0.30
+float AffinityWeightForWar 0.70
+float MinWarProbability 0.001
 
 int32 AffinityThresholdForStableAlliance  1
 int32 AffinityThresholdForUnstableAlliance  0

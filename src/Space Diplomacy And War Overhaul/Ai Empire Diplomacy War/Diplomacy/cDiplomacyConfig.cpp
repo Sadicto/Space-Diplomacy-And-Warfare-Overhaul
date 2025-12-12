@@ -16,9 +16,19 @@ cDiplomacyConfig::cDiplomacyConfig(ResourceKey configKey)
 
 	App::Property::GetInt32(configProp.get(), 0x63812B01, minAffinitySoftCap);
 
+	App::Property::GetInt32(configProp.get(), 0x14986657, maxAgressivity);
+
+	App::Property::GetInt32(configProp.get(), 0x054EC25D, minAgressivity);
+
 	App::Property::GetFloat(configProp.get(), 0x38D9CD5F, maxAllianceProbability);
 
 	App::Property::GetFloat(configProp.get(), 0xDCFF754A, maxWarProbability);
+
+	App::Property::GetFloat(configProp.get(), 0x53B3F63A, aggressivityWeightForWar);
+
+	App::Property::GetFloat(configProp.get(), 0x4879A1DC, affinityWeightForWar);
+
+	App::Property::GetFloat(configProp.get(), 0xB05A4ED0, minWarProbability);
 
 	App::Property::GetInt32(configProp.get(), 0xDB025009, affinityThresholdForStableAlliance);
 
@@ -80,12 +90,34 @@ int cDiplomacyConfig::GetMinAffinitySoftCap() {
 	return minAffinitySoftCap;
 }
 
+
+int cDiplomacyConfig::GetMaxAgressivity() {
+	return maxAgressivity;
+}
+
+
+int cDiplomacyConfig::GetMinAgressivity() {
+	return minAgressivity;
+}
+
 float cDiplomacyConfig::GetMaxAllianceProbability() {
 	return maxAllianceProbability;
 }
 
 float cDiplomacyConfig::GetMaxWarProbability() {
 	return maxWarProbability;
+}
+
+float  cDiplomacyConfig::GetAgressivityWeightForWar() {
+	return aggressivityWeightForWar;
+}
+
+float  cDiplomacyConfig::GetAffinityWeightForWar() {
+	return affinityWeightForWar;
+}
+
+float  cDiplomacyConfig::GetMinWarProbability() {
+	return minWarProbability;
 }
 
 int cDiplomacyConfig::GetAffinityThresholdForStableAlliance() {
