@@ -36,9 +36,11 @@ public:
 	 */
 	void ResolveAlliesWar();
 
-	/// @brief Returns an ally's enemy empire, if any.
-	/// @return A pointer to the enemy empire, or nullptr if none exists.
-	Simulator::cEmpire* GetAllyEnemy();
+	/// @brief Returns an empire that is currently at war with one of this empire’s allies
+	/// and whose affinity toward this empire is lower than the affinity this
+	/// empire has for that ally.
+	/// @return Pointer to the qualifying enemy empire, or nullptr if no such empire exists.
+	Simulator::cEmpire* FindAllyEnemy();
 
 	/// @brief Calculates the probability of forming an alliance with the target empire.
 	/// @param target.

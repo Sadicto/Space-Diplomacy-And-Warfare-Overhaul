@@ -63,10 +63,16 @@ void cEmpireDiplomacy::ResolveAlliesWar() {
 	}
 }
 
-Simulator::cEmpire* cEmpireDiplomacy::GetAllyEnemy() {
+Simulator::cEmpire* cEmpireDiplomacy::FindAllyEnemy() {
 	for (cEmpirePtr neutral : neutrals) {
-		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true) && DiplomacyUtils::AllianceWithEnemyOfEmpire(empire.get(), neutral.get())) {
-			return neutral.get();
+		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true)) {
+			for (cEmpirePtr ally : empire->mAllies) {
+				if (DiplomacyUtils::War(neutral.get(), ally.get()) &&
+					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally.get()) >
+					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), neutral.get())) {
+					return neutral.get();
+				}
+			}
 		}
 	}
 	return nullptr;
@@ -206,7 +212,7 @@ void cEmpireDiplomacy::ManageEnemies() {
 void cEmpireDiplomacy::ManageNeutrals() {
 	cEmpire* wartarget = nullptr;
 	if (diplomacyConfig->GetAutoDeclareWarOnAllyEnemies()) {
-		wartarget = GetAllyEnemy();
+		wartarget = FindAllyEnemy();
 	}
 	if (wartarget == nullptr && (diplomacyConfig->GetStartsWarsWhileAtWar() || empire->mEnemies.size() == 0)) {
 		wartarget = GetWarTarget();
