@@ -54,6 +54,9 @@
     <ClInclude Include="Warfare\cToolInvasionStrategy.h" />
     <ClInclude Include="Diplomacy\AffinityTextProc.h" />
     <ClInclude Include="Warfare\cArchetypeStrengthConfig.h" />
+    <ClInclude Include="cCompositionRoot.h" />
+    <ClInclude Include="Diplomacy\cEmpireDiplomacyFactory.h" />
+    <ClInclude Include="Warfare\cEmpireWarfareFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -94,6 +97,9 @@
     <ClCompile Include="Warfare\cToolInvasionStrategy.cpp" />
     <ClCompile Include="Diplomacy\AffinityTextProc.cpp" />
     <ClCompile Include="Warfare\cArchetypeStrengthConfig.cpp" />
+    <ClCompile Include="cCompositionRoot.cpp" />
+    <ClCompile Include="Diplomacy\cEmpireDiplomacyFactory.cpp" />
+    <ClCompile Include="Warfare\cEmpireWarfareFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

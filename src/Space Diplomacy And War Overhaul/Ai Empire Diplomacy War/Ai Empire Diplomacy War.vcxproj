@@ -100,6 +100,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cCompositionRoot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Diplomacy\AffinityTextProc.h">
       <SubType>
       </SubType>
@@ -130,6 +134,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Diplomacy\cEmpireDiplomacy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\cEmpireDiplomacyFactory.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -166,6 +174,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Warfare\cEmpireWarfare.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Warfare\cEmpireWarfareFactory.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -211,6 +223,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cCompositionRoot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Diplomacy\AffinityTextProc.cpp">
       <SubType>
       </SubType>
@@ -241,6 +257,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Diplomacy\cEmpireDiplomacy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\cEmpireDiplomacyFactory.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -286,6 +306,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Warfare\cEmpireWarfare.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Warfare\cEmpireWarfareFactory.cpp">
       <SubType>
       </SubType>
     </ClCompile>

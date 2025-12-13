@@ -11,6 +11,7 @@
 #include "cDiplomacyPopupManager.h"
 #include "cDiplomacyEffectAnalyzer.h"
 #include "cEmpireRelationshipController.h"
+#include "cEmpireDiplomacyFactory.h"
 
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>
@@ -50,6 +51,12 @@ public:
 
 	static cDiplomacySystem* Get();
 
+	/**
+	* @brief Injects the required dependencies into the manager.
+	* @param empireDiplomacyFactory.
+	*/
+	void InjectDependencies(cEmpireDiplomacyFactory* empireDiplomacyFactory);
+
 	/// @brief Executes one subcycle of the diplomacy system.
 	/// Processes the next empire in the queue and handles its diplomatic actions.
 	void DiplomacySubCycle();
@@ -58,58 +65,9 @@ public:
 	/// Initializes the list of empires, resets timers, and distributes empires across subcycles.
 	void StartDiplomacyCycle();
 
-	// Pointer to the loaded archetypes affinities object.
-	cArchetypesConfigPtr archetypesConfig;
 private:
-	//
-	// You can add members here.
-	//
 
 	static cDiplomacySystem* instance;
-
-	// Key used to load the diplomacy configuration prop.
-	ResourceKey diplomacyConfigKey;
-
-	// Pointer to the loaded diplomacy configuration object.
-	cDiplomacyConfigPtr diplomacyConfig;
-
-	// Key used to load the archetypes affinities prop.
-	ResourceKey archetypesAffinitiesKey;
-
-	// Key used to load the archetypes agressivities prop.
-	ResourceKey archetypesAgressivitiesKey;
-
-
-
-	// Pointer to the loaded empire relations analyzer object.
-	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
-
-	// Pointer to the loaded diplomacy event dispatcher object.
-	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
-
-	// Pointer to the loaded diplomacy event listener object.
-	cDiplomacyEventListenerPtr diplomacyEventListener;
-
-	// Key used to load the popups texts prop.
-	ResourceKey spacePopUpsTextsKey;
-
-	// Key used to load the popups filter config.
-	ResourceKey popupsFilterConfigKey;
-
-	// Pointer to the loaded diplomacy popup manager.
-	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
-
-	// Pointer to the loaded empire relationship controller.
-	cEmpireRelationshipControllerPtr empireRelationshipController;
-
-	// Pointer to the loaded diplomacy effect analyzer.
-	cDiplomacyEffectAnalyzerPtr diplomacyEffectAnalyzer;
-
-	// Key used to load the relationship effects prop.
-	ResourceKey relationshipEffectsKey;
-
-	// Pointer to the loaded diplomacy effect info provider.
-	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;
 
 	// Actives empireDiplomacy;
 	eastl::vector<cEmpireDiplomacyPtr> empiresDiplomacy;
@@ -117,11 +75,11 @@ private:
 	// Iterator to the next empire whose diplomacy will be managed..
 	eastl::vector<cEmpireDiplomacyPtr>::iterator empireToManage;
 
-	// Pointer to the loaded affinityLayout.
-	UTFWin::UILayout* affinityLayout;
+	// Pointer to the loaded empire diplomacy factory.
+	cEmpireDiplomacyFactoryPtr empireDiplomacyFactory;
 
-	// Key used to load the affinityTextConfig.
-	ResourceKey affinityTextConfigKey;
+	// Indicates whether the manager’s dependencies have been injected.
+	bool ready;
 
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include "../Diplomacy/cArchetypesConfig.h"
 
 #define cArchetypeStrengthConfigPtr intrusive_ptr<cArchetypeStrengthConfig>
 
@@ -13,7 +14,7 @@ class cArchetypeStrengthConfig
 public:
 	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cArchetypeStrengthConfig");
 	
-	cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfiggKey);
+	cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfigKey, cArchetypesConfig* archetypesConfig);
 	~cArchetypeStrengthConfig();
 
 	int AddRef() override;

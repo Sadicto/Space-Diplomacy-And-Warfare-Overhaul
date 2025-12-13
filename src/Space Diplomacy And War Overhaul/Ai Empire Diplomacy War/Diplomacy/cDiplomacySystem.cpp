@@ -23,7 +23,7 @@ int cDiplomacySystem::Release() {
 }
 
 const char* cDiplomacySystem::GetName() const {
-	return "HarderSpaceDiplomacy::cDiplomacySystem";
+	return "SpaceDiplomacyOverhaul::cDiplomacySystem";
 }
 
 bool cDiplomacySystem::Write(Simulator::ISerializerStream* stream)
@@ -46,18 +46,9 @@ Simulator::Attribute cDiplomacySystem::ATTRIBUTES[] = {
 
 
 void cDiplomacySystem::Initialize() {
-	cycle = 0;
 	instance = this;
-	diplomacyConfig = nullptr;
-	archetypesConfig = nullptr;
-	empireRelationsAnalyzer = nullptr;
-	diplomacyEventDispatcher = nullptr;
-	diplomacyPopUpManager = nullptr;
-	diplomacyEffectInfoProvider = nullptr;
-	diplomacyEffectAnalyzer = nullptr;
-	empireRelationshipController = nullptr;
-	diplomacyEventListener = nullptr;
-	affinityLayout = nullptr;
+	ready = false;
+	cycle = 0;
 
 	PropertyListPtr managerConfigProp;
 
@@ -67,13 +58,7 @@ void cDiplomacySystem::Initialize() {
 	App::Property::GetInt32(managerConfigProp.get(), 0x9EC13ACD, minSubcycleStep);
 	App::Property::GetInt32(managerConfigProp.get(), 0xB5BD28BA, cycleInterval);
 
-	App::Property::GetKey(managerConfigProp.get(), 0x13741BB4, spacePopUpsTextsKey);
-	App::Property::GetKey(managerConfigProp.get(), 0x6FCEBDBF, diplomacyConfigKey);
-	App::Property::GetKey(managerConfigProp.get(), 0x57252EFE, archetypesAffinitiesKey);
-	App::Property::GetKey(managerConfigProp.get(), 0x142ECBFA, archetypesAgressivitiesKey);
-	App::Property::GetKey(managerConfigProp.get(), 0x76F0A8F2, popupsFilterConfigKey);
-	App::Property::GetKey(managerConfigProp.get(), 0x82AE7927, relationshipEffectsKey);
-	App::Property::GetKey(managerConfigProp.get(), 0xD96A8912, affinityTextConfigKey);
+	empireDiplomacyFactory = nullptr;
 	elapsedTime = 0;
 	subcycleStep = 0;
 	empiresPerSubCycle = 0;
@@ -87,7 +72,7 @@ void cDiplomacySystem::Dispose() {
 }
 
 void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
-	if (IsSpaceGame()) {
+	if (IsSpaceGame() && ready) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
 			StartDiplomacyCycle();
@@ -103,73 +88,21 @@ void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
 
 void cDiplomacySystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) {
 	if (newModeID == GameModeIDs::kGameSpace) {
-		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
-
-		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
-
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get());
-
-		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
-
-		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey, popupsFilterConfigKey);
-
-		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(relationshipEffectsKey);
-
-		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
-
-		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
-
-		diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get());
-
-		MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
-
 		empiresDiplomacy.clear();
 
 		// Randomizes the start of the first cycle to avoid being synchronized with the cycles of other managers.
 		elapsedTime = Math::rand(cycleInterval / 2);
 		nextSubcycleTime = 9999999;
 		cycle = 0;
-
-		// Add the AllianceEnemyButtonProc to the allies button.
-		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
-		if (globalUiLayout != nullptr) {
-			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
-			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
-			window->AddWinProc(proc);
-		}
-		// Loads the affinity number layout, attaches it to the communications layout,
-		// and creates the AffinityTextProc.
-		affinityLayout = new UTFWin::UILayout();
-		affinityLayout->LoadByID(0x7db34bf7); // layouts_atlas~!AffinityLayout.spui.
-
-		UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
-		UTFWin::IWindow* commScreenWindow = mainWindow->FindWindowByID(0x0493AB00)->GetParent();
-		affinityLayout->SetParentWindow(commScreenWindow);
-
-
-		UTFWin::IWindow* affinityMainWindow = affinityLayout->FindWindowByID(0x434EB9AD);
-		AffinityTextProc* affinityTextProc = new AffinityTextProc(affinityMainWindow, empireRelationsAnalyzer.get(), affinityTextConfigKey);
-		affinityMainWindow->AddWinProc(affinityTextProc);
 	}
 }
 
 void cDiplomacySystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID) {
 	if (previousModeID == GameModeIDs::kGameSpace) {
-		diplomacyConfig.reset();
-		archetypesConfig.reset();
-		empireRelationsAnalyzer.reset();
-		diplomacyEventDispatcher.reset();
-		diplomacyPopUpManager.reset();
-		diplomacyEffectInfoProvider.reset();
-		diplomacyEffectAnalyzer.reset();
-		empireRelationshipController.reset();
-
-		MessageManager.RemoveListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
-		diplomacyEventListener.reset();
 
 		empiresDiplomacy.clear();
-		delete affinityLayout;
-		affinityLayout = nullptr;
+		empireDiplomacyFactory.reset();
+		ready = false;
 	}
 }
 
@@ -180,6 +113,11 @@ bool cDiplomacySystem::WriteToXML(XmlSerializer*)
 
 cDiplomacySystem* cDiplomacySystem::Get() {
 	return instance;
+}
+
+void cDiplomacySystem::InjectDependencies(cEmpireDiplomacyFactory* empireDiplomacyFactory){
+	this->empireDiplomacyFactory = empireDiplomacyFactory;
+	ready = true;
 }
 
 void cDiplomacySystem::DiplomacySubCycle() {
@@ -198,7 +136,7 @@ void cDiplomacySystem::StartDiplomacyCycle() {
 	EmpireUtils::GetEmpiresInRadius(GetPlayerHomePlanet()->GetStarRecord()->mPosition, activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
 		if (EmpireUtils::ValidNpcEmpire(empire.get())) {
-			cEmpireDiplomacyPtr empireDiplomacy = new cEmpireDiplomacy(empire.get(), diplomacyConfig.get(), empireRelationsAnalyzer.get(), diplomacyEventDispatcher.get());
+			cEmpireDiplomacyPtr empireDiplomacy = empireDiplomacyFactory->CreateEmpireDiplomacy(empire.get());
 			empiresDiplomacy.push_back(empireDiplomacy);
 		}
 	}

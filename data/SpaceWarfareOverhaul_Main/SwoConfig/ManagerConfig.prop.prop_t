@@ -1,6 +1,3 @@
 int32 warfareCycleInterval 300000 # 5 minutes.
 int32 minSubcycleStep 2000 # 2 seconds.
 float activeRadius 100
-key WarfareConfig SwoConfig!WarfareConfig.prop
-key SpaceCombatKey gametuning~!SpaceCombat.prop
-key ArchetypeStrengthConfig SwoConfig!ArchetypeStrengthConfig.prop

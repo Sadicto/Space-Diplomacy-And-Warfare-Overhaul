@@ -2,11 +2,10 @@
 #include "cArchetypeStrengthConfig.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "../Diplomacy/cDiplomacySystem.h"
-#include "../Diplomacy/cArchetypesConfig.h"
 
 using namespace SporeModUtils;
 
-cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfigKey)
+cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeStrengthConfigKey, cArchetypesConfig* archetypesConfig)
 {
 	PropertyListPtr archetypeStrengthConfigProp;
 	PropManager.GetPropertyList(archetypeStrengthConfigKey.instanceID, archetypeStrengthConfigKey.groupID, archetypeStrengthConfigProp);
@@ -20,8 +19,6 @@ cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeStrength
 	float hostilityMultiplier;
 	App::Property::GetFloat(archetypeStrengthConfigProp.get(), 0x0FAE7B8D, hostilityMultiplier);
 
-	// This is extremely nasty and i should change it asap.
-	cArchetypesConfig* archetypesConfig = cDiplomacySystem::Get()->archetypesConfig.get();
 	Simulator::Archetypes playerArchetype = Simulator::GetPlayerEmpire()->mArchetype;
 	if (archetypesConfig != nullptr) {
 		for (int i = 0; i < 8; i++) {

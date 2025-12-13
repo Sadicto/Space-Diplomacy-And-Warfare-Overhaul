@@ -7,15 +7,20 @@
 #include "Diplomacy\cDiplomacySystem.h"
 #include <Spore/App/cCameraManager.h>
 #include <Spore/Swarm/cEffectsManager.h>
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "Warfare/DebugWarfare.h"
 #include "Warfare/cWarfareSystem.h"
 #include "Warfare/cToolInvasionStrategy.h"
 #include "Diplomacy/AffinityTextProc.h"
+#include "cCompositionRoot.h"
+
+using namespace SporeModUtils;
 
 void Initialize()
 {
 	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
 	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
+	cSimulatorSystem::Get()->AddStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);

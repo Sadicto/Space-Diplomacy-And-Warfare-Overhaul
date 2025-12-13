@@ -9,6 +9,7 @@
 #include "cEmpireWarfare.h"
 #include "cWarfareEventListener.h"
 #include "cArchetypeStrengthConfig.h"
+#include "cEmpireWarfareFactory.h"
 
 #define cWarfareSystemPtr intrusive_ptr<cWarfareSystem>
 
@@ -41,6 +42,14 @@ public:
 	void OnModeExited(uint32_t previousModeID, uint32_t newModeID) override;
 	static Simulator::Attribute ATTRIBUTES[];
 
+	static cWarfareSystem* Get();
+
+	/**
+	* @brief Injects the required dependencies into the manager.
+	* @param empireWarfareFactory.
+	*/
+	void InjectDependencies(cEmpireWarfareFactory* empireWarfareFactory);
+
 	/// @brief Executes one subcycle of the warfare system.
 	/// Processes the next empire in the queue and manages its warfare actions.
 	void WarfareSubCycle();
@@ -49,42 +58,21 @@ public:
 	/// Initializes the list of empires, resets timers, and distributes empires across subcycles.
 	void StartWarfareCycle();
 
-
-
 private:
-	
-	// Key used to load the warfare config prop.
-	ResourceKey warfareConfigKey;
 
-	// Pointer to the loaded warfareConfig.
-	cWarfareConfigPtr warfareConfig;
-
-	// Key used to load the space combat prop.
-	ResourceKey spaceCombatKey;
-
-	// Pointer to the loaded spaceCombatMetrics.
-	cSpaceCombatMetricsPtr spaceCombatMetrics;
-
-	// Pointer to the loaded warfareStrengthAnalyzer.
-	cWarfareStrengthAnalyzerPtr warfareStrengthAnalyzer;
-
-	// Pointer to the loaded warfareEventDispatcher.
-	cWarfareEventDispatcherPtr warfareEventDispatcher;
-
-	// Pointer to the loaded warfareEventListener.
-	cWarfareEventListenerPtr warfareEventListener;
-
-	// Key used to load the archetypeStrengthConfig prop.
-	ResourceKey archetypeStrengthConfigKey;
-
-	// Pointer to the loaded ArchetypeStrengthConfig
-	cArchetypeStrengthConfigPtr archetypeStrengthConfig;
+	static cWarfareSystem* instance;
 
 	// Actives empireWarfare;
 	eastl::vector<cEmpireWarfarePtr> empiresWarfare;
 
 	// Iterator to the next empire whose warfare will be managed..
 	eastl::vector<cEmpireWarfarePtr>::iterator empireToManage;
+
+	// Pointer to the loaded empireWarfareFactory;
+	cEmpireWarfareFactoryPtr empireWarfareFactory;
+
+	// Indicates whether the manager’s dependencies have been injected.
+	bool ready;
 
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;
