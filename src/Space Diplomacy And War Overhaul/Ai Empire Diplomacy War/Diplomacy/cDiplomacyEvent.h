@@ -3,7 +3,7 @@
 
 
 /// Defines the different types of diplomacy events that may occur between empires.
-enum DiplomacyEventType {
+enum class DiplomacyEventType {
 	FormAlliance,
 	BreakAlliance,
 	ConflictBreakAlliance,

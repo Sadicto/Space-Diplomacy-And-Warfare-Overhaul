@@ -39,8 +39,7 @@ bool cDiplomacySystem::Read(Simulator::ISerializerStream* stream)
 ////////////////////////////////////
 
 Simulator::Attribute cDiplomacySystem::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
+
 	Simulator::Attribute()
 };
 

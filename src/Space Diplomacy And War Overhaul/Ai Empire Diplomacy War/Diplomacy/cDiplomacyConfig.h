@@ -62,15 +62,6 @@ public:
 	/// @brief Gets the maximum affinity at which empires may still declare war.
 	int GetAffinityThresholdForWar();
 
-	/// @brief Gets the affinity gained between empires that are allies of the same ally.
-	int GetAffinityGainForAllyOfAlly();
-
-	/// @brief Gets the affinity gained between empires that share a common enemy.
-	int GetAffinityGainForEnemyOfEnemy();
-
-	/// @brief Gets the affinity lost when an empire is an enemy of another's ally (should be negative).
-	int GetAffinityGainForEnemyOfAlly();
-
 	/// @brief Gets the base aggressiveness value for the specified archetype.
 	int GetArchetypeAgressivity(Simulator::Archetypes archetype);
 
@@ -125,15 +116,6 @@ public:
 
 	// The maximum affinity at which empires may still declare war.
 	int affinityThresholdForWar;
-
-	// Affinity gained between empires that are allies of the same ally.
-	int affinityGainForAllyOfAlly;
-
-	// Affinity gained between empires that share a common enemy.
-	int affinityGainForEnemyOfEnemy;
-
-	// Affinity lost between empires when one is an enemy of the other's ally (should be negative).
-	int affinityGainForEnemyOfAlly;
 
 	// Stores the base aggressiveness for each archetype.
 	eastl::vector<int> baseAggressivityByArchetype;

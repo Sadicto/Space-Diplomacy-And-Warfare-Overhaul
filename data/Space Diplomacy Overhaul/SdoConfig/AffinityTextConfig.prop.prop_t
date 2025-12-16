@@ -8,3 +8,12 @@ string16 archetypeAffinityText "Archetype compatibility"
 string16 commonEnemyText "Shared enemy"
 string16 commonAllyText "Shared ally"
 string16 warWithAllyText "At war with an ally"
+
+string16s affinityTexts
+	"Archetype compatibility" # ArchetypeAffinity
+	"Shared enemy" 		  # CommonEnemy
+	"Shared ally" 		  # CommonAlly
+	"At war with an ally" 	  # WarWithAlly
+	"Defeated shared enemy" 	  # DefeatedCommonEnemy
+	"Uplifted by monolith"    # UpliftedByMonolith
+end

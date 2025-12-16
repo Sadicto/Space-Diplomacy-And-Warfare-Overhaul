@@ -46,6 +46,7 @@ void cCompositionRoot::Initialize(){
 	diplomacySystem = nullptr;
 	diplomacyConfig = nullptr;
 	archetypesConfig = nullptr;
+	affinityConfig = nullptr;
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
 	empireDiplomacyFactory = nullptr;
@@ -72,6 +73,7 @@ void cCompositionRoot::Initialize(){
 	App::Property::GetKey(configurationKeys.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x57252EFE, archetypesAffinitiesKey);
 	App::Property::GetKey(configurationKeys.get(), 0x142ECBFA, archetypesAgressivitiesKey);
+	App::Property::GetKey(configurationKeys.get(), 0x5598934F, affinityConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x76F0A8F2, popupsFilterConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x82AE7927, relationshipEffectsKey);
 	App::Property::GetKey(configurationKeys.get(), 0xD96A8912, affinityTextConfigKey);
@@ -97,7 +99,9 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
 
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get());
+		affinityConfig = new cAffinityConfig(affinityConfigKey);
+
+		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get());
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
@@ -173,6 +177,7 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		diplomacySystem.reset();
 		diplomacyConfig.reset();
 		archetypesConfig.reset();
+		affinityConfig.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
 		empireDiplomacyFactory.reset();

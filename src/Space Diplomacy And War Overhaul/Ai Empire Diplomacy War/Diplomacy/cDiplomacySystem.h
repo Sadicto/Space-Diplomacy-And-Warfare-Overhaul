@@ -16,11 +16,6 @@
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>
 
-///
-/// In your dllmain Initialize method, add the system like this:
-/// ModAPI::AddSimulatorStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
-///
-
 /// Main class of the diplomacy system.
 /// Coordinates diplomacy cycles, instantiates and owns
 /// the other diplomacy-related subsystem classes, and manages
@@ -66,6 +61,7 @@ public:
 	void StartDiplomacyCycle();
 
 private:
+
 
 	static cDiplomacySystem* instance;
 

@@ -15,6 +15,7 @@
 #include <Diplomacy/cDiplomacySystem.h>
 #include <Warfare/cWarfareSystem.h>
 #include <Warfare/cEmpireWarfareFactory.h>
+#include <Diplomacy/Config/cAffinityConfig.h>
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
@@ -67,11 +68,17 @@ private:
 	// Key used to load the archetypes affinities prop.
 	ResourceKey archetypesAffinitiesKey;
 
+	// Key used to load the affinity config prop.
+	ResourceKey affinityConfigKey;
+
 	// Key used to load the archetypes agressivities prop.
 	ResourceKey archetypesAgressivitiesKey;
 
 	// Pointer to the loaded archetypes affinities object.
 	cArchetypesConfigPtr archetypesConfig;
+
+	// Pointer to the loaded affinity config object.
+	cAffinityConfigPtr affinityConfig;
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;

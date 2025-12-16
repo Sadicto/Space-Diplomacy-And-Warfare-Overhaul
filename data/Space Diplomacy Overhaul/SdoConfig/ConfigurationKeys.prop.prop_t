@@ -1,5 +1,6 @@
 key ArchetypeAffinities SdoConfig!ArchetypeAffinities.prop
 key ArchetypeAgressivities SdoConfig!AgressivityByArchetypeByLevel.prop
+key AffinityConfig SdoConfig!AffinityConfig.prop
 key DiplomacyConfig SdoConfig!DiplomacyConfig.prop
 key SpacePopUpsTexts SdoConfig!SpacePopUpsTexts.prop
 key PopupsFilter SdoConfig!PopupsFilter.prop

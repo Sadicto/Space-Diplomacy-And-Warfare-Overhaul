@@ -57,6 +57,11 @@
     <ClInclude Include="cCompositionRoot.h" />
     <ClInclude Include="Diplomacy\cEmpireDiplomacyFactory.h" />
     <ClInclude Include="Warfare\cEmpireWarfareFactory.h" />
+    <ClInclude Include="cPersistedEventSystem.h" />
+    <ClInclude Include="cPersistedEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.h" />
+    <ClInclude Include="Diplomacy\Config\cAffinityConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -100,6 +105,11 @@
     <ClCompile Include="cCompositionRoot.cpp" />
     <ClCompile Include="Diplomacy\cEmpireDiplomacyFactory.cpp" />
     <ClCompile Include="Warfare\cEmpireWarfareFactory.cpp" />
+    <ClCompile Include="cPersistedEventSystem.cpp" />
+    <ClCompile Include="cPersistedEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.cpp" />
+    <ClCompile Include="Diplomacy\Config\cAffinityConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

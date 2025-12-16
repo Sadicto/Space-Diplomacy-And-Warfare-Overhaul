@@ -1,0 +1,37 @@
+int32 numAffinityModifiers 6
+
+bools expires
+	false # ArchetypeAffinity
+	false # CommonEnemy
+	false # CommonAlly
+	false # WarWithAlly
+	true  # DefeatedCommonEnemy
+	false # UpliftedByMonolith
+end
+
+uint32s expireTime
+	0  # ArchetypeAffinity 
+	0  # CommonEnemy
+	0  # CommonAlly
+	0  # WarWithAlly
+	1  # DefeatedCommonEnemy
+	0  # UpliftedByMonolith
+end
+
+int32s affinityGain
+	0  # ArchetypeAffinity (Calculated a different way)
+	2  # CommonEnemy
+	1  # CommonAlly
+	-1 # WarWithAlly
+	2  # DefeatedCommonEnemy
+	1  # UpliftedByMonolith
+end
+
+bools mutuallyExclusive
+	false # ArchetypeAffinity
+	true  # CommonEnemy
+	false # CommonAlly
+	false # WarWithAlly
+	true  # DefeatedCommonEnemy
+	false # UpliftedByMonolith
+end

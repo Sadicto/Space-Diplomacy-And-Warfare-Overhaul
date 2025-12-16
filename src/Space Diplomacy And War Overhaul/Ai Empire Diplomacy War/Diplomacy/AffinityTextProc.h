@@ -48,17 +48,8 @@ public:
 	// Pointer to the loaded empireRelationsAnalyzer.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
 
-	// Text for the archetype compatibility effect.
-	eastl::string16 archetypeAffinityText;
-
-	// Text for the shared enemy effect.
-	eastl::string16 commonEnemyText;
-
-	// Text for the shared ally effect.
-	eastl::string16 commonAllyText;
-
-	// Text for the “at war with an ally” effect.
-	eastl::string16 warWithAllyText;
+	// Stores the text for the affinity modifiers.
+	eastl::vector<string16> affinityTexts;
 
 	// Color used for negative affinity (strong).
 	Color red;
@@ -80,7 +71,7 @@ public:
 	// @param empireID The ID of the empire whose affinity value should be displayed.
 	void SetAffinityText(uint32_t empireID);
 
-	// Gets the localized text for a given affinity modifier.
+	// Gets the text for a given affinity modifier.
 	// @param affinityModifier The modifier whose description should be returned.
 	eastl::string16 GetAffinityModifierText(AffinityModifier affinityModifier);
 

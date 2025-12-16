@@ -67,18 +67,15 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 8: {
-        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpacePushedTooFar);
         break;
 
     }
     case 9: {
-        RelationshipManager.ApplyRelationship(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceNewEmpireAndCTMGOwner);
+        int a = 1;
         break;
 
     }
     case 10:{
-        float value = RelationshipManager.GetRelationshipEventValue(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceGiveGift);
-        RelationshipManager.ApplyRelationship(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceGiveGift, -value);
 
         break;
      }
@@ -97,11 +94,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 12: {
-        PropertyListPtr prop;
-        PropManager.GetPropertyList(0xb7cb9f7a, 0x0568de14, prop);
-        eastl::vector<float> a;
-        App::Property::GetArrayFloat(prop.get(), 0x05FF85B4, a);
-        int b = 1;
+        int a = 1;
 
         
         break;

@@ -4,10 +4,16 @@
 using namespace Simulator;
 using namespace SporeModUtils;
 
-cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesAffinities)
+cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesAffinities, cAffinityConfig* affinityConfig)
 {
 	this->diplomacyConfig = diplomacyConfig;
 	this->archetypesConfig = archetyipesAffinities;
+	this->affinityConfig = affinityConfig;
+
+	// TODO: Swap this out for something that isn’t eye-breaking.
+	for (int i = 0; i < affinityConfig->getNumAffinityModifiers(); i++) {
+		affinityModifiers.insert(AffinityModifier(i));
+	}
 }
 
 
@@ -45,38 +51,120 @@ int cEmpireRelationsAnalyzer::GetEmpireAgressivity(cEmpire* empire) {
 }
 
 int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
-	int affinity = archetypesConfig->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
-	if (DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)) {
-		affinity += diplomacyConfig->GetAffinityGainForAllyOfAlly();
+	int affinity = 0;
+	int maxMutuallyExclusiveAffinity = 0;
+	for (AffinityModifier modifier : affinityModifiers) {
+		int affinityForModifier = 0;
+
+		// This should be a new class.
+		switch (modifier) {
+
+		case(AffinityModifier::ArchetypeAffinity): {
+			affinityForModifier = archetypesConfig->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
+			break;
+		}
+		case(AffinityModifier::CommonEnemy): {
+			if (DiplomacyUtils::CommonEnemy(empire1, empire2)) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::CommonAlly): {
+			if (DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::WarWithAlly): {
+			if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::DefeatedCommonEnemy): {
+			if (false) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::UpliftedByMonolith): {
+			if (false) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		}
+		if (affinityConfig->MutuallyExclusive(modifier)) {
+			if (affinityForModifier > maxMutuallyExclusiveAffinity) {
+				maxMutuallyExclusiveAffinity = affinityForModifier;
+			}
+		}
+		else {
+			affinity += affinityForModifier;
+		}
 	}
-	if (DiplomacyUtils::CommonEnemy(empire1, empire2)) {
-		affinity += diplomacyConfig->GetAffinityGainForEnemyOfEnemy();
-	}
-	if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
-		affinity += diplomacyConfig->GetAffinityGainForEnemyOfAlly();
-	}
-	return affinity;
+	return affinity + maxMutuallyExclusiveAffinity;
 }
 
-eastl::vector<pair<AffinityModifier, int>> cEmpireRelationsAnalyzer::GetEmpiresAffinityModifier(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	eastl::vector<pair<AffinityModifier, int>> affinityModifiers;
+eastl::vector<pair<AffinityModifier, int>> cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiers(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 
-	int archetypesAffinity = archetypesConfig->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
-	affinityModifiers.emplace_back(AffinityModifier::ArchetypeAffinity, archetypesAffinity);
+	eastl::vector<pair<AffinityModifier, int>> empiresAffinityModifiers;
 
-	int commonAllyAffinity = DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)
-		? diplomacyConfig->GetAffinityGainForAllyOfAlly()
-		: 0;
-	affinityModifiers.emplace_back(AffinityModifier::CommonAlly, commonAllyAffinity);
+	int maxMutuallyExclusiveAffinity = 0;
+	AffinityModifier maxMutuallyExclusiveModifier = AffinityModifier(0);
+	for (AffinityModifier modifier : affinityModifiers) {
+		int affinityForModifier = 0;
 
-	int commonEnemyAffinity = DiplomacyUtils::CommonEnemy(empire1, empire2)
-		? diplomacyConfig->GetAffinityGainForEnemyOfEnemy()
-		: 0;
-	affinityModifiers.emplace_back(AffinityModifier::CommonEnemy, commonEnemyAffinity);
+		// This definitely should be a new class.
+		switch (modifier) {
 
-	int warWithAllyAffinity = (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1))
-		? diplomacyConfig->GetAffinityGainForEnemyOfAlly()
-		: 0;
-	affinityModifiers.emplace_back(AffinityModifier::WarWithAlly, warWithAllyAffinity);
-	return affinityModifiers;
+		case(AffinityModifier::ArchetypeAffinity): {
+			affinityForModifier = archetypesConfig->GetArchetypesAffinity(empire1->mArchetype, empire2->mArchetype);
+			break;
+		}
+		case(AffinityModifier::CommonEnemy): {
+			if (DiplomacyUtils::CommonEnemy(empire1, empire2)) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::CommonAlly): {
+			if (DiplomacyUtils::AllianceWithAllyOfEmpire(empire1, empire2)) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::WarWithAlly): {
+			if (DiplomacyUtils::AllianceWithEnemyOfEmpire(empire1, empire2) || DiplomacyUtils::AllianceWithEnemyOfEmpire(empire2, empire1)) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::DefeatedCommonEnemy): {
+			if (false) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		case(AffinityModifier::UpliftedByMonolith): {
+			if (false) {
+				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			}
+			break;
+		}
+		}
+		if (affinityConfig->MutuallyExclusive(modifier)) {
+			if (affinityForModifier > maxMutuallyExclusiveAffinity) {
+				maxMutuallyExclusiveAffinity = affinityForModifier;
+				maxMutuallyExclusiveModifier = modifier;
+			}
+		}
+		else if (affinityForModifier != 0) {
+			empiresAffinityModifiers.emplace_back(modifier, affinityForModifier);
+		}
+	}
+	if (maxMutuallyExclusiveAffinity > 0) {
+		empiresAffinityModifiers.emplace_back(maxMutuallyExclusiveModifier, maxMutuallyExclusiveAffinity);
+	}
+	return empiresAffinityModifiers;
 }

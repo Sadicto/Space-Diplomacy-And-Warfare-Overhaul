@@ -1,0 +1,6 @@
+bools expires
+	false # ArchetypeAffinity
+	false # CommonEnemy
+	false # CommonAlly
+	false # WarWithAlly
+end

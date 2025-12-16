@@ -36,10 +36,7 @@ AffinityTextProc::AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer
 	App::Property::GetColorRGBA(affinityTextConfig.get(), 0xF73297B2, aux);
 	green = aux.ToIntColor();
 
-	App::Property::GetString16(affinityTextConfig.get(), 0x4DB402BB, archetypeAffinityText);
-	App::Property::GetString16(affinityTextConfig.get(), 0x529A946B, commonEnemyText);
-	App::Property::GetString16(affinityTextConfig.get(), 0x58BA9D91, commonAllyText);
-	App::Property::GetString16(affinityTextConfig.get(), 0x01FFE8D2, warWithAllyText);
+	App::Property::GetArrayString16(affinityTextConfig.get(), 0x557AFFAB, affinityTexts);
 }
 
 
@@ -152,18 +149,7 @@ void AffinityTextProc::SetAffinityText(uint32_t empireID) {
 }
 
 eastl::string16 AffinityTextProc::GetAffinityModifierText(AffinityModifier affinityModifier) {
-	switch (affinityModifier) {
-	case AffinityModifier::ArchetypeAffinity:
-		return archetypeAffinityText;
-	case AffinityModifier::CommonEnemy:
-		return commonEnemyText;
-	case AffinityModifier::CommonAlly:
-		return commonAllyText;
-	case AffinityModifier::WarWithAlly:
-		return warWithAllyText;
-	default:
-		return u"";
-	}
+	return affinityTexts[int(affinityModifier)];
 }
 
 IWindow* AffinityTextProc::GetUnusedAffinityModifier() {
@@ -191,7 +177,7 @@ void AffinityTextProc::SetAffinityTooltip() {
 	if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())) {
 		ResetAffinityToltip();
 		eastl::vector<pair<AffinityModifier, int>> affinityModifiers = 
-			empireRelationsAnalyzer->GetEmpiresAffinityModifier(currentEmpire.get(), Simulator::GetPlayerEmpire());
+			empireRelationsAnalyzer->GetEmpiresAffinityModifiers(currentEmpire.get(), Simulator::GetPlayerEmpire());
 
 		int modifiersCount = 0;
 		for (pair<AffinityModifier, int> modifier : affinityModifiers) {

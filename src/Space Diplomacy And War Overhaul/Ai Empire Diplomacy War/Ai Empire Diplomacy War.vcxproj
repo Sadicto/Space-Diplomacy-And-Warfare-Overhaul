@@ -104,11 +104,23 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="cPersistedEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cPersistedEventSystem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Diplomacy\AffinityTextProc.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Diplomacy\AllianceEnemyButtonProc.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\Config\cAffinityConfig.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -146,6 +158,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Diplomacy\cEmpireRelationshipController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -227,11 +247,23 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="cPersistedEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cPersistedEventSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Diplomacy\AffinityTextProc.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Diplomacy\AllianceEnemyButtonProc.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\Config\cAffinityConfig.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -269,6 +301,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Diplomacy\cEmpireRelationshipController.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>

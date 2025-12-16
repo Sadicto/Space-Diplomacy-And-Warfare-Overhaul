@@ -3,16 +3,9 @@
 #include <Spore\BasicIncludes.h>
 #include "cDiplomacyConfig.h"
 #include "cArchetypesConfig.h"
+#include "Config/cAffinityConfig.h"
 
 #define cEmpireRelationsAnalyzerPtr intrusive_ptr<cEmpireRelationsAnalyzer>
-
-/// Defines the different modifiers that affect the affinity between empires.
-enum class AffinityModifier {
-	ArchetypeAffinity,
-	CommonEnemy,
-	CommonAlly,
-	WarWithAlly
-};
 
 // Responsible for evaluating core bilateral diplomatic metrics between empires,
 // including affinity, aggressiveness, and diplomatic range.
@@ -23,7 +16,7 @@ class cEmpireRelationsAnalyzer
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireRelationsAnalyzer");
 	
-	cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesConfig);
+	cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesConfig, cAffinityConfig* affinityConfig);
 	~cEmpireRelationsAnalyzer();
 
 	int AddRef() override;
@@ -50,13 +43,17 @@ public:
 	/// @param empire1 The first empire.
 	/// @param empire2 The second empire.
 	/// @return A vector of pairs, where each pair contains an AffinityModifier type and its corresponding value.
-	eastl::vector<pair<AffinityModifier, int>> GetEmpiresAffinityModifier(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
-
-
+	eastl::vector<pair<AffinityModifier, int>> GetEmpiresAffinityModifiers(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
 	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;
 
 	// Pointer to the loaded archetypes affinities object.
 	cArchetypesConfigPtr archetypesConfig;
+
+	// Pointer to the loaded affinity config object.
+	cAffinityConfigPtr affinityConfig;
+
+	// Set with all the affinityModifiers.
+	eastl::set<AffinityModifier> affinityModifiers;
 };
