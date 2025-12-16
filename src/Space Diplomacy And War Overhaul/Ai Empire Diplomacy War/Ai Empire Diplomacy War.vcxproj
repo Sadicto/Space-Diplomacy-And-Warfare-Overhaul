@@ -124,10 +124,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Diplomacy\cDiplomacyConfig.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Diplomacy\cDiplomacyEffectAnalyzer.h">
       <SubType>
       </SubType>
@@ -161,6 +157,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Diplomacy\Config\cArchetypesConfig.h" />
+    <ClInclude Include="Diplomacy\Config\cDiplomacyConfig.h" />
     <ClInclude Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.h">
       <SubType>
       </SubType>
@@ -172,10 +170,6 @@
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="Diplomacy\cDiplomacySystem.h" />
     <ClInclude Include="Diplomacy\DebugDiplomacy.h" />
-    <ClInclude Include="Diplomacy\cArchetypesConfig.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Diplomacy\cDiplomacyPopupManager.h">
       <SubType>
       </SubType>
@@ -189,10 +183,6 @@
     <ClInclude Include="Spore-Mod-Utils\TerraformingUtils\TerraformingUtils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Warfare\cArchetypeStrengthConfig.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Warfare\cEmpireWarfare.h">
       <SubType>
       </SubType>
@@ -201,6 +191,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Warfare\Config\cArchetypeStrengthConfig.h" />
+    <ClInclude Include="Warfare\Config\cWarfareConfig.h" />
     <ClInclude Include="Warfare\cPlayerWarshipsManager.h">
       <SubType>
       </SubType>
@@ -210,10 +202,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Warfare\cToolInvasionStrategy.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Warfare\cWarfareConfig.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -267,10 +255,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Diplomacy\cDiplomacyConfig.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Diplomacy\cDiplomacyEffectAnalyzer.cpp">
       <SubType>
       </SubType>
@@ -304,6 +288,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Diplomacy\Config\cArchetypesConfig.cpp" />
+    <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.cpp">
       <SubType>
       </SubType>
@@ -315,10 +301,6 @@
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="Diplomacy\cDiplomacySystem.cpp" />
     <ClCompile Include="Diplomacy\DebugDiplomacy.cpp" />
-    <ClCompile Include="Diplomacy\cArchetypesConfig.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Diplomacy\cDiplomacyPopupManager.cpp">
       <SubType>
       </SubType>
@@ -341,10 +323,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Warfare\cArchetypeStrengthConfig.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Warfare\cEmpireWarfare.cpp">
       <SubType>
       </SubType>
@@ -353,6 +331,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Warfare\Config\cArchetypeStrengthConfig.cpp" />
+    <ClCompile Include="Warfare\Config\cWarfareConfig.cpp" />
     <ClCompile Include="Warfare\cPlayerWarshipsManager.cpp">
       <SubType>
       </SubType>
@@ -362,10 +342,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Warfare\cToolInvasionStrategy.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Warfare\cWarfareConfig.cpp">
       <SubType>
       </SubType>
     </ClCompile>

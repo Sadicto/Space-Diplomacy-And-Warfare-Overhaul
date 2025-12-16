@@ -2,12 +2,12 @@
 
 #include <Spore\BasicIncludes.h>
 #include <Diplomacy/cDiplomacyEffectInfoProvider.h>
-#include <Diplomacy/cDiplomacyConfig.h>
+#include <Diplomacy/Config/cDiplomacyConfig.h>
 #include <Diplomacy/cEmpireRelationsAnalyzer.h>
 #include <Diplomacy/cDiplomacyEventDispatcher.h>
 #include <Diplomacy/cDiplomacyEventListener.h>
 #include <Diplomacy/cEmpireDiplomacyFactory.h>
-#include <Warfare/cWarfareConfig.h>
+#include <Warfare/Config/cWarfareConfig.h>
 #include <Warfare/cSpaceCombatMetrics.h>
 #include <Warfare/cWarfareStrengthAnalyzer.h>
 #include <Warfare/cWarfareEventDispatcher.h>

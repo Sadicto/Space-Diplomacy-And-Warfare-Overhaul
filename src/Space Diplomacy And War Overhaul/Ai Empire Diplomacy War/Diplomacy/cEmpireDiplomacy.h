@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include "cDiplomacyConfig.h"
+#include "Config\cDiplomacyConfig.h"
 #include "cEmpireRelationsAnalyzer.h"
 #include "cDiplomacyEventDispatcher.h"
 

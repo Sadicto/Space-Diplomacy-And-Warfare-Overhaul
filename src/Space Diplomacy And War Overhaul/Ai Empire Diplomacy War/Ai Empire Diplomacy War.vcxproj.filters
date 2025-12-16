@@ -31,9 +31,7 @@
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="Diplomacy\AllianceEnemyButtonProc.h" />
     <ClInclude Include="Diplomacy\cEmpireDiplomacy.h" />
-    <ClInclude Include="Diplomacy\cDiplomacyConfig.h" />
     <ClInclude Include="Diplomacy\cEmpireRelationsAnalyzer.h" />
-    <ClInclude Include="Diplomacy\cArchetypesConfig.h" />
     <ClInclude Include="Diplomacy\cDiplomacyEventDispatcher.h" />
     <ClInclude Include="Diplomacy\cDiplomacyEvent.h" />
     <ClInclude Include="Diplomacy\cDiplomacyEventListener.h" />
@@ -44,7 +42,6 @@
     <ClInclude Include="Warfare\cSpaceCombatMetrics.h" />
     <ClInclude Include="Warfare\DebugWarfare.h" />
     <ClInclude Include="Warfare\cWarfareStrengthAnalyzer.h" />
-    <ClInclude Include="Warfare\cWarfareConfig.h" />
     <ClInclude Include="Warfare\cEmpireWarfare.h" />
     <ClInclude Include="Warfare\cPlanetAttackedEvent.h" />
     <ClInclude Include="Warfare\cWarfareEventDispatcher.h" />
@@ -53,7 +50,6 @@
     <ClInclude Include="Warfare\cPlayerWarshipsManager.h" />
     <ClInclude Include="Warfare\cToolInvasionStrategy.h" />
     <ClInclude Include="Diplomacy\AffinityTextProc.h" />
-    <ClInclude Include="Warfare\cArchetypeStrengthConfig.h" />
     <ClInclude Include="cCompositionRoot.h" />
     <ClInclude Include="Diplomacy\cEmpireDiplomacyFactory.h" />
     <ClInclude Include="Warfare\cEmpireWarfareFactory.h" />
@@ -62,6 +58,10 @@
     <ClInclude Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.h" />
     <ClInclude Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.h" />
     <ClInclude Include="Diplomacy\Config\cAffinityConfig.h" />
+    <ClInclude Include="Diplomacy\Config\cArchetypesConfig.h" />
+    <ClInclude Include="Diplomacy\Config\cDiplomacyConfig.h" />
+    <ClInclude Include="Warfare\Config\cWarfareConfig.h" />
+    <ClInclude Include="Warfare\Config\cArchetypeStrengthConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,9 +78,7 @@
     <ClCompile Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.cpp" />
     <ClCompile Include="Diplomacy\AllianceEnemyButtonProc.cpp" />
     <ClCompile Include="Diplomacy\cEmpireDiplomacy.cpp" />
-    <ClCompile Include="Diplomacy\cDiplomacyConfig.cpp" />
     <ClCompile Include="Diplomacy\cEmpireRelationsAnalyzer.cpp" />
-    <ClCompile Include="Diplomacy\cArchetypesConfig.cpp" />
     <ClCompile Include="Diplomacy\cDiplomacyEventDispatcher.cpp" />
     <ClCompile Include="Diplomacy\cDiplomacyEvent.cpp" />
     <ClCompile Include="Diplomacy\cDiplomacyEventListener.cpp" />
@@ -92,7 +90,6 @@
     <ClCompile Include="Warfare\cSpaceCombatMetrics.cpp" />
     <ClCompile Include="Warfare\DebugWarfare.cpp" />
     <ClCompile Include="Warfare\cWarfareStrengthAnalyzer.cpp" />
-    <ClCompile Include="Warfare\cWarfareConfig.cpp" />
     <ClCompile Include="Warfare\cEmpireWarfare.cpp" />
     <ClCompile Include="Warfare\cPlanetAttackedEvent.cpp" />
     <ClCompile Include="Warfare\cWarfareEventDispatcher.cpp" />
@@ -101,7 +98,6 @@
     <ClCompile Include="Warfare\cPlayerWarshipsManager.cpp" />
     <ClCompile Include="Warfare\cToolInvasionStrategy.cpp" />
     <ClCompile Include="Diplomacy\AffinityTextProc.cpp" />
-    <ClCompile Include="Warfare\cArchetypeStrengthConfig.cpp" />
     <ClCompile Include="cCompositionRoot.cpp" />
     <ClCompile Include="Diplomacy\cEmpireDiplomacyFactory.cpp" />
     <ClCompile Include="Warfare\cEmpireWarfareFactory.cpp" />
@@ -110,6 +106,10 @@
     <ClCompile Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.cpp" />
     <ClCompile Include="Diplomacy\Config\cAffinityConfig.cpp" />
+    <ClCompile Include="Diplomacy\Config\cArchetypesConfig.cpp" />
+    <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
+    <ClCompile Include="Warfare\Config\cArchetypeStrengthConfig.cpp" />
+    <ClCompile Include="Warfare\Config\cWarfareConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

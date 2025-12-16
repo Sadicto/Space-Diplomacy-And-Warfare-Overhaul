@@ -2,13 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
-#include "cWarfareConfig.h"
-#include "cSpaceCombatMetrics.h"
-#include "cWarfareStrengthAnalyzer.h"
-#include "cWarfareEventDispatcher.h"
 #include "cEmpireWarfare.h"
-#include "cWarfareEventListener.h"
-#include "cArchetypeStrengthConfig.h"
 #include "cEmpireWarfareFactory.h"
 
 #define cWarfareSystemPtr intrusive_ptr<cWarfareSystem>

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "DebugWarfare.h"
 #include "cSpaceCombatMetrics.h"
-#include "cWarfareConfig.h"
 #include "cWarfareStrengthAnalyzer.h"
 #include "cEmpireWarfare.h"
 #include "cWarfareEventDispatcher.h"

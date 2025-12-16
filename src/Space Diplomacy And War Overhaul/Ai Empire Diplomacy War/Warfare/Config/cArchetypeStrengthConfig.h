@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include "../Diplomacy/cArchetypesConfig.h"
+#include "..\..\Diplomacy\Config\cArchetypesConfig.h"
 
 #define cArchetypeStrengthConfigPtr intrusive_ptr<cArchetypeStrengthConfig>
 

@@ -3,9 +3,6 @@
 #include <Spore/Simulator/ConversationResource.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
-#include "AllianceEnemyButtonProc.h"
-#include "cDiplomacyEvent.h"
-#include "AffinityTextProc.h"
 
 using namespace SporeModUtils;
 using namespace Simulator;

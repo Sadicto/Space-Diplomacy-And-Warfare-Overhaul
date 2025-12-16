@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include "cWarfareConfig.h"
+#include "Config\cWarfareConfig.h"
 #include "cSpaceCombatMetrics.h"
-#include "cArchetypeStrengthConfig.h"
+#include "Config\cArchetypeStrengthConfig.h"
 
 
 #define cWarfareStrengthAnalyzerPtr intrusive_ptr<cWarfareStrengthAnalyzer>

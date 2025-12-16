@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cArchetypeStrengthConfig.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
-#include "../Diplomacy/cDiplomacySystem.h"
 
 using namespace SporeModUtils;
 

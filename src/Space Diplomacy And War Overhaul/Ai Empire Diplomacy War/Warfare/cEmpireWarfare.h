@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include "cWarfareConfig.h"
+#include "Config\cWarfareConfig.h"
 #include "cWarfareStrengthAnalyzer.h"
 #include "cWarfareEventDispatcher.h"
 
