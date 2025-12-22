@@ -12,7 +12,7 @@ int32 MaxAgressivity 6
 int32 MinAgressivity -6
 
 float MaxAllianceProbability 0.50
-float MaxWarProbability 0.50
+float MaxWarProbability 0.40
 
 float AgressivityWeightForWar 0.30
 float AffinityWeightForWar 0.70
