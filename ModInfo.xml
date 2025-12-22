@@ -88,8 +88,8 @@
 
 	<!-- Hostile Archetype Buffs -->
 	<componentGroup displayName="Hostile Archetype Buffs" unique="Space-Warfare-Overhaul_ArchetypeBuffs_Config">
-		<component game="GalacticAdventures" displayName="No Buffs" description="Hostile archetypes get no buffs." unique="SpaceWarfareOverhaul_NoBuffHostile_Config" defaultChecked="false">Space-Warfare-Overhaul_NoBuffHostileArchetypes_Config.package</component>
-		<component game="GalacticAdventures" displayName="Slight Buff" description="Hostile archetypes get small buffs." unique="SpaceWarfareOverhaul_SlightBuffHostile_Config" defaultChecked="true">Space-Warfare-Overhaul_SlightBuffHostileArchetypes_Config.package</component>
+		<component game="GalacticAdventures" displayName="No Buffs" description="Hostile archetypes get no buffs." unique="SpaceWarfareOverhaul_NoBuffHostile_Config" defaultChecked="true">Space-Warfare-Overhaul_NoBuffHostileArchetypes_Config.package</component>
+		<component game="GalacticAdventures" displayName="Slight Buff" description="Hostile archetypes get small buffs." unique="SpaceWarfareOverhaul_SlightBuffHostile_Config" defaultChecked="false">Space-Warfare-Overhaul_SlightBuffHostileArchetypes_Config.package</component>
 		<component game="GalacticAdventures" displayName="High Buff" description="Hostile archetypes get significant buffs." unique="SpaceWarfareOverhaul_HighBuffHostile_Config" defaultChecked="false">Space-Warfare-Overhaul_HighBuffHostileArchetypes_Config.package</component>
 		<component game="GalacticAdventures" displayName="Extreme Buff" description="Hostile archetypes get extreme buffs." unique="SpaceWarfareOverhaul_ExtremeBuffHostile_Config" defaultChecked="false">Space-Warfare-Overhaul_ExtremeBuffHostileArchetypes_Config.package</component>
 	</componentGroup>
