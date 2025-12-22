@@ -19,13 +19,13 @@ using namespace SporeModUtils;
 
 void Initialize()
 {
-	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
-	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
+	//CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
+	//CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
-	ClassManager.AddFactory(new cPersistedEventFactory());
+	//ClassManager.AddFactory(new cPersistedEventFactory());
 
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
