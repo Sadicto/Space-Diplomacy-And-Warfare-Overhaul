@@ -43,7 +43,7 @@ The player will get a permanent negative effect, *“your presence disturbs us,�
   - **Scientists, traders, and bards:** intermediate.
   - **Ecologists, diplomats, and shamans:** peaceful.
 - Aggressiveness increases with empire level, so even the most peaceful archetypes have a small chance of declaring war on neighbors with negative affinity once they reach level 5.
-- The AI declares war only while at peace and only against empires with zero or negative affinity, unless the target is an ally’s enemy, in which case it automatically joins the war. 
+- The AI declares war only while at peace and only against empires with zero or negative affinity, unless the target is an ally’s enemy, in which case it automatically joins the war if the target’s affinity is lower than the ally’s.
 
 ### Player Wars
 - Empires no longer request tribute from the player; if an AI empire chooses to declare war against the player, it declares war immediately. 
