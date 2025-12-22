@@ -65,19 +65,16 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 		if (lastCurrentStar.get() != currentStar && currentStar != nullptr) {
 			lastCurrentStar = currentStar;
 			Simulator::cEmpire* empireInCurrentStar = StarManager.GetEmpire(currentStar->mEmpireID);
+			DeleteAlliesAndEnemiesEffects();
 
-			if (selectedEmpire.get() != empireInCurrentStar) {
-				DeleteAlliesAndEnemiesEffects();
-
-				if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireInCurrentStar)) {
-					selectedEmpire = empireInCurrentStar;
-					if (SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireInCurrentStar)) {
-						CreateAlliesAndEnemiesEffecsForSelectedEmpire();
-					}
+			if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireInCurrentStar)) {
+				selectedEmpire = empireInCurrentStar;
+				if (SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireInCurrentStar)) {
+					CreateAlliesAndEnemiesEffecsForSelectedEmpire();
 				}
-				else {
-					selectedEmpire.reset();
-				}
+			}
+			else {
+				selectedEmpire.reset();
 			}
 		}
 	}
@@ -88,27 +85,33 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 	for (cEmpirePtr empireEnemy : selectedEmpire->mEnemies) {
 		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireEnemy.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())) {
-			Simulator::cStarRecord* enemyHomeworld = SporeModUtils::EmpireUtils::GetHomeStar(empireEnemy.get());
-			IVisualEffectPtr visualEffect;
-			if (EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect)) {
-				visualEffect->Start();
-				Transform transform = Transform();
-				transform.SetOffset(enemyHomeworld->mPosition);
-				visualEffect->SetSourceTransform(transform);
-				alliesAndEnemiesEffects.push_back(visualEffect);
+			for (cStarRecordPtr star : empireEnemy->mStars) {
+				IVisualEffectPtr visualEffect;
+				if (SporeModUtils::StarUtils::GetDistanceBetweenStars(Simulator::GetActiveStarRecord(), star.get()) < 20 &&
+					EffectsManager.CreateVisualEffect(0x38627EA3, 0, visualEffect)) {
+
+					visualEffect->Start();
+					Transform transform = Transform();
+					transform.SetOffset(star->mPosition);
+					visualEffect->SetSourceTransform(transform);
+					alliesAndEnemiesEffects.push_back(visualEffect);
+				}
 			}
 		}
 	}
 	for (cEmpirePtr empireAlly : selectedEmpire->mAllies) {
 		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireAlly.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())) {
-			Simulator::cStarRecord* allyHomeworld = SporeModUtils::EmpireUtils::GetHomeStar(empireAlly.get());
-			IVisualEffectPtr visualEffect;
-			if (EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect)) {
-				visualEffect->Start();
-				Transform transform = Transform();
-				transform.SetOffset(allyHomeworld->mPosition);
-				visualEffect->SetSourceTransform(transform);
-				alliesAndEnemiesEffects.push_back(visualEffect);
+			for (cStarRecordPtr star : empireAlly->mStars) {
+				IVisualEffectPtr visualEffect;
+				if (SporeModUtils::StarUtils::GetDistanceBetweenStars(Simulator::GetActiveStarRecord(), star.get()) < 20 &&
+					EffectsManager.CreateVisualEffect(0xB7BB2907, 0, visualEffect)) {
+
+					visualEffect->Start();
+					Transform transform = Transform();
+					transform.SetOffset(star->mPosition);
+					visualEffect->SetSourceTransform(transform);
+					alliesAndEnemiesEffects.push_back(visualEffect);
+				}
 			}
 		}
 	}
