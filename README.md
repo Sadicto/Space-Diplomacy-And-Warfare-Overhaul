@@ -34,8 +34,7 @@ The player will get a permanent negative effect, *“your presence disturbs us,�
 ### Player Alliances
 - Affinity affects player alliances:
   - **Positive affinity:** the +100 relationship effect bonus *“We created an alliance”* is permanent.
-  - **Neutral affinity:** the bonus gradually decreases until it disappears.
-  - **Negative affinity:** the initial bonus becomes a penalty down to –100.
+  - **Neutral affinity or negative affinity:** the bonus gradually decreases until it disappears.
 - Nearby empires with positive affinity, even if not allies, can improve their relations with the player in +25 increments up to +100.
 
 ### AI Wars
