@@ -21,6 +21,9 @@ public:
 	int Release() override;
 	void* Cast(uint32_t type) const override;
 
+	/// Gets the global multiplier affecting all archetypes.
+	float GetGlobalMultiplier();
+
 	/// @brief Returns the base strength multiplier for the specified archetype.
 	/// @param archetype.
 	/// @return The base strength multiplier.
@@ -31,6 +34,8 @@ public:
 	/// @return The bonus strength value.
 	float GetArchetypeBonusStrength(Simulator::Archetypes archetype);
 
+	// Global multiplier affecting all archetypes.
+	float globalMultiplier;
 
 	// Base strength multipliers for each archetype.
 	eastl::vector<float> archetypeBaseStrengths;

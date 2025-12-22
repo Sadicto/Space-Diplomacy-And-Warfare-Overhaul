@@ -12,7 +12,6 @@ cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeStrength
 
 	App::Property::GetArrayFloat(archetypeStrengthConfigProp.get(), 0xA3608DC1, archetypeBonusStrengths);
 
-	float globalMultiplier;
 	App::Property::GetFloat(archetypeStrengthConfigProp.get(), 0x9935D339, globalMultiplier);
 
 	float hostilityMultiplier;
@@ -31,7 +30,6 @@ cArchetypeStrengthConfig::cArchetypeStrengthConfig(ResourceKey archetypeStrength
 		}
 	}
 }
-
 
 cArchetypeStrengthConfig::~cArchetypeStrengthConfig()
 {
@@ -55,6 +53,10 @@ void* cArchetypeStrengthConfig::Cast(uint32_t type) const
 	CLASS_CAST(Object);
 	CLASS_CAST(cArchetypeStrengthConfig);
 	return nullptr;
+}
+
+float cArchetypeStrengthConfig::GetGlobalMultiplier() {
+	return globalMultiplier;
 }
 
 float cArchetypeStrengthConfig::GetArchetypeBaseStrength(Simulator::Archetypes archetype) {

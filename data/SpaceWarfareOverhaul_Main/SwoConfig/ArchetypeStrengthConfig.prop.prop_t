@@ -22,5 +22,5 @@ floats bonusStrength
 	0 # Ecologist
 end
 
-float hostilityMultiplier 0.1
+float hostilityMultiplier 0.0
 

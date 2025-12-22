@@ -123,10 +123,12 @@ float cWarfareStrengthAnalyzer::GetBombersProducedBySystem(Simulator::cStarRecor
 }
 
 float cWarfareStrengthAnalyzer::AdjustBombersForCaps(float bomberCount) {
-    float excessBomberSoftCap = max(bomberCount - warfareConfig->GetBombersSoftCap(), 0.0f);
+    float softCap = warfareConfig->GetBombersSoftCap() * archetypeStrengthConfig->GetGlobalMultiplier();
+    float excessBomberSoftCap = max(bomberCount - softCap, 0.0f);
     bomberCount = (bomberCount - excessBomberSoftCap) + (excessBomberSoftCap * warfareConfig->GetBombersSoftCapFactor());
 
-    float excessBomberHardCap = max(bomberCount - warfareConfig->GetBombersHardCap(), 0.0f);
+    float hardCap = warfareConfig->GetBombersHardCap() * archetypeStrengthConfig->GetGlobalMultiplier();
+    float excessBomberHardCap = max(bomberCount - hardCap, 0.0f);
     bomberCount = (bomberCount - excessBomberHardCap) + (excessBomberHardCap * warfareConfig->GetBombersHardCapFactor());
 
     return bomberCount;
