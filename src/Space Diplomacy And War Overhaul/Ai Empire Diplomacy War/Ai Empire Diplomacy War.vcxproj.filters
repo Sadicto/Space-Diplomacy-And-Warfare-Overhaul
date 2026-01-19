@@ -55,13 +55,15 @@
     <ClInclude Include="Warfare\cEmpireWarfareFactory.h" />
     <ClInclude Include="cPersistedEventSystem.h" />
     <ClInclude Include="cPersistedEvent.h" />
-    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.h" />
-    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.h" />
     <ClInclude Include="Diplomacy\Config\cAffinityConfig.h" />
     <ClInclude Include="Diplomacy\Config\cArchetypesConfig.h" />
     <ClInclude Include="Diplomacy\Config\cDiplomacyConfig.h" />
     <ClInclude Include="Warfare\Config\cWarfareConfig.h" />
     <ClInclude Include="Warfare\Config\cArchetypeStrengthConfig.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.h" />
+    <ClInclude Include="Diplomacy\IAffinityModifier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -103,13 +105,14 @@
     <ClCompile Include="Warfare\cEmpireWarfareFactory.cpp" />
     <ClCompile Include="cPersistedEventSystem.cpp" />
     <ClCompile Include="cPersistedEvent.cpp" />
-    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.cpp" />
-    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.cpp" />
     <ClCompile Include="Diplomacy\Config\cAffinityConfig.cpp" />
     <ClCompile Include="Diplomacy\Config\cArchetypesConfig.cpp" />
     <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
     <ClCompile Include="Warfare\Config\cArchetypeStrengthConfig.cpp" />
     <ClCompile Include="Warfare\Config\cWarfareConfig.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

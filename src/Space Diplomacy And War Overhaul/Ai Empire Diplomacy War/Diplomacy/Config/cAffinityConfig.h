@@ -11,7 +11,9 @@ enum class AffinityModifier {
 	CommonAlly = 2,
 	WarWithAlly = 3,
 	DefeatedCommonEnemy = 4,
-	UpliftedByMonolith = 5
+	UpliftedByMonolith = 5,
+	MadePeace = 6,
+	Nothing = MAXINT
 };
 
 /// Stores and provides access to config values for every affinity modifier.
@@ -38,6 +40,9 @@ public:
 	// Gets the expire time of an affinity modifier.
 	uint32_t GetExpireTime(AffinityModifier affinityModifier);
 
+	// Gets whether an affinity prevents wars.
+	bool AffinityPreventsWars(AffinityModifier affinityModifier);
+
 	// Gets the affinity gain of an affinity modifier.
 	int GetAffinityGain(AffinityModifier affinityModifier);
 
@@ -52,6 +57,9 @@ public:
 
 	// Stores the expire time of an affinity modifier.
 	eastl::vector<uint32_t> expireTime;
+
+	// Stores whether an affinity modifier prevents wars or not.
+	eastl::vector<bool> preventWars;
 
 	// Stores the affinity gain of an affinity modifier.
 	eastl::vector<int> affinityGain;

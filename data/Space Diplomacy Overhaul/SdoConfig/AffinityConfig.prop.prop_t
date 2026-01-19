@@ -1,4 +1,4 @@
-int32 numAffinityModifiers 6
+int32 numAffinityModifiers 7
 
 bools expires
 	false # ArchetypeAffinity
@@ -7,6 +7,7 @@ bools expires
 	false # WarWithAlly
 	true  # DefeatedCommonEnemy
 	false # UpliftedByMonolith
+	true  # Made Peace
 end
 
 uint32s expireTime
@@ -16,6 +17,17 @@ uint32s expireTime
 	0  # WarWithAlly
 	1  # DefeatedCommonEnemy
 	0  # UpliftedByMonolith
+	1  # Made Peace
+end
+
+bools preventWars
+	false  # ArchetypeAffinity 
+	false  # CommonEnemy
+	false  # CommonAlly
+	false  # WarWithAlly
+	false  # DefeatedCommonEnemy
+	false  # UpliftedByMonolith
+	true  # Made Peace
 end
 
 int32s affinityGain
@@ -25,6 +37,7 @@ int32s affinityGain
 	-1 # WarWithAlly
 	2  # DefeatedCommonEnemy
 	1  # UpliftedByMonolith
+	0  # Made Peace
 end
 
 bools mutuallyExclusive
@@ -34,4 +47,5 @@ bools mutuallyExclusive
 	false # WarWithAlly
 	true  # DefeatedCommonEnemy
 	false # UpliftedByMonolith
+	false # Made Peace
 end

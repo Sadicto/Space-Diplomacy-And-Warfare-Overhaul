@@ -14,18 +14,22 @@
 #include "Diplomacy/AffinityTextProc.h"
 #include "cCompositionRoot.h"
 #include "cPersistedEvent.h"
+#include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
 
 using namespace SporeModUtils;
 
 void Initialize()
 {
-	//CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
-	//CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
+	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
+	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
+	cSimulatorSystem::Get()->AddStrategy(new cPersistedEventSystem(), cPersistedEventSystem::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
-	//ClassManager.AddFactory(new cPersistedEventFactory());
+	ClassManager.AddFactory(new cPersistedEventFactory());
+	ClassManager.AddFactory(new cPersistedDiplomacyEventFactory);
+	ClassManager.AddFactory(new cPersistedDiplomacyEventDataFactory);
 
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
@@ -56,9 +60,25 @@ member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
 	}
 };
 
+member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uint32_t, uint32_t, uint32_t, float)) {
+	float detoured(uint32_t politicalID, uint32_t causePoliticalID, uint32_t relationshipID, float scale = 1.0f) {
+		if (relationshipID == RelationshipEvents::kRelationshipEventSpaceUpliftedCiv && 
+			IsSpaceGame() &&
+			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(politicalID), true) &&
+			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(causePoliticalID), true)) {
+			cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+			cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager;
+			persistedDiplomacyEventManager->CreateAffinityEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), AffinityModifier::UpliftedByMonolith);
+
+		}
+		return original_function(this, politicalID, causePoliticalID, relationshipID, scale);
+	}
+};
+
 void AttachDetours()
 {
 	ShowCommEvent__detour::attach(GetAddress(cCommManager, ShowCommEvent));
+	ApplyRelationshipMonolith__detour::attach(GetAddress(cRelationshipManager, ApplyRelationship));
 }
 
 // Generally, you don't need to touch any code here

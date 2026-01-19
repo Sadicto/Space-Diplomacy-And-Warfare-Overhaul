@@ -43,10 +43,13 @@ Simulator::Attribute cCompositionRoot::ATTRIBUTES[] ={
 void cCompositionRoot::Initialize(){
 	instance = this;
 
+	persistedEventSystem = nullptr;
+
 	diplomacySystem = nullptr;
 	diplomacyConfig = nullptr;
 	archetypesConfig = nullptr;
 	affinityConfig = nullptr;
+	persistedDiplomacyEventManager = nullptr;
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
 	empireDiplomacyFactory = nullptr;
@@ -95,13 +98,17 @@ void cCompositionRoot::Update(int deltaTime, int deltaGameTime){
 
 void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID){
 	if (newModeID == GameModeIDs::kGameSpace) {
+		persistedEventSystem = cPersistedEventSystem::Get();
+
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 
 		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
 
 		affinityConfig = new cAffinityConfig(affinityConfigKey);
 
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get());
+		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedEventSystem.get(), affinityConfig.get());
+
+		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get(), persistedDiplomacyEventManager.get());
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
@@ -174,10 +181,13 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
 	if (previousModeID == GameModeIDs::kGameSpace) {
+		persistedEventSystem.reset();
+
 		diplomacySystem.reset();
 		diplomacyConfig.reset();
 		archetypesConfig.reset();
 		affinityConfig.reset();
+		persistedDiplomacyEventManager.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
 		empireDiplomacyFactory.reset();

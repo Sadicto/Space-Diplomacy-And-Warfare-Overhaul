@@ -31,13 +31,22 @@ bool cPersistedEventSystem::Read(Simulator::ISerializerStream* stream)
 ////////////////////////////////////
 
 Simulator::Attribute cPersistedEventSystem::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
+	SimAttribute(cPersistedEventSystem, currentTime, 0),
 	Simulator::Attribute()
 };
 
 void cPersistedEventSystem::Initialize() {
 	instance = this;
+	currentTime = 0;
+	elapsedTime = 0;
+	nextExpirationTime = 0xffffffff;
+	nextEventToExpire = nullptr;
+
+	PropertyListPtr eventSystemConfigProp;
+
+	PropManager.GetPropertyList(id("PersistedEventSystemConfig"), id("SdoConfig"), eventSystemConfigProp);
+
+	App::Property::GetInt32(eventSystemConfigProp.get(), 0xE0D36182, cycleInterval);
 }
 
 void cPersistedEventSystem::Dispose() {
@@ -45,7 +54,32 @@ void cPersistedEventSystem::Dispose() {
 }
 
 void cPersistedEventSystem::Update(int deltaTime, int deltaGameTime) {
-	
+	if (IsSpaceGame()) {
+		currentTime += deltaGameTime;
+		deltaTime += deltaGameTime;
+		if (nextEventToExpire != nullptr && currentTime > nextExpirationTime) {
+			// TODO do the expiration action.
+			expirableEvents.erase(nextEventToExpire);
+			GameNounManager.DestroyInstance(nextEventToExpire.get());
+			if (!expirableEvents.empty()) {
+				nextEventToExpire = expirableEvents.begin()->get();
+				nextExpirationTime = nextEventToExpire->GetExpirationTime();
+			}
+			else {
+				nextEventToExpire.reset();
+				nextExpirationTime = 0xffffffff;
+			}
+
+		}
+		if (deltaGameTime > cycleInterval) {
+			auto persistedEvents = GetData<cPersistedEvent>();
+			for (cPersistedEventPtr persistedEvent : persistedEvents) {
+				if (!persistedEvent->Valid()) {
+					GameNounManager.DestroyInstance(persistedEvent.get());
+				}
+			}
+		}
+	}
 }
 
 bool cPersistedEventSystem::WriteToXML(Simulator::XmlSerializer* xml){
@@ -53,11 +87,41 @@ bool cPersistedEventSystem::WriteToXML(Simulator::XmlSerializer* xml){
 }
 
 void cPersistedEventSystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID){
+	if (newModeID == kGameSpace) {
+		auto persistedEvents = GetData<cPersistedEvent>();
+		for (cPersistedEventPtr persistedEvent : persistedEvents) {
+			if (!persistedEvent->Valid()) {
+				GameNounManager.DestroyInstance(persistedEvent.get());
+			}
+			else if (persistedEvent->Expires()) {
+				AddExpirableEvent(persistedEvent.get());
+			}
+		}
+	}
 }
 
 void cPersistedEventSystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
+	if (previousModeID == GameModeIDs::kGameSpace) {
+		currentTime = 0;
+		elapsedTime = 0;
+		nextExpirationTime = 0xffffffff;
+		nextEventToExpire.reset();
+		expirableEvents.clear();
+	}
 }
 
 cPersistedEventSystem* cPersistedEventSystem::Get() {
 	return instance;
+}
+
+uint32_t cPersistedEventSystem::CurrentTime(){
+	return currentTime;
+}
+
+void cPersistedEventSystem::AddExpirableEvent(cPersistedEvent* expirableEvent){
+	expirableEvents.insert(expirableEvent);
+	if (expirableEvent->GetExpirationTime() < nextExpirationTime) {
+		nextExpirationTime = expirableEvent->GetExpirationTime();
+		nextEventToExpire = expirableEvent;
+	}
 }

@@ -5,6 +5,8 @@
 #include "cDiplomacySystem.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "AllianceEnemyButtonProc.h"
+#include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
+
 using namespace Simulator;
 using namespace SporeModUtils;
 DebugDiplomacy::DebugDiplomacy()
@@ -67,48 +69,55 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 8: {
+        cPersistedDiplomacyEventPtr persistedDiplomacyEvent = simulator_new<cPersistedDiplomacyEvent>();
+        persistedDiplomacyEvent->SetEmpire1(GetPlayerEmpire());
+        persistedDiplomacyEvent->SetEmpire2(GetPlayerEmpire());
+        persistedDiplomacyEvent->SetCreationTime(4);
+        persistedDiplomacyEvent->SetExpirationTime(8);
+        persistedDiplomacyEvent->SetExpires(true);
+
+        cDiplomacyEventDataPtr diplomacyEventData = simulator_new<cPersistedDiplomacyEventData>();
+        diplomacyEventData->SetAffinityModifier(AffinityModifier::WarWithAlly);
+        diplomacyEventData->SetAffinityGain(4);
+        diplomacyEventData->SetPreventsWars(true);
+        persistedDiplomacyEvent->SetDiplomacyEventData(diplomacyEventData.get());
+
         break;
 
     }
     case 9: {
-        int a = 1;
+        auto persistedDiplomacyEvents = GetData<cPersistedDiplomacyEvent>();
+        for (cPersistedDiplomacyEventPtr persistedDiplomacyEvent : persistedDiplomacyEvents) {
+            bool b = persistedDiplomacyEvent->Valid();
+        }
         break;
 
     }
     case 10:{
-
+        cPersistedEventPtr persistedDiplomacyEvent = simulator_new<cPersistedEvent>();
+        persistedDiplomacyEvent->SetCreationTime(4);
+        persistedDiplomacyEvent->SetExpirationTime(8);
+        persistedDiplomacyEvent->SetExpires(true);
         break;
      }
     case 11: {
-        eastl::array<int, 9> count;
-        for (int i = 0; i < 9; i++) {
-            count[i] = 0;
+        auto persistedEvents = GetData<cPersistedEvent>();
+        for (cPersistedEventPtr persistedEvent : persistedEvents) {
+            int b = 1;
         }
-        eastl::map<uint32_t, cEmpirePtr> empires = StarManager.GetEmpires();
-        for (const eastl::pair<const uint32_t, cEmpirePtr>& pair : empires) {
-            if (pair.second->mArchetype < 9) {
-                count[pair.second->mArchetype]++;
-            }
-        }
-        int a = 9;
         break;
     }
     case 12: {
-        int a = 1;
 
         
         break;
     }
     case 13: {
-        uint32_t lAddress = baseAddress;
 
         break;
     }
     case 14: {
-        cPlanetRecord* planet = GetActivePlanetRecord();
-        planet->mPlantSpecies.clear();
-        planet->mAnimalSpecies.clear();
-        PlanetUtils::FillPlanetEcosystem(planet);
+        uint32_t lAddress = baseAddress;
 
         break;
     }

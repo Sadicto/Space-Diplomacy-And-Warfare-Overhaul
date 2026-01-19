@@ -1,6 +1,18 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include "cPersistedEvent.h"
+#include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
+
+struct CompareByExpirationTime
+{
+	bool operator()(const cPersistedEventPtr& a,
+		const cPersistedEventPtr& b) const
+	{
+		return a->GetExpirationTime() < b->GetExpirationTime();
+	}
+};
+
 
 #define cPersistedEventSystemPtr intrusive_ptr<cPersistedEventSystem>
 
@@ -9,12 +21,12 @@
 /// ModAPI::AddSimulatorStrategy(new cPersistedEventSystem(), cPersistedEventSystem::NOUN_ID);
 ///
 
-/// Manages a persistent collection of events and tracks those with time limits.
+/// Manages the persistent events and tracks those with time limits.
 class cPersistedEventSystem
 	: public Simulator::cStrategy
 {
 public:
-	static const uint32_t TYPE = id("Ai_Empire_Diplomacy::cPersistedEventSystem");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedEventSystem");
 	static const uint32_t NOUN_ID = TYPE;
 
 	int AddRef() override;
@@ -33,7 +45,25 @@ public:
 
 	static Simulator::Attribute ATTRIBUTES[];
 
+	uint32_t CurrentTime();
+
+	void AddExpirableEvent(cPersistedEvent* expirableEvent);
+
 private:
+
+	uint32_t currentTime;
+
+	uint32_t nextExpirationTime;
+
+	// Time passed (in miliseconds) since the cycle has started.
+	int elapsedTime;
+
+	// Miliseconds of gameTime between expansion cycles.
+	int cycleInterval;
+
+	cPersistedEventPtr nextEventToExpire;
+
+	eastl::set<cPersistedEventPtr, CompareByExpirationTime> expirableEvents;
 
 	static cPersistedEventSystem* instance;
 

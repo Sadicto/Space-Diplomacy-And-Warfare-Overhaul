@@ -4,11 +4,15 @@
 using namespace Simulator;
 using namespace SporeModUtils;
 
-cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, cArchetypesConfig* archetyipesAffinities, cAffinityConfig* affinityConfig)
+cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyConfig, 
+	cArchetypesConfig* archetyipesAffinities, 
+	cAffinityConfig* affinityConfig,
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
 {
 	this->diplomacyConfig = diplomacyConfig;
 	this->archetypesConfig = archetyipesAffinities;
 	this->affinityConfig = affinityConfig;
+	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
 
 	// TODO: Swap this out for something that isn’t eye-breaking.
 	for (int i = 0; i < affinityConfig->getNumAffinityModifiers(); i++) {
@@ -50,7 +54,29 @@ int cEmpireRelationsAnalyzer::GetEmpireAgressivity(cEmpire* empire) {
 	return archetypesConfig->GetArchetypeAgressivtyByPowerLevel(empire->mArchetype, EmpireUtils::GetEmpireLevel(empire));
 }
 
+bool cEmpireRelationsAnalyzer::EmpiresUpliftedByMonolith(const eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEvents){
+	for (cPersistedDiplomacyEventPtr diplomacyEvent : diplomacyEvents) {
+		if (diplomacyEvent->GetDiplomacyEventData()->GetAffinityModifier() == AffinityModifier::UpliftedByMonolith) {
+			return true;
+		}
+	}
+	return false;
+}
+
+int cEmpireRelationsAnalyzer::GetEmpiresDefeatedCommonEnemyAffinity(const eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEvents){
+	int maxAffinityFromDefeatingCommonEnemy = 0;
+	for (cPersistedDiplomacyEventPtr diplomacyEvent : diplomacyEvents) {
+		cPersistedDiplomacyEventData* eventData = diplomacyEvent->GetDiplomacyEventData();
+		if (eventData->GetAffinityModifier() == AffinityModifier::DefeatedCommonEnemy && eventData->GetAffinityGain() > maxAffinityFromDefeatingCommonEnemy  ) {
+			maxAffinityFromDefeatingCommonEnemy = eventData->GetAffinityGain();
+		}
+	}
+	return maxAffinityFromDefeatingCommonEnemy;
+}
+
 int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
+	eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEvents;
+	persistedDiplomacyEventManager->GetPersistedDiplomaticEventsBetweenEmpires(diplomacyEvents, empire1, empire2);
 	int affinity = 0;
 	int maxMutuallyExclusiveAffinity = 0;
 	for (AffinityModifier modifier : affinityModifiers) {
@@ -82,16 +108,18 @@ int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2
 			break;
 		}
 		case(AffinityModifier::DefeatedCommonEnemy): {
-			if (false) {
-				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			int maxAffinityFromDefeatingCommonEnemy = GetEmpiresDefeatedCommonEnemyAffinity(diplomacyEvents);
+			if (maxAffinityFromDefeatingCommonEnemy > 0) {
+				affinityForModifier = maxAffinityFromDefeatingCommonEnemy;
 			}
 			break;
 		}
 		case(AffinityModifier::UpliftedByMonolith): {
-			if (false) {
+			if (EmpiresUpliftedByMonolith(diplomacyEvents)) {
 				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
 			}
 			break;
+
 		}
 		}
 		if (affinityConfig->MutuallyExclusive(modifier)) {
@@ -109,7 +137,8 @@ int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2
 eastl::vector<pair<AffinityModifier, int>> cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiers(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 
 	eastl::vector<pair<AffinityModifier, int>> empiresAffinityModifiers;
-
+	eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEvents;
+	persistedDiplomacyEventManager->GetPersistedDiplomaticEventsBetweenEmpires(diplomacyEvents, empire1, empire2);
 	int maxMutuallyExclusiveAffinity = 0;
 	AffinityModifier maxMutuallyExclusiveModifier = AffinityModifier(0);
 	for (AffinityModifier modifier : affinityModifiers) {
@@ -141,13 +170,14 @@ eastl::vector<pair<AffinityModifier, int>> cEmpireRelationsAnalyzer::GetEmpiresA
 			break;
 		}
 		case(AffinityModifier::DefeatedCommonEnemy): {
-			if (false) {
-				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
+			int maxAffinityFromDefeatingCommonEnemy = GetEmpiresDefeatedCommonEnemyAffinity(diplomacyEvents);
+			if (maxAffinityFromDefeatingCommonEnemy > 0) {
+				affinityForModifier = maxAffinityFromDefeatingCommonEnemy;
 			}
 			break;
 		}
 		case(AffinityModifier::UpliftedByMonolith): {
-			if (false) {
+			if (EmpiresUpliftedByMonolith(diplomacyEvents)) {
 				affinityForModifier = affinityConfig->GetAffinityGain(modifier);
 			}
 			break;

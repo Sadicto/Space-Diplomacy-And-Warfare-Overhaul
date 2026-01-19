@@ -13,6 +13,8 @@ cAffinityConfig::cAffinityConfig(ResourceKey affinityConfigKey)
 
 	App::Property::GetArrayUInt32(affinityConfig.get(), 0x9BE6806B, expireTime);
 
+	App::Property::GetArrayBool(affinityConfig.get(), 0xD92A2F80, preventWars);
+
 	App::Property::GetArrayInt32(affinityConfig.get(), 0x04E9E9F8, affinityGain);
 
 	App::Property::GetArrayBool(affinityConfig.get(), 0x4AE9BBD4, mutuallyExclusive);
@@ -56,6 +58,11 @@ bool cAffinityConfig::AffinityExpires(AffinityModifier affinityModifier)
 uint32_t cAffinityConfig::GetExpireTime(AffinityModifier affinityModifier)
 {
 	return expireTime[int(affinityModifier)];
+}
+
+bool cAffinityConfig::AffinityPreventsWars(AffinityModifier affinityModifier)
+{
+	return preventWars[int(affinityModifier)];
 }
 
 int cAffinityConfig::GetAffinityGain(AffinityModifier affinityModifier)

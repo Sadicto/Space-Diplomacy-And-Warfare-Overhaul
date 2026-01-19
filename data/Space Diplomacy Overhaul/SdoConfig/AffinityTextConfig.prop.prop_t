@@ -16,4 +16,5 @@ string16s affinityTexts
 	"At war with an ally" 	  # WarWithAlly
 	"Defeated shared enemy" 	  # DefeatedCommonEnemy
 	"Uplifted by monolith"    # UpliftedByMonolith
+	"Made peace"		  # Made Peace
 end

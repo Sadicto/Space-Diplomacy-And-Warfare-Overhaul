@@ -159,11 +159,19 @@
     </ClInclude>
     <ClInclude Include="Diplomacy\Config\cArchetypesConfig.h" />
     <ClInclude Include="Diplomacy\Config\cDiplomacyConfig.h" />
-    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.h">
+    <ClInclude Include="Diplomacy\IAffinityModifier.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.h">
+    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -290,11 +298,15 @@
     </ClCompile>
     <ClCompile Include="Diplomacy\Config\cArchetypesConfig.cpp" />
     <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
-    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedAffinityEvent.cpp">
+    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Diplomacy\PersistedEvents\cPersistedDiplomacyEvent.cpp">
+    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>

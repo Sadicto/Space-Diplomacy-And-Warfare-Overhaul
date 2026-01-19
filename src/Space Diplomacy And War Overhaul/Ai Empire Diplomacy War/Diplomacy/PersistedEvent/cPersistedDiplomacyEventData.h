@@ -1,27 +1,22 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include <Diplomacy/Config/cAffinityConfig.h>
 
-#define cPersistedEventPtr intrusive_ptr<cPersistedEvent>
-
-enum class ActionOnExpiry {
-	Nothing,
-	DeclareWar,
-	DecayAffinity
-};
+#define cDiplomacyEventDataPtr intrusive_ptr<cPersistedDiplomacyEventData>
 
 ///
 /// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cPersistedEventFactory());
+/// ClassManager.AddFactory(new cDiplomaticEventDataFactory());
 ///
 /// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cPersistedEvent>();
+/// auto obj = simulator_new<cDiplomaticEventData>();
 
-class cPersistedEvent
+class cPersistedDiplomacyEventData
 	: public Simulator::cGameData
 {
 public:
-	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedEvent");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedDiplomacyEventData");
 	static const uint32_t NOUN_ID = TYPE;
 
 	int AddRef() override;
@@ -32,41 +27,29 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
-	bool virtual Valid();
+	AffinityModifier GetAffinityModifier();
 
-	bool Expires();
+	void SetAffinityModifier(AffinityModifier affinityModifier);
 
-	void SetExpires(bool expires);
+	int GetAffinityGain();
 
-	uint32_t GetCreationTime();
+	void SetAffinityGain(int affinityGain);
 
-	void SetCreationTime(uint32_t creationTime);
+	bool PreventsWars();
 
-	uint32_t GetExpirationTime();
-
-	void SetExpirationTime(uint32_t expirationTime);
-
-	ActionOnExpiry GetExpireAction();
-
-	void SetExpireAction(ActionOnExpiry expireAction);
+	void SetPreventsWars(bool preventsWars);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
-
 private:
-
-	bool expires;
-
-	uint32_t creationTime;
-
-	uint32_t expirationTime;
-
-	uint32_t expireActionSerialization;
-
-	ActionOnExpiry expireAction;
+	
+	uint32_t affinityModifierSerialization;
+	AffinityModifier affinityModifier;
+	int affinityGain;
+	bool preventsWars;
 };
 
-class cPersistedEventFactory
+class cPersistedDiplomacyEventDataFactory
 	: public App::ISPClassFactory
 {
 public:

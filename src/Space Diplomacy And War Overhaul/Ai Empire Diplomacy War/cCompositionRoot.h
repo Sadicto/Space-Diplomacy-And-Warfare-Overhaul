@@ -16,6 +16,8 @@
 #include <Warfare/cWarfareSystem.h>
 #include <Warfare/cEmpireWarfareFactory.h>
 #include <Diplomacy/Config/cAffinityConfig.h>
+#include <cPersistedEventSystem.h>
+#include <Diplomacy/PersistedEvent/cPersistedDiplomacyEventManager.h>
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
@@ -49,36 +51,25 @@ public:
 
 	static Simulator::Attribute ATTRIBUTES[];
 
-
-
-private:
-	
-	static cCompositionRoot* instance;
+	// Pointer to the loaded persisted event system object.
+	// It's not created by the composition root.
+	cPersistedEventSystemPtr persistedEventSystem;
 
 	// Pointer to the loaded diplomacy system object.
 	// it's not created by the composition root.
 	cDiplomacySystemPtr diplomacySystem;
 
-	// Key used to load the diplomacy configuration prop.
-	ResourceKey diplomacyConfigKey;
-
 	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;
-
-	// Key used to load the archetypes affinities prop.
-	ResourceKey archetypesAffinitiesKey;
-
-	// Key used to load the affinity config prop.
-	ResourceKey affinityConfigKey;
-
-	// Key used to load the archetypes agressivities prop.
-	ResourceKey archetypesAgressivitiesKey;
 
 	// Pointer to the loaded archetypes affinities object.
 	cArchetypesConfigPtr archetypesConfig;
 
 	// Pointer to the loaded affinity config object.
 	cAffinityConfigPtr affinityConfig;
+
+	// Pointer to the loaded persisted diplomacy event manager.
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
@@ -92,12 +83,6 @@ private:
 	// Pointer to the loaded diplomacy event listener object.
 	cDiplomacyEventListenerPtr diplomacyEventListener;
 
-	// Key used to load the popups texts prop.
-	ResourceKey spacePopUpsTextsKey;
-
-	// Key used to load the popups filter config.
-	ResourceKey popupsFilterConfigKey;
-
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
@@ -107,24 +92,12 @@ private:
 	// Pointer to the loaded diplomacy effect analyzer.
 	cDiplomacyEffectAnalyzerPtr diplomacyEffectAnalyzer;
 
-	// Key used to load the relationship effects prop.
-	ResourceKey relationshipEffectsKey;
-
 	// Pointer to the loaded diplomacy effect info provider.
 	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;
 
 	// Pointer to the loaded warfare system.
 	// It's not created by the composition root.
 	cWarfareSystemPtr warfareSystem;
-
-	// Key used to load the warfare config prop.
-	ResourceKey warfareConfigKey;
-
-	// Pointer to the loaded warfareConfig.
-	cWarfareConfigPtr warfareConfig;
-
-	// Key used to load the space combat prop.
-	ResourceKey spaceCombatKey;
 
 	// Pointer to the loaded spaceCombatMetrics.
 	cSpaceCombatMetricsPtr spaceCombatMetrics;
@@ -141,11 +114,46 @@ private:
 	// Pointer to the loaded warfareEventListener.
 	cWarfareEventListenerPtr warfareEventListener;
 
-	// Key used to load the archetypeStrengthConfig prop.
-	ResourceKey archetypeStrengthConfigKey;
-
 	// Pointer to the loaded ArchetypeStrengthConfig
 	cArchetypeStrengthConfigPtr archetypeStrengthConfig;
+
+private:
+	
+	static cCompositionRoot* instance;
+
+	// Key used to load the diplomacy configuration prop.
+	ResourceKey diplomacyConfigKey;
+
+
+	// Key used to load the archetypes affinities prop.
+	ResourceKey archetypesAffinitiesKey;
+
+	// Key used to load the affinity config prop.
+	ResourceKey affinityConfigKey;
+
+	// Key used to load the archetypes agressivities prop.
+	ResourceKey archetypesAgressivitiesKey;
+
+	// Key used to load the popups texts prop.
+	ResourceKey spacePopUpsTextsKey;
+
+	// Key used to load the popups filter config.
+	ResourceKey popupsFilterConfigKey;
+
+	// Key used to load the relationship effects prop.
+	ResourceKey relationshipEffectsKey;
+
+	// Key used to load the warfare config prop.
+	ResourceKey warfareConfigKey;
+
+	// Pointer to the loaded warfareConfig.
+	cWarfareConfigPtr warfareConfig;
+
+	// Key used to load the space combat prop.
+	ResourceKey spaceCombatKey;
+
+	// Key used to load the archetypeStrengthConfig prop.
+	ResourceKey archetypeStrengthConfigKey;
 
 	// Pointer to the loaded affinityLayout.
 	UTFWin::UILayout* affinityLayout;

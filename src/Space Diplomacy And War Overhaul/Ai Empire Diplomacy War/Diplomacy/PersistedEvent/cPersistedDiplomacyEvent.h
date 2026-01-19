@@ -2,6 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include "../cPersistedEvent.h"
+#include "cPersistedDiplomacyEventData.h"
 
 #define cPersistedDiplomacyEventPtr intrusive_ptr<cPersistedDiplomacyEvent>
 
@@ -16,7 +17,7 @@ class cPersistedDiplomacyEvent
 	: public cPersistedEvent
 {
 public:
-	static const uint32_t TYPE = id("Ai_Empire_Diplomacy::cPersistedDiplomacyEvent");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedDiplomacyEvent");
 	static const uint32_t NOUN_ID = TYPE;
 
 	void* Cast(uint32_t type) const override;
@@ -25,21 +26,32 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
-	uint32_t GetEmpire1ID();
+	bool Valid() override;
 
-	void SetEmpire1ID(uint32_t ID);
+	Simulator::cEmpire* GetEmpire1();
 
-	uint32_t GetEmpire2ID();
+	void SetEmpire1(Simulator::cEmpire* empire1);
 
-	void SetEmpire2ID(uint32_t ID);
+	Simulator::cEmpire* GetEmpire2();
+
+	void SetEmpire2(Simulator::cEmpire* empire2);
+
+	cPersistedDiplomacyEventData* GetDiplomacyEventData();
+
+	void SetDiplomacyEventData(cPersistedDiplomacyEventData* diplomacyEventData);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
-	
+	// Used for serialization.
 	uint32_t empire1ID;
-
 	uint32_t empire2ID;
+
+	cEmpirePtr empire1;
+
+	cEmpirePtr empire2;
+
+	cDiplomacyEventDataPtr diplomacyEventData;
 };
 
 class cPersistedDiplomacyEventFactory
