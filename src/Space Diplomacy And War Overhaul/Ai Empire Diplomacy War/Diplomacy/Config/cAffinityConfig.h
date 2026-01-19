@@ -13,6 +13,9 @@ enum class AffinityModifier {
 	DefeatedCommonEnemy = 4,
 	UpliftedByMonolith = 5,
 	MadePeace = 6,
+	LongPeace = 7,
+	LongAlliance = 8,
+	Embassy = 9,
 	Nothing = MAXINT
 };
 
@@ -34,36 +37,61 @@ public:
 	// Gets the number of affinity modifiers.
 	int getNumAffinityModifiers();
 
+	// Gets wheter an affinity modifier upgrades.
+	bool AffinityUpgrades(AffinityModifier affinityModifier);
+
+	// Gets the base upgrade time of an affinity modifier.
+	uint32_t GetUpgradeTime(AffinityModifier affinityModifier);
+
 	// Gets whether an affinity modifier expires.
 	bool AffinityExpires(AffinityModifier affinityModifier);
 
-	// Gets the expire time of an affinity modifier.
+	// Gets the base expire time of an affinity modifier.
 	uint32_t GetExpireTime(AffinityModifier affinityModifier);
 
 	// Gets whether an affinity prevents wars.
 	bool AffinityPreventsWars(AffinityModifier affinityModifier);
 
-	// Gets the affinity gain of an affinity modifier.
+	// Gets the base affinity gain of an affinity modifier.
 	int GetAffinityGain(AffinityModifier affinityModifier);
 
-	// Gets whether an affinity modifier is mutually exclusive with another modifier.
-	bool MutuallyExclusive(AffinityModifier affinityModifier);
+	// Gets the affinity priority in case of mutual exclusive affinities.
+	int GetAffinityPriority(AffinityModifier affinityModifier);
+
+	// Gets whether an affinity modifier is mutually exclusive with other "stable relations" affinity modifiers.
+	bool StableRelationsMutuallyExclusive(AffinityModifier affinityModifier);
+
+	// Gets whether an affinity modifier is mutually exclusive with other "war together" affinity modifiers.
+	bool WarTogetherMutuallyExclusive(AffinityModifier affinityModifier);
+
 
 	// Stores the number of affinity modifiers that exist.
 	int numAffinityModifiers;
 
+	// Stores whether an affinity modifier upgrades or not.
+	eastl::vector<bool> upgrades;
+
+	// Stores the base upgrade time of an affinity modifier.
+	eastl::vector<uint32_t> upgradeTime;
+
 	// Stores whether an affinity modifier expires or not.
 	eastl::vector<bool> expires;
 
-	// Stores the expire time of an affinity modifier.
+	// Stores the base expire time of an affinity modifier.
 	eastl::vector<uint32_t> expireTime;
 
 	// Stores whether an affinity modifier prevents wars or not.
 	eastl::vector<bool> preventWars;
 
-	// Stores the affinity gain of an affinity modifier.
+	// Stores the base affinity gain of an affinity modifier.
 	eastl::vector<int> affinityGain;
 
-	// Stores whether an affinity modifier is mutually exclusive with another modifier.
-	eastl::vector<bool> mutuallyExclusive;
+	// Stores the affinity priority in case of mutual exclusive affinities.
+	eastl::vector<int> priority;
+
+	// Stores whether an affinity modifier is mutually exclusive with other "stable relations" affinity modifiers.
+	eastl::vector<bool> stableRelationsMutuallyExclusive;
+
+	// Stores whether an affinity modifier is mutually exclusive with other "war together" affinity modifiers.
+	eastl::vector<bool> warTogetherMutuallyExclusive;
 };

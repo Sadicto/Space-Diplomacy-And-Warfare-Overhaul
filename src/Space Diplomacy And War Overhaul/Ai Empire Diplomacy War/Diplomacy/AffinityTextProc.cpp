@@ -176,25 +176,26 @@ void AffinityTextProc::ResetAffinityToltip() {
 void AffinityTextProc::SetAffinityTooltip() {
 	if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())) {
 		ResetAffinityToltip();
-		eastl::vector<pair<AffinityModifier, int>> affinityModifiers = 
-			empireRelationsAnalyzer->GetEmpiresAffinityModifiers(currentEmpire.get(), Simulator::GetPlayerEmpire());
+		eastl::vector<AffinityModifierData> affinityModifiersData =
+			empireRelationsAnalyzer->GetEmpiresAffinityModifiersData(currentEmpire.get(), Simulator::GetPlayerEmpire());
 
 		int modifiersCount = 0;
-		for (pair<AffinityModifier, int> modifier : affinityModifiers) {
-			if (modifier.second != 0) {
+		for (const AffinityModifierData& affinityModifierData : affinityModifiersData) {
+			if (affinityModifierData.active) {
+				// TODO priority of mutually exclusive affinity and decay and upgrade.
 				IWindow* modifierUI = GetUnusedAffinityModifier();
 				Math::Rectangle area = modifierUI->GetArea();
 				area.y1 = 21.0f * modifiersCount;
 				area.y2 = area.y1 + 21;
 				modifierUI->SetArea(area);
-				modifierUI->SetCaption(GetAffinityModifierText(modifier.first).c_str());
+				modifierUI->SetCaption(GetAffinityModifierText(affinityModifierData.affinityModifier).c_str());
 
 				eastl::string str;
 
-				if (modifier.second > 0)
-					str = "+" + eastl::to_string(modifier.second);
+				if (affinityModifierData.affinityGain > 0)
+					str = "+" + eastl::to_string(affinityModifierData.affinityGain);
 				else
-					str = eastl::to_string(modifier.second);
+					str = eastl::to_string(affinityModifierData.affinityGain);
 
 				eastl::basic_string<char16_t> str16;
 				str16.reserve(str.size());
@@ -204,7 +205,7 @@ void AffinityTextProc::SetAffinityTooltip() {
 				IWindow* affinityModifierText = modifierUI->FindWindowByID(0xD08B205F);
 				affinityModifierText->SetCaption(str16.c_str());
 
-				Color color = (modifier.second > 0) ? green
+				Color color = (affinityModifierData.affinityGain > 0) ? green
 					: red;
 				affinityModifierText->SetShadeColor(color);
 				modifierUI->SetVisible(true);

@@ -22,6 +22,8 @@ public:
 	int Release() override;
 	void* Cast(uint32_t type) const override;
 
+	uint32_t CurrentTime();
+
 	void GetPersistedDiplomaticEventsFromEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire);
 
 	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);

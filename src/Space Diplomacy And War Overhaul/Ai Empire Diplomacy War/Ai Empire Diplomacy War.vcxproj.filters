@@ -64,6 +64,17 @@
     <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.h" />
     <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.h" />
     <ClInclude Include="Diplomacy\IAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cArchetypeAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cCommonEnemyAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cCommonAllyAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cWarWithAllyAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cDefeatedCommonEnemyAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cUpliftedByMonolithAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cMadePeaceAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cLongPeaceAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -113,6 +124,17 @@
     <ClCompile Include="Warfare\Config\cWarfareConfig.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cArchetypeAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cCommonEnemyAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cCommonAllyAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cWarWithAllyAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cDefeatedCommonEnemyAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cUpliftedByMonolithAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cMadePeaceAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cLongPeaceAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

@@ -6,6 +6,7 @@
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "AllianceEnemyButtonProc.h"
 #include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
+#include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
 
 using namespace Simulator;
 using namespace SporeModUtils;
@@ -76,7 +77,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         persistedDiplomacyEvent->SetExpirationTime(8);
         persistedDiplomacyEvent->SetExpires(true);
 
-        cDiplomacyEventDataPtr diplomacyEventData = simulator_new<cPersistedDiplomacyEventData>();
+        cPersistedDiplomacyEventDataPtr diplomacyEventData = simulator_new<cPersistedDiplomacyEventData>();
         diplomacyEventData->SetAffinityModifier(AffinityModifier::WarWithAlly);
         diplomacyEventData->SetAffinityGain(4);
         diplomacyEventData->SetPreventsWars(true);
@@ -108,7 +109,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 12: {
-
+        cCommonEnemyAffinityModifierPtr  commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
         
         break;
     }

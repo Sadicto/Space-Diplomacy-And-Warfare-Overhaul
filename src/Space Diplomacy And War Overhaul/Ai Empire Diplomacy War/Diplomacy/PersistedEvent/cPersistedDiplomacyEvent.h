@@ -51,7 +51,7 @@ private:
 
 	cEmpirePtr empire2;
 
-	cDiplomacyEventDataPtr diplomacyEventData;
+	cPersistedDiplomacyEventDataPtr diplomacyEventData;
 };
 
 class cPersistedDiplomacyEventFactory

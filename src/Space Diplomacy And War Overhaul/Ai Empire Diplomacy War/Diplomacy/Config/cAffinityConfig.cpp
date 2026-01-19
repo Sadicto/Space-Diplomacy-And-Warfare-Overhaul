@@ -9,6 +9,10 @@ cAffinityConfig::cAffinityConfig(ResourceKey affinityConfigKey)
 
 	App::Property::GetInt32(affinityConfig.get(), 0x57748147, numAffinityModifiers);
 
+	App::Property::GetArrayBool(affinityConfig.get(), 0xE48692DE, upgrades);
+
+	App::Property::GetArrayUInt32(affinityConfig.get(), 0x18E7CB64, upgradeTime);
+
 	App::Property::GetArrayBool(affinityConfig.get(), 0x44F772EB, expires);
 
 	App::Property::GetArrayUInt32(affinityConfig.get(), 0x9BE6806B, expireTime);
@@ -17,7 +21,11 @@ cAffinityConfig::cAffinityConfig(ResourceKey affinityConfigKey)
 
 	App::Property::GetArrayInt32(affinityConfig.get(), 0x04E9E9F8, affinityGain);
 
-	App::Property::GetArrayBool(affinityConfig.get(), 0x4AE9BBD4, mutuallyExclusive);
+	App::Property::GetArrayInt32(affinityConfig.get(), 0x393F7F7D, priority);
+
+	App::Property::GetArrayBool(affinityConfig.get(), 0xA90AAD3E, stableRelationsMutuallyExclusive);
+
+	App::Property::GetArrayBool(affinityConfig.get(), 0x7DC46842, warTogetherMutuallyExclusive);
 }
 
 
@@ -45,32 +53,42 @@ void* cAffinityConfig::Cast(uint32_t type) const
 	return nullptr;
 }
 
-int cAffinityConfig::getNumAffinityModifiers()
-{
+int cAffinityConfig::getNumAffinityModifiers(){
 	return numAffinityModifiers;
 }
 
-bool cAffinityConfig::AffinityExpires(AffinityModifier affinityModifier)
-{
+bool cAffinityConfig::AffinityUpgrades(AffinityModifier affinityModifier){
+	return upgrades[int(affinityModifier)];
+}
+
+uint32_t cAffinityConfig::GetUpgradeTime(AffinityModifier affinityModifier){
+	return upgradeTime[int(affinityModifier)];
+}
+
+bool cAffinityConfig::AffinityExpires(AffinityModifier affinityModifier){
 	return expires[int(affinityModifier)];
 }
 
-uint32_t cAffinityConfig::GetExpireTime(AffinityModifier affinityModifier)
-{
+uint32_t cAffinityConfig::GetExpireTime(AffinityModifier affinityModifier){
 	return expireTime[int(affinityModifier)];
 }
 
-bool cAffinityConfig::AffinityPreventsWars(AffinityModifier affinityModifier)
-{
+bool cAffinityConfig::AffinityPreventsWars(AffinityModifier affinityModifier){
 	return preventWars[int(affinityModifier)];
 }
 
-int cAffinityConfig::GetAffinityGain(AffinityModifier affinityModifier)
-{
+int cAffinityConfig::GetAffinityGain(AffinityModifier affinityModifier){
 	return affinityGain[int(affinityModifier)];
 }
 
-bool cAffinityConfig::MutuallyExclusive(AffinityModifier affinityModifier)
-{
-	return mutuallyExclusive[int(affinityModifier)];
+int cAffinityConfig::GetAffinityPriority(AffinityModifier affinityModifier){
+	return priority[int(affinityModifier)];
+}
+
+bool cAffinityConfig::StableRelationsMutuallyExclusive(AffinityModifier affinityModifier){
+	return stableRelationsMutuallyExclusive[int(affinityModifier)];
+}
+
+bool cAffinityConfig::WarTogetherMutuallyExclusive(AffinityModifier affinityModifier){
+	return warTogetherMutuallyExclusive[int(affinityModifier)];
 }

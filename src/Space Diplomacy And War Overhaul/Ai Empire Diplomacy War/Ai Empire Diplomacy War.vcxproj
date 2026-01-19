@@ -112,6 +112,50 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cArchetypeAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cCommonAllyAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cCommonEnemyAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cDefeatedCommonEnemyAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cLongPeaceAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cMadePeaceAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cUpliftedByMonolithAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\AffinityModifier\cWarWithAllyAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Diplomacy\AffinityTextProc.h">
       <SubType>
       </SubType>
@@ -248,6 +292,50 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="cPersistedEventSystem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cArchetypeAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cCommonAllyAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cCommonEnemyAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cDefeatedCommonEnemyAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cLongPeaceAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cMadePeaceAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cUpliftedByMonolithAffinityModifier.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\AffinityModifier\cWarWithAllyAffinityModifier.cpp">
       <SubType>
       </SubType>
     </ClCompile>

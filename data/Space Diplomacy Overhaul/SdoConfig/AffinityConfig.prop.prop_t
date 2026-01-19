@@ -1,4 +1,30 @@
-int32 numAffinityModifiers 7
+int32 numAffinityModifiers 10
+
+bools upgrades
+	false # ArchetypeAffinity
+	false # CommonEnemy
+	false # CommonAlly
+	false # WarWithAlly
+	false # DefeatedCommonEnemy
+	false # UpliftedByMonolith
+	false # MadePeace
+	true  # LongPeace
+	true  # LongAlliance
+	false # Embassy	
+end
+
+uint32s upgradeTime
+	0  # ArchetypeAffinity 
+	0  # CommonEnemy
+	0  # CommonAlly
+	0  # WarWithAlly
+	0  # DefeatedCommonEnemy
+	0  # UpliftedByMonolith
+	0  # MadePeace
+	1  # LongPeace
+	1  # LongAlliance
+	0  # Embassy	
+end
 
 bools expires
 	false # ArchetypeAffinity
@@ -7,7 +33,10 @@ bools expires
 	false # WarWithAlly
 	true  # DefeatedCommonEnemy
 	false # UpliftedByMonolith
-	true  # Made Peace
+	true  # MadePeace
+	true  # LongPeace
+	true  # LongAlliance
+	false # Embassy	
 end
 
 uint32s expireTime
@@ -17,7 +46,10 @@ uint32s expireTime
 	0  # WarWithAlly
 	1  # DefeatedCommonEnemy
 	0  # UpliftedByMonolith
-	1  # Made Peace
+	1  # MadePeace
+	1  # LongPeace
+	1  # LongAlliance
+	0  # Embassy	
 end
 
 bools preventWars
@@ -27,7 +59,10 @@ bools preventWars
 	false  # WarWithAlly
 	false  # DefeatedCommonEnemy
 	false  # UpliftedByMonolith
-	true  # Made Peace
+	true   # MadePeace
+	false  # LongPeace
+	false  # LongAlliance
+	false  # Embassy	
 end
 
 int32s affinityGain
@@ -37,15 +72,47 @@ int32s affinityGain
 	-1 # WarWithAlly
 	2  # DefeatedCommonEnemy
 	1  # UpliftedByMonolith
-	0  # Made Peace
+	0  # MadePeace
+	1  # LongPeace
+	2  # LongAlliance
+	1  # Embassy	
 end
 
-bools mutuallyExclusive
+int32s priority
+	0 # ArchetypeAffinity
+	0 # CommonEnemy
+	0 # CommonAlly
+	0 # WarWithAlly
+	1 # DefeatedCommonEnemy
+	0 # UpliftedByMonolith
+	0 # MadePeace
+	1 # LongPeace
+	0 # LongAlliance
+	0 # Embassy
+end
+
+bools stableRelationsMutuallyExclusive
+	false # ArchetypeAffinity
+	false # CommonEnemy
+	false # CommonAlly
+	false # WarWithAlly
+	false # DefeatedCommonEnemy
+	false # UpliftedByMonolith
+	false # MadePeace
+	true  # LongPeace
+	true  # LongAlliance
+	false # Embassy	
+end
+
+bools warTogetherMutuallyExclusive
 	false # ArchetypeAffinity
 	true  # CommonEnemy
 	false # CommonAlly
 	false # WarWithAlly
 	true  # DefeatedCommonEnemy
 	false # UpliftedByMonolith
-	false # Made Peace
+	false # MadePeace
+	true  # LongPeace
+	true  # LongAlliance
+	false # Embassy	
 end

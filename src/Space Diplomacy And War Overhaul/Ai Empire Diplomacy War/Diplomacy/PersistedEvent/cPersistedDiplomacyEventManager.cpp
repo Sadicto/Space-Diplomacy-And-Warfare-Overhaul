@@ -35,6 +35,10 @@ void* cPersistedDiplomacyEventManager::Cast(uint32_t type) const
 	return nullptr;
 }
 
+uint32_t cPersistedDiplomacyEventManager::CurrentTime() {
+	return persistedEventSystem->CurrentTime();
+}
+
 void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsFromEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, cEmpire* empire) {
 	auto persistedDiplomacyEvent = GetData<cPersistedDiplomacyEvent>();
 	for (cPersistedDiplomacyEventPtr diplomacyEvent : persistedDiplomacyEvent) {
@@ -59,7 +63,7 @@ cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::CreateAffinityEvent(S
 	if (affinityGain == 0) {
 		affinityGain = affinityConfig->GetAffinityGain(affinityModifier);
 	}
-	uint32_t creationTime = persistedEventSystem->CurrentTime();
+	uint32_t creationTime = CurrentTime();
 	uint32_t expirationTime = 0;
 	ActionOnExpiry actionOnExpiry;
 	bool expires = affinityConfig->AffinityExpires(affinityModifier);

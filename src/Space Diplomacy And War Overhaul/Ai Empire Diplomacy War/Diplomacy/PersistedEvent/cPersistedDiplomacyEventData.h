@@ -3,7 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include <Diplomacy/Config/cAffinityConfig.h>
 
-#define cDiplomacyEventDataPtr intrusive_ptr<cPersistedDiplomacyEventData>
+#define cPersistedDiplomacyEventDataPtr intrusive_ptr<cPersistedDiplomacyEventData>
 
 ///
 /// In your dllmain Initialize method, add the factory like this:

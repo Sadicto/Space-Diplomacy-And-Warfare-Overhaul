@@ -4,11 +4,6 @@ colorRGBA yellow  (1.0,     1.0,     0.0,     1.0)
 colorRGBA cyan    (0.5294, 0.8078, 0.9216, 1.0)
 colorRGBA green   (0.0,     1.0,     0.0,     1.0)
 
-string16 archetypeAffinityText "Archetype compatibility"
-string16 commonEnemyText "Shared enemy"
-string16 commonAllyText "Shared ally"
-string16 warWithAllyText "At war with an ally"
-
 string16s affinityTexts
 	"Archetype compatibility" # ArchetypeAffinity
 	"Shared enemy" 		  # CommonEnemy
@@ -17,4 +12,7 @@ string16s affinityTexts
 	"Defeated shared enemy" 	  # DefeatedCommonEnemy
 	"Uplifted by monolith"    # UpliftedByMonolith
 	"Made peace"		  # Made Peace
+	"Long Peace"  		  # LongPeace
+	"Long Alliance"  	  # LongAlliance
+	"Embassy" 		  # Embassy	
 end

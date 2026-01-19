@@ -108,7 +108,29 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedEventSystem.get(), affinityConfig.get());
 
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get(), persistedDiplomacyEventManager.get());
+		archetypeAffinityModifier = new cArchetypeAffinityModifier();
+		commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
+		commonAllyAffinityModifier = new cCommonAllyAffinityModifier();
+		warWithAllyAffinityModifier = new cWarWithAllyAffinityModifier();
+		defeatedCommonEnemyAffinityModifier = new cDefeatedCommonEnemyAffinityModifier();
+		upliftedByMonolithAffinityModifier = new cUpliftedByMonolithAffinityModifier();
+		madePeaceAffinityModifier = new cMadePeaceAffinityModifier();
+		longPeaceAffinityModifier = new cLongPeaceAffinityModifier();
+		longAllianceAffinityModifier = new cLongAllianceAffinityModifier();
+		embassyAffinityModifier = new cEmbassyAffinityModifier();
+		eastl::vector<IAffinityModifierPtr> affinityModifiers;
+		affinityModifiers.push_back(archetypeAffinityModifier);
+		affinityModifiers.push_back(commonEnemyAffinityModifier);
+		affinityModifiers.push_back(commonAllyAffinityModifier);
+		affinityModifiers.push_back(warWithAllyAffinityModifier);
+		affinityModifiers.push_back(defeatedCommonEnemyAffinityModifier);
+		affinityModifiers.push_back(upliftedByMonolithAffinityModifier);
+		affinityModifiers.push_back(madePeaceAffinityModifier);
+		affinityModifiers.push_back(longPeaceAffinityModifier);
+		affinityModifiers.push_back(longAllianceAffinityModifier);
+		affinityModifiers.push_back(embassyAffinityModifier);
+
+		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get(), persistedDiplomacyEventManager.get(), affinityModifiers);
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
@@ -188,6 +210,16 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		archetypesConfig.reset();
 		affinityConfig.reset();
 		persistedDiplomacyEventManager.reset();
+		archetypeAffinityModifier.reset();
+		commonEnemyAffinityModifier.reset();
+		commonAllyAffinityModifier.reset();
+		warWithAllyAffinityModifier.reset();
+		defeatedCommonEnemyAffinityModifier.reset();
+		upliftedByMonolithAffinityModifier.reset();
+		madePeaceAffinityModifier.reset();
+		longPeaceAffinityModifier.reset();
+		longAllianceAffinityModifier.reset();
+		embassyAffinityModifier.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
 		empireDiplomacyFactory.reset();

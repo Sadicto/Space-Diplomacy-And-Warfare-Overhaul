@@ -18,6 +18,16 @@
 #include <Diplomacy/Config/cAffinityConfig.h>
 #include <cPersistedEventSystem.h>
 #include <Diplomacy/PersistedEvent/cPersistedDiplomacyEventManager.h>
+#include "Diplomacy/AffinityModifier/cArchetypeAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cCommonAllyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cDefeatedCommonEnemyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cEmbassyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cLongAllianceAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cLongPeaceAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cMadePeaceAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cUpliftedByMonolithAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cWarWithAllyAffinityModifier.h"
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
@@ -70,6 +80,36 @@ public:
 
 	// Pointer to the loaded persisted diplomacy event manager.
 	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	// Pointer to the loaded archetype affinity modifier.
+	cArchetypeAffinityModifierPtr archetypeAffinityModifier;
+
+	// Pointer to the loaded common enemy affinity modifier.
+	cCommonEnemyAffinityModifierPtr commonEnemyAffinityModifier;
+
+	// Pointer to the loaded common ally affinity modifier.
+	cCommonAllyAffinityModifierPtr commonAllyAffinityModifier;
+
+	// Pointer to the loaded war with ally affinity modifier.
+	cWarWithAllyAffinityModifierPtr warWithAllyAffinityModifier;
+
+	// Pointer to the loaded defeated common enemy affinity modifier.
+	cDefeatedCommonEnemyAffinityModifierPtr defeatedCommonEnemyAffinityModifier;
+
+	// Pointer to the loaded uplifted by monolith affinity modifier.
+	cUpliftedByMonolithAffinityModifierPtr upliftedByMonolithAffinityModifier;
+
+	// Pointer to the loaded made peace affinity modifier.
+	cMadePeaceAffinityModifierPtr madePeaceAffinityModifier;
+
+	// Pointer to the loaded long peace affinity modifier.
+	cLongPeaceAffinityModifierPtr longPeaceAffinityModifier;
+
+	// Pointer to the loaded long alliance affinity modifier.
+	cLongAllianceAffinityModifierPtr longAllianceAffinityModifier;
+
+	// Pointer to the loaded embassy affinity modifier.
+	cEmbassyAffinityModifierPtr embassyAffinityModifier;
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
