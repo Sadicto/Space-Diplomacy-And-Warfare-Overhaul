@@ -43,11 +43,11 @@ public:
 	// Gets the base upgrade time of an affinity modifier.
 	uint32_t GetUpgradeTime(AffinityModifier affinityModifier);
 
-	// Gets whether an affinity modifier expires.
-	bool AffinityExpires(AffinityModifier affinityModifier);
+	// Gets whether an affinity modifier decays.
+	bool AffinityDecays(AffinityModifier affinityModifier);
 
-	// Gets the base expire time of an affinity modifier.
-	uint32_t GetExpireTime(AffinityModifier affinityModifier);
+	// Gets the base decay time of an affinity modifier.
+	uint32_t GetDecayTime(AffinityModifier affinityModifier);
 
 	// Gets whether an affinity prevents wars.
 	bool AffinityPreventsWars(AffinityModifier affinityModifier);
@@ -74,11 +74,11 @@ public:
 	// Stores the base upgrade time of an affinity modifier.
 	eastl::vector<uint32_t> upgradeTime;
 
-	// Stores whether an affinity modifier expires or not.
-	eastl::vector<bool> expires;
+	// Stores whether an affinity modifier decays or not.
+	eastl::vector<bool> decays;
 
-	// Stores the base expire time of an affinity modifier.
-	eastl::vector<uint32_t> expireTime;
+	// Stores the base decay time of an affinity modifier.
+	eastl::vector<uint32_t> decayTime;
 
 	// Stores whether an affinity modifier prevents wars or not.
 	eastl::vector<bool> preventWars;

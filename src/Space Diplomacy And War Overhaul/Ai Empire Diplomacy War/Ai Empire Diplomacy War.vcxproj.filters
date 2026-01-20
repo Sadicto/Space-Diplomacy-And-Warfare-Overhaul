@@ -61,7 +61,6 @@
     <ClInclude Include="Diplomacy\Config\cDiplomacyConfig.h" />
     <ClInclude Include="Warfare\Config\cWarfareConfig.h" />
     <ClInclude Include="Warfare\Config\cArchetypeStrengthConfig.h" />
-    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.h" />
     <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.h" />
     <ClInclude Include="Diplomacy\IAffinityModifier.h" />
     <ClInclude Include="Diplomacy\AffinityModifier\cAffinityModifier.h" />
@@ -122,7 +121,6 @@
     <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
     <ClCompile Include="Warfare\Config\cArchetypeStrengthConfig.cpp" />
     <ClCompile Include="Warfare\Config\cWarfareConfig.cpp" />
-    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.cpp" />
     <ClCompile Include="Diplomacy\AffinityModifier\cAffinityModifier.cpp" />
     <ClCompile Include="Diplomacy\AffinityModifier\cArchetypeAffinityModifier.cpp" />

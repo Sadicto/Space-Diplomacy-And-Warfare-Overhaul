@@ -38,6 +38,7 @@ bool cPersistedDiplomacyEvent::Write(Simulator::ISerializerStream* stream)
 {
 	empire1ID = empire1->GetEmpireID();
 	empire2ID = empire2->GetEmpireID();
+	serializationEventType = uint32_t(eventType);
 	return cPersistedEvent::Write(stream) && Simulator::ClassSerializer(this, ATTRIBUTES).Write(stream);
 }
 bool cPersistedDiplomacyEvent::Read(Simulator::ISerializerStream* stream)
@@ -45,6 +46,7 @@ bool cPersistedDiplomacyEvent::Read(Simulator::ISerializerStream* stream)
 	bool ret = cPersistedEvent::Read(stream) && Simulator::ClassSerializer(this, ATTRIBUTES).Read(stream);
 	empire1 = StarManager.GetEmpire(empire1ID);
 	empire2 = StarManager.GetEmpire(empire2ID);
+	eventType = PersistedDiplomacyEventType(serializationEventType);
 	return ret;
 }
 
@@ -55,7 +57,7 @@ Simulator::Attribute cPersistedDiplomacyEvent::ATTRIBUTES[] = {
 
 	SimAttribute(cPersistedDiplomacyEvent, empire1ID, 0),
 	SimAttribute(cPersistedDiplomacyEvent, empire2ID, 1),
-	SimAttribute(cPersistedDiplomacyEvent, diplomacyEventData, 2),
+	SimAttribute(cPersistedDiplomacyEvent, serializationEventType, 2),
 	Simulator::Attribute()
 };
 
@@ -79,10 +81,10 @@ void cPersistedDiplomacyEvent::SetEmpire2(cEmpire* empire2) {
 	this->empire2 = empire2;
 }
 
-cPersistedDiplomacyEventData* cPersistedDiplomacyEvent::GetDiplomacyEventData() {
-	return diplomacyEventData.get();
+PersistedDiplomacyEventType cPersistedDiplomacyEvent::GetEventType(){
+	return eventType;
 }
 
-void cPersistedDiplomacyEvent::SetDiplomacyEventData(cPersistedDiplomacyEventData* diplomacyEventData) {
-	this->diplomacyEventData = diplomacyEventData;
+void cPersistedDiplomacyEvent::SetEventType(PersistedDiplomacyEventType eventType){
+	this->eventType = eventType;
 }

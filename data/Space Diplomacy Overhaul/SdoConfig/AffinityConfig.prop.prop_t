@@ -26,7 +26,7 @@ uint32s upgradeTime
 	0  # Embassy	
 end
 
-bools expires
+bools decays
 	false # ArchetypeAffinity
 	false # CommonEnemy
 	false # CommonAlly
@@ -39,7 +39,7 @@ bools expires
 	false # Embassy	
 end
 
-uint32s expireTime
+uint32s decayTime
 	0  # ArchetypeAffinity 
 	0  # CommonEnemy
 	0  # CommonAlly

@@ -59,41 +59,16 @@ void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsBetweenEmpires
 	}
 }
 
-cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::CreateAffinityEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, AffinityModifier affinityModifier, int affinityGain){
-	if (affinityGain == 0) {
-		affinityGain = affinityConfig->GetAffinityGain(affinityModifier);
-	}
-	uint32_t creationTime = CurrentTime();
-	uint32_t expirationTime = 0;
-	ActionOnExpiry actionOnExpiry;
-	bool expires = affinityConfig->AffinityExpires(affinityModifier);
-
-	if (expires) {
-		expirationTime = affinityConfig->GetExpireTime(affinityModifier);
-		actionOnExpiry = ActionOnExpiry::DecayAffinity;
-	}
-	else {
-		uint32_t expirationTime = 0;
-		ActionOnExpiry actionOnExpiry = ActionOnExpiry::Nothing;
-	}
+cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType, uint32_t duration)
+{
+	// TODO check an event of the same type does not already exists between the two empires.
 	cPersistedDiplomacyEvent* persistedDiplomacyEvent = simulator_new<cPersistedDiplomacyEvent>();
-	persistedDiplomacyEvent->SetCreationTime(creationTime);
-	persistedDiplomacyEvent->SetExpirationTime(creationTime + expirationTime);
-	persistedDiplomacyEvent->SetExpireAction(ActionOnExpiry::Nothing);
+	persistedDiplomacyEvent->SetCreationTime(CurrentTime());
+	bool expirable = duration == 0 ? true : false;
+	persistedDiplomacyEvent->SetExpires(expirable);
+	persistedDiplomacyEvent->SetExpirationTime(CurrentTime() + duration);
 	persistedDiplomacyEvent->SetEmpire1(empire1);
 	persistedDiplomacyEvent->SetEmpire2(empire2);
-
-	cPersistedDiplomacyEventData* persistedDiplomacyEventData = simulator_new<cPersistedDiplomacyEventData>();
-	persistedDiplomacyEventData->SetAffinityModifier(affinityModifier);
-	if (affinityGain == 0) {
-		affinityGain = affinityConfig->GetAffinityGain(affinityModifier);
-	}
-	persistedDiplomacyEventData->SetAffinityGain(affinityGain);
-	persistedDiplomacyEventData->SetPreventsWars(affinityConfig->AffinityPreventsWars(affinityModifier));
-
-	persistedDiplomacyEvent->SetDiplomacyEventData(persistedDiplomacyEventData);
-	if (expires) {
-		persistedEventSystem->AddExpirableEvent(persistedDiplomacyEvent);
-	}
+	persistedDiplomacyEvent->SetEventType(eventType);
 	return persistedDiplomacyEvent;
 }

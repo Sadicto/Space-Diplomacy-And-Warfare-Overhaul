@@ -21,17 +21,23 @@ public:
 
 	virtual bool Active(const AffinityModifierContext& context) override;
 
-	virtual cPersistedDiplomacyEvent* GetAsociatedPersistedDiplomacyEvent(const AffinityModifierContext& context) override;
+	virtual cPersistedDiplomacyEvent* GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, PersistedDiplomacyEventType eventType);
+	
+	virtual int CalculateAffinityGain(const AffinityModifierContext& context, uint32_t eventCreationTime);
 
 	virtual int GetAffinityGain(const AffinityModifierContext& context) override;
 
 	virtual bool Upgrading(const AffinityModifierContext& context) override;
 
+	virtual uint32_t CalculateUpgradeTime(const AffinityModifierContext& context, uint32_t eventCreationTime);
+
 	virtual uint32_t GetUpgradeTime(const AffinityModifierContext& context) override;
 
-	virtual bool Expiring(const AffinityModifierContext& context) override;
+	virtual bool Decaying(const AffinityModifierContext& context) override;
 
-	virtual uint32_t GetExpireTime(const AffinityModifierContext& context) override;
+	virtual uint32_t CalculateDecayTime(const AffinityModifierContext& context, uint32_t eventCreationTime);
+
+	virtual uint32_t GetDecayTime(const AffinityModifierContext& context) override;
 
 	virtual bool PreventsWars(const AffinityModifierContext& context) override;
 

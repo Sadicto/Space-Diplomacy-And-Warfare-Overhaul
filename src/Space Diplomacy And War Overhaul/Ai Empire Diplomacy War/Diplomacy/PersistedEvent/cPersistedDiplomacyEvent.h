@@ -2,7 +2,14 @@
 
 #include <Spore\BasicIncludes.h>
 #include "../cPersistedEvent.h"
-#include "cPersistedDiplomacyEventData.h"
+
+enum class PersistedDiplomacyEventType {
+	NeighborsInPeace = 0,
+	FormedAlliance = 1,
+	DefeatedEnemyTogether = 2,
+	UpliftedByMonolith = 3,
+	MadePeace = 4
+};
 
 #define cPersistedDiplomacyEventPtr intrusive_ptr<cPersistedDiplomacyEvent>
 
@@ -36,9 +43,9 @@ public:
 
 	void SetEmpire2(Simulator::cEmpire* empire2);
 
-	cPersistedDiplomacyEventData* GetDiplomacyEventData();
+	PersistedDiplomacyEventType GetEventType();
 
-	void SetDiplomacyEventData(cPersistedDiplomacyEventData* diplomacyEventData);
+	void SetEventType(PersistedDiplomacyEventType eventType);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
@@ -46,12 +53,14 @@ private:
 	// Used for serialization.
 	uint32_t empire1ID;
 	uint32_t empire2ID;
+	uint32_t serializationEventType;
 
 	cEmpirePtr empire1;
 
 	cEmpirePtr empire2;
 
-	cPersistedDiplomacyEventDataPtr diplomacyEventData;
+	PersistedDiplomacyEventType eventType;
+
 };
 
 class cPersistedDiplomacyEventFactory

@@ -16,5 +16,9 @@ public:
 	~cMadePeaceAffinityModifier();
 	void* Cast(uint32_t type) const override;
 
+	bool Active(const AffinityModifierContext& context) override;
+
+	uint32_t GetDecayTime(const AffinityModifierContext& context) override;
+
 	AffinityModifier GetAffinityModifier() override;
 };

@@ -16,5 +16,14 @@ public:
 	~cLongAllianceAffinityModifier();
 	void* Cast(uint32_t type) const override;
 
+	bool Active(const AffinityModifierContext& context) override;
+
+	int GetAffinityGain(const AffinityModifierContext& context) override;
+
+	bool Upgrading(const AffinityModifierContext& context) override;
+
+	virtual uint32_t GetUpgradeTime(const AffinityModifierContext& context) override;
+
 	AffinityModifier GetAffinityModifier() override;
+
 };

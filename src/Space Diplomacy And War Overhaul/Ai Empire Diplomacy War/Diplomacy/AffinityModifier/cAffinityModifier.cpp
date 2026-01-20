@@ -35,68 +35,58 @@ bool cAffinityModifier::Active(const AffinityModifierContext& context) {
 	return GetAffinityGain(context) != 0;
 }
 
-cPersistedDiplomacyEvent* cAffinityModifier::GetAsociatedPersistedDiplomacyEvent(const AffinityModifierContext& context){
-	cPersistedDiplomacyEventPtr  asociatedPersistedEvent = nullptr;
+cPersistedDiplomacyEvent* cAffinityModifier::GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, PersistedDiplomacyEventType eventType){
+	cPersistedDiplomacyEventPtr  persistedEventOfType = nullptr;
 	for (cPersistedDiplomacyEventPtr diplomacyEvent : context.diplomacyEvents) {
-		if (diplomacyEvent->GetDiplomacyEventData()->GetAffinityModifier() == GetAffinityModifier()) {
-			asociatedPersistedEvent = diplomacyEvent;
+		if (diplomacyEvent->GetEventType() == eventType) {
+			persistedEventOfType = diplomacyEvent;
 			break;
 		}
 	}
-	return asociatedPersistedEvent.get();
+	return persistedEventOfType.get();
+}
+
+int cAffinityModifier::CalculateAffinityGain(const AffinityModifierContext& context, uint32_t eventCreationTime){
+	uint32_t elapsedTime = context.currentTime - eventCreationTime;
+	if (context.affinityConfig->AffinityUpgrades(GetAffinityModifier())) {
+		return min(context.affinityConfig->GetAffinityGain(GetAffinityModifier()), int(context.affinityConfig->GetUpgradeTime(GetAffinityModifier()) / elapsedTime));
+	}
+	else if (context.affinityConfig->AffinityDecays(GetAffinityModifier())) {
+		return max(0, context.affinityConfig->GetAffinityGain(GetAffinityModifier()) - int(context.affinityConfig->GetDecayTime(GetAffinityModifier()) / elapsedTime));
+	}
+	return 0;
 }
 
 int cAffinityModifier::GetAffinityGain(const AffinityModifierContext& context) {
-	if (context.affinityConfig->AffinityUpgrades(GetAffinityModifier()) || context.affinityConfig->AffinityExpires(GetAffinityModifier())) {
-		cPersistedDiplomacyEvent* assoaciatedDiplomacyEvent = GetAsociatedPersistedDiplomacyEvent(context);
-		if (assoaciatedDiplomacyEvent != nullptr) {
-			return assoaciatedDiplomacyEvent->GetDiplomacyEventData()->GetAffinityGain();
-		}
-		else {
-			return 0;
-		}
-	}
-	else {
-		return context.affinityConfig->GetAffinityGain(GetAffinityModifier());
-	}
+	return context.affinityConfig->GetAffinityGain(GetAffinityModifier());
 }
 
 bool cAffinityModifier::Upgrading(const AffinityModifierContext& context) {
-	return context.affinityConfig->AffinityUpgrades(GetAffinityModifier()) && GetAffinityGain(context) != context.affinityConfig->GetAffinityGain(GetAffinityModifier());
+	return context.affinityConfig->AffinityUpgrades(GetAffinityModifier());
+}
+
+uint32_t cAffinityModifier::CalculateUpgradeTime(const AffinityModifierContext& context, uint32_t eventCreationTime){
+	uint32_t elapsedTime = context.currentTime - eventCreationTime;
+	uint32_t baseUpgradeTime = context.affinityConfig->GetUpgradeTime(GetAffinityModifier());
+	return  elapsedTime % baseUpgradeTime;
 }
 
 uint32_t cAffinityModifier::GetUpgradeTime(const AffinityModifierContext& context) {
-	if (Upgrading(context)) {
-		cPersistedDiplomacyEvent* assoaciatedDiplomacyEvent = GetAsociatedPersistedDiplomacyEvent(context);
-		if (assoaciatedDiplomacyEvent != nullptr) {
-			return assoaciatedDiplomacyEvent->GetExpirationTime() - context.currentTime;
-		}
-		else {
-			return 0;
-		}
-	}
-	else {
-		return 0;
-	}
+	return 0;
 }
 
-bool cAffinityModifier::Expiring(const AffinityModifierContext& context) {
-	return context.affinityConfig->AffinityExpires(GetAffinityModifier());
+bool cAffinityModifier::Decaying(const AffinityModifierContext& context) {
+	return context.affinityConfig->AffinityDecays(GetAffinityModifier());
 }
 
-uint32_t cAffinityModifier::GetExpireTime(const AffinityModifierContext& context){
-	if (Expiring(context)) {
-		cPersistedDiplomacyEvent* assoaciatedDiplomacyEvent = GetAsociatedPersistedDiplomacyEvent(context);
-		if (assoaciatedDiplomacyEvent != nullptr) {
-			return assoaciatedDiplomacyEvent->GetExpirationTime() - context.currentTime;
-		}
-		else {
-			return 0;
-		}
-	}
-	else {
-		return 0;
-	}
+uint32_t cAffinityModifier::CalculateDecayTime(const AffinityModifierContext& context, uint32_t eventCreationTime){
+	uint32_t elapsedTime = context.currentTime - eventCreationTime;
+	uint32_t baseDecayTime = context.affinityConfig->GetDecayTime(GetAffinityModifier());
+	return elapsedTime % baseDecayTime;
+}
+
+uint32_t cAffinityModifier::GetDecayTime(const AffinityModifierContext& context){
+	return 0;
 }
 
 bool cAffinityModifier::PreventsWars(const AffinityModifierContext& context) {
@@ -122,8 +112,8 @@ AffinityModifierData cAffinityModifier::GetAffinityModifierData(const AffinityMo
 	data.affinityGain = GetAffinityGain(context);
 	data.upgrading = Upgrading(context);
 	data.upgradeTime = GetUpgradeTime(context);
-	data.expiring = Expiring(context);
-	data.expireTime = GetExpireTime(context);
+	data.expiring = Decaying(context);
+	data.decayTime = GetDecayTime(context);
 	data.priority = GetPriority(context);
 	data.stableRelationsMutuallyExclusive = StableRelationsMutuallyExclusive(context);
 	data.warTogetherMutuallyExclusive = WarTogetherMutuallyExclusive(context);

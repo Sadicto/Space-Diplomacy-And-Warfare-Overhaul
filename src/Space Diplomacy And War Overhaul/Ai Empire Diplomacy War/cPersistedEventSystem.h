@@ -16,10 +16,6 @@ struct CompareByExpirationTime
 
 #define cPersistedEventSystemPtr intrusive_ptr<cPersistedEventSystem>
 
-///
-/// In your dllmain Initialize method, add the system like this:
-/// ModAPI::AddSimulatorStrategy(new cPersistedEventSystem(), cPersistedEventSystem::NOUN_ID);
-///
 
 /// Manages the persistent events and tracks those with time limits.
 class cPersistedEventSystem

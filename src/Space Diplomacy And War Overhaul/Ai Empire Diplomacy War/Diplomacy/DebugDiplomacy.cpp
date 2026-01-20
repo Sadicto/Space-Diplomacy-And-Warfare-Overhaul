@@ -70,18 +70,6 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 8: {
-        cPersistedDiplomacyEventPtr persistedDiplomacyEvent = simulator_new<cPersistedDiplomacyEvent>();
-        persistedDiplomacyEvent->SetEmpire1(GetPlayerEmpire());
-        persistedDiplomacyEvent->SetEmpire2(GetPlayerEmpire());
-        persistedDiplomacyEvent->SetCreationTime(4);
-        persistedDiplomacyEvent->SetExpirationTime(8);
-        persistedDiplomacyEvent->SetExpires(true);
-
-        cPersistedDiplomacyEventDataPtr diplomacyEventData = simulator_new<cPersistedDiplomacyEventData>();
-        diplomacyEventData->SetAffinityModifier(AffinityModifier::WarWithAlly);
-        diplomacyEventData->SetAffinityGain(4);
-        diplomacyEventData->SetPreventsWars(true);
-        persistedDiplomacyEvent->SetDiplomacyEventData(diplomacyEventData.get());
 
         break;
 
@@ -114,7 +102,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 13: {
-
+        bool inRange = EmpireUtils::EmpireInRangeOfEmpire(GetPlayerEmpire(), empire, 10.0f);
         break;
     }
     case 14: {

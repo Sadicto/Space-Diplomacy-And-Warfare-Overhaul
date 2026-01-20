@@ -4,11 +4,6 @@
 
 #define cPersistedEventPtr intrusive_ptr<cPersistedEvent>
 
-enum class ActionOnExpiry {
-	Nothing,
-	DeclareWar,
-	DecayAffinity
-};
 
 ///
 /// In your dllmain Initialize method, add the factory like this:
@@ -36,7 +31,7 @@ public:
 
 	bool Expires();
 
-	void SetExpires(bool expires);
+	void SetExpires(bool decays);
 
 	uint32_t GetCreationTime();
 
@@ -45,10 +40,6 @@ public:
 	uint32_t GetExpirationTime();
 
 	void SetExpirationTime(uint32_t expirationTime);
-
-	ActionOnExpiry GetExpireAction();
-
-	void SetExpireAction(ActionOnExpiry expireAction);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
@@ -60,10 +51,6 @@ private:
 	uint32_t creationTime;
 
 	uint32_t expirationTime;
-
-	uint32_t expireActionSerialization;
-
-	ActionOnExpiry expireAction;
 };
 
 class cPersistedEventFactory

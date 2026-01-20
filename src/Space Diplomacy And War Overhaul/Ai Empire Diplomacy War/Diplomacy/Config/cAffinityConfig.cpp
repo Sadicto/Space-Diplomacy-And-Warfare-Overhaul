@@ -13,9 +13,9 @@ cAffinityConfig::cAffinityConfig(ResourceKey affinityConfigKey)
 
 	App::Property::GetArrayUInt32(affinityConfig.get(), 0x18E7CB64, upgradeTime);
 
-	App::Property::GetArrayBool(affinityConfig.get(), 0x44F772EB, expires);
+	App::Property::GetArrayBool(affinityConfig.get(), 0xA025DC24, decays);
 
-	App::Property::GetArrayUInt32(affinityConfig.get(), 0x9BE6806B, expireTime);
+	App::Property::GetArrayUInt32(affinityConfig.get(), 0x7D4D7362, decayTime);
 
 	App::Property::GetArrayBool(affinityConfig.get(), 0xD92A2F80, preventWars);
 
@@ -65,12 +65,12 @@ uint32_t cAffinityConfig::GetUpgradeTime(AffinityModifier affinityModifier){
 	return upgradeTime[int(affinityModifier)];
 }
 
-bool cAffinityConfig::AffinityExpires(AffinityModifier affinityModifier){
-	return expires[int(affinityModifier)];
+bool cAffinityConfig::AffinityDecays(AffinityModifier affinityModifier){
+	return decays[int(affinityModifier)];
 }
 
-uint32_t cAffinityConfig::GetExpireTime(AffinityModifier affinityModifier){
-	return expireTime[int(affinityModifier)];
+uint32_t cAffinityConfig::GetDecayTime(AffinityModifier affinityModifier){
+	return decayTime[int(affinityModifier)];
 }
 
 bool cAffinityConfig::AffinityPreventsWars(AffinityModifier affinityModifier){

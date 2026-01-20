@@ -16,6 +16,10 @@ public:
 	~cDefeatedCommonEnemyAffinityModifier();
 	void* Cast(uint32_t type) const override;
 
+	int GetAffinityGain(const AffinityModifierContext& context) override;
+
+	uint32_t GetDecayTime(const AffinityModifierContext& context) override;
+
 	AffinityModifier GetAffinityModifier() override;
 
 };

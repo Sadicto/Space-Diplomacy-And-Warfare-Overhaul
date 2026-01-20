@@ -20,6 +20,20 @@ void* cMadePeaceAffinityModifier::Cast(uint32_t type) const
 	return nullptr;
 }
 
+bool cMadePeaceAffinityModifier::Active(const AffinityModifierContext& context){
+	return GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::MadePeace) != nullptr;
+}
+
+uint32_t cMadePeaceAffinityModifier::GetDecayTime(const AffinityModifierContext& context) {
+	cPersistedDiplomacyEvent* madePeaceEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::MadePeace);
+	if (madePeaceEvent != nullptr) {
+		return CalculateDecayTime(context, madePeaceEvent->GetCreationTime());
+	}
+	else {
+		return 0;
+	}
+}
+
 AffinityModifier cMadePeaceAffinityModifier::GetAffinityModifier() {
 	return cMadePeaceAffinityModifier::affinityModifier;
 }

@@ -28,13 +28,8 @@ public:
 
 	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	/// @brief Creates a new diplomacy event representing an affinity change event.
-	/// @param empire1 The source empire of the event.
-	/// @param empire2 The target empire of the event.
-	/// @param affinityModifier
-	/// @param affinityGain if 0 uses the default affinityGain for the affinityModifier.
-	/// @return Pointer to the created cPersistedDiplomacyEvent.
-	cPersistedDiplomacyEvent* CreateAffinityEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, AffinityModifier affinityModifier, int affinityGain = 0);
+
+	cPersistedDiplomacyEvent* CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType, uint32_t duration = 0);
 
 	// Pointer to the loaded persistedEventSystem.
 	cPersistedEventSystemPtr persistedEventSystem;

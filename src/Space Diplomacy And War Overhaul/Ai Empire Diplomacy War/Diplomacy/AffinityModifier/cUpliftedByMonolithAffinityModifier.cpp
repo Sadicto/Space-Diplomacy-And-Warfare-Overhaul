@@ -26,5 +26,5 @@ AffinityModifier cUpliftedByMonolithAffinityModifier::GetAffinityModifier() {
 }
 
 bool cUpliftedByMonolithAffinityModifier::Active(const AffinityModifierContext& context) {
-	return GetAsociatedPersistedDiplomacyEvent(context) != nullptr;
+	return GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::UpliftedByMonolith) != nullptr;
 }

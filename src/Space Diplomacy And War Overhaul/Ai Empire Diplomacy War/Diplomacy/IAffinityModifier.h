@@ -3,7 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include "PersistedEvent/cPersistedDiplomacyEvent.h"
 #include "Config/cArchetypesConfig.h"
-#include "PersistedEvent/cPersistedDiplomacyEvent.h"
+#include "Config/cAffinityConfig.h"
 
 #define IAffinityModifierPtr intrusive_ptr<IAffinityModifier>
 
@@ -23,7 +23,7 @@ struct AffinityModifierData {
 	bool upgrading;
 	uint32_t upgradeTime;
 	bool expiring;
-	uint32_t expireTime;
+	uint32_t decayTime;
 	int priority;
 	bool stableRelationsMutuallyExclusive;
 	bool warTogetherMutuallyExclusive;
@@ -39,17 +39,15 @@ public:
 	
 	virtual bool Active(const AffinityModifierContext& context) = 0;
 
-	virtual cPersistedDiplomacyEvent* GetAsociatedPersistedDiplomacyEvent(const AffinityModifierContext& context) = 0;
-
 	virtual int GetAffinityGain(const AffinityModifierContext& context) = 0;
 
 	virtual bool Upgrading(const AffinityModifierContext& context) = 0;
 
 	virtual uint32_t GetUpgradeTime(const AffinityModifierContext& context) = 0;
 	
-	virtual bool Expiring(const AffinityModifierContext& context) = 0;
+	virtual bool Decaying(const AffinityModifierContext& context) = 0;
 
-	virtual uint32_t GetExpireTime(const AffinityModifierContext& context) = 0;
+	virtual uint32_t GetDecayTime(const AffinityModifierContext& context) = 0;
 
 	virtual bool PreventsWars(const AffinityModifierContext& context) = 0;
 
@@ -60,5 +58,4 @@ public:
 	virtual bool WarTogetherMutuallyExclusive(const AffinityModifierContext& context) = 0;
 
 	virtual AffinityModifierData GetAffinityModifierData(const AffinityModifierContext& context) = 0;
-	
 };

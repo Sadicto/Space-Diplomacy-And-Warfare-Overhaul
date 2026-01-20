@@ -211,10 +211,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.h">
       <SubType>
       </SubType>
@@ -387,10 +383,6 @@
     <ClCompile Include="Diplomacy\Config\cArchetypesConfig.cpp" />
     <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventData.cpp">
       <SubType>
       </SubType>
     </ClCompile>

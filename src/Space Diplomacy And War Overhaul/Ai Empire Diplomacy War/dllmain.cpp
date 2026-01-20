@@ -29,7 +29,6 @@ void Initialize()
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
 	ClassManager.AddFactory(new cPersistedEventFactory());
 	ClassManager.AddFactory(new cPersistedDiplomacyEventFactory);
-	ClassManager.AddFactory(new cPersistedDiplomacyEventDataFactory);
 
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
@@ -68,7 +67,7 @@ member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uin
 			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(causePoliticalID), true)) {
 			cCompositionRoot* compositionRoot = cCompositionRoot::Get();
 			cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager;
-			persistedDiplomacyEventManager->CreateAffinityEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), AffinityModifier::UpliftedByMonolith);
+			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), PersistedDiplomacyEventType::UpliftedByMonolith);
 
 		}
 		return original_function(this, politicalID, causePoliticalID, relationshipID, scale);
