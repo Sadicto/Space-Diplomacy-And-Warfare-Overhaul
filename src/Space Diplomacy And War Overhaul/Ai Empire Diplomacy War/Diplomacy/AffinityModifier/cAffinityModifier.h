@@ -2,6 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include "..\IAffinityModifier.h"
+#include "../PersistedEvent/cPersistedDiplomacyEventManager.h" //TODO: delete later.
 
 #define cAffinityModifierPtr intrusive_ptr<cAffinityModifier>
 
@@ -21,7 +22,7 @@ public:
 
 	virtual bool Active(const AffinityModifierContext& context) override;
 
-	virtual cPersistedDiplomacyEvent* GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, PersistedDiplomacyEventType eventType);
+	virtual cPersistedDiplomacyEvent* GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, uint32_t eventNounId);
 	
 	virtual int CalculateAffinityGain(const AffinityModifierContext& context, uint32_t eventCreationTime);
 

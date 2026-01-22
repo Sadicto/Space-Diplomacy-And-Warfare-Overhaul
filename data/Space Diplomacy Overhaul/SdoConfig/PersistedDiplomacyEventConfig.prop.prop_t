@@ -1,0 +1,23 @@
+bools expires
+	false # NeighborsInPeace
+	false # FormedAlliance
+	true # DefeatedEnemyTogether
+	false # UpliftedByMonolith
+	true # MadePeace
+end
+
+uint32s expireTime
+	0 # NeighborsInPeace
+	0 # FormedAlliance
+	1 # DefeatedEnemyTogether
+	0 # UpliftedByMonolith
+	1 # MadePeace
+end
+
+bools refreshedOnRepeat
+	false # NeighborsInPeace
+	false # FormedAlliance
+	true # DefeatedEnemyTogether
+	false # UpliftedByMonolith
+	true # MadePeace
+end

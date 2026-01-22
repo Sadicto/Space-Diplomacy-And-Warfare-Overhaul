@@ -59,14 +59,22 @@ void cPersistedEventSystem::Update(int deltaTime, int deltaGameTime) {
 		deltaTime += deltaGameTime;
 		if (nextEventToExpire != nullptr && currentTime > nextExpirationTime) {
 			// TODO do the expiration action.
+			cPersistedEvent* eventToExpire = nextEventToExpire->get();
 			expirableEvents.erase(nextEventToExpire);
-			GameNounManager.DestroyInstance(nextEventToExpire.get());
+			GameNounManager.DestroyInstance(eventToExpire);
 			if (!expirableEvents.empty()) {
-				nextEventToExpire = expirableEvents.begin()->get();
-				nextExpirationTime = nextEventToExpire->GetExpirationTime();
+				nextEventToExpire = eastl::min_element(
+					expirableEvents.begin(),
+					expirableEvents.end(),
+					[](const cPersistedEventPtr& a, const cPersistedEventPtr& b)
+					{
+						return a->GetExpirationTime() < b->GetExpirationTime();
+					}
+				);
+				nextExpirationTime = nextEventToExpire->get()->GetExpirationTime();
 			}
 			else {
-				nextEventToExpire.reset();
+				nextEventToExpire = nullptr;
 				nextExpirationTime = 0xffffffff;
 			}
 
@@ -105,7 +113,7 @@ void cPersistedEventSystem::OnModeExited(uint32_t previousModeID, uint32_t newMo
 		currentTime = 0;
 		elapsedTime = 0;
 		nextExpirationTime = 0xffffffff;
-		nextEventToExpire.reset();
+		nextEventToExpire = nullptr;
 		expirableEvents.clear();
 	}
 }
@@ -119,9 +127,9 @@ uint32_t cPersistedEventSystem::CurrentTime(){
 }
 
 void cPersistedEventSystem::AddExpirableEvent(cPersistedEvent* expirableEvent){
-	expirableEvents.insert(expirableEvent);
+	expirableEvents.push_back(expirableEvent);
 	if (expirableEvent->GetExpirationTime() < nextExpirationTime) {
 		nextExpirationTime = expirableEvent->GetExpirationTime();
-		nextEventToExpire = expirableEvent;
+		nextEventToExpire = expirableEvents.end() - 1;
 	}
 }

@@ -22,12 +22,12 @@
 #include "Diplomacy/AffinityModifier/cCommonAllyAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cDefeatedCommonEnemyAffinityModifier.h"
-#include "Diplomacy/AffinityModifier/cEmbassyAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cLongAllianceAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cLongPeaceAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cMadePeaceAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cUpliftedByMonolithAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cWarWithAllyAffinityModifier.h"
+#include "Diplomacy/Config/cPersistedDiplomacyEventConfig.h"
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
@@ -72,6 +72,9 @@ public:
 	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;
 
+	// Pointer to the loaded persistedDiplomacyEventConfig;
+	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;
+
 	// Pointer to the loaded archetypes affinities object.
 	cArchetypesConfigPtr archetypesConfig;
 
@@ -107,9 +110,6 @@ public:
 
 	// Pointer to the loaded long alliance affinity modifier.
 	cLongAllianceAffinityModifierPtr longAllianceAffinityModifier;
-
-	// Pointer to the loaded embassy affinity modifier.
-	cEmbassyAffinityModifierPtr embassyAffinityModifier;
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
@@ -164,6 +164,8 @@ private:
 	// Key used to load the diplomacy configuration prop.
 	ResourceKey diplomacyConfigKey;
 
+	// Key used to load the persisted diplomacy event config prop.
+	ResourceKey persistedDiplomacyEventConfigKey;
 
 	// Key used to load the archetypes affinities prop.
 	ResourceKey archetypesAffinitiesKey;

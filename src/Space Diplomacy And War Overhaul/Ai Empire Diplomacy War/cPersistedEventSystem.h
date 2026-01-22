@@ -4,16 +4,6 @@
 #include "cPersistedEvent.h"
 #include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
 
-struct CompareByExpirationTime
-{
-	bool operator()(const cPersistedEventPtr& a,
-		const cPersistedEventPtr& b) const
-	{
-		return a->GetExpirationTime() < b->GetExpirationTime();
-	}
-};
-
-
 #define cPersistedEventSystemPtr intrusive_ptr<cPersistedEventSystem>
 
 
@@ -57,9 +47,9 @@ private:
 	// Miliseconds of gameTime between expansion cycles.
 	int cycleInterval;
 
-	cPersistedEventPtr nextEventToExpire;
+	eastl::vector<cPersistedEventPtr>::iterator nextEventToExpire;
 
-	eastl::set<cPersistedEventPtr, CompareByExpirationTime> expirableEvents;
+	eastl::vector<cPersistedEventPtr> expirableEvents;
 
 	static cPersistedEventSystem* instance;
 

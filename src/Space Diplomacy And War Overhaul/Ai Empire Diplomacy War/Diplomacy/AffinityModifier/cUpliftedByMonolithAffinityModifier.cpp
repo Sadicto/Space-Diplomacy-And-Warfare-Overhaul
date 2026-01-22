@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cUpliftedByMonolithAffinityModifier.h"
+#include "../PersistedEvent/cUpliftedByMonolithEvent.h"
 using namespace Simulator;
 
 cUpliftedByMonolithAffinityModifier::cUpliftedByMonolithAffinityModifier()
@@ -26,5 +27,5 @@ AffinityModifier cUpliftedByMonolithAffinityModifier::GetAffinityModifier() {
 }
 
 bool cUpliftedByMonolithAffinityModifier::Active(const AffinityModifierContext& context) {
-	return GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::UpliftedByMonolith) != nullptr;
+	return GetPersistedDiplomacyEventByType(context, cUpliftedByMonolithEvent::NOUN_ID) != nullptr;
 }

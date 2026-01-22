@@ -14,9 +14,7 @@ enum class AffinityModifier {
 	UpliftedByMonolith = 5,
 	MadePeace = 6,
 	LongPeace = 7,
-	LongAlliance = 8,
-	Embassy = 9,
-	Nothing = MAXINT
+	LongAlliance = 8
 };
 
 /// Stores and provides access to config values for every affinity modifier.

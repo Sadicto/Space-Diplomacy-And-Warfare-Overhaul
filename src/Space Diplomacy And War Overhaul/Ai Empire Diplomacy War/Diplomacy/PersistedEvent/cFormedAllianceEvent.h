@@ -1,22 +1,22 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include "../cPersistedEvent.h"
+#include "cPersistedDiplomacyEvent.h"
 
-#define cPersistedDiplomacyEventPtr intrusive_ptr<cPersistedDiplomacyEvent>
+#define cFormedAllianceEventPtr intrusive_ptr<cFormedAllianceEvent>
 
 ///
 /// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cPersistedDiplomacyEventFactory());
+/// ClassManager.AddFactory(new cFormedAllianceEventFactory());
 ///
 /// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cPersistedDiplomacyEvent>();
+/// auto obj = simulator_new<cFormedAllianceEvent>();
 
-class cPersistedDiplomacyEvent
-	: public cPersistedEvent
+class cFormedAllianceEvent
+	: public cPersistedDiplomacyEvent
 {
 public:
-	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedDiplomacyEvent");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cFormedAllianceEvent");
 	static const uint32_t NOUN_ID = TYPE;
 
 	void* Cast(uint32_t type) const override;
@@ -25,33 +25,21 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
-	bool Valid() override;
+	bool Active() override;
 
-	virtual bool Active();
-
-	Simulator::cEmpire* GetEmpire1();
-
-	void SetEmpire1(Simulator::cEmpire* empire1);
-
-	Simulator::cEmpire* GetEmpire2();
-
-	void SetEmpire2(Simulator::cEmpire* empire2);
-
-	void SetActive(bool active);
+	//
+	// You can add more methods here
+	//
 
 	static Simulator::Attribute ATTRIBUTES[];
 
-protected:
-
-	cEmpirePtr empire1;
-
-	cEmpirePtr empire2;
-
-	bool active;
-
+private:
+	//
+	// You can add members here
+	//
 };
 
-class cPersistedDiplomacyEventFactory
+class cFormedAllianceEventFactory
 	: public App::ISPClassFactory
 {
 public:

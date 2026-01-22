@@ -47,9 +47,21 @@ void cCompositionRoot::Initialize(){
 
 	diplomacySystem = nullptr;
 	diplomacyConfig = nullptr;
+	persistedDiplomacyEventConfig = nullptr;
 	archetypesConfig = nullptr;
 	affinityConfig = nullptr;
 	persistedDiplomacyEventManager = nullptr;
+
+	archetypeAffinityModifier = nullptr;
+	commonEnemyAffinityModifier = nullptr;
+	commonAllyAffinityModifier = nullptr;
+	warWithAllyAffinityModifier = nullptr;
+	defeatedCommonEnemyAffinityModifier = nullptr;
+	upliftedByMonolithAffinityModifier = nullptr;
+	madePeaceAffinityModifier = nullptr;
+	longPeaceAffinityModifier = nullptr;
+	longAllianceAffinityModifier = nullptr;
+
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
 	empireDiplomacyFactory = nullptr;
@@ -75,6 +87,7 @@ void cCompositionRoot::Initialize(){
 	App::Property::GetKey(configurationKeys.get(), 0x13741BB4, spacePopUpsTextsKey);
 	App::Property::GetKey(configurationKeys.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x57252EFE, archetypesAffinitiesKey);
+	App::Property::GetKey(configurationKeys.get(), 0xE7AD6134, persistedDiplomacyEventConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x142ECBFA, archetypesAgressivitiesKey);
 	App::Property::GetKey(configurationKeys.get(), 0x5598934F, affinityConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x76F0A8F2, popupsFilterConfigKey);
@@ -104,9 +117,11 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
 
+		persistedDiplomacyEventConfig = new cPersistedDiplomacyEventConfig(persistedDiplomacyEventConfigKey);
+
 		affinityConfig = new cAffinityConfig(affinityConfigKey);
 
-		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedEventSystem.get(), affinityConfig.get());
+		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedDiplomacyEventConfig.get(), affinityConfig.get(), persistedEventSystem.get());
 
 		archetypeAffinityModifier = new cArchetypeAffinityModifier();
 		commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
@@ -117,7 +132,6 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		madePeaceAffinityModifier = new cMadePeaceAffinityModifier();
 		longPeaceAffinityModifier = new cLongPeaceAffinityModifier();
 		longAllianceAffinityModifier = new cLongAllianceAffinityModifier();
-		embassyAffinityModifier = new cEmbassyAffinityModifier();
 		eastl::vector<IAffinityModifierPtr> affinityModifiers;
 		affinityModifiers.push_back(archetypeAffinityModifier);
 		affinityModifiers.push_back(commonEnemyAffinityModifier);
@@ -128,7 +142,6 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		affinityModifiers.push_back(madePeaceAffinityModifier);
 		affinityModifiers.push_back(longPeaceAffinityModifier);
 		affinityModifiers.push_back(longAllianceAffinityModifier);
-		affinityModifiers.push_back(embassyAffinityModifier);
 
 		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get(), persistedDiplomacyEventManager.get(), affinityModifiers);
 
@@ -209,6 +222,7 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		diplomacyConfig.reset();
 		archetypesConfig.reset();
 		affinityConfig.reset();
+		persistedDiplomacyEventConfig.reset();
 		persistedDiplomacyEventManager.reset();
 		archetypeAffinityModifier.reset();
 		commonEnemyAffinityModifier.reset();
@@ -219,7 +233,6 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		madePeaceAffinityModifier.reset();
 		longPeaceAffinityModifier.reset();
 		longAllianceAffinityModifier.reset();
-		embassyAffinityModifier.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
 		empireDiplomacyFactory.reset();

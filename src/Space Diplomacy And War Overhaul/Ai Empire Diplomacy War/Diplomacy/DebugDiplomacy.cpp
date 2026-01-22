@@ -7,6 +7,7 @@
 #include "AllianceEnemyButtonProc.h"
 #include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
 #include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
+#include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
 
 using namespace Simulator;
 using namespace SporeModUtils;
@@ -70,12 +71,17 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 8: {
-
+        cPersistedDiplomacyEventPtr persistedDiplomacyEvent = simulator_new<cPersistedDiplomacyEvent>();
+        persistedDiplomacyEvent->SetCreationTime(4);
+        persistedDiplomacyEvent->SetExpirationTime(0);
+        persistedDiplomacyEvent->SetExpires(false);
+        persistedDiplomacyEvent->SetEmpire1(GetPlayerEmpire());
+        persistedDiplomacyEvent->SetEmpire2(empire);
         break;
 
     }
     case 9: {
-        auto persistedDiplomacyEvents = GetData<cPersistedDiplomacyEvent>();
+        auto persistedDiplomacyEvents = GetDataByCast<cPersistedDiplomacyEvent>();
         for (cPersistedDiplomacyEventPtr persistedDiplomacyEvent : persistedDiplomacyEvents) {
             bool b = persistedDiplomacyEvent->Valid();
         }
@@ -83,10 +89,10 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
 
     }
     case 10:{
-        cPersistedEventPtr persistedDiplomacyEvent = simulator_new<cPersistedEvent>();
-        persistedDiplomacyEvent->SetCreationTime(4);
-        persistedDiplomacyEvent->SetExpirationTime(8);
-        persistedDiplomacyEvent->SetExpires(true);
+        auto persistedDiplomacyEvents = GetData<cUpliftedByMonolithEvent>();
+        for (cPersistedDiplomacyEventPtr persistedDiplomacyEvent : persistedDiplomacyEvents) {
+            bool b = persistedDiplomacyEvent->Valid();
+        }
         break;
      }
     case 11: {

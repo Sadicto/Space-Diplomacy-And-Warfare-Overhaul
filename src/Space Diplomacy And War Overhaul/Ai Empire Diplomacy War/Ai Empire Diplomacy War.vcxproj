@@ -132,10 +132,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.h">
       <SubType>
       </SubType>
@@ -203,7 +199,27 @@
     </ClInclude>
     <ClInclude Include="Diplomacy\Config\cArchetypesConfig.h" />
     <ClInclude Include="Diplomacy\Config\cDiplomacyConfig.h" />
+    <ClInclude Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Diplomacy\IAffinityModifier.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cDefeatedEnemyTogetherEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cFormedAllianceEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cMadePeaceEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cNeighborsInPeaceEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -212,6 +228,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -311,10 +331,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.cpp">
       <SubType>
       </SubType>
@@ -382,11 +398,35 @@
     </ClCompile>
     <ClCompile Include="Diplomacy\Config\cArchetypesConfig.cpp" />
     <ClCompile Include="Diplomacy\Config\cDiplomacyConfig.cpp" />
+    <ClCompile Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cDefeatedEnemyTogetherEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cFormedAllianceEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cMadePeaceEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cNeighborsInPeaceEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEventManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>

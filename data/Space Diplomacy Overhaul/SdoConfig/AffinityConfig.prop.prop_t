@@ -1,4 +1,4 @@
-int32 numAffinityModifiers 10
+int32 numAffinityModifiers 9
 
 bools upgrades
 	false # ArchetypeAffinity
@@ -10,7 +10,6 @@ bools upgrades
 	false # MadePeace
 	true  # LongPeace
 	true  # LongAlliance
-	false # Embassy	
 end
 
 uint32s upgradeTime
@@ -22,8 +21,7 @@ uint32s upgradeTime
 	0  # UpliftedByMonolith
 	0  # MadePeace
 	1  # LongPeace
-	1  # LongAlliance
-	0  # Embassy	
+	1  # LongAlliance	
 end
 
 bools decays
@@ -36,7 +34,6 @@ bools decays
 	true  # MadePeace
 	true  # LongPeace
 	true  # LongAlliance
-	false # Embassy	
 end
 
 uint32s decayTime
@@ -49,7 +46,6 @@ uint32s decayTime
 	1  # MadePeace
 	1  # LongPeace
 	1  # LongAlliance
-	0  # Embassy	
 end
 
 bools preventWars
@@ -61,8 +57,7 @@ bools preventWars
 	false  # UpliftedByMonolith
 	true   # MadePeace
 	false  # LongPeace
-	false  # LongAlliance
-	false  # Embassy	
+	false  # LongAlliance	
 end
 
 int32s affinityGain
@@ -75,7 +70,6 @@ int32s affinityGain
 	0  # MadePeace
 	1  # LongPeace
 	2  # LongAlliance
-	1  # Embassy	
 end
 
 int32s priority
@@ -88,7 +82,6 @@ int32s priority
 	0 # MadePeace
 	1 # LongPeace
 	0 # LongAlliance
-	0 # Embassy
 end
 
 bools stableRelationsMutuallyExclusive
@@ -101,7 +94,6 @@ bools stableRelationsMutuallyExclusive
 	false # MadePeace
 	true  # LongPeace
 	true  # LongAlliance
-	false # Embassy	
 end
 
 bools warTogetherMutuallyExclusive
@@ -114,5 +106,4 @@ bools warTogetherMutuallyExclusive
 	false # MadePeace
 	true  # LongPeace
 	true  # LongAlliance
-	false # Embassy	
 end

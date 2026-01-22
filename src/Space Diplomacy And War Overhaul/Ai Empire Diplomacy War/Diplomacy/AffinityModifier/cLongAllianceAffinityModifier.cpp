@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cLongAllianceAffinityModifier.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
+#include "../PersistedEvent/cFormedAllianceEvent.h"
 using namespace Simulator;
 using namespace SporeModUtils;
 
@@ -32,7 +33,7 @@ bool cLongAllianceAffinityModifier::Active(const AffinityModifierContext& contex
 }
 
 int cLongAllianceAffinityModifier::GetAffinityGain(const AffinityModifierContext& context){
-	cPersistedDiplomacyEvent* formedAllianceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::FormedAlliance);
+	cPersistedDiplomacyEvent* formedAllianceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, cFormedAllianceEvent::NOUN_ID);
 	if (formedAllianceDiplomacyEvent != nullptr) {
 		return CalculateAffinityGain(context, formedAllianceDiplomacyEvent->GetCreationTime());
 	}
@@ -46,7 +47,7 @@ bool cLongAllianceAffinityModifier::Upgrading(const AffinityModifierContext& con
 }
 
 uint32_t cLongAllianceAffinityModifier::GetUpgradeTime(const AffinityModifierContext& context){
-	cPersistedDiplomacyEvent* formedAllianceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::FormedAlliance);
+	cPersistedDiplomacyEvent* formedAllianceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, cFormedAllianceEvent::NOUN_ID);
 	if (formedAllianceDiplomacyEvent != nullptr) {
 		return CalculateDecayTime(context, formedAllianceDiplomacyEvent->GetCreationTime());
 	}

@@ -35,10 +35,10 @@ bool cAffinityModifier::Active(const AffinityModifierContext& context) {
 	return GetAffinityGain(context) != 0;
 }
 
-cPersistedDiplomacyEvent* cAffinityModifier::GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, PersistedDiplomacyEventType eventType){
+cPersistedDiplomacyEvent* cAffinityModifier::GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, uint32_t eventNounId){
 	cPersistedDiplomacyEventPtr  persistedEventOfType = nullptr;
 	for (cPersistedDiplomacyEventPtr diplomacyEvent : context.diplomacyEvents) {
-		if (diplomacyEvent->GetEventType() == eventType) {
+		if (diplomacyEvent->GetNounID() == eventNounId) {
 			persistedEventOfType = diplomacyEvent;
 			break;
 		}
@@ -112,7 +112,7 @@ AffinityModifierData cAffinityModifier::GetAffinityModifierData(const AffinityMo
 	data.affinityGain = GetAffinityGain(context);
 	data.upgrading = Upgrading(context);
 	data.upgradeTime = GetUpgradeTime(context);
-	data.expiring = Decaying(context);
+	data.decaying = Decaying(context);
 	data.decayTime = GetDecayTime(context);
 	data.priority = GetPriority(context);
 	data.stableRelationsMutuallyExclusive = StableRelationsMutuallyExclusive(context);

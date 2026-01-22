@@ -22,7 +22,7 @@ struct AffinityModifierData {
 	int affinityGain;
 	bool upgrading;
 	uint32_t upgradeTime;
-	bool expiring;
+	bool decaying;
 	uint32_t decayTime;
 	int priority;
 	bool stableRelationsMutuallyExclusive;

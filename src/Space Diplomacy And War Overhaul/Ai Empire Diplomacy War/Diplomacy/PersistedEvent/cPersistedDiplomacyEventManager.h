@@ -4,6 +4,8 @@
 #include "../Config/cAffinityConfig.h"
 #include "cPersistedDiplomacyEvent.h"
 #include <cPersistedEventSystem.h>
+#include "../Config/cPersistedDiplomacyEventConfig.h"
+
 
 #define cPersistedDiplomacyEventManagerPtr intrusive_ptr<cPersistedDiplomacyEventManager>
 
@@ -15,7 +17,7 @@ class cPersistedDiplomacyEventManager
 public:
 	static const uint32_t TYPE = id("cPersistedDiplomacyEventManager");
 	
-	cPersistedDiplomacyEventManager(cPersistedEventSystem* persistedEventSystem, cAffinityConfig* affinityConfig);
+	cPersistedDiplomacyEventManager(cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cAffinityConfig* affinityConfig, cPersistedEventSystem* persistedEventSystem);
 	~cPersistedDiplomacyEventManager();
 
 	int AddRef() override;
@@ -29,11 +31,18 @@ public:
 	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
 
-	cPersistedDiplomacyEvent* CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType, uint32_t duration = 0);
+	cPersistedDiplomacyEvent* CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
 
-	// Pointer to the loaded persistedEventSystem.
-	cPersistedEventSystemPtr persistedEventSystem;
+private:
+
+	cPersistedDiplomacyEvent* createdEmptyPersistedDiplomacyEventOfType(PersistedDiplomacyEventType eventType);
+
+	// Pointed to the loaded persisted diplomacy event config.
+	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;
 
 	// Pointer to the loaded affinity config object.
 	cAffinityConfigPtr affinityConfig;
+
+	// Pointer to the loaded persistedEventSystem.
+	cPersistedEventSystemPtr persistedEventSystem;
 };

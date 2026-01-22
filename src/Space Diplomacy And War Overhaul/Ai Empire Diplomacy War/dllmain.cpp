@@ -15,6 +15,11 @@
 #include "cCompositionRoot.h"
 #include "cPersistedEvent.h"
 #include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
+#include "Diplomacy/PersistedEvent/cNeighborsInPeaceEvent.h"
+#include "Diplomacy/PersistedEvent/cMadePeaceEvent.h"
+#include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
+#include "Diplomacy/PersistedEvent/cFormedAllianceEvent.h"
+#include "Diplomacy/PersistedEvent/cDefeatedEnemyTogetherEvent.h"
 
 using namespace SporeModUtils;
 
@@ -29,6 +34,11 @@ void Initialize()
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
 	ClassManager.AddFactory(new cPersistedEventFactory());
 	ClassManager.AddFactory(new cPersistedDiplomacyEventFactory);
+	ClassManager.AddFactory(new cNeighborsInPeaceEventFactory());
+	ClassManager.AddFactory(new cMadePeaceEventFactory());
+	ClassManager.AddFactory(new cUpliftedByMonolithEventFactory());
+	ClassManager.AddFactory(new cFormedAllianceEventFactory());
+	ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
 
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:

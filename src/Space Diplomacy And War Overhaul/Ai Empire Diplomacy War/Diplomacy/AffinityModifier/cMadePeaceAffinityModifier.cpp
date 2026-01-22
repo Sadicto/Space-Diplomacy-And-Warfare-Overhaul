@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cMadePeaceAffinityModifier.h"
+#include "../PersistedEvent/cMadePeaceEvent.h"
 
 cMadePeaceAffinityModifier::cMadePeaceAffinityModifier()
 {
@@ -21,11 +22,11 @@ void* cMadePeaceAffinityModifier::Cast(uint32_t type) const
 }
 
 bool cMadePeaceAffinityModifier::Active(const AffinityModifierContext& context){
-	return GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::MadePeace) != nullptr;
+	return GetPersistedDiplomacyEventByType(context, cMadePeaceEvent::NOUN_ID) != nullptr;
 }
 
 uint32_t cMadePeaceAffinityModifier::GetDecayTime(const AffinityModifierContext& context) {
-	cPersistedDiplomacyEvent* madePeaceEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::MadePeace);
+	cPersistedDiplomacyEvent* madePeaceEvent = GetPersistedDiplomacyEventByType(context, cMadePeaceEvent::NOUN_ID);
 	if (madePeaceEvent != nullptr) {
 		return CalculateDecayTime(context, madePeaceEvent->GetCreationTime());
 	}

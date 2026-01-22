@@ -73,7 +73,12 @@
     <ClInclude Include="Diplomacy\AffinityModifier\cMadePeaceAffinityModifier.h" />
     <ClInclude Include="Diplomacy\AffinityModifier\cLongPeaceAffinityModifier.h" />
     <ClInclude Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.h" />
-    <ClInclude Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cNeighborsInPeaceEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cFormedAllianceEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cDefeatedEnemyTogetherEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cMadePeaceEvent.h" />
+    <ClInclude Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,7 +137,12 @@
     <ClCompile Include="Diplomacy\AffinityModifier\cMadePeaceAffinityModifier.cpp" />
     <ClCompile Include="Diplomacy\AffinityModifier\cLongPeaceAffinityModifier.cpp" />
     <ClCompile Include="Diplomacy\AffinityModifier\cLongAllianceAffinityModifier.cpp" />
-    <ClCompile Include="Diplomacy\AffinityModifier\cEmbassyAffinityModifier.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cNeighborsInPeaceEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cFormedAllianceEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cDefeatedEnemyTogetherEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cMadePeaceEvent.cpp" />
+    <ClCompile Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

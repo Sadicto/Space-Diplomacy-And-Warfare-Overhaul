@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cLongPeaceAffinityModifier.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
+#include "../PersistedEvent/cNeighborsInPeaceEvent.h"
 using namespace Simulator;
 using namespace SporeModUtils;
 
@@ -32,7 +33,7 @@ bool cLongPeaceAffinityModifier::Active(const AffinityModifierContext& context){
 }
 
 int cLongPeaceAffinityModifier::GetAffinityGain(const AffinityModifierContext& context) {
-	cPersistedDiplomacyEvent* NeighborsInPeaceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::NeighborsInPeace);
+	cPersistedDiplomacyEvent* NeighborsInPeaceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, cNeighborsInPeaceEvent::NOUN_ID);
 	if (NeighborsInPeaceDiplomacyEvent != nullptr) {
 		return CalculateAffinityGain(context, NeighborsInPeaceDiplomacyEvent->GetCreationTime());
 	}
@@ -46,7 +47,7 @@ bool cLongPeaceAffinityModifier::Upgrading(const AffinityModifierContext& contex
 }
 
 uint32_t cLongPeaceAffinityModifier::GetUpgradeTime(const AffinityModifierContext& context) {
-	cPersistedDiplomacyEvent* NeighborsInPeaceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::NeighborsInPeace);
+	cPersistedDiplomacyEvent* NeighborsInPeaceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, cNeighborsInPeaceEvent::NOUN_ID);
 	if (NeighborsInPeaceDiplomacyEvent != nullptr) {
 		return CalculateDecayTime(context, NeighborsInPeaceDiplomacyEvent->GetCreationTime());
 	}

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cDefeatedCommonEnemyAffinityModifier.h"
+#include "../PersistedEvent/cDefeatedEnemyTogetherEvent.h"
 using namespace Simulator;
 
 cDefeatedCommonEnemyAffinityModifier::cDefeatedCommonEnemyAffinityModifier()
@@ -22,7 +23,7 @@ void* cDefeatedCommonEnemyAffinityModifier::Cast(uint32_t type) const
 }
 
 int cDefeatedCommonEnemyAffinityModifier::GetAffinityGain(const AffinityModifierContext& context){
-	cPersistedDiplomacyEvent* defeatedCommonEnemyEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::DefeatedEnemyTogether);
+	cPersistedDiplomacyEvent* defeatedCommonEnemyEvent = GetPersistedDiplomacyEventByType(context, cDefeatedEnemyTogetherEvent::NOUN_ID);
 	if (defeatedCommonEnemyEvent != nullptr) {
 		return CalculateAffinityGain(context, defeatedCommonEnemyEvent->GetCreationTime());
 	}
@@ -32,7 +33,7 @@ int cDefeatedCommonEnemyAffinityModifier::GetAffinityGain(const AffinityModifier
 }
 
 uint32_t cDefeatedCommonEnemyAffinityModifier::GetDecayTime(const AffinityModifierContext& context){
-	cPersistedDiplomacyEvent* defeatedCommonEnemyEvent = GetPersistedDiplomacyEventByType(context, PersistedDiplomacyEventType::DefeatedEnemyTogether);
+	cPersistedDiplomacyEvent* defeatedCommonEnemyEvent = GetPersistedDiplomacyEventByType(context, cDefeatedEnemyTogetherEvent::NOUN_ID);
 	if (defeatedCommonEnemyEvent != nullptr) {
 		return CalculateDecayTime(context, defeatedCommonEnemyEvent->GetCreationTime());
 	}
