@@ -2,7 +2,6 @@
 
 #include <Spore\BasicIncludes.h>
 #include "..\IAffinityModifier.h"
-#include "../PersistedEvent/cPersistedDiplomacyEventManager.h" //TODO: delete later.
 
 #define cAffinityModifierPtr intrusive_ptr<cAffinityModifier>
 

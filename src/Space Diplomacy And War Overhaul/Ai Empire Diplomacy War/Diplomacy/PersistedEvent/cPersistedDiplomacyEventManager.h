@@ -26,16 +26,19 @@ public:
 
 	uint32_t CurrentTime();
 
-	void GetPersistedDiplomaticEventsFromEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire);
+	void GetPersistedDiplomaticEventsOfEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire);
 
 	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
+	cPersistedDiplomacyEvent* GetPersistedDiplomacyEventBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
 
-	cPersistedDiplomacyEvent* CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
+	void CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
 
 private:
 
-	cPersistedDiplomacyEvent* createdEmptyPersistedDiplomacyEventOfType(PersistedDiplomacyEventType eventType);
+	uint32_t GetNounIdOfEvent(PersistedDiplomacyEventType eventType);
+
+	cPersistedDiplomacyEvent* CreateEmptyPersistedDiplomacyEventOfType(PersistedDiplomacyEventType eventType);
 
 	// Pointed to the loaded persisted diplomacy event config.
 	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;
@@ -45,4 +48,6 @@ private:
 
 	// Pointer to the loaded persistedEventSystem.
 	cPersistedEventSystemPtr persistedEventSystem;
+
+	eastl::map<cEmpirePtr, eastl::vector<cPersistedDiplomacyEventPtr>> diplomacyEventsByEmpire;
 };

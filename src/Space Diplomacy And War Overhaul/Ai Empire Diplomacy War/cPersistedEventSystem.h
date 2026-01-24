@@ -33,9 +33,26 @@ public:
 
 	uint32_t CurrentTime();
 
-	void AddExpirableEvent(cPersistedEvent* expirableEvent);
+	void GetPersistedEvents(eastl::vector<cPersistedEventPtr>& persistedEvents);
+
+	void AddPersistedEvent(cPersistedEvent* persistedEvent);
+
+	void DeleteEvent(cPersistedEvent* persistedEvent);
+
+	void UpdateExpirationTimeOfExpirableEvent(cPersistedEvent* expirableEvent, uint32_t newExpirationTime);
 
 private:
+
+	void RecalculateNextEventToExpire();
+
+	void AddExpirablePersistedEvent(cPersistedEvent* expirableEvent);
+
+	eastl::vector<cPersistedEventPtr>::iterator FindExpirableEvent(cPersistedEvent* expirableEvent);
+
+	void ExpireNextEventToExpire();
+
+	void RemoveExpirableEvent(cPersistedEvent* expirableEvent);
+
 
 	uint32_t currentTime;
 
@@ -47,7 +64,7 @@ private:
 	// Miliseconds of gameTime between expansion cycles.
 	int cycleInterval;
 
-	eastl::vector<cPersistedEventPtr>::iterator nextEventToExpire;
+	cPersistedEventPtr nextEventToExpire;
 
 	eastl::vector<cPersistedEventPtr> expirableEvents;
 

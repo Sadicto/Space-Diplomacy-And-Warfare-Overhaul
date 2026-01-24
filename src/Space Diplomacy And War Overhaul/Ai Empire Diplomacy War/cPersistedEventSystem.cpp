@@ -56,36 +56,19 @@ void cPersistedEventSystem::Dispose() {
 void cPersistedEventSystem::Update(int deltaTime, int deltaGameTime) {
 	if (IsSpaceGame()) {
 		currentTime += deltaGameTime;
-		deltaTime += deltaGameTime;
+		elapsedTime += deltaGameTime;
 		if (nextEventToExpire != nullptr && currentTime > nextExpirationTime) {
-			// TODO do the expiration action.
-			cPersistedEvent* eventToExpire = nextEventToExpire->get();
-			expirableEvents.erase(nextEventToExpire);
-			GameNounManager.DestroyInstance(eventToExpire);
-			if (!expirableEvents.empty()) {
-				nextEventToExpire = eastl::min_element(
-					expirableEvents.begin(),
-					expirableEvents.end(),
-					[](const cPersistedEventPtr& a, const cPersistedEventPtr& b)
-					{
-						return a->GetExpirationTime() < b->GetExpirationTime();
-					}
-				);
-				nextExpirationTime = nextEventToExpire->get()->GetExpirationTime();
-			}
-			else {
-				nextEventToExpire = nullptr;
-				nextExpirationTime = 0xffffffff;
-			}
+			ExpireNextEventToExpire();
 
 		}
-		if (deltaGameTime > cycleInterval) {
+		if (elapsedTime > cycleInterval) {
 			auto persistedEvents = GetData<cPersistedEvent>();
 			for (cPersistedEventPtr persistedEvent : persistedEvents) {
 				if (!persistedEvent->Valid()) {
-					GameNounManager.DestroyInstance(persistedEvent.get());
+					DeleteEvent(persistedEvent.get());
 				}
 			}
+			elapsedTime = 0;
 		}
 	}
 }
@@ -102,7 +85,7 @@ void cPersistedEventSystem::OnModeEntered(uint32_t previousModeID, uint32_t newM
 				GameNounManager.DestroyInstance(persistedEvent.get());
 			}
 			else if (persistedEvent->Expires()) {
-				AddExpirableEvent(persistedEvent.get());
+				AddPersistedEvent(persistedEvent.get());
 			}
 		}
 	}
@@ -126,10 +109,95 @@ uint32_t cPersistedEventSystem::CurrentTime(){
 	return currentTime;
 }
 
-void cPersistedEventSystem::AddExpirableEvent(cPersistedEvent* expirableEvent){
+void cPersistedEventSystem::GetPersistedEvents(eastl::vector<cPersistedEventPtr>& persistedEvents){
+	auto dataPersistedEvents = GetDataByCast<cPersistedEvent>();
+	for (auto dataPersistedEvent : dataPersistedEvents) {
+		if (dataPersistedEvent->Valid()) {
+			persistedEvents.push_back(dataPersistedEvent);
+		}
+		else {
+			DeleteEvent(dataPersistedEvent.get());
+		}
+	}
+}
+
+void cPersistedEventSystem::AddPersistedEvent(cPersistedEvent* persistedEvent){
+	if (persistedEvent->Expires()) {
+		AddExpirablePersistedEvent(persistedEvent);
+	}
+}
+
+void cPersistedEventSystem::DeleteEvent(cPersistedEvent* persistedEvent){
+	if (persistedEvent->Expires()) {
+		RemoveExpirableEvent(persistedEvent);
+	}
+	GameNounManager.DestroyInstance(persistedEvent);
+}
+
+void cPersistedEventSystem::UpdateExpirationTimeOfExpirableEvent(cPersistedEvent* expirableEvent, uint32_t newExpirationTime){
+	expirableEvent->SetExpirationTime(newExpirationTime);
+	if ((nextEventToExpire != nullptr && nextEventToExpire == expirableEvent) || newExpirationTime < nextExpirationTime) {
+		RecalculateNextEventToExpire();
+	}
+}
+
+void cPersistedEventSystem::RecalculateNextEventToExpire(){
+	if (!expirableEvents.empty()) {
+		nextEventToExpire = *eastl::min_element(
+			expirableEvents.begin(),
+			expirableEvents.end(),
+			[](const cPersistedEventPtr& a, const cPersistedEventPtr& b)
+			{
+				return a->GetExpirationTime() < b->GetExpirationTime();
+			}
+		);
+		nextExpirationTime = nextEventToExpire->GetExpirationTime();
+	}
+	else {
+		nextEventToExpire = nullptr;
+		nextExpirationTime = 0xffffffff;
+	}
+}
+
+void cPersistedEventSystem::AddExpirablePersistedEvent(cPersistedEvent* expirableEvent){
 	expirableEvents.push_back(expirableEvent);
 	if (expirableEvent->GetExpirationTime() < nextExpirationTime) {
 		nextExpirationTime = expirableEvent->GetExpirationTime();
-		nextEventToExpire = expirableEvents.end() - 1;
+		nextEventToExpire = expirableEvent;
+	}
+}
+
+eastl::vector<cPersistedEventPtr>::iterator cPersistedEventSystem::FindExpirableEvent(cPersistedEvent* expirableEvent){
+	return eastl::find_if(
+		expirableEvents.begin(),
+		expirableEvents.end(),
+		[expirableEvent](const cPersistedEventPtr& ptr)
+		{
+			return ptr.get() == expirableEvent;
+		}
+	);
+}
+
+void cPersistedEventSystem::ExpireNextEventToExpire(){
+	// TODO notify the expiration of the event.
+	if (nextEventToExpire != nullptr){
+		cPersistedEvent* event = nextEventToExpire.get();
+		auto it = FindExpirableEvent(nextEventToExpire.get());
+		if (it != expirableEvents.end()) {
+			expirableEvents.erase(it);
+			GameNounManager.DestroyInstance(event);
+		}
+	}
+	RecalculateNextEventToExpire();
+}
+
+void cPersistedEventSystem::RemoveExpirableEvent(cPersistedEvent* expirableEvent){
+	auto it = FindExpirableEvent(expirableEvent);
+	if (it != expirableEvents.end()) {
+		bool recalculateNextExpirableEvent = *it == nextEventToExpire;
+		expirableEvents.erase(it);
+		if (recalculateNextExpirableEvent) {
+			RecalculateNextEventToExpire();
+		}
 	}
 }

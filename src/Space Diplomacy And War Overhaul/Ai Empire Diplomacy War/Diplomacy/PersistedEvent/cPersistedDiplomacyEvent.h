@@ -37,8 +37,6 @@ public:
 
 	void SetEmpire2(Simulator::cEmpire* empire2);
 
-	void SetActive(bool active);
-
 	static Simulator::Attribute ATTRIBUTES[];
 
 protected:
@@ -46,8 +44,6 @@ protected:
 	cEmpirePtr empire1;
 
 	cEmpirePtr empire2;
-
-	bool active;
 
 };
 

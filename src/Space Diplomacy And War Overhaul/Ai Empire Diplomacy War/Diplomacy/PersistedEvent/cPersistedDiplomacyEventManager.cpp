@@ -14,6 +14,23 @@ cPersistedDiplomacyEventManager::cPersistedDiplomacyEventManager(cPersistedDiplo
 	this->persistedDiplomacyEventConfig = persistedDiplomacyEventConfig;
 	this->affinityConfig = affinityConfig;
 	this->persistedEventSystem = persistedEventSystem;
+	eastl::vector<cPersistedEventPtr> persistedEvents;
+	persistedEventSystem->GetPersistedEvents(persistedEvents);
+	eastl::vector<cPersistedEventPtr> persistedDiplomacyEvents;
+	for (cPersistedEventPtr persistedEvent : persistedEvents) {
+		cPersistedDiplomacyEventPtr persistedDiplomacyEvent = object_cast<cPersistedDiplomacyEvent>(persistedEvent);
+		if (persistedDiplomacyEvent != nullptr) {
+			if (persistedDiplomacyEvent->Active()) {
+				cEmpirePtr empire = persistedDiplomacyEvent->GetEmpire1();
+				diplomacyEventsByEmpire[empire].push_back(persistedDiplomacyEvent);
+				empire = persistedDiplomacyEvent->GetEmpire2();
+				diplomacyEventsByEmpire[empire].push_back(persistedDiplomacyEvent);
+			}
+			else {
+				persistedEventSystem->DeleteEvent(persistedDiplomacyEvent.get());
+			}
+		}
+	}
 }
 
 
@@ -45,44 +62,113 @@ uint32_t cPersistedDiplomacyEventManager::CurrentTime() {
 	return persistedEventSystem->CurrentTime();
 }
 
-void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsFromEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, cEmpire* empire) {
-	auto persistedDiplomacyEvent = GetDataByCast<cPersistedDiplomacyEvent>();
-	for (cPersistedDiplomacyEventPtr diplomacyEvent : persistedDiplomacyEvent) {
-		if (diplomacyEvent->Valid() && (diplomacyEvent->GetEmpire1() == empire || diplomacyEvent->GetEmpire2() == empire)) {
-			diplomacyEvents.push_back(diplomacyEvent);
+void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsOfEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, cEmpire* empire) {
+	auto mapIt = diplomacyEventsByEmpire.find(empire);
+	if (mapIt != diplomacyEventsByEmpire.end()){
+
+		eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEventsOfEmpire = mapIt->second;
+		auto diplomacyEventIt = diplomacyEventsOfEmpire.begin();
+		while (diplomacyEventIt != diplomacyEventsOfEmpire.end()) {
+
+			cPersistedDiplomacyEvent* diplomacyEvent = diplomacyEventIt->get();
+			if (diplomacyEvent != nullptr){
+				if (diplomacyEvent->Active()) {
+					diplomacyEvents.push_back(diplomacyEvent);
+					diplomacyEventIt++;
+				}
+				else {
+					persistedEventSystem->DeleteEvent(diplomacyEvent);
+					diplomacyEventIt = diplomacyEventsOfEmpire.erase(diplomacyEventIt);
+				}
+			}
+			else {
+				diplomacyEventIt = diplomacyEventsOfEmpire.erase(diplomacyEventIt);
+			}
+		}
+		if (diplomacyEventsOfEmpire.empty()) {
+			diplomacyEventsByEmpire.erase(mapIt);
 		}
 	}
 }
 
 void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, cEmpire* empire1, cEmpire* empire2) {
-	auto persistedDiplomacyEvent = GetDataByCast<cPersistedDiplomacyEvent>();
-	for (cPersistedDiplomacyEventPtr diplomacyEvent : persistedDiplomacyEvent) {
-		if (diplomacyEvent->Active()){
-			if((diplomacyEvent->GetEmpire1() == empire1 && diplomacyEvent->GetEmpire2() == empire2) ||
-				(diplomacyEvent->GetEmpire1() == empire2 && diplomacyEvent->GetEmpire2() == empire1)) {
-					diplomacyEvents.push_back(diplomacyEvent);
-}
-		}
-		else {
-			diplomacyEvent->SetActive(false);
+	eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEventOfEmpire1;
+	GetPersistedDiplomaticEventsOfEmpire(diplomacyEventOfEmpire1, empire1);
+	for (cPersistedDiplomacyEventPtr diplomacyEvent : diplomacyEventOfEmpire1) {
+		if (diplomacyEvent->GetEmpire1() == empire2 || diplomacyEvent->GetEmpire2() == empire2) {
+			diplomacyEvents.push_back(diplomacyEvent);
 		}
 	}
 }
-
-cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType)
-{
-	// TODO check an event of the same type does not already exists between the two empires.
-	cPersistedDiplomacyEvent* persistedDiplomacyEvent = createdEmptyPersistedDiplomacyEventOfType(eventType);
-	persistedDiplomacyEvent->SetCreationTime(CurrentTime());
-	persistedDiplomacyEvent->SetExpires(persistedDiplomacyEventConfig->DiplomacyEventExpires(eventType));
-	persistedDiplomacyEvent->SetExpirationTime(CurrentTime() + persistedDiplomacyEventConfig->GetDiplomacyEventExpireTime(eventType));
-	persistedDiplomacyEvent->SetEmpire1(empire1);
-	persistedDiplomacyEvent->SetEmpire2(empire2);
-	persistedDiplomacyEvent->SetActive(true);
-	return persistedDiplomacyEvent;
+cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::GetPersistedDiplomacyEventBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType){
+	if (EmpireUtils::ValidNpcEmpire(empire1, true) && (EmpireUtils::ValidNpcEmpire(empire2, true))) {
+		eastl::vector <cPersistedDiplomacyEventPtr> diplomacyEventsOfEmpire;
+		GetPersistedDiplomaticEventsBetweenEmpires(diplomacyEventsOfEmpire, empire1, empire2);
+		uint32_t nounIdOfEvent = GetNounIdOfEvent(eventType);
+		for (const cPersistedDiplomacyEventPtr& diplomacyEvent : diplomacyEventsOfEmpire) {
+			if (diplomacyEvent->GetNounID() == nounIdOfEvent) {
+				return diplomacyEvent.get();
+			}
+		}
+	}
+	return nullptr;
 }
 
-cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::createdEmptyPersistedDiplomacyEventOfType(PersistedDiplomacyEventType eventType){
+void cPersistedDiplomacyEventManager::CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType)
+{
+	cPersistedDiplomacyEvent* existingEvent = GetPersistedDiplomacyEventBetweenEmpires(empire1, empire2, eventType);
+	if (existingEvent != nullptr) {
+		if (persistedDiplomacyEventConfig->DiplomacyEventRefreshedOnRepeat(eventType)){
+			persistedEventSystem->UpdateExpirationTimeOfExpirableEvent(existingEvent, CurrentTime() + persistedDiplomacyEventConfig->GetDiplomacyEventExpireTime(eventType));
+		}
+	}
+	else {
+		uint32_t now = CurrentTime();
+		cPersistedDiplomacyEvent* persistedDiplomacyEvent = CreateEmptyPersistedDiplomacyEventOfType(eventType);
+		persistedDiplomacyEvent->SetCreationTime(now);
+		persistedDiplomacyEvent->SetExpires(persistedDiplomacyEventConfig->DiplomacyEventExpires(eventType));
+		if (persistedDiplomacyEvent->Expires()) {
+			persistedDiplomacyEvent->SetExpirationTime(now + persistedDiplomacyEventConfig->GetDiplomacyEventExpireTime(eventType));
+		}
+		else {
+			persistedDiplomacyEvent->SetExpirationTime(0);
+		}
+		persistedDiplomacyEvent->SetEmpire1(empire1);
+		persistedDiplomacyEvent->SetEmpire2(empire2);
+		diplomacyEventsByEmpire[empire1].push_back(persistedDiplomacyEvent);
+		diplomacyEventsByEmpire[empire2].push_back(persistedDiplomacyEvent);
+		persistedEventSystem->AddPersistedEvent(persistedDiplomacyEvent);
+	}
+}
+
+uint32_t cPersistedDiplomacyEventManager::GetNounIdOfEvent(PersistedDiplomacyEventType eventType){
+	uint32_t nounId = 0;
+	switch (eventType) {
+	case(PersistedDiplomacyEventType::NeighborsInPeace): {
+		nounId = cNeighborsInPeaceEvent::NOUN_ID;
+		break;
+	}
+	case(PersistedDiplomacyEventType::FormedAlliance): {
+		nounId = cFormedAllianceEvent::NOUN_ID;
+		break;
+	}
+	case(PersistedDiplomacyEventType::DefeatedEnemyTogether): {
+		nounId = cDefeatedEnemyTogetherEvent::NOUN_ID;
+		break;
+	}
+	case(PersistedDiplomacyEventType::UpliftedByMonolith): {
+		nounId = cUpliftedByMonolithEvent::NOUN_ID;
+		break;
+	}
+	case(PersistedDiplomacyEventType::MadePeace): {
+		nounId = cMadePeaceEvent::NOUN_ID;
+		break;
+	}
+	}
+	return nounId;
+}
+
+cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::CreateEmptyPersistedDiplomacyEventOfType(PersistedDiplomacyEventType eventType){
 	cPersistedDiplomacyEvent* diplomacyEvent = nullptr;
 	switch (eventType) {
 	case(PersistedDiplomacyEventType::NeighborsInPeace): {

@@ -51,7 +51,6 @@ Simulator::Attribute cPersistedDiplomacyEvent::ATTRIBUTES[] = {
 
 	SimAttribute(cPersistedDiplomacyEvent, empire1, 0),
 	SimAttribute(cPersistedDiplomacyEvent, empire2, 1),
-	SimAttribute(cPersistedDiplomacyEvent, active, 2),
 	Simulator::Attribute()
 };
 
@@ -77,8 +76,4 @@ cEmpire* cPersistedDiplomacyEvent::GetEmpire2() {
 
 void cPersistedDiplomacyEvent::SetEmpire2(cEmpire* empire2) {
 	this->empire2 = empire2;
-}
-
-void cPersistedDiplomacyEvent::SetActive(bool active){
-	this->active = active;
 }
