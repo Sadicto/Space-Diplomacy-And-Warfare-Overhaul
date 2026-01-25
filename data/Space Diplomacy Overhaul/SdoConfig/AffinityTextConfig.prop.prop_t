@@ -1,3 +1,5 @@
+uint32 affinityRolloverLayoutId 0x030a01de
+
 colorRGBA red     (1.0,     0.0,     0.0,     1.0)
 colorRGBA orange  (1.0, 0.6471,     0.0,     1.0)
 colorRGBA yellow  (1.0,     1.0,     0.0,     1.0)

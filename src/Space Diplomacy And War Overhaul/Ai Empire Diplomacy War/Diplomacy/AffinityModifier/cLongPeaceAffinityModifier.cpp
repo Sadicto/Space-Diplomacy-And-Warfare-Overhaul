@@ -29,7 +29,7 @@ AffinityModifier cLongPeaceAffinityModifier::GetAffinityModifier() {
 }
 
 bool cLongPeaceAffinityModifier::Active(const AffinityModifierContext& context){
-	return !DiplomacyUtils::War(context.empire1, context.empire2);
+	return !DiplomacyUtils::War(context.empire1, context.empire2) && GetPersistedDiplomacyEventByType(context, cNeighborsInPeaceEvent::NOUN_ID) != nullptr;
 }
 
 int cLongPeaceAffinityModifier::GetAffinityGain(const AffinityModifierContext& context) {

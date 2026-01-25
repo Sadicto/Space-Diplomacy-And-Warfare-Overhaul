@@ -3,23 +3,24 @@
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 using namespace SporeModUtils;
 
-AffinityTextProc::AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
+AffinityTextProc::AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
 {
-	this->mainWindow = mainWindow;
-	this->mainAffinityText = mainWindow->FindWindowByID(0xAE85024E);
-	this->tooltipWindow = mainWindow->FindWindowByID(0x2A2D1FD2);
-	this->secondaryAffinityText = tooltipWindow->FindWindowByID(0xB64FAF85);
-	tooltipWindow->SetVisible(false);
-	this->tooltipModifiersWindow = tooltipWindow->FindWindowByID(0xFB0CF1A7);
-	ResetAffinityToltip();
+	this->affinityTooltipMainWindow = affinityTooltipMainWindow;
+	this->affinityTooltipNumberWindow = affinityTooltipMainWindow->FindWindowByID(0xAE85024E);
+	this->affinityRolloverMainWindow = nullptr;
+	this->affinityRolloverNumberWindow = nullptr;
+	this->affinityRolloverModifiersWindow = nullptr;
+	this->affinityRolloverLayout = nullptr;
 
-
-	//textWindow->FindWindowByID(0xFA2B32AF)->SetVisible(false);
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	currentEmpire = nullptr;
+	currentAffinity = 0;
 
 	PropertyListPtr affinityTextConfig;
 	PropManager.GetPropertyList(affinityTextConfigKey.instanceID, affinityTextConfigKey.groupID, affinityTextConfig);
+
+	App::Property::GetUInt32(affinityTextConfig.get(), 0xFE7137B3, affinityRolloverLayoutId);
+
 	ColorRGBA aux;
 	App::Property::GetColorRGBA(affinityTextConfig.get(), 0x3A72D292, aux);
 	red = aux.ToIntColor();
@@ -35,6 +36,8 @@ AffinityTextProc::AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer
 
 	App::Property::GetColorRGBA(affinityTextConfig.get(), 0xF73297B2, aux);
 	green = aux.ToIntColor();
+
+	currentAffinityColor = yellow;
 
 	App::Property::GetArrayString16(affinityTextConfig.get(), 0x557AFFAB, affinityTexts);
 }
@@ -78,73 +81,71 @@ int AffinityTextProc::GetEventFlags() const
 bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 {
 	if (message.IsType(UTFWin::MessageType::kMsgMouseEnter)) {
-		SetAffinityTooltip();
+		if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())){
+			// Call SetAffinityTooltip first to update it in case the player did something to change the affinity during their conversation with currentEmpire.
+			SetAffinityTooltip(currentEmpire->GetEmpireID());
+			SetAffinityRollover();
+		}
 		return true;
 	}
 	else if (message.IsType(UTFWin::MessageType::kMsgMouseLeave)) {
-		tooltipWindow->SetVisible(false);
+		if (affinityRolloverLayout != nullptr) {
+			WindowManager.GetMainWindow()->RemoveWindow(affinityRolloverMainWindow.get());
+			affinityRolloverMainWindow.reset();
+			affinityRolloverModifiersWindow.reset();
+			affinityRolloverNumberWindow.reset();
+			delete affinityRolloverLayout;
+			affinityRolloverLayout = nullptr;
+		}
 		return true;
 	}
 	// Return true if the message was handled, and therefore no other window procedure should receive it.
 	return false;
 }
 
-void AffinityTextProc::SetAffinityText(uint32_t empireID) {
+void AffinityTextProc::SetAffinityTooltip(uint32_t empireID) {
 	Simulator::cEmpire* empire = StarManager.GetEmpire(empireID);
+	currentEmpire = empire;
 	if (EmpireUtils::ValidNpcEmpire(empire)) {
-		currentEmpire = empire;
-		int affinity = empireRelationsAnalyzer->EmpiresAffinity(Simulator::GetPlayerEmpire(), empire);
-		eastl::string str;
-		if (affinity > 0)
-			str = "+" + eastl::to_string(affinity);
+		currentAffinity = empireRelationsAnalyzer->EmpiresAffinity(Simulator::GetPlayerEmpire(), empire);
+		currentAffinityModifierData.clear();
+		empireRelationsAnalyzer->GetEmpiresAffinityModifiersData(currentEmpire.get(), Simulator::GetPlayerEmpire(), currentAffinityModifierData);
+		eastl::string tmp;
+		if (currentAffinity > 0)
+			tmp = "+" + eastl::to_string(currentAffinity);
 		else
-			str = eastl::to_string(affinity);
-
-		eastl::basic_string<char16_t> str16;
-		str16.reserve(str.size());
-		for (char c : str)
-			str16.push_back(static_cast<char16_t>(c));
-
-		// For the secondary text, remove the '+' sign if the number is positive
-		eastl::basic_string<char16_t> str16Secondary = str16;
-		if (!str16Secondary.empty() && str16Secondary[0] == u'+') {
-			str16Secondary.erase(0, 1);
-		}
-
-
-		mainAffinityText->SetCaption(str16.c_str());
-		secondaryAffinityText->SetCaption(str16Secondary.c_str());
-		if (affinity <= -2) 
+			tmp = eastl::to_string(currentAffinity);
+		eastl::string16 s16;
+		s16.assign_convert(tmp);
+		affinityTooltipNumberWindow->SetCaption(s16.c_str());
+		if (currentAffinity <= -2)
 		{
-			mainAffinityText->SetShadeColor(red);
-			secondaryAffinityText->SetShadeColor(red);
+			currentAffinityColor = red;
 		}
-		else if (affinity == -1)
+		else if (currentAffinity == -1)
 		{
-			mainAffinityText->SetShadeColor(orange);
-			secondaryAffinityText->SetShadeColor(orange);
+			currentAffinityColor = orange;
 		}
-		else if (affinity == 0)
+		else if (currentAffinity == 0)
 		{
-			mainAffinityText->SetShadeColor(yellow);
-			secondaryAffinityText->SetShadeColor(yellow);
+			currentAffinityColor = yellow;
 		}
-		else if (affinity == 1)
+		else if (currentAffinity == 1)
 		{
-			mainAffinityText->SetShadeColor(cyan);
-			secondaryAffinityText->SetShadeColor(cyan);
+			currentAffinityColor = cyan;
 		}
-		else if (affinity >= 2)
+		else if (currentAffinity >= 2)
 		{
-			mainAffinityText->SetShadeColor(green);
-			secondaryAffinityText->SetShadeColor(green);
+			currentAffinityColor = green;
 		}
-
-		mainAffinityText->SetVisible(true);
+		affinityTooltipNumberWindow->SetShadeColor(currentAffinityColor);
+		affinityTooltipNumberWindow->SetVisible(true);
 	}
 	else {
-		currentEmpire = nullptr;
-		mainAffinityText->SetVisible(false);
+		currentAffinity = 0;
+		currentAffinityModifierData.clear();
+		currentAffinityColor = yellow;
+		affinityTooltipNumberWindow->SetVisible(false);
 	}
 }
 
@@ -153,7 +154,7 @@ eastl::string16 AffinityTextProc::GetAffinityModifierText(AffinityModifier affin
 }
 
 IWindow* AffinityTextProc::GetUnusedAffinityModifier() {
-	for (IWindow* children : tooltipModifiersWindow->children()) {
+	for (IWindow* children : affinityRolloverModifiersWindow->children()) {
 		if (children->GetControlID() == 0xE2D40949 && !children->IsVisible()) {
 			return children;
 		}
@@ -161,8 +162,8 @@ IWindow* AffinityTextProc::GetUnusedAffinityModifier() {
 	return nullptr;
 }
 
-void AffinityTextProc::ResetAffinityToltip() {
-	for (IWindow* children : tooltipModifiersWindow->children()) {
+void AffinityTextProc::ResetAffinityRollover() {
+	for (IWindow* children : affinityRolloverModifiersWindow->children()) {
 		if (children->GetControlID() == 0xE2D40949) {
 			Math::Rectangle area = children->GetArea();
 			area.y1 = 0;
@@ -173,14 +174,33 @@ void AffinityTextProc::ResetAffinityToltip() {
 	}
 }
 
-void AffinityTextProc::SetAffinityTooltip() {
+void AffinityTextProc::SetAffinityRollover() {
 	if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())) {
-		ResetAffinityToltip();
-		eastl::vector<AffinityModifierData> affinityModifiersData =
-			empireRelationsAnalyzer->GetEmpiresAffinityModifiersData(currentEmpire.get(), Simulator::GetPlayerEmpire());
+		affinityRolloverLayout = new UTFWin::UILayout();
+		affinityRolloverLayout->LoadByID(affinityRolloverLayoutId);
+
+		affinityRolloverMainWindow = affinityRolloverLayout->FindWindowByID(0x2A2D1FD2);
+		affinityRolloverNumberWindow = affinityRolloverLayout->FindWindowByID(0xB64FAF85);
+		affinityRolloverModifiersWindow = affinityRolloverLayout->FindWindowByID(0xFB0CF1A7);
+
+		Math::Rectangle affinityTooltipArea = affinityTooltipMainWindow->GetArea();
+		Math::Point tooltipBottomRight = affinityTooltipMainWindow->ToGlobalCoordinates(affinityTooltipArea.GetBottomRight());
+		// Align the rollover y1 with the relations rollover y1.
+		float rolloverY = tooltipBottomRight.y -6.5f;
+		// Align the rollover center with the tooltip center.
+		float rolloverX = tooltipBottomRight.x - affinityRolloverMainWindow->GetArea().GetWidth() / 2.0f + affinityTooltipArea.GetWidth() / 2.0f;
+		affinityRolloverMainWindow->SetLocation(rolloverX, rolloverY);
+		ResetAffinityRollover();
+
+		eastl::string tmp = eastl::to_string(currentAffinity);
+		eastl::string16 s16;
+		s16.assign_convert(tmp);
+
+		affinityRolloverNumberWindow->SetCaption(s16.c_str());
+		affinityRolloverNumberWindow->SetShadeColor(currentAffinityColor);
 
 		int modifiersCount = 0;
-		for (const AffinityModifierData& affinityModifierData : affinityModifiersData) {
+		for (const AffinityModifierData& affinityModifierData : currentAffinityModifierData) {
 			if (affinityModifierData.active) {
 				// TODO priority of mutually exclusive affinity and decay and upgrade.
 				IWindow* modifierUI = GetUnusedAffinityModifier();
@@ -204,21 +224,25 @@ void AffinityTextProc::SetAffinityTooltip() {
 
 				IWindow* affinityModifierText = modifierUI->FindWindowByID(0xD08B205F);
 				affinityModifierText->SetCaption(str16.c_str());
-
-				Color color = (affinityModifierData.affinityGain > 0) ? green
-					: red;
-				affinityModifierText->SetShadeColor(color);
+				Color affinityModifierColor = Color(0,0,0,0);
+				if (affinityModifierData.affinityGain > 0) {
+					affinityModifierColor = green;
+				}
+				else if (affinityModifierData.affinityGain == 0) {
+					affinityModifierColor = yellow;
+				}
+				else if (affinityModifierData.affinityGain < 0) {
+					affinityModifierColor = red;
+				}
+				affinityModifierText->SetShadeColor(affinityModifierColor);
 				modifierUI->SetVisible(true);
 				modifiersCount++;
 			}
 		}
 
-		Math::Rectangle area = tooltipWindow->GetArea();
+		Math::Rectangle area = affinityRolloverMainWindow->GetArea();
 		area.y2 = area.y1 + 6 + 50 + 21 * modifiersCount;
-		tooltipWindow->SetArea(area);
-		tooltipWindow->SetVisible(true);
-	}
-	else {
-		tooltipWindow->SetVisible(false);
+		affinityRolloverMainWindow->SetArea(area);
+		affinityRolloverMainWindow->SetVisible(true);
 	}
 }

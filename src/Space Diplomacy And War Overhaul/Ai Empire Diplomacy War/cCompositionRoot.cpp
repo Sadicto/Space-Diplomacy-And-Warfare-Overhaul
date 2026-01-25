@@ -175,7 +175,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		// Loads the affinity number layout, attaches it to the communications layout,
 		// and creates the AffinityTextProc.
 		affinityLayout = new UTFWin::UILayout();
-		affinityLayout->LoadByID(0x7db34bf7); // layouts_atlas~!AffinityLayout.spui.
+		affinityLayout->LoadByID(0x33a59dda); // layouts_atlas~!AffinityTooltip.spui.
 
 		UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
 		UTFWin::IWindow* commScreenWindow = mainWindow->FindWindowByID(0x0493AB00)->GetParent();

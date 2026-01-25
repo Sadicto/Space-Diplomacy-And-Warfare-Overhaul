@@ -16,7 +16,7 @@ class AffinityTextProc
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::AffinityTextProc");
 	
-	AffinityTextProc(IWindow* mainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
+	AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
 	~AffinityTextProc();
 
 	int AddRef() override;
@@ -27,26 +27,56 @@ public:
 	// This is the function you have to implement, called when a window you added this winproc to received an event
 	bool HandleUIMessage(IWindow* pWindow, const Message& message) override;
 
-	// Pointer to the main UI window of the affinity interface.
-	IWindowPtr mainWindow;
+	// Sets the affinity text for the empire with the given ID in the UI.
+	// @param empireID The ID of the empire whose affinity value should be displayed.
+	void SetAffinityTooltip(uint32_t empireID);
 
-	// Pointer to the tooltip window that shows additional info.
-	IWindowPtr tooltipWindow;
+	// Gets the text for a given affinity modifier.
+	// @param affinityModifier The modifier whose description should be returned.
+	eastl::string16 GetAffinityModifierText(AffinityModifier affinityModifier);
 
-	// Pointer to the tooltip window that lists all modifiers.
-	IWindowPtr tooltipModifiersWindow;
+	// Finds an unused affinity modifier window to display new data.
+	// @return A pointer to an available modifier window.
+	IWindow* GetUnusedAffinityModifier();
 
-	// Pointer to the main affinity text element.
-	IWindowPtr mainAffinityText;
+	// Resets the affinity tooltip, clearing all displayed modifiers.
+	void ResetAffinityRollover();
 
-	// Pointer to the secondary affinity text element that is displayed in the tooltip.
-	IWindowPtr secondaryAffinityText;
+	// Populates the affinity tooltip with the current empire’s modifiers.
+	void SetAffinityRollover();
+
+private:
+
+	// Pointer to the loaded empireRelationsAnalyzer.
+	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
+
+	// Pointer to the main UI window of the affinity tooltip.
+	IWindowPtr affinityTooltipMainWindow;
+
+	// Pointer to the window with the current affinity's number in the tooltip.
+	IWindowPtr affinityTooltipNumberWindow;
+
+	uint32_t affinityRolloverLayoutId;
+
+	UTFWin::UILayout* affinityRolloverLayout;
+
+	// Pointer to the main UI window of the affinity rollover.
+	IWindowPtr affinityRolloverMainWindow;
+
+	// Pointer to the window that lists all modifiers in the rollover.
+	IWindowPtr affinityRolloverModifiersWindow;
+
+	// Pointer to the window with the current affinity's number in the rollover.
+	IWindowPtr affinityRolloverNumberWindow;
 
 	// The empire currently in conversation with the player.
 	cEmpirePtr currentEmpire;
 
-	// Pointer to the loaded empireRelationsAnalyzer.
-	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
+	int currentAffinity;
+
+	Color currentAffinityColor;
+
+	eastl::vector<AffinityModifierData> currentAffinityModifierData;
 
 	// Stores the text for the affinity modifiers.
 	eastl::vector<string16> affinityTexts;
@@ -66,24 +96,4 @@ public:
 	// Color used for positive affinity (strong).
 	Color green;
 
-
-	// Sets the affinity text for the empire with the given ID in the UI.
-	// @param empireID The ID of the empire whose affinity value should be displayed.
-	void SetAffinityText(uint32_t empireID);
-
-	// Gets the text for a given affinity modifier.
-	// @param affinityModifier The modifier whose description should be returned.
-	eastl::string16 GetAffinityModifierText(AffinityModifier affinityModifier);
-
-	// Finds an unused affinity modifier window to display new data.
-	// @return A pointer to an available modifier window.
-	IWindow* GetUnusedAffinityModifier();
-
-	// Resets the affinity tooltip, clearing all displayed modifiers.
-	void ResetAffinityToltip();
-
-	// Populates the affinity tooltip with the current empire’s modifiers.
-	void SetAffinityTooltip();
-
-	
 };

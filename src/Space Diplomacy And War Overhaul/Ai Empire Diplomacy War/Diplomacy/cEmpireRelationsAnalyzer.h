@@ -42,8 +42,8 @@ public:
 	/// @brief Retrieves the list of the data from affinity modifiers that influence the relationship between two empires.
 	/// @param empire1 The first empire.
 	/// @param empire2 The second empire.
-	/// @return A vector of AffinityModifierData containing the information for each affinity modifier.
-	eastl::vector<AffinityModifierData> GetEmpiresAffinityModifiersData(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+	/// @param affinityData Output vector of AffinityModifierData containing the information for each affinity modifier.
+	void GetEmpiresAffinityModifiersData(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, eastl::vector<AffinityModifierData>& affinityData);
 
 
 	/// @brief Calculates the total affinity score between two empires.

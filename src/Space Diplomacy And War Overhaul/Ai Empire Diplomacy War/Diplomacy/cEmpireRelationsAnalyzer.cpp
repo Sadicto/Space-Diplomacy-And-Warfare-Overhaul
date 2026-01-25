@@ -57,22 +57,21 @@ int cEmpireRelationsAnalyzer::GetEmpireAgressivity(cEmpire* empire) {
 	return archetypesConfig->GetArchetypeAgressivtyByPowerLevel(empire->mArchetype, EmpireUtils::GetEmpireLevel(empire));
 }
 
-eastl::vector<AffinityModifierData> cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1, cEmpire* empire2) {
+void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1, cEmpire* empire2, eastl::vector<AffinityModifierData>& affinityData) {
 	affinityModifierContext.empire1 = empire1;
 	affinityModifierContext.empire2 = empire2;
 	affinityModifierContext.currentTime = persistedDiplomacyEventManager->CurrentTime();
 	affinityModifierContext.diplomacyEvents.clear();
 	persistedDiplomacyEventManager->GetPersistedDiplomaticEventsBetweenEmpires(affinityModifierContext.diplomacyEvents, empire1, empire2);
 
-	eastl::vector<AffinityModifierData> affinityModifiersData;
 	for (IAffinityModifierPtr affinityModifier : affinityModifiers) {
-		affinityModifiersData.push_back(affinityModifier->GetAffinityModifierData(affinityModifierContext));
+		affinityData.push_back(affinityModifier->GetAffinityModifierData(affinityModifierContext));
 	}
-	return affinityModifiersData;
 }
 
 int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
-	eastl::vector<AffinityModifierData> affinityModifiersData = GetEmpiresAffinityModifiersData(empire1, empire2);
+	eastl::vector<AffinityModifierData> affinityModifiersData;
+	GetEmpiresAffinityModifiersData(empire1, empire2, affinityModifiersData);
 	int affinity = 0;
 	int maxStableRelationsAffinity = 0;
 	int maxWarTogetherAffinity = 0;
