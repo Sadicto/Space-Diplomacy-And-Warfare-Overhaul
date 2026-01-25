@@ -15,7 +15,7 @@ int cPersistedEventSystem::Release() {
 }
 
 const char* cPersistedEventSystem::GetName() const {
-	return "Ai_Empire_Diplomacy::cPersistedEventSystem";
+	return "SpaceDiplomacyOverhaul::cPersistedEventSystem";
 }
 
 bool cPersistedEventSystem::Write(Simulator::ISerializerStream* stream)

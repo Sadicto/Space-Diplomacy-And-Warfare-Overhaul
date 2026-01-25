@@ -9,10 +9,9 @@
 using namespace Simulator;
 using namespace SporeModUtils;
 
-cPersistedDiplomacyEventManager::cPersistedDiplomacyEventManager(cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cAffinityConfig* affinityConfig, cPersistedEventSystem* persistedEventSystem)
+cPersistedDiplomacyEventManager::cPersistedDiplomacyEventManager(cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cPersistedEventSystem* persistedEventSystem)
 {
 	this->persistedDiplomacyEventConfig = persistedDiplomacyEventConfig;
-	this->affinityConfig = affinityConfig;
 	this->persistedEventSystem = persistedEventSystem;
 	eastl::vector<cPersistedEventPtr> persistedEvents;
 	persistedEventSystem->GetPersistedEvents(persistedEvents);

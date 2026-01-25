@@ -18,7 +18,7 @@ Object* cPersistedDiplomacyEventFactory::Create(uint32_t type, ICoreAllocator* p
 	return new cPersistedDiplomacyEvent();
 }
 const char* cPersistedDiplomacyEventFactory::GetName(uint32_t type) const {
-	return "cPersistedDiplomacyEvent";
+	return "SpaceDiplomacyOverhaul::cPersistedDiplomacyEvent";
 }
 
 uint32_t cPersistedDiplomacyEvent::GetCastID() const {

@@ -7,11 +7,6 @@
 
 #define cWarfareSystemPtr intrusive_ptr<cWarfareSystem>
 
-///
-/// In your dllmain Initialize method, add the system like this:
-/// ModAPI::AddSimulatorStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
-///
-
 /// Main class of the warfare system.
 /// Coordinates warfare cycles and subcycles, instantiates and owns
 /// the other warfare-related subsystem classes, and manages

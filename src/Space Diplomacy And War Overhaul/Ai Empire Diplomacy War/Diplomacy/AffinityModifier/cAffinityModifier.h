@@ -5,12 +5,14 @@
 
 #define cAffinityModifierPtr intrusive_ptr<cAffinityModifier>
 
+// Abstract base class for affinity modifiers.
+// Provides standard implementations for most IAffinityModifier methods.
 class cAffinityModifier 
 	: public IAffinityModifier
 	, public DefaultRefCounted
 {
 public:
-	static const uint32_t TYPE = id("cAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cAffinityModifier");
 	
 	cAffinityModifier();
 	~cAffinityModifier();
@@ -23,18 +25,21 @@ public:
 
 	virtual cPersistedDiplomacyEvent* GetPersistedDiplomacyEventByType(const AffinityModifierContext& context, uint32_t eventNounId);
 	
+	// Calculates the affinity gain based on elapsed time since event creation.
 	virtual int CalculateAffinityGain(const AffinityModifierContext& context, uint32_t eventCreationTime);
 
 	virtual int GetAffinityGain(const AffinityModifierContext& context) override;
 
 	virtual bool Upgrading(const AffinityModifierContext& context) override;
 
+	// Calculates the remaining time until the next upgrade step.
 	virtual uint32_t CalculateUpgradeTime(const AffinityModifierContext& context, uint32_t eventCreationTime);
 
 	virtual uint32_t GetUpgradeTime(const AffinityModifierContext& context) override;
 
 	virtual bool Decaying(const AffinityModifierContext& context) override;
 
+	// Calculates the remaining time until the next decay step.
 	virtual uint32_t CalculateDecayTime(const AffinityModifierContext& context, uint32_t eventCreationTime);
 
 	virtual uint32_t GetDecayTime(const AffinityModifierContext& context) override;

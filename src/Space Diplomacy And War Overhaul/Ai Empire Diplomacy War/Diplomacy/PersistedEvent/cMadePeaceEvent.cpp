@@ -18,7 +18,7 @@ Object* cMadePeaceEventFactory::Create(uint32_t type, ICoreAllocator* pAllocator
 	return new cMadePeaceEvent();
 }
 const char* cMadePeaceEventFactory::GetName(uint32_t type) const {
-	return "cMadePeaceEvent";
+	return "SpaceDiplomacyOverhaul::cMadePeaceEvent";
 }
 
 uint32_t cMadePeaceEvent::GetCastID() const {
@@ -53,7 +53,5 @@ bool cMadePeaceEvent::Active(){
 ////////////////////////////////////
 
 Simulator::Attribute cMadePeaceEvent::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
 	Simulator::Attribute()
 };

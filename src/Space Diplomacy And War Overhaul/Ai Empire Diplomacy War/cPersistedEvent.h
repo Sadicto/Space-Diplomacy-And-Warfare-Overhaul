@@ -4,14 +4,7 @@
 
 #define cPersistedEventPtr intrusive_ptr<cPersistedEvent>
 
-
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cPersistedEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cPersistedEvent>();
-
+// Base class for all persisted events.
 class cPersistedEvent
 	: public Simulator::cGameData
 {
@@ -27,18 +20,29 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
+	/// @brief Returns whether the event is still valid.
+	/// Extends base validation by ensuring both empires are valid.
 	bool virtual Valid();
 
+	/// @brief Returns whether this event has an expiration time.
 	bool Expires();
 
+	/// @brief Sets whether this event expires.
+	/// @param decays.
 	void SetExpires(bool decays);
 
+	/// @brief Returns the creation time of the event.
 	uint32_t GetCreationTime();
 
+	/// @brief Sets the creation time of the event.
+	/// @param creationTime.
 	void SetCreationTime(uint32_t creationTime);
 
+	/// @brief Returns the expiration time of the event.
 	uint32_t GetExpirationTime();
 
+	/// @brief Sets the expiration time of the event.
+	/// @param expirationTime.
 	void SetExpirationTime(uint32_t expirationTime);
 
 	static Simulator::Attribute ATTRIBUTES[];
@@ -46,10 +50,13 @@ public:
 
 private:
 
+	// Whether the event expires after a given time.
 	bool expires;
 
+	// Time at which the event was created.
 	uint32_t creationTime;
 
+	// Time at which the event expires, if applicable.
 	uint32_t expirationTime;
 };
 

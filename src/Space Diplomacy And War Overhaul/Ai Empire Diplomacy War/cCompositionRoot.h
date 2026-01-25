@@ -31,11 +31,6 @@
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
-///
-/// In your dllmain Initialize method, add the system like this:
-/// ModAPI::AddSimulatorStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
-///
-
 /// Singleton class that handles dependency injection
 /// for all other classes in the mod.
 class cCompositionRoot

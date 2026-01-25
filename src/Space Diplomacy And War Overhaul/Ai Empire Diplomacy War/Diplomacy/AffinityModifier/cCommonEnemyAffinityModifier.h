@@ -5,11 +5,13 @@
 
 #define cCommonEnemyAffinityModifierPtr intrusive_ptr<cCommonEnemyAffinityModifier>
 
+// Affinity modifier applied when two empires share a common enemy.
+// Active only while both empires are at war with the same empire.
 class cCommonEnemyAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cCommonEnemyAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cCommonEnemyAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::CommonEnemy;
 	
 	cCommonEnemyAffinityModifier();

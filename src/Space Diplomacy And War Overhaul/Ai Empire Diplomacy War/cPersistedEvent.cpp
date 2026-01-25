@@ -14,7 +14,7 @@ Object* cPersistedEventFactory::Create(uint32_t type, ICoreAllocator* pAllocator
 	return new cPersistedEvent();
 }
 const char* cPersistedEventFactory::GetName(uint32_t type) const {
-	return "cPersistedEvent";
+	return "SpaceDiplomacyOverhaul::cPersistedEvent";
 }
 
 

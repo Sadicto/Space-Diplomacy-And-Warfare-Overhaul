@@ -14,7 +14,7 @@ Object* cUpliftedByMonolithEventFactory::Create(uint32_t type, ICoreAllocator* p
 	return new cUpliftedByMonolithEvent();
 }
 const char* cUpliftedByMonolithEventFactory::GetName(uint32_t type) const {
-	return "cUpliftedByMonolithEvent";
+	return "SpaceDiplomacyOverhaul::cUpliftedByMonolithEvent";
 }
 
 uint32_t cUpliftedByMonolithEvent::GetCastID() const {
@@ -45,7 +45,5 @@ bool cUpliftedByMonolithEvent::Read(Simulator::ISerializerStream* stream)
 ////////////////////////////////////
 
 Simulator::Attribute cUpliftedByMonolithEvent::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
 	Simulator::Attribute()
 };

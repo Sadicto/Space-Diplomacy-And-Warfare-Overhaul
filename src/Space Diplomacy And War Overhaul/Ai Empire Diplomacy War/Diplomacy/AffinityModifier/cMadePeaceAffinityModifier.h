@@ -5,11 +5,12 @@
 
 #define cMadePeaceAffinityModifierPtr intrusive_ptr<cMadePeaceAffinityModifier>
 
+// Affinity modifier applied after two empires make peace, prevents wars started by the AI.
 class cMadePeaceAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cMadePeaceAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cMadePeaceAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::MadePeace;
 	
 	cMadePeaceAffinityModifier();

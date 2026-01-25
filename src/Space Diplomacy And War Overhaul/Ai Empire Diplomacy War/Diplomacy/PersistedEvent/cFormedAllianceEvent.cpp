@@ -18,7 +18,7 @@ Object* cFormedAllianceEventFactory::Create(uint32_t type, ICoreAllocator* pAllo
 	return new cFormedAllianceEvent();
 }
 const char* cFormedAllianceEventFactory::GetName(uint32_t type) const {
-	return "cFormedAllianceEvent";
+	return "SpaceDiplomacyOverhaul::cFormedAllianceEvent";
 }
 
 uint32_t cFormedAllianceEvent::GetCastID() const {
@@ -53,7 +53,5 @@ bool cFormedAllianceEvent::Active(){
 ////////////////////////////////////
 
 Simulator::Attribute cFormedAllianceEvent::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
 	Simulator::Attribute()
 };

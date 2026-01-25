@@ -5,11 +5,13 @@
 
 #define cCommonAllyAffinityModifierPtr intrusive_ptr<cCommonAllyAffinityModifier>
 
+// Affinity modifier applied when two empires share a common ally.
+// Active only while the diplomatic condition of having a common is active.
 class cCommonAllyAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cCommonAllyAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cCommonAllyAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::CommonAlly;
 	
 	cCommonAllyAffinityModifier();

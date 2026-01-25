@@ -5,11 +5,13 @@
 
 #define cLongAllianceAffinityModifierPtr intrusive_ptr<cLongAllianceAffinityModifier>
 
+// Affinity modifier that increases over time while two empires remain allied.
+// Based on the duration of the alliance.
 class cLongAllianceAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cLongAllianceAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cLongAllianceAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::LongAlliance;
 	
 	cLongAllianceAffinityModifier();

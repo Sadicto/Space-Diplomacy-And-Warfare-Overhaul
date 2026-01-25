@@ -5,11 +5,13 @@
 
 #define cDefeatedCommonEnemyAffinityModifierPtr intrusive_ptr<cDefeatedCommonEnemyAffinityModifier>
 
+// Affinity modifier granted after two empires defeat a common enemy together.
+// Its affinity gain decays over time.
 class cDefeatedCommonEnemyAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cDefeatedCommonEnemyAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDefeatedCommonEnemyAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::DefeatedCommonEnemy;
 	
 	cDefeatedCommonEnemyAffinityModifier();

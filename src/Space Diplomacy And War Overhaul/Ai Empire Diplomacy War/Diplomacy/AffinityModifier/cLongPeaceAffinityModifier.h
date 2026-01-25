@@ -5,11 +5,12 @@
 
 #define cLongPeaceAffinityModifierPtr intrusive_ptr<cLongPeaceAffinityModifier>
 
+// Affinity modifier that increases over time while two empires remain at peace.
 class cLongPeaceAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cLongPeaceAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cLongPeaceAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::LongPeace;
 	
 	cLongPeaceAffinityModifier();

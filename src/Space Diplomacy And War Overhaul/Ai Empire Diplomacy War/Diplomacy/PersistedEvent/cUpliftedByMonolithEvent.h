@@ -5,13 +5,7 @@
 
 #define cUpliftedByMonolithEventPtr intrusive_ptr<cUpliftedByMonolithEvent>
 
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cUpliftedByMonolithEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cUpliftedByMonolithEvent>();
-
+// Persisted diplomacy event representing an uplift performed via a monolith.
 class cUpliftedByMonolithEvent
 	: public cPersistedDiplomacyEvent
 {
@@ -25,16 +19,9 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
-	//
-	// You can add more methods here
-	//
-
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
-	//
-	// You can add members here
-	//
 };
 
 class cUpliftedByMonolithEventFactory

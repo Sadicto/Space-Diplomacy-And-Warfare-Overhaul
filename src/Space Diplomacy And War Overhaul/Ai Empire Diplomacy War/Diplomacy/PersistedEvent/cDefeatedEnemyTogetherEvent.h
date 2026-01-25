@@ -5,13 +5,8 @@
 
 #define cDefeatedEnemyTogetherEventPtr intrusive_ptr<cDefeatedEnemyTogetherEvent>
 
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cDefeatedEnemyTogetherEvent>();
-
+// Persisted diplomacy event representing two empires
+// that have cooperated in defeating a common enemy.
 class cDefeatedEnemyTogetherEvent
 	: public cPersistedDiplomacyEvent
 {
@@ -25,16 +20,9 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
-	//
-	// You can add more methods here
-	//
-
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
-	//
-	// You can add members here
-	//
 };
 
 class cDefeatedEnemyTogetherEventFactory

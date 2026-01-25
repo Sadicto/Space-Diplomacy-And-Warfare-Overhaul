@@ -5,11 +5,13 @@
 
 #define cWarWithAllyAffinityModifierPtr intrusive_ptr<cWarWithAllyAffinityModifier>
 
+// Negative affinity modifier applied when one empire is at war with an ally
+// of the other empire.
 class cWarWithAllyAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cWarWithAllyAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cWarWithAllyAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::WarWithAlly;
 	
 	cWarWithAllyAffinityModifier();

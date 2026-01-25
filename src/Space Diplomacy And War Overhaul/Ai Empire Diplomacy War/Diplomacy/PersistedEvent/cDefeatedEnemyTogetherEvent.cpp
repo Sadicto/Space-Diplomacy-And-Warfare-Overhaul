@@ -18,7 +18,7 @@ Object* cDefeatedEnemyTogetherEventFactory::Create(uint32_t type, ICoreAllocator
 	return new cDefeatedEnemyTogetherEvent();
 }
 const char* cDefeatedEnemyTogetherEventFactory::GetName(uint32_t type) const {
-	return "cDefeatedEnemyTogetherEvent";
+	return "SpaceDiplomacyOverhaul::cDefeatedEnemyTogetherEvent";
 }
 
 uint32_t cDefeatedEnemyTogetherEvent::GetCastID() const {
@@ -49,7 +49,5 @@ bool cDefeatedEnemyTogetherEvent::Read(Simulator::ISerializerStream* stream)
 ////////////////////////////////////
 
 Simulator::Attribute cDefeatedEnemyTogetherEvent::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
 	Simulator::Attribute()
 };

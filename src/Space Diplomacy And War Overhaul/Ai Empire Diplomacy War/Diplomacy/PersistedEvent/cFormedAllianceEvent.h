@@ -5,13 +5,8 @@
 
 #define cFormedAllianceEventPtr intrusive_ptr<cFormedAllianceEvent>
 
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cFormedAllianceEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cFormedAllianceEvent>();
-
+// Persisted diplomacy event representing two empires
+// that have formed an alliance.
 class cFormedAllianceEvent
 	: public cPersistedDiplomacyEvent
 {
@@ -25,18 +20,14 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
+	/// @brief Returns whether the event is currently active.
+	/// The event remains active while both empires are valid
+	/// and the alliance between them still exists.
 	bool Active() override;
-
-	//
-	// You can add more methods here
-	//
 
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
-	//
-	// You can add members here
-	//
 };
 
 class cFormedAllianceEventFactory

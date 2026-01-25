@@ -5,13 +5,7 @@
 
 #define cPersistedDiplomacyEventPtr intrusive_ptr<cPersistedDiplomacyEvent>
 
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cPersistedDiplomacyEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cPersistedDiplomacyEvent>();
-
+// Base class for persisted diplomacy-related events.
 class cPersistedDiplomacyEvent
 	: public cPersistedEvent
 {
@@ -27,22 +21,33 @@ public:
 
 	bool Valid() override;
 
+
+	/// @brief Returns whether the event is currently active.
+	/// This is a semantic check intended to reflect current diplomatic state.
 	virtual bool Active();
 
+	/// @brief Returns the first empire associated with the event.
 	Simulator::cEmpire* GetEmpire1();
 
+	/// @brief Sets the first empire associated with the event.
+	/// @param empire1.
 	void SetEmpire1(Simulator::cEmpire* empire1);
 
+	/// @brief Returns the second empire associated with the event.
 	Simulator::cEmpire* GetEmpire2();
 
+	/// @brief Sets the second empire associated with the event.
+	/// @param empire2.
 	void SetEmpire2(Simulator::cEmpire* empire2);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
 protected:
 
+	// First empire involved in the diplomacy event.
 	cEmpirePtr empire1;
 
+	// Second empire involved in the diplomacy event.
 	cEmpirePtr empire2;
 
 };

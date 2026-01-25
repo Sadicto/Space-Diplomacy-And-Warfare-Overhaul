@@ -5,11 +5,13 @@
 
 #define cArchetypeAffinityModifierPtr intrusive_ptr<cArchetypeAffinityModifier>
 
+// Affinity modifier based on the archetype relationship between two empires.
+// Always active and derives its affinity gain directly from the archetypes configuration.
 class cArchetypeAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cArchetypeAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cArchetypeAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::ArchetypeAffinity;
 	
 	cArchetypeAffinityModifier();

@@ -5,11 +5,12 @@
 
 #define cUpliftedByMonolithAffinityModifierPtr intrusive_ptr<cUpliftedByMonolithAffinityModifier>
 
+// Affinity modifier granted when one empire uplifts another via a monolith.
 class cUpliftedByMonolithAffinityModifier 
 	: public cAffinityModifier
 {
 public:
-	static const uint32_t TYPE = id("cUpliftedByMonolithAffinityModifier");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cUpliftedByMonolithAffinityModifier");
 	static const AffinityModifier affinityModifier = AffinityModifier::UpliftedByMonolith;
 	
 	cUpliftedByMonolithAffinityModifier();

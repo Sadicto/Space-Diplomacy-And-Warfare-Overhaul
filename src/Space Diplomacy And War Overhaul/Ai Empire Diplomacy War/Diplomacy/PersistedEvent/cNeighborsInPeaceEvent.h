@@ -5,13 +5,8 @@
 
 #define cNeighborsInPeaceEventPtr intrusive_ptr<cNeighborsInPeaceEvent>
 
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cNeighborsInPeaceEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cNeighborsInPeaceEvent>();
-
+// Persisted diplomacy event representing two neighboring empires
+// that are not currently at war.
 class cNeighborsInPeaceEvent
 	: public cPersistedDiplomacyEvent
 {
@@ -25,18 +20,17 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
+
+	/// @brief Returns whether the event is currently active.
+	/// The event is active as long as both empires are valid
+	/// and they are not at war with each other.
 	bool Active() override;
 
-	//
-	// You can add more methods here
-	//
 
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
-	//
-	// You can add members here
-	//
+
 };
 
 class cNeighborsInPeaceEventFactory

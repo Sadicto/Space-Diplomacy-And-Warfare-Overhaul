@@ -18,7 +18,7 @@ int cWarfareSystem::Release() {
 }
 
 const char* cWarfareSystem::GetName() const {
-	return "Ai_Empire_Diplomacy::cWarfareSystem";
+	return "SpaceWarfareOverhaul::cWarfareSystem";
 }
 
 bool cWarfareSystem::Write(Simulator::ISerializerStream* stream)

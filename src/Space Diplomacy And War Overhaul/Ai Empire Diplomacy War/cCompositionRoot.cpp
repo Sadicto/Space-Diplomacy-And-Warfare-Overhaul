@@ -19,7 +19,7 @@ int cCompositionRoot::Release() {
 }
 
 const char* cCompositionRoot::GetName() const {
-	return "Ai_Empire_Diplomacy::cCompositionRoot";
+	return "SpaceDiplomacyOverhaul::cCompositionRoot";
 }
 
 bool cCompositionRoot::Write(Simulator::ISerializerStream* stream)
@@ -121,7 +121,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		affinityConfig = new cAffinityConfig(affinityConfigKey);
 
-		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedDiplomacyEventConfig.get(), affinityConfig.get(), persistedEventSystem.get());
+		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedDiplomacyEventConfig.get(), persistedEventSystem.get());
 
 		archetypeAffinityModifier = new cArchetypeAffinityModifier();
 		commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();

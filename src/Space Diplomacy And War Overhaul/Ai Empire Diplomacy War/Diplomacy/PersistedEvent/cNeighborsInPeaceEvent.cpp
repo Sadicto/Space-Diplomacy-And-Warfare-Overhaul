@@ -18,7 +18,7 @@ Object* cNeighborsInPeaceEventFactory::Create(uint32_t type, ICoreAllocator* pAl
 	return new cNeighborsInPeaceEvent();
 }
 const char* cNeighborsInPeaceEventFactory::GetName(uint32_t type) const {
-	return "cNeighborsInPeaceEvent";
+	return "SpaceDiplomacyOverhaul::cNeighborsInPeaceEvent";
 }
 
 uint32_t cNeighborsInPeaceEvent::GetCastID() const {
@@ -54,7 +54,5 @@ bool cNeighborsInPeaceEvent::Active()
 ////////////////////////////////////
 
 Simulator::Attribute cNeighborsInPeaceEvent::ATTRIBUTES[] = {
-	// Add more attributes here
-	// This one must always be at the end
 	Simulator::Attribute()
 };
