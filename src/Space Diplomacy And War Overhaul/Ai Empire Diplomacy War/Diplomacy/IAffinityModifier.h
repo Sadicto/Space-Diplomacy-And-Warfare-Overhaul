@@ -30,6 +30,7 @@ struct AffinityModifierData {
 	int priority;
 	bool stableRelationsMutuallyExclusive;
 	bool warTogetherMutuallyExclusive;
+	bool effective;
 };
 
 // Interface implemented by all affinity modifiers.

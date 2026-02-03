@@ -74,14 +74,14 @@ end
 
 int32s priority
 	0 # ArchetypeAffinity
-	0 # CommonEnemy
+	1 # CommonEnemy
 	0 # CommonAlly
 	0 # WarWithAlly
-	1 # DefeatedCommonEnemy
+	0 # DefeatedCommonEnemy
 	0 # UpliftedByMonolith
 	0 # MadePeace
-	1 # LongPeace
-	0 # LongAlliance
+	0 # LongPeace
+	1 # LongAlliance
 end
 
 bools stableRelationsMutuallyExclusive

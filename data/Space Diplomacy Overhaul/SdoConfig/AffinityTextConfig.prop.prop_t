@@ -6,6 +6,12 @@ colorRGBA yellow  (1.0,     1.0,     0.0,     1.0)
 colorRGBA cyan    (0.5294, 0.8078, 0.9216, 1.0)
 colorRGBA green   (0.0,     1.0,     0.0,     1.0)
 
+colorRGBA white (1, 1, 1, 1)
+colorRGBA gray (0.5, 0.5, 0.5, 0.5)
+
+string16 arrowUp ↑
+string16 arrowDown ↓
+
 string16s affinityTexts
 	"Archetype compatibility" # ArchetypeAffinity
 	"Shared enemy" 		  # CommonEnemy

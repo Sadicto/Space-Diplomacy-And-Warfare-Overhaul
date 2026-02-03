@@ -37,6 +37,12 @@ AffinityTextProc::AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRe
 	App::Property::GetColorRGBA(affinityTextConfig.get(), 0xF73297B2, aux);
 	green = aux.ToIntColor();
 
+	App::Property::GetColorRGBA(affinityTextConfig.get(), 0xBD77BB98, aux);
+	white = aux.ToIntColor();
+
+	App::Property::GetColorRGBA(affinityTextConfig.get(), 0x360868E4, aux);
+	gray = aux.ToIntColor();
+
 	currentAffinityColor = yellow;
 
 	App::Property::GetArrayString16(affinityTextConfig.get(), 0x557AFFAB, affinityTexts);
@@ -185,7 +191,7 @@ void AffinityTextProc::SetAffinityRollover() {
 
 		Math::Rectangle affinityTooltipArea = affinityTooltipMainWindow->GetArea();
 		Math::Point tooltipBottomRight = affinityTooltipMainWindow->ToGlobalCoordinates(affinityTooltipArea.GetBottomRight());
-		// Align the rollover y1 with the relations rollover y1.
+		// Align the rollover top with the relations rollover top.
 		float rolloverY = tooltipBottomRight.y -6.5f;
 		// Align the rollover center with the tooltip center.
 		float rolloverX = tooltipBottomRight.x - affinityRolloverMainWindow->GetArea().GetWidth() / 2.0f + affinityTooltipArea.GetWidth() / 2.0f;
@@ -202,7 +208,7 @@ void AffinityTextProc::SetAffinityRollover() {
 		int modifiersCount = 0;
 		for (const AffinityModifierData& affinityModifierData : currentAffinityModifierData) {
 			if (affinityModifierData.active) {
-				// TODO priority of mutually exclusive affinity and decay and upgrade.
+				// decay and upgrade.
 				IWindow* modifierUI = GetUnusedAffinityModifier();
 				Math::Rectangle area = modifierUI->GetArea();
 				area.y1 = 21.0f * modifiersCount;
@@ -222,19 +228,28 @@ void AffinityTextProc::SetAffinityRollover() {
 				for (char c : str)
 					str16.push_back(static_cast<char16_t>(c));
 
-				IWindow* affinityModifierText = modifierUI->FindWindowByID(0xD08B205F);
-				affinityModifierText->SetCaption(str16.c_str());
+				IWindow* affinityModifierNumber = modifierUI->FindWindowByID(0xD08B205F);
+				affinityModifierNumber->SetCaption(str16.c_str());
 				Color affinityModifierColor = Color(0,0,0,0);
-				if (affinityModifierData.affinityGain > 0) {
-					affinityModifierColor = green;
+				if (affinityModifierData.effective) {
+					modifierUI->SetShadeColor(white);
+					if (affinityModifierData.affinityGain > 0) {
+						affinityModifierColor = green;
+					}
+					else if (affinityModifierData.affinityGain == 0) {
+						affinityModifierColor = yellow;
+					}
+					else if (affinityModifierData.affinityGain < 0) {
+						affinityModifierColor = red;
+					}
 				}
-				else if (affinityModifierData.affinityGain == 0) {
-					affinityModifierColor = yellow;
+
+				else {
+					modifierUI->SetShadeColor(gray);
+					affinityModifierColor = white;
 				}
-				else if (affinityModifierData.affinityGain < 0) {
-					affinityModifierColor = red;
-				}
-				affinityModifierText->SetShadeColor(affinityModifierColor);
+
+				affinityModifierNumber->SetShadeColor(affinityModifierColor);
 				modifierUI->SetVisible(true);
 				modifiersCount++;
 			}

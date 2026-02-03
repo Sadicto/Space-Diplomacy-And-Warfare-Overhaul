@@ -96,4 +96,7 @@ private:
 	// Color used for positive affinity (strong).
 	Color green;
 
+	Color gray;
+
+	Color white;
 };

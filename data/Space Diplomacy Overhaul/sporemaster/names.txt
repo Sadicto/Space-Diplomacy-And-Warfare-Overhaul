@@ -104,7 +104,6 @@ AllianceConflictAiPlayer
 AffinityConfig
 spg_shaman
 auto_SdoRelationshipEffects_EcologistEffects
-
 ArchetypeAffinities
 AllianceDeclaredAiAi
 RelationshipStrip

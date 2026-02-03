@@ -42,7 +42,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 2: {
-        RelationshipManager.ApplyRelationship(empire->GetEmpireID(), GetPlayerEmpire()->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceTradeComplete);
+        RelationshipManager.DeclareWar(empire, empireColonizer);
         break;
     }
     case 3:  {

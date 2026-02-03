@@ -67,31 +67,74 @@ void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1,
 	for (IAffinityModifierPtr affinityModifier : affinityModifiers) {
 		affinityData.push_back(affinityModifier->GetAffinityModifierData(affinityModifierContext));
 	}
+	int effectiveStableRelationsAffinityGain = 0;
+	int priorityEffectiveStableRelations = -1;
+	int positionEfectiveStableRelations = -1;
+	int effectiveWarTogetherAffinity = 0;
+	int priorityEffectiveWarTogether = -1;
+	int positionEffectiveWarTogether = -1;
+	// Set effective for each affinityModifierData. If changing something from here refactor this for into something less horrible.
+	for (int i = 0; i < affinityData.size(); i++) {
+		AffinityModifierData& affinityModifierData = affinityData[i];
+		// TODO: Delete after testing.
+		if (affinityModifierData.affinityModifier == AffinityModifier::CommonEnemy) {
+			affinityModifierData.active = true;
+		}
+		if (affinityModifierData.affinityModifier == AffinityModifier::DefeatedCommonEnemy) {
+			affinityModifierData.active = true;
+			affinityModifierData.affinityGain = 1;
+		}
+		if (affinityModifierData.active) {
+			if (affinityModifierData.stableRelationsMutuallyExclusive) {
+				if (affinityModifierData.affinityGain > effectiveStableRelationsAffinityGain || 
+					(affinityModifierData.affinityGain == effectiveStableRelationsAffinityGain && affinityModifierData.priority > priorityEffectiveStableRelations)) {
+
+					effectiveStableRelationsAffinityGain = affinityModifierData.affinityGain;
+					priorityEffectiveStableRelations = affinityModifierData.priority;
+					affinityModifierData.effective = true;
+					if (positionEfectiveStableRelations > -1) {
+						affinityData[positionEfectiveStableRelations].effective = false;
+					}
+					positionEfectiveStableRelations = i;
+				}
+				else {
+					affinityModifierData.effective = false;
+				}
+			}
+			else if (affinityModifierData.warTogetherMutuallyExclusive) {
+				if (affinityModifierData.affinityGain > effectiveWarTogetherAffinity ||
+					(affinityModifierData.affinityGain == effectiveWarTogetherAffinity && affinityModifierData.priority > priorityEffectiveWarTogether)) {
+
+					effectiveWarTogetherAffinity = affinityModifierData.affinityGain;
+					priorityEffectiveWarTogether = affinityModifierData.priority;
+					affinityModifierData.effective = true;
+					if (positionEffectiveWarTogether > -1) {
+						affinityData[positionEffectiveWarTogether].effective = false;
+					}
+					positionEffectiveWarTogether = i;
+				}
+				else {
+					affinityModifierData.effective = false;
+				}
+			}
+			else {
+				affinityModifierData.effective = true;
+			}
+		}
+		else {
+			affinityModifierData.effective = false;
+		}
+	}
 }
 
 int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
 	eastl::vector<AffinityModifierData> affinityModifiersData;
 	GetEmpiresAffinityModifiersData(empire1, empire2, affinityModifiersData);
 	int affinity = 0;
-	int maxStableRelationsAffinity = 0;
-	int maxWarTogetherAffinity = 0;
 	for (const AffinityModifierData& affinityModifierData : affinityModifiersData) {
-		if (affinityModifierData.active) {
-			int affinityGain = affinityModifierData.affinityGain;
-			if (affinityModifierData.stableRelationsMutuallyExclusive) {
-				if (affinityGain > maxStableRelationsAffinity) {
-					maxStableRelationsAffinity = affinityGain;
-				}
-				affinityGain = 0;
-			}
-			else if (affinityModifierData.warTogetherMutuallyExclusive) {
-				if (affinityGain > maxWarTogetherAffinity) {
-					maxWarTogetherAffinity = affinityGain;
-				}
-				affinityGain = 0;
-			}
-			affinity += affinityGain;
+		if (affinityModifierData.effective) {
+			affinity += affinityModifierData.affinityGain;
 		}
 	}
-	return affinity + maxStableRelationsAffinity + maxWarTogetherAffinity;
+	return affinity;
 }
