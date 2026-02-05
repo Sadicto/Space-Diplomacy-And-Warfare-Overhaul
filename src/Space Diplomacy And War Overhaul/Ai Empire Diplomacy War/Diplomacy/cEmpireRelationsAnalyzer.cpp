@@ -74,15 +74,19 @@ void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1,
 	int priorityEffectiveWarTogether = -1;
 	int positionEffectiveWarTogether = -1;
 	// Set effective for each affinityModifierData. If changing something from here refactor this for into something less horrible.
-	for (int i = 0; i < affinityData.size(); i++) {
+	for (uint32_t i = 0; i < affinityData.size(); i++) {
 		AffinityModifierData& affinityModifierData = affinityData[i];
 		// TODO: Delete after testing.
-		if (affinityModifierData.affinityModifier == AffinityModifier::CommonEnemy) {
+		if (affinityModifierData.affinityModifier == AffinityModifier::LongPeace) {
 			affinityModifierData.active = true;
+			affinityModifierData.upgrading = true;
+			affinityModifierData.upgradeTime = 6000000;
 		}
 		if (affinityModifierData.affinityModifier == AffinityModifier::DefeatedCommonEnemy) {
 			affinityModifierData.active = true;
 			affinityModifierData.affinityGain = 1;
+			affinityModifierData.decaying = true;
+			affinityModifierData.decayTime = 12000000;
 		}
 		if (affinityModifierData.active) {
 			if (affinityModifierData.stableRelationsMutuallyExclusive) {

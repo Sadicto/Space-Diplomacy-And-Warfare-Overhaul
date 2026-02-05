@@ -46,6 +46,10 @@ AffinityTextProc::AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRe
 	currentAffinityColor = yellow;
 
 	App::Property::GetArrayString16(affinityTextConfig.get(), 0x557AFFAB, affinityTexts);
+
+	App::Property::GetString16(affinityTextConfig.get(), 0x699A343B, arrowUp);
+
+	App::Property::GetString16(affinityTextConfig.get(), 0x0D55FB98, arrowDown);
 }
 
 
@@ -247,6 +251,23 @@ void AffinityTextProc::SetAffinityRollover() {
 				else {
 					modifierUI->SetShadeColor(gray);
 					affinityModifierColor = white;
+				}
+
+				IWindow* affinityModifierTimeWindow = modifierUI->FindWindowByID(0x9D09E43C);
+				if (affinityModifierData.upgrading) {
+					tmp = eastl::to_string(affinityModifierData.upgradeTime / 60000);
+					s16.assign_convert(tmp);
+					affinityModifierTimeWindow->SetCaption((arrowUp + s16 + u"min").c_str());
+					affinityModifierTimeWindow->SetShadeColor(cyan);
+				}
+				else if (affinityModifierData.decaying) {
+					tmp = eastl::to_string(affinityModifierData.decayTime / 60000);
+					s16.assign_convert(tmp);
+					affinityModifierTimeWindow->SetCaption((arrowDown + s16 + u"min").c_str());
+					affinityModifierTimeWindow->SetShadeColor(orange);
+				}
+				else {
+					affinityModifierTimeWindow->SetCaption(u"");
 				}
 
 				affinityModifierNumber->SetShadeColor(affinityModifierColor);

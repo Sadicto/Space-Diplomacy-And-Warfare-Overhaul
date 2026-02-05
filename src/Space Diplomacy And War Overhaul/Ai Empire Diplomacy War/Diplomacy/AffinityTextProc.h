@@ -99,4 +99,8 @@ private:
 	Color gray;
 
 	Color white;
+
+	string16 arrowUp;
+
+	string16 arrowDown;
 };
