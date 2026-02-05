@@ -79,13 +79,14 @@ void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1,
 		// TODO: Delete after testing.
 		if (affinityModifierData.affinityModifier == AffinityModifier::LongPeace) {
 			affinityModifierData.active = true;
-			affinityModifierData.upgrading = true;
+			affinityModifierData.upgrading = false;
+			affinityModifierData.decaying = false;
 			affinityModifierData.upgradeTime = 6000000;
 		}
 		if (affinityModifierData.affinityModifier == AffinityModifier::DefeatedCommonEnemy) {
 			affinityModifierData.active = true;
 			affinityModifierData.affinityGain = 1;
-			affinityModifierData.decaying = true;
+			affinityModifierData.decaying = false;
 			affinityModifierData.decayTime = 12000000;
 		}
 		if (affinityModifierData.active) {

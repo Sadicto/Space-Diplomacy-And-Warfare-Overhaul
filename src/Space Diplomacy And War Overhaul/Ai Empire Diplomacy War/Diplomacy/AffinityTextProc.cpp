@@ -281,19 +281,36 @@ void AffinityTextProc::SetAffinityRollover() {
 			}
 			if (timeAffinityActive) {
 				Math::Rectangle area = affinityRolloverMainWindow->GetArea();
-				area.x2 = 308;
+				area.x2 = area.x1 + 308;
 				affinityRolloverMainWindow->SetArea(area);
+				area = affinityRolloverNumberWindow->GetArea();
+				area.x1 = -70;
+				area.x2 = -13;
+				affinityRolloverNumberWindow->SetArea(area);
 			}
 			else {
-
+				Math::Rectangle area = affinityRolloverMainWindow->GetArea();
+				area.x2 = area.x1 + 258;
+				affinityRolloverMainWindow->SetArea(area);
+				area = affinityRolloverNumberWindow->GetArea();
+				area.x1 = -10;
+				area.x2 = 47;
+				affinityRolloverNumberWindow->SetArea(area);
 			}
 
 			for (IWindow* modifierUI : activeModifierWindows) {
+				IWindow* affinityModifierNumber = modifierUI->FindWindowByID(0xD08B205F);
 				if (timeAffinityActive) {
-					Math::Rectangle area = modifierUI->GetArea();
+					Math::Rectangle area = affinityModifierNumber->GetArea();
 					area.x1= -70;
 					area.x2 = -13;
-					modifierUI->SetArea(area);
+					affinityModifierNumber->SetArea(area);
+				}
+				else {
+					Math::Rectangle area = affinityModifierNumber->GetArea();
+					area.x1 = -10;
+					area.x2 = 47;
+					affinityModifierNumber->SetArea(area);
 				}
 			}
 		}
