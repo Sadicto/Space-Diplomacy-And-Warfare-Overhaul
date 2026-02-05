@@ -209,6 +209,8 @@ void AffinityTextProc::SetAffinityRollover() {
 		affinityRolloverNumberWindow->SetCaption(s16.c_str());
 		affinityRolloverNumberWindow->SetShadeColor(currentAffinityColor);
 
+		bool timeAffinityActive = false;
+		eastl::vector<IWindow*> activeModifierWindows;
 		int modifiersCount = 0;
 		for (const AffinityModifierData& affinityModifierData : currentAffinityModifierData) {
 			if (affinityModifierData.active) {
@@ -259,12 +261,14 @@ void AffinityTextProc::SetAffinityRollover() {
 					s16.assign_convert(tmp);
 					affinityModifierTimeWindow->SetCaption((arrowUp + s16 + u"min").c_str());
 					affinityModifierTimeWindow->SetShadeColor(cyan);
+					timeAffinityActive = true;
 				}
 				else if (affinityModifierData.decaying) {
 					tmp = eastl::to_string(affinityModifierData.decayTime / 60000);
 					s16.assign_convert(tmp);
 					affinityModifierTimeWindow->SetCaption((arrowDown + s16 + u"min").c_str());
 					affinityModifierTimeWindow->SetShadeColor(orange);
+					timeAffinityActive = true;
 				}
 				else {
 					affinityModifierTimeWindow->SetCaption(u"");
@@ -272,7 +276,25 @@ void AffinityTextProc::SetAffinityRollover() {
 
 				affinityModifierNumber->SetShadeColor(affinityModifierColor);
 				modifierUI->SetVisible(true);
+				activeModifierWindows.push_back(modifierUI);
 				modifiersCount++;
+			}
+			if (timeAffinityActive) {
+				Math::Rectangle area = affinityRolloverMainWindow->GetArea();
+				area.x2 = 308;
+				affinityRolloverMainWindow->SetArea(area);
+			}
+			else {
+
+			}
+
+			for (IWindow* modifierUI : activeModifierWindows) {
+				if (timeAffinityActive) {
+					Math::Rectangle area = modifierUI->GetArea();
+					area.x1= -70;
+					area.x2 = -13;
+					modifierUI->SetArea(area);
+				}
 			}
 		}
 
