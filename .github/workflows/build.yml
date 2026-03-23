@@ -100,8 +100,8 @@ jobs:
       - name: Setup SMFX
         uses: robinraju/release-downloader@v1
         with:
-          repository: 'emd4600/SporeModder-FX'
-          tag: v2.2.24
+          repository: 'Spore-Community/SporeModder-FX'
+          latest: true
           fileName: ${{ env.SPORE_MODDER_FX_FILE }}
           tarBall: false
           zipBall: false
@@ -140,7 +140,7 @@ jobs:
       - name: Download ModAPI DLL Library
         uses: robinraju/release-downloader@v1
         with:
-          repository: 'emd4600/Spore-ModAPI'
+          repository: 'Spore-Community/Spore-ModAPI'
           latest: true
           fileName: ${{ env.SPORE_MODAPI_FILE }}
           tarBall: false
@@ -158,7 +158,7 @@ jobs:
       - name: Download ModAPI Source
         uses: actions/checkout@v4
         with:
-          repository: 'emd4600/Spore-ModAPI'
+          repository: 'Spore-Community/Spore-ModAPI'
           path: 'Spore-ModAPI'
           submodules: 'true'
 
@@ -210,7 +210,7 @@ jobs:
         id: find-latest-dlls-build
         uses: oprypin/find-latest-tag@v1
         with:
-          repository: emd4600/Spore-ModAPI
+          repository: Spore-Community/Spore-ModAPI
           releases-only: true
       - name: Save ModAPI DLLs build in environment variable
         run: |
