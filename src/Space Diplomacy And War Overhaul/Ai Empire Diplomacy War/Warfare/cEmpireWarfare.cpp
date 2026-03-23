@@ -201,15 +201,21 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 	float bombersPerCycle = warfareStrengthAnalyzer->GetBombersProducedByEmpire(empire.get());
 	float currentBombers = bombersPerCycle;
 	while (currentBombers > 0 && !attackPriorityMap.empty()) {
-		auto bestIt = attackPriorityMap.end();
-		float maxPriority = -1.0f;
 
+		auto bestIt = attackPriorityMap.begin();
+		float maxPriority = -1.0f;
 		for (auto it = attackPriorityMap.begin(); it != attackPriorityMap.end(); ++it) {
 			if (it->second > maxPriority) {
 				maxPriority = it->second;
 				bestIt = it;
 			}
 		}
+
+		if (!StarUtils::ValidStar(bestIt->first.get(), true, false, false, false, false)) {
+			attackPriorityMap.erase(bestIt);
+			continue;
+		}
+
 		cStarRecordPtr bestTarget = bestIt->first;
 		float bombersToAttackTarget = static_cast<float>(warfareStrengthAnalyzer->GetBomberForceForSystem(empire.get(), bestTarget.get()));
 		attackPriorityMap.erase(bestIt);
