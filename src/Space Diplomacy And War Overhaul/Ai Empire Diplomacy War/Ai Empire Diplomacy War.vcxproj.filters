@@ -79,6 +79,7 @@
     <ClInclude Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.h" />
     <ClInclude Include="Diplomacy\PersistedEvent\cMadePeaceEvent.h" />
     <ClInclude Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.h" />
+    <ClInclude Include="Diplomacy\DiplomacyDetours.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

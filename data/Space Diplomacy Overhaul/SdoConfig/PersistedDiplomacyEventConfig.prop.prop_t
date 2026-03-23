@@ -7,14 +7,14 @@ bools expires
 end
 
 uint32s expireTime
-	0 # NeighborsInPeace
-	0 # FormedAlliance
-	1 # DefeatedEnemyTogether
-	0 # UpliftedByMonolith
-	1 # MadePeace
+	0 	# NeighborsInPeace
+	0 	# FormedAlliance
+	3600000 # DefeatedEnemyTogether, 60 minutes
+	0 	# UpliftedByMonolith
+	3600000 # MadePeace 60 minutes
 end
 
-bools refreshedOnRepeat
+bools replaceOnRepeat
 	false # NeighborsInPeace
 	false # FormedAlliance
 	true # DefeatedEnemyTogether

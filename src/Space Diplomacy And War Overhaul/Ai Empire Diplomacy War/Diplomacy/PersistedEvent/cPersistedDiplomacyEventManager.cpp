@@ -116,27 +116,45 @@ cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::GetPersistedDiplomacy
 void cPersistedDiplomacyEventManager::CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType)
 {
 	cPersistedDiplomacyEvent* existingEvent = GetPersistedDiplomacyEventBetweenEmpires(empire1, empire2, eventType);
-	if (existingEvent != nullptr) {
-		if (persistedDiplomacyEventConfig->DiplomacyEventRefreshedOnRepeat(eventType)){
-			persistedEventSystem->UpdateExpirationTimeOfExpirableEvent(existingEvent, CurrentTime() + persistedDiplomacyEventConfig->GetDiplomacyEventExpireTime(eventType));
+
+	if (existingEvent){
+		if (!persistedDiplomacyEventConfig->DiplomacyEventReplacedOnRepeat(eventType)){
+			return;
 		}
+		DeletePersistedDiplomacyEvent(empire1, empire2, eventType);
+	}
+	uint32_t now = CurrentTime();
+	cPersistedDiplomacyEvent* persistedDiplomacyEvent = CreateEmptyPersistedDiplomacyEventOfType(eventType);
+	persistedDiplomacyEvent->SetCreationTime(now);
+	persistedDiplomacyEvent->SetExpires(persistedDiplomacyEventConfig->DiplomacyEventExpires(eventType));
+	if (persistedDiplomacyEvent->Expires()) {
+		persistedDiplomacyEvent->SetExpirationTime(now + persistedDiplomacyEventConfig->GetDiplomacyEventExpireTime(eventType));
 	}
 	else {
-		uint32_t now = CurrentTime();
-		cPersistedDiplomacyEvent* persistedDiplomacyEvent = CreateEmptyPersistedDiplomacyEventOfType(eventType);
-		persistedDiplomacyEvent->SetCreationTime(now);
-		persistedDiplomacyEvent->SetExpires(persistedDiplomacyEventConfig->DiplomacyEventExpires(eventType));
-		if (persistedDiplomacyEvent->Expires()) {
-			persistedDiplomacyEvent->SetExpirationTime(now + persistedDiplomacyEventConfig->GetDiplomacyEventExpireTime(eventType));
+		persistedDiplomacyEvent->SetExpirationTime(0);
+	}
+	persistedDiplomacyEvent->SetEmpire1(empire1);
+	persistedDiplomacyEvent->SetEmpire2(empire2);
+	diplomacyEventsByEmpire[empire1].push_back(persistedDiplomacyEvent);
+	diplomacyEventsByEmpire[empire2].push_back(persistedDiplomacyEvent);
+	persistedEventSystem->AddPersistedEvent(persistedDiplomacyEvent);
+}
+
+void cPersistedDiplomacyEventManager::DeletePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType){
+	cPersistedDiplomacyEvent* existingEvent = GetPersistedDiplomacyEventBetweenEmpires(empire1, empire2, eventType);
+	if (existingEvent != nullptr) {
+		persistedEventSystem->DeleteEvent(existingEvent);
+	}
+}
+
+void cPersistedDiplomacyEventManager::DeleteAllPersistedDiplomacyEventsOfType(Simulator::cEmpire* empire, PersistedDiplomacyEventType eventType){
+	eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEvents;
+	uint32_t nounIdOfEvent = GetNounIdOfEvent(eventType);
+	GetPersistedDiplomaticEventsOfEmpire(diplomacyEvents, empire);
+	for (cPersistedDiplomacyEventPtr diplomacyEvent : diplomacyEvents) {
+		if (diplomacyEvent->GetNounID() == nounIdOfEvent) {
+			persistedEventSystem->DeleteEvent(diplomacyEvent.get());
 		}
-		else {
-			persistedDiplomacyEvent->SetExpirationTime(0);
-		}
-		persistedDiplomacyEvent->SetEmpire1(empire1);
-		persistedDiplomacyEvent->SetEmpire2(empire2);
-		diplomacyEventsByEmpire[empire1].push_back(persistedDiplomacyEvent);
-		diplomacyEventsByEmpire[empire2].push_back(persistedDiplomacyEvent);
-		persistedEventSystem->AddPersistedEvent(persistedDiplomacyEvent);
 	}
 }
 

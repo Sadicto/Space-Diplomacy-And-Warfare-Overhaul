@@ -49,7 +49,7 @@ bool cLongAllianceAffinityModifier::Upgrading(const AffinityModifierContext& con
 uint32_t cLongAllianceAffinityModifier::GetUpgradeTime(const AffinityModifierContext& context){
 	cPersistedDiplomacyEvent* formedAllianceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, cFormedAllianceEvent::NOUN_ID);
 	if (formedAllianceDiplomacyEvent != nullptr) {
-		return CalculateDecayTime(context, formedAllianceDiplomacyEvent->GetCreationTime());
+		return CalculateUpgradeTime(context, formedAllianceDiplomacyEvent->GetCreationTime());
 	}
 	else {
 		return 0;

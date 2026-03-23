@@ -35,9 +35,9 @@ public:
 	// Gets the base expiration time for a persisted diplomacy event type.
 	uint32_t GetDiplomacyEventExpireTime(PersistedDiplomacyEventType eventType);
 
-	// Gets whether the expiration time is refreshed
+	// Gets whether the expiration time is replaced
 	// when the same event is triggered again.
-	bool DiplomacyEventRefreshedOnRepeat(PersistedDiplomacyEventType eventType);
+	bool DiplomacyEventReplacedOnRepeat(PersistedDiplomacyEventType eventType);
 
 private:
 
@@ -48,5 +48,5 @@ private:
 	eastl::vector<uint32_t> expireTime;
 
 	// Stores whether each diplomacy event type refreshes on repeat.
-	eastl::vector<bool> refreshedOnRepeat;
+	eastl::vector<bool> replacedOnRepeat;
 };

@@ -7,10 +7,11 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
-cDiplomacyEventListener::cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController)
+cDiplomacyEventListener::cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
 {
 	this->diplomacyPopUpManager = diplomacyPopUpManager;
 	this->empireRelationshipController = empireRelationshipController;
+	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
 }
 
 
@@ -119,6 +120,7 @@ void cDiplomacyEventListener::OnConflictBreakAlliance(Simulator::cEmpire* empire
 
 void cDiplomacyEventListener::OnStableAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
 void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
@@ -132,6 +134,7 @@ void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Si
 	else {
 
 	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
 // Unused.
@@ -145,6 +148,7 @@ void cDiplomacyEventListener::OnHostileAlliance(Simulator::cEmpire* empire1, Sim
 			diplomacyPopUpManager->ShowHostileAlliance(empire1);
 		}
 	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
 void cDiplomacyEventListener::OnDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {

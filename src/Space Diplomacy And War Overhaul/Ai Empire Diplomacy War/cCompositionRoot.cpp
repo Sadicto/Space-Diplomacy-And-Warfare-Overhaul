@@ -161,7 +161,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
 
-		diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get());
+		diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get(), persistedDiplomacyEventManager.get());
 
 		MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 

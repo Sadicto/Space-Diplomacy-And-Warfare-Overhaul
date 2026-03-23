@@ -20,6 +20,7 @@
 #include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
 #include "Diplomacy/PersistedEvent/cFormedAllianceEvent.h"
 #include "Diplomacy/PersistedEvent/cDefeatedEnemyTogetherEvent.h"
+#include "Diplomacy/DiplomacyDetours.h"
 
 using namespace SporeModUtils;
 
@@ -54,40 +55,15 @@ void Dispose()
 	// This method is called when the game is closing
 }
 
-// Call the affinityTextProc when starting a commEvent with an empire.
-member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
-	void detoured(cCommEvent * pEvent) {
-		original_function(this, pEvent);
-		if (IsSpaceGame()) {
-			UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
-			UTFWin::IWindow* affinityTooltipMainWindow = mainWindow->FindWindowByID(0x434EB9AD);
-			AffinityTextProc* affinityTextProcAux = nullptr;
-			UTFWin::IWinProc* proc = affinityTooltipMainWindow->GetNextWinProc(affinityTextProcAux);
-			AffinityTextProc* affinityTextProc = object_cast<AffinityTextProc>(proc);
-			affinityTextProc->SetAffinityTooltip(pEvent->mSource);
-		}
-	}
-};
-
-member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uint32_t, uint32_t, uint32_t, float)) {
-	float detoured(uint32_t politicalID, uint32_t causePoliticalID, uint32_t relationshipID, float scale = 1.0f) {
-		if (relationshipID == RelationshipEvents::kRelationshipEventSpaceUpliftedCiv && 
-			IsSpaceGame() &&
-			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(politicalID), true) &&
-			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(causePoliticalID), true)) {
-			cCompositionRoot* compositionRoot = cCompositionRoot::Get();
-			cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager;
-			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), PersistedDiplomacyEventType::UpliftedByMonolith);
-
-		}
-		return original_function(this, politicalID, causePoliticalID, relationshipID, scale);
-	}
-};
 
 void AttachDetours()
 {
 	ShowCommEvent__detour::attach(GetAddress(cCommManager, ShowCommEvent));
 	ApplyRelationshipMonolith__detour::attach(GetAddress(cRelationshipManager, ApplyRelationship));
+	DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
+	DeclarePeace__detour::attach(GetAddress(cRelationshipManager, DeclarePeace));
+	DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
+	BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
 }
 
 // Generally, you don't need to touch any code here

@@ -13,15 +13,15 @@ bools upgrades
 end
 
 uint32s upgradeTime
-	0  # ArchetypeAffinity 
-	0  # CommonEnemy
-	0  # CommonAlly
-	0  # WarWithAlly
-	0  # DefeatedCommonEnemy
-	0  # UpliftedByMonolith
-	0  # MadePeace
-	1  # LongPeace
-	1  # LongAlliance	
+	1  	 # ArchetypeAffinity 
+	1 	 # CommonEnemy
+	1  	 # CommonAlly
+	1  	 # WarWithAlly
+	1  	 # DefeatedCommonEnemy
+	1  	 # UpliftedByMonolith
+	1  	 # MadePeace
+	7200000  # LongPeace, 120 minutes
+	6000000  # LongAlliance, 100 minutes
 end
 
 bools decays
@@ -32,20 +32,20 @@ bools decays
 	true  # DefeatedCommonEnemy
 	false # UpliftedByMonolith
 	true  # MadePeace
-	true  # LongPeace
-	true  # LongAlliance
+	false  # LongPeace
+	false  # LongAlliance
 end
 
 uint32s decayTime
-	0  # ArchetypeAffinity 
-	0  # CommonEnemy
-	0  # CommonAlly
-	0  # WarWithAlly
-	1  # DefeatedCommonEnemy
-	0  # UpliftedByMonolith
-	1  # MadePeace
-	1  # LongPeace
-	1  # LongAlliance
+	1  	 # ArchetypeAffinity 
+	1  	 # CommonEnemy
+	1  	 # CommonAlly
+	1  	 # WarWithAlly
+	1800000  # DefeatedCommonEnemy, 30 minutes
+	1  	 # UpliftedByMonolith
+	3600000  # MadePeace, 60 minutes
+	1  	 # LongPeace
+	1  	 # LongAlliance
 end
 
 bools preventWars
@@ -66,7 +66,7 @@ int32s affinityGain
 	1  # CommonAlly
 	-1 # WarWithAlly
 	2  # DefeatedCommonEnemy
-	1  # UpliftedByMonolith
+	2  # UpliftedByMonolith
 	0  # MadePeace
 	1  # LongPeace
 	2  # LongAlliance

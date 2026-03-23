@@ -47,12 +47,12 @@ cPersistedDiplomacyEvent* cAffinityModifier::GetPersistedDiplomacyEventByType(co
 }
 
 int cAffinityModifier::CalculateAffinityGain(const AffinityModifierContext& context, uint32_t eventCreationTime){
-	uint32_t elapsedTime = context.currentTime - eventCreationTime;
+	uint32_t elapsedTime = max(context.currentTime - eventCreationTime, uint32_t(1));
 	if (context.affinityConfig->AffinityUpgrades(GetAffinityModifier())) {
-		return min(context.affinityConfig->GetAffinityGain(GetAffinityModifier()), int(context.affinityConfig->GetUpgradeTime(GetAffinityModifier()) / elapsedTime));
+		return min(context.affinityConfig->GetAffinityGain(GetAffinityModifier()), int(elapsedTime / context.affinityConfig->GetUpgradeTime(GetAffinityModifier())));
 	}
 	else if (context.affinityConfig->AffinityDecays(GetAffinityModifier())) {
-		return max(0, context.affinityConfig->GetAffinityGain(GetAffinityModifier()) - int(context.affinityConfig->GetDecayTime(GetAffinityModifier()) / elapsedTime));
+		return max(0, context.affinityConfig->GetAffinityGain(GetAffinityModifier()) - int(elapsedTime / context.affinityConfig->GetDecayTime(GetAffinityModifier())));
 	}
 	return 0;
 }
@@ -66,9 +66,9 @@ bool cAffinityModifier::Upgrading(const AffinityModifierContext& context) {
 }
 
 uint32_t cAffinityModifier::CalculateUpgradeTime(const AffinityModifierContext& context, uint32_t eventCreationTime){
-	uint32_t elapsedTime = context.currentTime - eventCreationTime;
+	uint32_t elapsedTime = max(context.currentTime - eventCreationTime, uint32_t(1));
 	uint32_t baseUpgradeTime = context.affinityConfig->GetUpgradeTime(GetAffinityModifier());
-	return  elapsedTime % baseUpgradeTime;
+	return  baseUpgradeTime - (elapsedTime % baseUpgradeTime);
 }
 
 uint32_t cAffinityModifier::GetUpgradeTime(const AffinityModifierContext& context) {
@@ -80,9 +80,9 @@ bool cAffinityModifier::Decaying(const AffinityModifierContext& context) {
 }
 
 uint32_t cAffinityModifier::CalculateDecayTime(const AffinityModifierContext& context, uint32_t eventCreationTime){
-	uint32_t elapsedTime = context.currentTime - eventCreationTime;
+	uint32_t elapsedTime = max(context.currentTime - eventCreationTime, uint32_t(1));
 	uint32_t baseDecayTime = context.affinityConfig->GetDecayTime(GetAffinityModifier());
-	return elapsedTime % baseDecayTime;
+	return baseDecayTime - (elapsedTime % baseDecayTime);
 }
 
 uint32_t cAffinityModifier::GetDecayTime(const AffinityModifierContext& context){

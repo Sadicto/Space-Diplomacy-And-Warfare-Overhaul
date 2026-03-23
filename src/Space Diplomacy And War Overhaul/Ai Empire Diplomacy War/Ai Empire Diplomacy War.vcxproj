@@ -203,6 +203,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Diplomacy\DiplomacyDetours.h" />
     <ClInclude Include="Diplomacy\IAffinityModifier.h">
       <SubType>
       </SubType>

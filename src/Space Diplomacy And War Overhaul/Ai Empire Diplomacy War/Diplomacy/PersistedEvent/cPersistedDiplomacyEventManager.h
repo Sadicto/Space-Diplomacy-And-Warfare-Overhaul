@@ -51,6 +51,17 @@ public:
 	/// @param eventType.
 	void CreatePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
 
+	/// @brief Deletes a persisted diplomacy event between two empires, if it exists.
+	/// @param empire1.
+	/// @param empire2.
+	/// @param eventType.
+	void DeletePersistedDiplomacyEvent(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
+
+	/// @brief Deletes all persisted diplomacy events of a specific type involving the given empire.
+	/// @param empire.
+	/// @param eventType.
+	void DeleteAllPersistedDiplomacyEventsOfType(Simulator::cEmpire* empire, PersistedDiplomacyEventType eventType);
+
 private:
 
 	/// @brief Returns the noun ID corresponding to a persisted diplomacy event type.
