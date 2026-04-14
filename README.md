@@ -99,7 +99,7 @@ The player will get a permanent negative effect, *“your presence disturbs us,�
 - Starting a new game is recommended to correctly apply affinity bonuses and penalties. No galaxy reset required.
 
 ## Known Issues
-- Knights and Wanderers are not fully integrated into the affinity system, they treated as Warriors or Diplomats respectively.
+- Knights and Wanderers are not fully integrated into the affinity system, they get treated as Warriors or Diplomats respectively.
 - The affinity tooltip interface may overlap with other elements of the comm UI. 
 - AI attack strength against the player is the same as against other empires, which can be harder than intended if you don’t have *Defensive Ships in Player Colonies* installed.
 - Not balanced for Uber Turret yet.

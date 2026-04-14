@@ -61,6 +61,9 @@ int cWarfareStrengthAnalyzer::GetBomberForceForPlanet(Simulator::cEmpire* empire
 }
 
 int cWarfareStrengthAnalyzer::GetBomberForceForSystem(Simulator::cEmpire* empire, Simulator::cStarRecord* star){
+    if (!StarUtils::ValidStar(star, true, false, false, false, false)) {
+        return 0;
+    }
     int requiredBombers = 0;
     for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
         if (planet->GetTechLevel() == TechLevel::Empire) {
