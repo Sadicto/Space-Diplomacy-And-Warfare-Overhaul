@@ -40,16 +40,25 @@ member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uin
 
 member_detour(DeclareWar__detour, cRelationshipManager, void(cEmpire*, cEmpire*)) {
 	void detoured(Simulator::cEmpire * empire1, Simulator::cEmpire * empire2) {
-		original_function(this, empire1, empire2);
 		if (IsSpaceGame() && EmpireUtils::ValidNpcEmpire(empire1, true) && EmpireUtils::ValidNpcEmpire(empire2, true)) {
 			cCompositionRoot* compositionRoot = cCompositionRoot::Get();
 			cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 			persistedDiplomacyEventManager->DeletePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::NeighborsInPeace);
-			if (empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire()) {
+			if (empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire() && 
+				persistedDiplomacyEventManager->GetPersistedDiplomacyEventBetweenEmpires(empire1, empire2, PersistedDiplomacyEventType::MadePeace) != nullptr) {
+				cEmpire* otherEmpire;
+				if (empire1 == GetPlayerEmpire()) {
+					otherEmpire = empire2;
+				}
+				else {
+					otherEmpire = empire1;
+				}
 				persistedDiplomacyEventManager->DeleteAllPersistedDiplomacyEventsOfType(GetPlayerEmpire(), PersistedDiplomacyEventType::MadePeace);
-				// TODO: Notify the player that all of their truces are broken.
+				cDiplomacyPopupManager* diplomacyPopUpManager = compositionRoot->diplomacyPopUpManager.get();
+				diplomacyPopUpManager->ShowTruceBrokenPlayer(otherEmpire);
 			}
 		}
+		original_function(this, empire1, empire2);
 	}
 };
 

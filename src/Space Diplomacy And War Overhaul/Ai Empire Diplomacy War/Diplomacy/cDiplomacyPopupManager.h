@@ -70,6 +70,10 @@ public:
 	/// @param empire
 	void ShowConflictBreakAlliancePlayer(Simulator::cEmpire* empire);
 
+	/// @brief Shows a notification when the player breaks a truce with an AI empire, voiding all truces.
+	/// @param empire The AI empire whose truce was broken.
+	void ShowTruceBrokenPlayer(Simulator::cEmpire* empire);
+
 	/// @brief Shows a notification when two AI empires declare war on each other.
 	/// @param empire1
 	/// @param empire2
@@ -125,6 +129,9 @@ public:
 	// Popup text: AI improved relations with the player.
 	eastl::string16 RelationImprovedAiPlayer;
 
+	// Popup text: Player broke truce with AI by initiating a war, voiding all truces..
+	eastl::string16 TruceBrokenPlayerAiText;
+
 	// Popup text: AI declared war on another AI.
 	eastl::string16 WarDeclaredAiAiText;
 
@@ -133,6 +140,7 @@ public:
 
 	// Popup text: AI weakened alliance with the player due to low affinity.
 	eastl::string16 WeakAllianceAiPlayerText;
+
 
 	// Stores the notification filter for alliance creation events between AI empires.
 	PopupFilter popupFilterCreateAlliance;

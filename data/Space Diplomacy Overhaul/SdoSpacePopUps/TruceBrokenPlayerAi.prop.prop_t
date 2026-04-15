@@ -1,0 +1,9 @@
+key parent civpopupbase~!EventTemplate.prop
+string16 description "Truce broken by the Player"
+bool eventAllowDuplicates false
+key eventCategory Warning
+texts eventDescription
+	"Truce broken"
+end
+float eventRemoveTime 100
+float eventStartFadeTime 60
