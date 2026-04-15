@@ -8,3 +8,4 @@ string16 TruceBrokenPlayerAiText        "You have broken your truce with the [em
 string16 WarDeclaredAiAiText            "[relation1] the [empire1] ([archetype1]) have declared war on [relation2] the [empire2] ([archetype2])."
 string16 WarDeclaredAiPlayerText        "[relation1] the [empire1] ([archetype1]) have declared war on you!"
 string16 WeakAllianceAiPlayerText       "[relation1] the [empire1] ([archetype1]) have weakened their alliance with you due to low affinity."
+string16 MadePeaceAiAiText    "[relation1] the [empire1] ([archetype1]) have made peace with [relation2] the [empire2] ([archetype2])."

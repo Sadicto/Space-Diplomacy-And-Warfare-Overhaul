@@ -16,6 +16,7 @@ cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey,
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x3AEEDDBA, WarDeclaredAiAiText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x671BF14B, WarDeclaredAiPlayerText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x1AAB0A46, WeakAllianceAiPlayerText);
+	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x6D0816F5, MadePeaceAiAiText);
 
 	PropertyListPtr popupsFilterConfigProp;
 	PropManager.GetPropertyList(popupsFilterConfigKey.instanceID, popupsFilterConfigKey.groupID, popupsFilterConfigProp);
@@ -270,6 +271,15 @@ bool cDiplomacyPopupManager::ShowToPlayerDeclareWar(Simulator::cEmpire* empire1,
 	}
 	else {
 		return false;
+	}
+}
+
+void cDiplomacyPopupManager::ShowMadePeaceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2){
+	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+		eastl::string16 popupText = MadePeaceAiAiText;
+		FormatDiplomaticActionMessage(empire1, empire2, popupText);
+		ResourceKey eventKey = ResourceKey(id("MadePeaceAiAi"), 0, id("SdoSpacePopUps"));
+		ShowPopup(eventKey, popupText);
 	}
 }
 

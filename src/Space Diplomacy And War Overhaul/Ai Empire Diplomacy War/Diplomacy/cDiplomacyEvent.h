@@ -11,7 +11,8 @@ enum class DiplomacyEventType {
 	UnstableAlliance,
 	HostileAlliance,
 	DeclareWar,
-	ContinueWar
+	ContinueWar,
+	MadePeace
 };
 
 /// Represents a diplomacy event exchanged between empires.

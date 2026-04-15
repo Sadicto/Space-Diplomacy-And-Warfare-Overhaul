@@ -109,6 +109,11 @@ public:
 	/// @return True if the notification should be shown, false otherwise.
 	bool ShowToPlayerDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
+	/// @brief Shows a notification when two AI empires make peace with each other.
+	/// @param empire1
+	/// @param empire2
+	void ShowMadePeaceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
 
 
 	// Popup text: AI vs AI alliance ended due to conflict.
@@ -140,6 +145,9 @@ public:
 
 	// Popup text: AI weakened alliance with the player due to low affinity.
 	eastl::string16 WeakAllianceAiPlayerText;
+
+	// Popup text: AI made peace with another AI.
+	eastl::string16 MadePeaceAiAiText;
 
 
 	// Stores the notification filter for alliance creation events between AI empires.

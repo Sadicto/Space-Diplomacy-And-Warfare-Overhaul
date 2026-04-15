@@ -72,22 +72,38 @@ member_detour(DeclarePeace__detour, cRelationshipManager, void(cEmpire*, cEmpire
 			if (empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire()) {
 				cEmpire* otherEmpire =
 					(empire1 == GetPlayerEmpire()) ? empire2 : empire1;
+				for (cEmpirePtr otherEmpireAlly : otherEmpire->mAllies) {
+					if (!EmpireUtils::ValidNpcEmpire(otherEmpireAlly.get())) {
+						continue;
+					}
+					// This is extremely sus.
+					original_function(this, GetPlayerEmpire(), otherEmpireAlly.get());
+				}
+
+				cDiplomacyEventDispatcher* diplomacyEventDispatcher = compositionRoot->diplomacyEventDispatcher.get();
 				for (cEmpirePtr playerAlly : GetPlayerEmpire()->mAllies) {
 					if (!EmpireUtils::ValidNpcEmpire(playerAlly.get())) {
 						continue;
 					}
 					if (DiplomacyUtils::War(playerAlly.get(), otherEmpire)) {
-						// TODO: Make Peace.
+						diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::MadePeace, playerAlly.get(), otherEmpire);
 					}
-					persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(playerAlly.get(), otherEmpire, PersistedDiplomacyEventType::MadePeace);
+					// No active war, but creates a truce regardless.
+					else {
+						persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(playerAlly.get(), otherEmpire, PersistedDiplomacyEventType::MadePeace);
+					}
+
 					for (cEmpirePtr otherEmpireAlly : otherEmpire->mAllies) {
 						if (!EmpireUtils::ValidNpcEmpire(otherEmpireAlly.get())) {
 							continue;
 						}
-						if (DiplomacyUtils::War(playerAlly.get(), otherEmpire)) {
-							// TODO: Make Peace.
+						if (DiplomacyUtils::War(playerAlly.get(), otherEmpireAlly.get())) {
+							diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::MadePeace, playerAlly.get(), otherEmpireAlly.get());
 						}
-						persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(playerAlly.get(), otherEmpireAlly.get(), PersistedDiplomacyEventType::MadePeace);
+						// No active war, but creates a truce regardless.
+						else {
+							persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(playerAlly.get(), otherEmpireAlly.get(), PersistedDiplomacyEventType::MadePeace);
+						}
 					}
 				}
 			}

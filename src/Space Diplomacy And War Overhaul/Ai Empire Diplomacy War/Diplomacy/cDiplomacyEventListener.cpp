@@ -73,6 +73,10 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 				OnContinueWar(empire1, empire2);
 				break;
 			}
+			case(DiplomacyEventType::MadePeace): {
+				OnMadePeace(empire1, empire2);
+				break;
+			}
 			default: {
 				return true;
 			}
@@ -172,5 +176,16 @@ void cDiplomacyEventListener::OnDeclareWar(Simulator::cEmpire* empire1, Simulato
 
 void cDiplomacyEventListener::OnContinueWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
+}
+
+void cDiplomacyEventListener::OnMadePeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2){
+	if (empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire()) {
+
+	}
+	else {
+		RelationshipManager.DeclarePeace(empire1, empire2);
+		diplomacyPopUpManager->ShowMadePeaceAI(empire1, empire2);
+	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::MadePeace);
 }
 
