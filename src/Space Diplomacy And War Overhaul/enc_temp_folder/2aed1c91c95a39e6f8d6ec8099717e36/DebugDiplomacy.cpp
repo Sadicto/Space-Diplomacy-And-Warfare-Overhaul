@@ -90,7 +90,6 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     }
     case 10:{
         UTFWin::IWindow* window = WindowManager.GetMainWindow()->FindWindowByID(0x03FFB28C);
-        uint32_t lAddress = baseAddress;
         int hola = 1;
         break;
      }

@@ -183,8 +183,22 @@ void cDiplomacyEventListener::OnMadePeace(Simulator::cEmpire* empire1, Simulator
 
 	}
 	else {
+		RelationshipManager.ResetRelationship(empire1->GetEmpireID(), empire2->GetEmpireID());
 		RelationshipManager.DeclarePeace(empire1, empire2);
 		diplomacyPopUpManager->ShowMadePeaceAI(empire1, empire2);
+		// Remove empire2 from empire1's mEnemies.
+		empire1->mEnemies.erase(
+			eastl::remove_if(empire1->mEnemies.begin(), empire1->mEnemies.end(),
+				[empire2](const cEmpirePtr& e) { return e.get() == empire2; }),
+			empire1->mEnemies.end()
+		);
+
+		// Remove empire1 from empire2's mEnemies.
+		empire2->mEnemies.erase(
+			eastl::remove_if(empire2->mEnemies.begin(), empire2->mEnemies.end(),
+				[empire1](const cEmpirePtr& e) { return e.get() == empire1; }),
+			empire2->mEnemies.end()
+		);
 	}
 	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::MadePeace);
 }
