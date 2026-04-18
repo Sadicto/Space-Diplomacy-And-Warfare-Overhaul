@@ -1,12 +1,12 @@
 key parent spacetools~!ToolTemplate.prop
-string16 description "Planet Invasion"
+string16 description "Invasion Call"
 int32 spaceToolBuyCost 30
-key spaceToolContext planet
+key spaceToolContext always
 texts spaceToolDescription
-	"Planet Invasion"
+	"Invasion Call"
 end
 texts spaceToolDetailDescription
-	"Use on a planet to summon an invasion force from your empire."
+	"Use on a planet or system to summon an invasion force from your empire."
 end
 bool spaceToolDisableOn201Ruins true
 bool spaceToolDisableOnHomeworld true

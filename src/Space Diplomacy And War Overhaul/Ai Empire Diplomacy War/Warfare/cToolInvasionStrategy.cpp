@@ -44,7 +44,9 @@ bool cToolInvasionStrategy::OnSelect(Simulator::cSpaceToolData* pTool) {
 	if (!Update(pTool, true)) return false;
 
 	cEmpire* playerEmpire = GetPlayerEmpire();
-	cPlanetRecord* activePlanet = GetActivePlanetRecord();
+	SpaceContext context = GetCurrentContext();
+	bool inGalaxy = context == SpaceContext::Galaxy;
+	bool inPlanetOrSystem = context == SpaceContext::Planet || context == SpaceContext::SolarSystem;
 	int beforeUsingToolMoney = playerEmpire->mEmpireMoney;
 
 	// OnSelect tries to charge the player for the tool.
@@ -52,43 +54,80 @@ bool cToolInvasionStrategy::OnSelect(Simulator::cSpaceToolData* pTool) {
 	// so we exit early without summoning the fleet.
 	if (!cToolStrategy::OnSelect(pTool) || beforeUsingToolMoney == playerEmpire->mEmpireMoney  ) return false;
 
-	warfareEventDispatcher->DispatchPlanetAttackedEvent(
-		playerEmpire,
-		activePlanet,
-		warfareStrengthAnalyzer->GetBomberForceForPlanet(playerEmpire, activePlanet)
-	);
+	if (inGalaxy && StarUtils::ValidStar(GetActiveStarRecord(), true, false, false, true, false)) {
+		for (cPlanetRecordPtr planet : GetActiveStarRecord()->GetPlanetRecords()) {
+			if (PlanetUtils::InteractablePlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire) {
+				warfareEventDispatcher->DispatchPlanetAttackedEvent(
+					playerEmpire,
+					planet.get(),
+					warfareStrengthAnalyzer->GetBomberForceForPlanet(playerEmpire, planet.get())
+				);
+			}
+		}
+	}
+
+	else if (inPlanetOrSystem && PlanetUtils::InteractablePlanet(GetActivePlanetRecord())) {
+		warfareEventDispatcher->DispatchPlanetAttackedEvent(
+			playerEmpire,
+			GetActivePlanetRecord(),
+			warfareStrengthAnalyzer->GetBomberForceForPlanet(playerEmpire, GetActivePlanetRecord())
+		);
+	}
+
 
 	return true;
 
 }
 
 bool cToolInvasionStrategy::Update(Simulator::cSpaceToolData* pTool, bool showErrors, const char16_t** ppFailText) {
-	if (warfareEventDispatcher == nullptr ||
-		warfareStrengthAnalyzer == nullptr) {
+	if (!warfareEventDispatcher || !warfareStrengthAnalyzer || !cToolStrategy::Update(pTool, true, ppFailText))
 		return false;
-	}
 
-	if (!cToolStrategy::Update(pTool, true, ppFailText)  ||
-		GetCurrentContext() != SpaceContext::Planet) {
+	SpaceContext context = GetCurrentContext();
+	bool inGalaxy = context == SpaceContext::Galaxy;
+	bool inPlanetOrSystem = context == SpaceContext::Planet || context == SpaceContext::SolarSystem;
+
+	if (inGalaxy && !StarUtils::ValidStar(GetActiveStarRecord(), true, false, false, true, false))
 		return false;
-	}
+
+	if (inPlanetOrSystem && !PlanetUtils::InteractablePlanet(GetActivePlanetRecord()))
+		return false;
 
 	cEmpire* playerEmpire = GetPlayerEmpire();
 	cEmpire* targetEmpire = StarManager.GetEmpire(GetActiveStarRecord()->mEmpireID);
-	cPlanetRecord* activePlanet = GetActivePlanetRecord();
 
 	if (!EmpireUtils::ValidNpcEmpire(targetEmpire, false, true, true)) return false;
 	if (!DiplomacyUtils::War(playerEmpire, targetEmpire)) return false;
-	if (!PlanetUtils::InteractablePlanet(activePlanet)) return false;
-	if (MissionManager.ThereIsEventInPlanet(activePlanet)) return false;
+
+	if (inGalaxy) {
+		for (cPlanetRecordPtr planet : GetActiveStarRecord()->GetPlanetRecords()) {
+			if (MissionManager.ThereIsEventInPlanet(planet.get()))
+				return false;
+		}
+	}
+	else if (inPlanetOrSystem && MissionManager.ThereIsEventInPlanet(GetActivePlanetRecord())) {
+		return false;
+	}
 
 	return true;
 }
 
 int cToolInvasionStrategy::ProcessCost(int useCost) {
-	if ((warfareStrengthAnalyzer != nullptr && GetCurrentContext() == SpaceContext::Planet)) {
-		int bombersNeeded = warfareStrengthAnalyzer->GetBomberForceForPlanet(GetPlayerEmpire(), GetActivePlanetRecord());
-		return useCost * bombersNeeded;
+	if (warfareStrengthAnalyzer == nullptr) {
+		return 0;
 	}
-	return 0;
+
+	int bombersNeeded = 0;
+	SpaceContext context = GetCurrentContext();
+	bool inGalaxy = context == SpaceContext::Galaxy;
+	bool inPlanetOrSystem = context == SpaceContext::Planet || context == SpaceContext::SolarSystem;
+
+	if (inGalaxy && StarUtils::ValidStar(GetActiveStarRecord(), true, false, false, true, false)) {
+		bombersNeeded = warfareStrengthAnalyzer->GetBomberForceForSystem(GetPlayerEmpire(), GetActiveStarRecord());
+	}
+	else if (inPlanetOrSystem && PlanetUtils::InteractablePlanet(GetActivePlanetRecord())) {
+		bombersNeeded = warfareStrengthAnalyzer->GetBomberForceForPlanet(GetPlayerEmpire(), GetActivePlanetRecord());
+	}
+
+	return useCost * bombersNeeded;
 }
