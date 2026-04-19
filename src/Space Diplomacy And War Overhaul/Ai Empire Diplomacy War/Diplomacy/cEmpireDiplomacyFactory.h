@@ -18,7 +18,8 @@ public:
 	
 	cEmpireDiplomacyFactory(cDiplomacyConfig* diplomacyConfig,
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer,
-		cDiplomacyEventDispatcher* diplomacyEventDispatcher);
+		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
 	~cEmpireDiplomacyFactory();
 
 	int AddRef() override;
@@ -32,12 +33,11 @@ public:
 	 */
 	cEmpireDiplomacy* CreateEmpireDiplomacy(Simulator::cEmpire* empire);
 
-	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;
 
-	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
 
-	// Pointer to the loaded diplomacy event dispatcher.
 	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
+
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
 };

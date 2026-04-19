@@ -143,11 +143,18 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		affinityModifiers.push_back(longPeaceAffinityModifier);
 		affinityModifiers.push_back(longAllianceAffinityModifier);
 
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get(), persistedDiplomacyEventManager.get(), affinityModifiers);
+		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), 
+			archetypesConfig.get(), 
+			affinityConfig.get(), 
+			persistedDiplomacyEventManager.get(), 
+			affinityModifiers);
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
-		empireDiplomacyFactory = new cEmpireDiplomacyFactory(diplomacyConfig.get(), empireRelationsAnalyzer.get(), diplomacyEventDispatcher.get());
+		empireDiplomacyFactory = new cEmpireDiplomacyFactory(diplomacyConfig.get(), 
+			empireRelationsAnalyzer.get(), 
+			diplomacyEventDispatcher.get(), 
+			persistedDiplomacyEventManager.get());
 
 		diplomacySystem = cDiplomacySystem::Get();
 

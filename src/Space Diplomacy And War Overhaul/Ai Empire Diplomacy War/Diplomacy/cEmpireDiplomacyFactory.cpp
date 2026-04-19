@@ -3,11 +3,13 @@
 
 cEmpireDiplomacyFactory::cEmpireDiplomacyFactory(cDiplomacyConfig* diplomacyConfig,
 	cEmpireRelationsAnalyzer* empireRelationsAnalyzer,
-	cDiplomacyEventDispatcher* diplomacyEventDispatcher)
+	cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
 {
 	this->diplomacyConfig = diplomacyConfig;
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	this->diplomacyEventDispatcher = diplomacyEventDispatcher;
+	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
 }
 
 
@@ -37,7 +39,7 @@ void* cEmpireDiplomacyFactory::Cast(uint32_t type) const
 
 cEmpireDiplomacy* cEmpireDiplomacyFactory::CreateEmpireDiplomacy(Simulator::cEmpire* empire)
 {
-	return new cEmpireDiplomacy(empire, diplomacyConfig.get(), empireRelationsAnalyzer.get(), diplomacyEventDispatcher.get());
+	return new cEmpireDiplomacy(empire, diplomacyConfig.get(), empireRelationsAnalyzer.get(), diplomacyEventDispatcher.get(), persistedDiplomacyEventManager.get());
 }
 
 

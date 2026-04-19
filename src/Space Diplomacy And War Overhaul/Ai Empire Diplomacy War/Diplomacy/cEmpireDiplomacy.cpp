@@ -9,12 +9,14 @@ using namespace SporeModUtils;
 cEmpireDiplomacy::cEmpireDiplomacy(Simulator::cEmpire* empire, 
 	cDiplomacyConfig* diplomacyConfig, 
 	cEmpireRelationsAnalyzer* empireRelationsAnalyzer, 
-	cDiplomacyEventDispatcher* diplomacyEventDispatcher)
+	cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
 {
 	this->empire = empire;
 	this->diplomacyConfig = diplomacyConfig;
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	this->diplomacyEventDispatcher = diplomacyEventDispatcher;
+	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
 }
 
 
@@ -156,7 +158,8 @@ cEmpire* cEmpireDiplomacy::GetBreakAllianceTarget() {
 cEmpire* cEmpireDiplomacy::GetWarTarget() {
 	eastl::map<cEmpirePtr, float> probabilitiesOfWar;
 	for (cEmpirePtr neutral : neutrals) {
-		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true)) {
+		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true) && 
+			persistedDiplomacyEventManager->GetPersistedDiplomacyEventBetweenEmpires(empire.get(), neutral.get(), PersistedDiplomacyEventType::MadePeace) == nullptr) {
 			probabilitiesOfWar[neutral] = DeclareWarProbability(neutral.get());
 		}
 	}

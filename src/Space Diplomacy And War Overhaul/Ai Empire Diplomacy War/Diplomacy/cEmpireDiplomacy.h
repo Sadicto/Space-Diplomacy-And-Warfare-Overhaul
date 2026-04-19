@@ -21,7 +21,8 @@ public:
 	cEmpireDiplomacy(Simulator::cEmpire* empire, 
 		cDiplomacyConfig* diplomacyConfig, 
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer, 
-		cDiplomacyEventDispatcher* diplomacyEventDispatcher);
+		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
 	~cEmpireDiplomacy();
 
 	int AddRef() override;
@@ -85,16 +86,18 @@ public:
 	// Pointer to the empire this object is managing.
 	cEmpirePtr empire;
 
-	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;
 
-	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
 
 	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
 
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
 	eastl::vector<cEmpirePtr> neutrals;
 
+	/*
 	int strenght;
 	int srenghtOfAlliance;
+	*/
 };
