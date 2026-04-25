@@ -69,6 +69,11 @@ public:
 	/// @param empire2
 	void OnMadePeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
+	/// @brief Called when two empires are neighbors in peace.
+	/// @param empire1
+	/// @param empire2
+	void OnNeighborsInPeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 

@@ -56,9 +56,11 @@ void cEmpireDiplomacy::ResolveAlliesWar() {
 				// affinityWIthAlly1 == affinityWIthAlly2 it's just random.
 				if (affinityWIthAlly1 > affinityWIthAlly2) {
 					diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::ConflictBreakAlliance, empire.get(), ally2.get());
+					neutrals.push_back(ally2);
 				}
 				else {
 					diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::ConflictBreakAlliance, empire.get(), ally1.get());
+					neutrals.push_back(ally1);
 				}
 			}
 		}
@@ -222,10 +224,20 @@ void cEmpireDiplomacy::ManageNeutrals() {
 	}
 	if (wartarget != nullptr) {
 		diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::DeclareWar, empire.get(), wartarget);
+		auto it = eastl::find(neutrals.begin(), neutrals.end(), wartarget);
+		if (it != neutrals.end()) {
+			neutrals.erase(it);
+		}
 	}
 	cEmpire* targetAlliance = GetAllianceTarget();
 	if (targetAlliance != nullptr) {
 		diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::FormAlliance, empire.get(), targetAlliance);
+		if (targetAlliance != GetPlayerEmpire()){
+			auto it = eastl::find(neutrals.begin(), neutrals.end(), targetAlliance);
+			if (it != neutrals.end()) {
+				neutrals.erase(it);
+			}
+		}
 	}
 }
 
@@ -244,5 +256,17 @@ void cEmpireDiplomacy::ManageDiplomacy() {
 	ManageEnemies();
 	ManageNeutrals();
 	ManageAllies();
+
+	for (cEmpirePtr neutral : neutrals) {
+		if (EmpireUtils::ValidNpcEmpire(neutral.get(), true)){
+			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::NeighborsInPeace, empire.get(), neutral.get());
+		}
+	}
+
+	for (cEmpirePtr ally : empire->mAllies) {
+		if (EmpireUtils::ValidNpcEmpire(ally.get(), true)) {
+			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::NeighborsInPeace, empire.get(), ally.get());
+		}
+	}
 }
 

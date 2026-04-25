@@ -49,7 +49,7 @@ bool cLongPeaceAffinityModifier::Upgrading(const AffinityModifierContext& contex
 uint32_t cLongPeaceAffinityModifier::GetUpgradeTime(const AffinityModifierContext& context) {
 	cPersistedDiplomacyEvent* NeighborsInPeaceDiplomacyEvent = GetPersistedDiplomacyEventByType(context, cNeighborsInPeaceEvent::NOUN_ID);
 	if (NeighborsInPeaceDiplomacyEvent != nullptr) {
-		return CalculateDecayTime(context, NeighborsInPeaceDiplomacyEvent->GetCreationTime());
+		return CalculateUpgradeTime(context, NeighborsInPeaceDiplomacyEvent->GetCreationTime());
 	}
 	else {
 		return 0;

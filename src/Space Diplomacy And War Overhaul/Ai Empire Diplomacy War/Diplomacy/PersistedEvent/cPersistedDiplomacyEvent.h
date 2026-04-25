@@ -44,6 +44,10 @@ public:
 
 protected:
 
+	uint32_t empire1ID;
+
+	uint32_t empire2ID;
+
 	// First empire involved in the diplomacy event.
 	cEmpirePtr empire1;
 

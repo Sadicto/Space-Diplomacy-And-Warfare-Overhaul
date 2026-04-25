@@ -77,6 +77,9 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 				OnMadePeace(empire1, empire2);
 				break;
 			}
+			case(DiplomacyEventType::NeighborsInPeace): {
+				OnNeighborsInPeace(empire1, empire2);
+			}
 			default: {
 				return true;
 			}
@@ -201,5 +204,9 @@ void cDiplomacyEventListener::OnMadePeace(Simulator::cEmpire* empire1, Simulator
 		);
 	}
 	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::MadePeace);
+}
+
+void cDiplomacyEventListener::OnNeighborsInPeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2){
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::NeighborsInPeace);
 }
 

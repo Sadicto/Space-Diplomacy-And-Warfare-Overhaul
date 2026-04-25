@@ -50,6 +50,8 @@ public:
 
 private:
 
+	uint32_t expiresSerialization;
+
 	// Whether the event expires after a given time.
 	bool expires;
 

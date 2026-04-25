@@ -8,6 +8,7 @@
 #include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
 #include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
 #include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
+#include "../cCompositionRoot.h"
 
 using namespace Simulator;
 using namespace SporeModUtils;
@@ -27,6 +28,7 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     cDiplomacySystem* EmpireDiplomacyManager = cDiplomacySystem::Get();
     SpacePlayerData* playerData = SpacePlayerData::Get();
     cEmpire* empire = StarManager.GetEmpire(playerData->mpActiveStar->mpStarRecord->mEmpireID);
+    cCompositionRoot* compositionRoot = cCompositionRoot::Get();
 
     switch (val) {
     case 0: { // Set the star
@@ -83,15 +85,15 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
     case 9: {
         auto persistedDiplomacyEvents = GetDataByCast<cPersistedDiplomacyEvent>();
         for (cPersistedDiplomacyEventPtr persistedDiplomacyEvent : persistedDiplomacyEvents) {
-            bool b = persistedDiplomacyEvent->Valid();
+            if (persistedDiplomacyEvent->GetEmpire1() == GetPlayerEmpire() || persistedDiplomacyEvent->GetEmpire2() == GetPlayerEmpire()) {
+                int b = 1;
+            }
         }
         break;
 
     }
     case 10:{
-        UTFWin::IWindow* window = WindowManager.GetMainWindow()->FindWindowByID(0x03FFB28C);
-        uint32_t lAddress = baseAddress;
-        int hola = 1;
+        auto gameDatas = GetDataByCast<cGameData>();
         break;
      }
     case 11: {
@@ -102,7 +104,8 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 12: {
-        cCommonEnemyAffinityModifierPtr  commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
+        bool ret = EmpireUtils::ValidNpcEmpire(GetPlayerEmpire(), true);
+        int b = 1;
         
         break;
     }
@@ -124,27 +127,9 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 16: {
-        Simulator::StarRequestFilter filter;
-        filter.RemoveStarType(Simulator::StarType::None);
-        filter.RemoveStarType(Simulator::StarType::GalacticCore);
-        filter.RemoveStarType(Simulator::StarType::ProtoPlanetary);
-        filter.RemoveStarType(Simulator::StarType::BlackHole);
-        filter.techLevels = 0;
-
-        //even stars with all planet in T0 have this techLevel
-        filter.AddTechLevel(Simulator::TechLevel::Empire);
-        filter.minDistance = 0;
-        filter.maxDistance = 100;
-        eastl::vector<cStarRecordPtr> stars;
-        StarManager.FindStars(GetActiveStarRecord()->mPosition, filter, stars);
-        for (cStarRecordPtr star : stars) {
-            eastl::vector<cPlanetRecordPtr> planets = star->GetPlanetRecords();
-            for (cPlanetRecordPtr planet : planets) {
-                if (planet->GetTechLevel() == TechLevel::Empire && !planet->mTribeData.empty()) {
-                    planet->mTribeData.clear();
-                }
-            }
-        }
+        eastl::vector<cPersistedDiplomacyEventPtr> events;
+        compositionRoot->persistedDiplomacyEventManager->GetPersistedDiplomaticEventsOfEmpire(events, GetPlayerEmpire());
+        int b = 1;
 
         break;
     }
