@@ -61,9 +61,10 @@ void AttachDetours()
 	ShowCommEvent__detour::attach(GetAddress(cCommManager, ShowCommEvent));
 	ApplyRelationshipMonolith__detour::attach(GetAddress(cRelationshipManager, ApplyRelationship));
 	DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
-	DeclarePeace__detour::attach(GetAddress(cRelationshipManager, DeclarePeace));
 	DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
 	BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
+
+	HandleSpaceCommAction__detour::attach(GetAddress(cCommManager, HandleSpaceCommAction));
 }
 
 // Generally, you don't need to touch any code here
