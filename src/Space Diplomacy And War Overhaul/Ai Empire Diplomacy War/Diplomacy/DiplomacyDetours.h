@@ -167,3 +167,37 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 		
 	}
 };
+
+member_detour(ShowEvent__detour, cUIEventLog, uint32_t(uint32_t, uint32_t, int, Math::Vector3*, bool, int)) {
+	uint32_t detoured(uint32_t instanceID, uint32_t groupID, int a = 0, Math::Vector3 * b = nullptr, bool dontAllowDuplicates = true, int c = 0) {
+
+		uint32_t ret = original_function(this, instanceID, groupID, a, b, dontAllowDuplicates, c);
+
+		if (!IsSpaceGame() || cCompositionRoot::Get()->diplomacyPopUpManager == nullptr) {
+			return ret;
+		}
+		// If the popup is of "EmpireDestroyed" type, store its ID.
+		if (instanceID == 0x88426556) {
+			cDiplomacyPopupManager* diplomacyPopUpManager = cCompositionRoot::Get()->diplomacyPopUpManager.get();
+			diplomacyPopUpManager->SetLastEmpireDestroyedPopUpID(ret);
+		}
+		return ret;
+	}
+};
+
+member_detour(EmpireDestroyed__detour, cEmpire, void()) {
+	void detoured() {
+		original_function(this);
+
+		if (!IsSpaceGame() || cCompositionRoot::Get()->diplomacyPopUpManager == nullptr) {
+			return;
+		}
+
+		// If the player hasn't contacted the destroyed empire, hide the 'EmpireDestroyed' popup.
+		if (!GetPlayer()->PlayerContactedEmpire(this->GetEmpireID())) {
+			cDiplomacyPopupManager* diplomacyPopUpManager = cCompositionRoot::Get()->diplomacyPopUpManager.get();
+			uint32_t popupID = diplomacyPopUpManager->GetlastEmpireDestroyedPopUpID();
+			UIEventLog.HideEvent(popupID, false);
+		}
+	}
+};

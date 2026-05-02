@@ -114,6 +114,15 @@ public:
 	/// @param empire2
 	void ShowMadePeaceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
+	/// @brief Sets the identifier for the last "EmpireDestroyed" popup displayed.
+	/// @param ID
+	void SetLastEmpireDestroyedPopUpID(uint32_t ID);
+
+
+	/// @brief Retrieves the identifier of the last "EmpireDestroyed" popup displayed.
+	/// @return The ID of the last "EmpireDestroyed" popup displayed.
+	uint32_t GetlastEmpireDestroyedPopUpID();
+
 
 
 	// Popup text: AI vs AI alliance ended due to conflict.
@@ -158,5 +167,8 @@ public:
 
 	// Stores the notification filter for war declaration events between AI empires.
 	PopupFilter popupFilterDeclareWar;
+
+	// Stores the id of the last "EmpireDestroyed" popup that was displayed.
+	uint32_t lastEmpireDestroyedPopUpID;
 
 };

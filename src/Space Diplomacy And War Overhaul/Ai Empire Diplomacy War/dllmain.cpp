@@ -63,8 +63,9 @@ void AttachDetours()
 	DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
 	DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
 	BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
-
 	HandleSpaceCommAction__detour::attach(GetAddress(cCommManager, HandleSpaceCommAction));
+	ShowEvent__detour::attach(GetAddress(cUIEventLog, ShowEvent));
+	EmpireDestroyed__detour::attach(Address(ModAPI::ChooseAddress(0x00c33c30, 0x00c34480)));
 }
 
 // Generally, you don't need to touch any code here

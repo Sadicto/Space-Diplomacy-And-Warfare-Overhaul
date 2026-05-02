@@ -4,6 +4,8 @@
 using namespace SporeModUtils;
 
 cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey, ResourceKey popupsFilterConfigKey){
+	this->lastEmpireDestroyedPopUpID = 0;
+
 	PropertyListPtr spacePopUpsConfigProp;
 	PropManager.GetPropertyList(spacePopUpsConfigKey.instanceID, spacePopUpsConfigKey.groupID, spacePopUpsConfigProp);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x4A921559, AllianceConflictAiAiText);
@@ -281,5 +283,13 @@ void cDiplomacyPopupManager::ShowMadePeaceAI(Simulator::cEmpire* empire1, Simula
 		ResourceKey eventKey = ResourceKey(id("MadePeaceAiAi"), 0, id("SdoSpacePopUps"));
 		ShowPopup(eventKey, popupText);
 	}
+}
+
+void cDiplomacyPopupManager::SetLastEmpireDestroyedPopUpID(uint32_t ID){
+	lastEmpireDestroyedPopUpID = ID;
+}
+
+uint32_t cDiplomacyPopupManager::GetlastEmpireDestroyedPopUpID(){
+	return lastEmpireDestroyedPopUpID;
 }
 
