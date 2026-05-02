@@ -17,7 +17,7 @@ texts spaceToolLockedDescription
 end
 int32 spaceToolUseCost 75000
 key spaceToolPanelKey TravelConsumablePanel
-float spaceToolRechargeRate 5
+float spaceToolRechargeRate 1
 key spaceToolStrategy SpaceWarfareOverhaul::cToolInvasionStrategy
 key spaceToolType special
 bool toolDeselectsAfterUse true
