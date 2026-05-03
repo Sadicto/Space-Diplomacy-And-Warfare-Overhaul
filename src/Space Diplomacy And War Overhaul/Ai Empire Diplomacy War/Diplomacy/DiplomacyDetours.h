@@ -6,6 +6,8 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
+/// @brief Declares peace between the player's allies and the specified empire.
+/// @param empire The empire making peace with the player's allies.
 void DeclarePeaceWithPlayerAllianceBlock(cEmpire* empire) {
 	cCompositionRoot* compositionRoot = cCompositionRoot::Get();
 	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
@@ -21,6 +23,31 @@ void DeclarePeaceWithPlayerAllianceBlock(cEmpire* empire) {
 		// No active war, but creates a truce regardless.
 		else {
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(playerAlly.get(), empire, PersistedDiplomacyEventType::MadePeace);
+		}
+	}
+}
+
+/// @brief Creates a "Defeated Enemy Together" diplomacy event for every unique pair of enemies belonging to the specified empire.
+/// @param empire The empire used to generate pairs among its enemies.
+/// @param allianceWithPlayer If true, filters the list to only include enemies that are currently allied with the player.
+void CreateDefeatedEnemyTogetherForEnemiesOfEmpire(cEmpire* empire, bool allianceWithPlayer = false) {
+	cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
+
+	const auto& enemies = empire->mEnemies;
+	size_t count = enemies.size();
+	for (size_t i = 0; i < count; ++i) {
+		cEmpirePtr enemy1 = enemies[i];
+		if (!EmpireUtils::ValidNpcEmpire(enemy1.get(), true) || (allianceWithPlayer && !DiplomacyUtils::Alliance(GetPlayerEmpire(), enemy1.get()))) {
+			continue;
+		}
+
+		for (size_t j = i + 1; j < count; ++j) {
+			cEmpirePtr enemy2 = enemies[j];
+			if (!EmpireUtils::ValidNpcEmpire(enemy2.get(), true) || (allianceWithPlayer && !DiplomacyUtils::Alliance(GetPlayerEmpire(), enemy2.get()))) {
+				continue;
+			}
+			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(enemy1.get(), enemy2.get(), PersistedDiplomacyEventType::DefeatedEnemyTogether);
 		}
 	}
 }
@@ -162,6 +189,16 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 		}
 		else if (action.actionID == id("action_accept_surrender")) {
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpire, PersistedDiplomacyEventType::MadePeace);
+			CreateDefeatedEnemyTogetherForEnemiesOfEmpire(npcEmpire, true);
+			// Since original_function is called at the start, the player is no longer an enemy of npcEmpire when 
+			// CreateDefeatedEnemyTogetherForEnemiesOfEmpire runs. Therefore, we must create the "DefeatedEnemyTogether" 
+			// events for the player outside of that function.
+			for (cEmpirePtr enemy : npcEmpire->mEnemies) {
+				if (!EmpireUtils::ValidNpcEmpire(enemy.get()) || !DiplomacyUtils::Alliance(enemy.get(), GetPlayerEmpire())) {
+					continue;
+				}
+				persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(enemy.get(), GetPlayerEmpire(), PersistedDiplomacyEventType::DefeatedEnemyTogether);
+			}
 			DeclarePeaceWithPlayerAllianceBlock(npcEmpire);
 		}
 		
@@ -199,5 +236,6 @@ member_detour(EmpireDestroyed__detour, cEmpire, void()) {
 			uint32_t popupID = diplomacyPopUpManager->GetlastEmpireDestroyedPopUpID();
 			UIEventLog.HideEvent(popupID, false);
 		}
+		CreateDefeatedEnemyTogetherForEnemiesOfEmpire(this);
 	}
 };
