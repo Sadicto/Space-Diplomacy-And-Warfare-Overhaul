@@ -95,7 +95,7 @@ The player will get a permanent negative effect, *â€œyour presence disturbs us,â
 - **Sensible AI Colonization Patch:** Compatibility patch for the Sensible AI Colonization mod. Apply if the mod is installed. 
 
 ## Installation
-- Requires UPE.
+- Requires [UPE](https://github.com/Zarklord/UniversalPropertyEnhancer/releases/tag/v1.2.0).
 - Starting a new game is recommended to correctly apply affinity bonuses and penalties. No galaxy reset required.
 
 ## Known Issues
