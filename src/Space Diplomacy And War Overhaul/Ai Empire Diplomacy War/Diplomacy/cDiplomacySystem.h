@@ -4,6 +4,7 @@
 #include "cEmpireDiplomacy.h"
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
 #include "cEmpireDiplomacyFactory.h"
+#include <cSimulationValidator.h>
 
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>
@@ -40,9 +41,10 @@ public:
 
 	/**
 	* @brief Injects the required dependencies into the manager.
+	* @param simulationValidator.
 	* @param empireDiplomacyFactory.
 	*/
-	void InjectDependencies(cEmpireDiplomacyFactory* empireDiplomacyFactory);
+	void InjectDependencies(cSimulationValidator* simulationValidator, cEmpireDiplomacyFactory* empireDiplomacyFactory);
 
 	/// @brief Executes one subcycle of the diplomacy system.
 	/// Processes the next empire in the queue and handles its diplomatic actions.
@@ -63,11 +65,14 @@ private:
 	// Iterator to the next empire whose diplomacy will be managed..
 	eastl::vector<cEmpireDiplomacyPtr>::iterator empireToManage;
 
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
+
 	// Pointer to the loaded empire diplomacy factory.
 	cEmpireDiplomacyFactoryPtr empireDiplomacyFactory;
 
 	// Indicates whether the manager’s dependencies have been injected.
-	bool ready;
+	bool dependenciesInjected;
 
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;

@@ -18,7 +18,8 @@ class cEmpireDiplomacy
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireDiplomacy");
 	
-	cEmpireDiplomacy(Simulator::cEmpire* empire, 
+	cEmpireDiplomacy(Simulator::cEmpire* empire,
+		cSimulationValidator* simulationValidator,
 		cDiplomacyConfig* diplomacyConfig, 
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer, 
 		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
@@ -85,6 +86,9 @@ public:
 
 	// Pointer to the empire this object is managing.
 	cEmpirePtr empire;
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	cDiplomacyConfigPtr diplomacyConfig;
 

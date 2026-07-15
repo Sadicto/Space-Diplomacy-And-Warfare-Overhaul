@@ -2,8 +2,9 @@
 #include "AllianceEnemyButtonProc.h"
 #include <Spore-Mod-Utils/Include/SporeModUtils.h>
 
-AllianceEnemyButtonProc::AllianceEnemyButtonProc()
+AllianceEnemyButtonProc::AllianceEnemyButtonProc(cSimulationValidator* simulationValidator)
 {
+	this->simulationValidator = simulationValidator;
 	selectedEmpire = nullptr;
 	lastCurrentStar = nullptr;
 	buttonEnabled = false;
@@ -67,7 +68,7 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 			Simulator::cEmpire* empireInCurrentStar = StarManager.GetEmpire(currentStar->mEmpireID);
 			DeleteAlliesAndEnemiesEffects();
 
-			if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireInCurrentStar)) {
+			if (simulationValidator->ValidEmpire(empireInCurrentStar)) {
 				selectedEmpire = empireInCurrentStar;
 				if (SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireInCurrentStar)) {
 					CreateAlliesAndEnemiesEffecsForSelectedEmpire();
@@ -84,7 +85,7 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 
 void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 	for (cEmpirePtr empireEnemy : selectedEmpire->mEnemies) {
-		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireEnemy.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())) {
+		if (simulationValidator->ValidEmpire(empireEnemy.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())) {
 			for (cStarRecordPtr star : empireEnemy->mStars) {
 				IVisualEffectPtr visualEffect;
 				if (SporeModUtils::StarUtils::GetDistanceBetweenStars(Simulator::GetActiveStarRecord(), star.get()) < 20 &&
@@ -100,7 +101,7 @@ void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 		}
 	}
 	for (cEmpirePtr empireAlly : selectedEmpire->mAllies) {
-		if (SporeModUtils::EmpireUtils::ValidNpcEmpire(empireAlly.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())) {
+		if (simulationValidator->ValidEmpire(empireAlly.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())) {
 			for (cStarRecordPtr star : empireAlly->mStars) {
 				IVisualEffectPtr visualEffect;
 				if (SporeModUtils::StarUtils::GetDistanceBetweenStars(Simulator::GetActiveStarRecord(), star.get()) < 20 &&

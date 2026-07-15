@@ -41,7 +41,7 @@ Simulator::Attribute cWarfareSystem::ATTRIBUTES[] = {
 
 void cWarfareSystem::Initialize() {
 	instance = this;
-	ready = false;
+	dependenciesInjected = false;
 
 	PropertyListPtr managerConfigProp;
 
@@ -51,6 +51,7 @@ void cWarfareSystem::Initialize() {
 	App::Property::GetInt32(managerConfigProp.get(), 0x9EC13ACD, minSubcycleStep);
 	App::Property::GetFloat(managerConfigProp.get(), 0x0D00F9E5, activeRadius);
 
+	simulationValidator = nullptr;
 	empireWarfareFactory = nullptr;
 	elapsedTime = 0;
 	subcycleStep = 0;
@@ -65,7 +66,7 @@ void cWarfareSystem::Dispose() {
 }
 
 void cWarfareSystem::Update(int deltaTime, int deltaGameTime) {
-	if (IsSpaceGame() && ready) {
+	if (IsSpaceGame() && dependenciesInjected) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
 			StartWarfareCycle();
@@ -93,8 +94,9 @@ void cWarfareSystem::OnModeEntered(uint32_t previousModeID, uint32_t newModeID) 
 void cWarfareSystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID) {
 	if (previousModeID == GameModeIDs::kGameSpace) {
 		empiresWarfare.clear();
+		simulationValidator.reset();
 		empireWarfareFactory.reset();
-		ready = false;
+		dependenciesInjected = false;
 	}
 }
 
@@ -107,14 +109,15 @@ cWarfareSystem* cWarfareSystem::Get() {
 	return instance;
 }
 
-void cWarfareSystem::InjectDependencies(cEmpireWarfareFactory* empireWarfareFactory){
+void cWarfareSystem::InjectDependencies(cSimulationValidator* simulationValidator, cEmpireWarfareFactory* empireWarfareFactory){
+	this->simulationValidator = simulationValidator;
 	this->empireWarfareFactory = empireWarfareFactory;
-	ready = true;
+	dependenciesInjected = true;
 }
 
 void cWarfareSystem::WarfareSubCycle() {
 	if (empireToManage != empiresWarfare.end()) {
-		if (EmpireUtils::ValidNpcEmpire(empireToManage->get()->empire.get())) {
+		if (simulationValidator->ValidEmpire(empireToManage->get()->empire.get())) {
 			empireToManage->get()->SelectAndAttackTargets();
 		}
 		++empireToManage;
@@ -127,7 +130,7 @@ void cWarfareSystem::StartWarfareCycle() {
 	eastl::vector<cEmpirePtr> empires;
 	EmpireUtils::GetEmpiresInRadius(GetPlayerHomePlanet()->GetStarRecord()->mPosition, activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
-		if (EmpireUtils::ValidNpcEmpire(empire.get())) {
+		if (simulationValidator->ValidEmpire(empire.get())) {
 			cEmpireWarfarePtr empireDiplomacy = empireWarfareFactory->CreateEmpireWarfare(empire.get());
 			empiresWarfare.push_back(empireDiplomacy);
 		}

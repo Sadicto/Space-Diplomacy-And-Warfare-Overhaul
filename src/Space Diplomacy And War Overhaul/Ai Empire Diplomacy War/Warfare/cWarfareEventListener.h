@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include <cSimulationValidator.h>
 
 #define cWarfareEventListenerPtr intrusive_ptr<cWarfareEventListener>
 
@@ -12,7 +13,7 @@ class cWarfareEventListener
 public:
 	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cWarfareEventListener");
 
-	cWarfareEventListener();
+	cWarfareEventListener(cSimulationValidator* simulationValidator);
 	~cWarfareEventListener();
 
 	int AddRef() override;
@@ -27,4 +28,9 @@ public:
 	/// @param target The planet being attacked.
 	/// @param bombers The number of bombers involved in the attack.
 	void OnPlanetAttacked(Simulator::cEmpire* aggressorEmpire, Simulator::cPlanetRecord* target, int bombers);
+
+private:
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 };

@@ -28,6 +28,7 @@
 #include "Diplomacy/AffinityModifier/cUpliftedByMonolithAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cWarWithAllyAffinityModifier.h"
 #include "Diplomacy/Config/cPersistedDiplomacyEventConfig.h"
+#include "cSimulationValidator.h"
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
@@ -59,6 +60,9 @@ public:
 	// Pointer to the loaded persisted event system object.
 	// It's not created by the composition root.
 	cPersistedEventSystemPtr persistedEventSystem;
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	// Pointer to the loaded diplomacy system object.
 	// it's not created by the composition root.
@@ -155,6 +159,9 @@ public:
 private:
 	
 	static cCompositionRoot* instance;
+
+	// Key used to load the simulation validator prop.
+	ResourceKey simulationValidatorConfigKey;
 
 	// Key used to load the diplomacy configuration prop.
 	ResourceKey diplomacyConfigKey;

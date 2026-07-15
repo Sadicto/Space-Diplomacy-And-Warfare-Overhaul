@@ -4,6 +4,7 @@
 #include "Config\cWarfareConfig.h"
 #include "cSpaceCombatMetrics.h"
 #include "Config\cArchetypeStrengthConfig.h"
+#include <cSimulationValidator.h>
 
 
 #define cWarfareStrengthAnalyzerPtr intrusive_ptr<cWarfareStrengthAnalyzer>
@@ -17,7 +18,10 @@ class cWarfareStrengthAnalyzer
 public:
 	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cWarfareStrengthAnalyzer");
 	
-	cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics, cArchetypeStrengthConfig* archetypeStrengthConfig);
+	cWarfareStrengthAnalyzer(cSimulationValidator* simulationValidator, 
+		cWarfareConfig* warfareConfig, 
+		cSpaceCombatMetrics* spaceCombatMetrics, 
+		cArchetypeStrengthConfig* archetypeStrengthConfig);
 	~cWarfareStrengthAnalyzer();
 
 	int AddRef() override;
@@ -71,6 +75,11 @@ public:
 	/// @param empire Pointer to the empire.
 	/// @return Strength factor.
 	float GetEmpireStrenghtFactor(Simulator::cEmpire* empire);
+
+private:
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	// Pointer to the loaded warfareConfig.
 	cWarfareConfigPtr warfareConfig;

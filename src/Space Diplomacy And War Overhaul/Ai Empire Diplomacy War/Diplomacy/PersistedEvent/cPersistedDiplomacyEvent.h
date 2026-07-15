@@ -2,6 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include "../cPersistedEvent.h"
+#include <cSimulationValidator.h>
 
 #define cPersistedDiplomacyEventPtr intrusive_ptr<cPersistedDiplomacyEvent>
 

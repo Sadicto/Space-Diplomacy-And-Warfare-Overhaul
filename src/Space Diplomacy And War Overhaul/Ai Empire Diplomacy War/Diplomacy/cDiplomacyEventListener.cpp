@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include "cDiplomacyEventListener.h"
 #include "cDiplomacyEvent.h"
-#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 
-using namespace SporeModUtils;
 using namespace Simulator;
 
-cDiplomacyEventListener::cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
+cDiplomacyEventListener::cDiplomacyEventListener(cSimulationValidator* simulationValidator, cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
 {
+	this->simulationValidator = simulationValidator;
 	this->diplomacyPopUpManager = diplomacyPopUpManager;
 	this->empireRelationshipController = empireRelationshipController;
 	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
@@ -39,7 +38,7 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 		cDiplomacyEvent* diplomacyEvent = static_cast<cDiplomacyEvent*>(message);
 		cEmpire* empire1 = diplomacyEvent->empire1;
 		cEmpire* empire2 = diplomacyEvent->empire2;
-		if (EmpireUtils::ValidNpcEmpire(empire1, true) && EmpireUtils::ValidNpcEmpire(empire2, true)) {
+		if (simulationValidator->ValidEmpire(empire1, true) && simulationValidator->ValidEmpire(empire2, true)) {
 			switch (diplomacyEvent->eventType) {
 			case(DiplomacyEventType::FormAlliance): {
 				OnFormAlliance(empire1, empire2);

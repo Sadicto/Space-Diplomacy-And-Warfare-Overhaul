@@ -4,6 +4,7 @@
 #include "cPersistedDiplomacyEvent.h"
 #include <cPersistedEventSystem.h>
 #include "../Config/cPersistedDiplomacyEventConfig.h"
+#include "../../cSimulationValidator.h"
 
 
 #define cPersistedDiplomacyEventManagerPtr intrusive_ptr<cPersistedDiplomacyEventManager>
@@ -16,7 +17,7 @@ class cPersistedDiplomacyEventManager
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedDiplomacyEventManager");
 	
-	cPersistedDiplomacyEventManager(cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cPersistedEventSystem* persistedEventSystem);
+	cPersistedDiplomacyEventManager(cSimulationValidator* simulationValidator, cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cPersistedEventSystem* persistedEventSystem);
 	~cPersistedDiplomacyEventManager();
 
 	int AddRef() override;
@@ -69,6 +70,9 @@ private:
 
 	/// @brief Creates an empty persisted diplomacy event instance of the given type.
 	cPersistedDiplomacyEvent* CreateEmptyPersistedDiplomacyEventOfType(PersistedDiplomacyEventType eventType);
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	// Pointed to the loaded persisted diplomacy event config.
 	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;

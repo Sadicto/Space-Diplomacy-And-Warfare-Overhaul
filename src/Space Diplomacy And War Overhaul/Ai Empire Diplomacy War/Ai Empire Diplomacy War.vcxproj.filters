@@ -80,6 +80,7 @@
     <ClInclude Include="Diplomacy\PersistedEvent\cMadePeaceEvent.h" />
     <ClInclude Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.h" />
     <ClInclude Include="Diplomacy\DiplomacyDetours.h" />
+    <ClInclude Include="cSimulationValidator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -144,6 +145,7 @@
     <ClCompile Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvent\cMadePeaceEvent.cpp" />
     <ClCompile Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.cpp" />
+    <ClCompile Include="cSimulationValidator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

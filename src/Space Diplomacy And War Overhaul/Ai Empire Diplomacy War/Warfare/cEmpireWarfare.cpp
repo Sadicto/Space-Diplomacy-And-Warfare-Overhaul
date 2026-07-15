@@ -7,7 +7,8 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
-cEmpireWarfare::cEmpireWarfare(Simulator::cEmpire* empire, 
+cEmpireWarfare::cEmpireWarfare(Simulator::cEmpire* empire,
+	cSimulationValidator* simulationValidator,
 	cWarfareConfig* warfareConfig, 
 	cWarfareStrengthAnalyzer* warfareStrengthAnalyzer, 
 	cWarfareEventDispatcher* warfareEventDispatcher)
@@ -15,6 +16,7 @@ cEmpireWarfare::cEmpireWarfare(Simulator::cEmpire* empire,
 	this->empire = empire;
 	this->range = 0;
 	this->attackedPlanets = 0;
+	this->simulationValidator = simulationValidator;
 	this->warfareConfig = warfareConfig;
 	this->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
 	this->warfareEventDispatcher = warfareEventDispatcher;
@@ -72,7 +74,7 @@ Simulator::cStarRecord* cEmpireWarfare::GetClosestEnemyStar(Simulator::cStarReco
 	float closestDistance = range + 1.0f;
 	for (cStarRecordPtr closeStar : closeStars) {
 		cEmpire* starEmpire = StarManager.GetEmpire(closeStar->mEmpireID);
-		if (EmpireUtils::ValidNpcEmpire(starEmpire, true) && DiplomacyUtils::War(empire.get(), starEmpire) && AtackableStar(closeStar.get())) {
+		if (simulationValidator->ValidEmpire(starEmpire, true) && DiplomacyUtils::War(empire.get(), starEmpire) && AtackableStar(closeStar.get())) {
 			float distance = StarUtils::GetDistanceBetweenStars(star, closeStar.get());
 			if (distance < closestDistance) {
 				closestStar = closeStar.get();
@@ -102,7 +104,7 @@ eastl::vector<cStarRecord*> cEmpireWarfare::GetEnemyStarsInRangeOfStar(Simulator
 
 	for (cStarRecordPtr closeStar : closeStars) {
 		cEmpire* starEmpire = StarManager.GetEmpire(closeStar->mEmpireID);
-		if (EmpireUtils::ValidNpcEmpire(starEmpire, true)
+		if (simulationValidator->ValidEmpire(starEmpire, true)
 			&& DiplomacyUtils::War(empire.get(), starEmpire)
 			&& AtackableStar(closeStar.get()))
 		{
@@ -172,7 +174,7 @@ void cEmpireWarfare::AttackStar(Simulator::cStarRecord* star, int bombers) {
 	eastl::vector<pair<cPlanetRecordPtr, int>> bombersPerPlanet;
 	int totalRequiredBombers = 0;
 	for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
-		if (PlanetUtils::InteractablePlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire && !MissionManager.ThereIsEventInPlanet(planet.get())) {
+		if (simulationValidator->ValidPlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire && !MissionManager.ThereIsEventInPlanet(planet.get())) {
 			int planetRequiredBombers = warfareStrengthAnalyzer->GetBomberForceForPlanet(empire.get(), planet.get());
 			totalRequiredBombers += planetRequiredBombers;
 			bombersPerPlanet.push_back(make_pair(planet, planetRequiredBombers));
@@ -211,7 +213,7 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 			}
 		}
 
-		if (!StarUtils::ValidStar(bestIt->first.get(), true, false, false, false, false)) {
+		if (!simulationValidator->ValidStar(bestIt->first.get())) {
 			attackPriorityMap.erase(bestIt);
 			continue;
 		}

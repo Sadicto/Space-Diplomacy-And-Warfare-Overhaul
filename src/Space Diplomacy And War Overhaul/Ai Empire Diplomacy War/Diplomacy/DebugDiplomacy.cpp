@@ -9,6 +9,7 @@
 #include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
 #include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
 #include "../cCompositionRoot.h"
+#include "../cSimulationValidator.h"
 
 using namespace Simulator;
 using namespace SporeModUtils;
@@ -48,7 +49,8 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 3:  {
-        RelationshipManager.ApplyRelationship(GetPlayerEmpire()->GetEmpireID(), empire->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceTradeRouteSpice);
+        
+        cSimulationValidatorPtr validator = new cSimulationValidator(ResourceKey(0xeadaafdb, 0x00B1B104, 0x820b6795));
         break;
     }
     case 4: {

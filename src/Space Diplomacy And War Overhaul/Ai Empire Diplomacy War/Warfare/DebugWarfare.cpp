@@ -39,8 +39,6 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
         break;
     }
     case 2: {
-        cWarfareEventListener* warfareEventListener = new cWarfareEventListener();
-        MessageManager.AddListener(warfareEventListener, cPlanetAttackedEvent::ID);
         break;
     }
     case 3: {

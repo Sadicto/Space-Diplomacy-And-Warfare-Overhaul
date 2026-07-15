@@ -1,16 +1,15 @@
 #include "stdafx.h"
 #include "cPersistedDiplomacyEventManager.h"
-#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include "../Diplomacy/PersistedEvent/cNeighborsInPeaceEvent.h"
 #include "../Diplomacy/PersistedEvent/cMadePeaceEvent.h"
 #include "../Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
 #include "../Diplomacy/PersistedEvent/cFormedAllianceEvent.h"
 #include "../Diplomacy/PersistedEvent/cDefeatedEnemyTogetherEvent.h"
 using namespace Simulator;
-using namespace SporeModUtils;
 
-cPersistedDiplomacyEventManager::cPersistedDiplomacyEventManager(cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cPersistedEventSystem* persistedEventSystem)
+cPersistedDiplomacyEventManager::cPersistedDiplomacyEventManager(cSimulationValidator* simulationValidator, cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cPersistedEventSystem* persistedEventSystem)
 {
+	this->simulationValidator = simulationValidator;
 	this->persistedDiplomacyEventConfig = persistedDiplomacyEventConfig;
 	this->persistedEventSystem = persistedEventSystem;
 	eastl::vector<cPersistedEventPtr> persistedEvents;
@@ -100,7 +99,7 @@ void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsBetweenEmpires
 	}
 }
 cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::GetPersistedDiplomacyEventBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType){
-	if (EmpireUtils::ValidNpcEmpire(empire1, true) && (EmpireUtils::ValidNpcEmpire(empire2, true))) {
+	if (simulationValidator->ValidEmpire(empire1, true) && (simulationValidator->ValidEmpire(empire2, true))) {
 		eastl::vector <cPersistedDiplomacyEventPtr> diplomacyEventsOfEmpire;
 		GetPersistedDiplomaticEventsBetweenEmpires(diplomacyEventsOfEmpire, empire1, empire2);
 		uint32_t nounIdOfEvent = GetNounIdOfEvent(eventType);

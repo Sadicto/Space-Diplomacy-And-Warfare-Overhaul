@@ -6,8 +6,10 @@ using namespace Simulator;
 
 cToolInvasionStrategy::cToolInvasionStrategy()
 {
+	simulationValidator = nullptr;
 	warfareStrengthAnalyzer = nullptr;
 	warfareEventDispatcher = nullptr;
+	dependenciesInjected = false;
 
 	PropertyListPtr toolInvasionProp;
 	PropManager.GetPropertyList(0x3b04cb56, 0x30608f0b, toolInvasionProp);
@@ -54,9 +56,9 @@ bool cToolInvasionStrategy::OnSelect(Simulator::cSpaceToolData* pTool) {
 	// so we exit early without summoning the fleet.
 	if (!cToolStrategy::OnSelect(pTool) || beforeUsingToolMoney == playerEmpire->mEmpireMoney  ) return false;
 
-	if (inGalaxy && StarUtils::ValidStar(GetActiveStarRecord(), true, false, false, true, false)) {
+	if (inGalaxy && simulationValidator->ValidStar(GetActiveStarRecord())) {
 		for (cPlanetRecordPtr planet : GetActiveStarRecord()->GetPlanetRecords()) {
-			if (PlanetUtils::InteractablePlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire) {
+			if (simulationValidator->ValidPlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire) {
 				warfareEventDispatcher->DispatchPlanetAttackedEvent(
 					playerEmpire,
 					planet.get(),
@@ -66,7 +68,7 @@ bool cToolInvasionStrategy::OnSelect(Simulator::cSpaceToolData* pTool) {
 		}
 	}
 
-	else if (inPlanetOrSystem && PlanetUtils::InteractablePlanet(GetActivePlanetRecord())) {
+	else if (inPlanetOrSystem && simulationValidator->ValidPlanet(GetActivePlanetRecord())) {
 		warfareEventDispatcher->DispatchPlanetAttackedEvent(
 			playerEmpire,
 			GetActivePlanetRecord(),
@@ -80,23 +82,23 @@ bool cToolInvasionStrategy::OnSelect(Simulator::cSpaceToolData* pTool) {
 }
 
 bool cToolInvasionStrategy::Update(Simulator::cSpaceToolData* pTool, bool showErrors, const char16_t** ppFailText) {
-	if (!warfareEventDispatcher || !warfareStrengthAnalyzer || !cToolStrategy::Update(pTool, true, ppFailText))
+	if (!dependenciesInjected || !cToolStrategy::Update(pTool, true, ppFailText))
 		return false;
 
 	SpaceContext context = GetCurrentContext();
 	bool inGalaxy = context == SpaceContext::Galaxy;
 	bool inPlanetOrSystem = context == SpaceContext::Planet || context == SpaceContext::SolarSystem;
 
-	if (inGalaxy && !StarUtils::ValidStar(GetActiveStarRecord(), true, false, false, true, false))
+	if (inGalaxy && !simulationValidator->ValidStar(GetActiveStarRecord()))
 		return false;
 
-	if (inPlanetOrSystem && !PlanetUtils::InteractablePlanet(GetActivePlanetRecord()))
+	if (inPlanetOrSystem && !simulationValidator->ValidPlanet(GetActivePlanetRecord()))
 		return false;
 
 	cEmpire* playerEmpire = GetPlayerEmpire();
 	cEmpire* targetEmpire = StarManager.GetEmpire(GetActiveStarRecord()->mEmpireID);
 
-	if (!EmpireUtils::ValidNpcEmpire(targetEmpire, false, true, true)) return false;
+	if (!simulationValidator->ValidEmpire(targetEmpire, false, true)) return false;
 	if (!DiplomacyUtils::War(playerEmpire, targetEmpire)) return false;
 
 	if (inGalaxy) {
@@ -122,12 +124,28 @@ int cToolInvasionStrategy::ProcessCost(int useCost) {
 	bool inGalaxy = context == SpaceContext::Galaxy;
 	bool inPlanetOrSystem = context == SpaceContext::Planet || context == SpaceContext::SolarSystem;
 
-	if (inGalaxy && StarUtils::ValidStar(GetActiveStarRecord(), true, false, false, true, false)) {
+	if (inGalaxy && simulationValidator->ValidStar(GetActiveStarRecord())) {
 		bombersNeeded = warfareStrengthAnalyzer->GetBomberForceForSystem(GetPlayerEmpire(), GetActiveStarRecord());
 	}
-	else if (inPlanetOrSystem && PlanetUtils::InteractablePlanet(GetActivePlanetRecord())) {
+	else if (inPlanetOrSystem && simulationValidator->ValidPlanet(GetActivePlanetRecord())) {
 		bombersNeeded = warfareStrengthAnalyzer->GetBomberForceForPlanet(GetPlayerEmpire(), GetActivePlanetRecord());
 	}
 
 	return useCost * bombersNeeded;
+}
+
+void cToolInvasionStrategy::InjectDependencies(cSimulationValidator* simulationValidator, cWarfareStrengthAnalyzer* warfareStrengthAnalyzer, cWarfareEventDispatcher* warfareEventDispatcher)
+{
+	this->simulationValidator = simulationValidator;
+	this->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
+	this->warfareEventDispatcher = warfareEventDispatcher;
+	dependenciesInjected = true;
+}
+
+void cToolInvasionStrategy::ResetDependencies()
+{
+	this->simulationValidator.reset();
+	this->warfareStrengthAnalyzer.reset();
+	this->warfareEventDispatcher.reset();
+	dependenciesInjected = false;
 }

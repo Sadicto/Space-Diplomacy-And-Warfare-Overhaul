@@ -10,11 +10,12 @@ using namespace Simulator;
 /// @param empire The empire making peace with the player's allies.
 void DeclarePeaceWithPlayerAllianceBlock(cEmpire* empire) {
 	cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+	cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
 	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 	cDiplomacyEventDispatcher* diplomacyEventDispatcher = compositionRoot->diplomacyEventDispatcher.get();
 
 	for (cEmpirePtr playerAlly : GetPlayerEmpire()->mAllies) {
-		if (!EmpireUtils::ValidNpcEmpire(playerAlly.get())) {
+		if (!simulationValidator->ValidEmpire(playerAlly.get())) {
 			continue;
 		}
 		if (DiplomacyUtils::War(playerAlly.get(), empire)) {
@@ -32,19 +33,20 @@ void DeclarePeaceWithPlayerAllianceBlock(cEmpire* empire) {
 /// @param allianceWithPlayer If true, filters the list to only include enemies that are currently allied with the player.
 void CreateDefeatedEnemyTogetherForEnemiesOfEmpire(cEmpire* empire, bool allianceWithPlayer = false) {
 	cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+	cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
 	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 
 	const auto& enemies = empire->mEnemies;
 	size_t count = enemies.size();
 	for (size_t i = 0; i < count; ++i) {
 		cEmpirePtr enemy1 = enemies[i];
-		if (!EmpireUtils::ValidNpcEmpire(enemy1.get(), true) || (allianceWithPlayer && !DiplomacyUtils::Alliance(GetPlayerEmpire(), enemy1.get()))) {
+		if (!simulationValidator->ValidEmpire(enemy1.get(), true) || (allianceWithPlayer && !DiplomacyUtils::Alliance(GetPlayerEmpire(), enemy1.get()))) {
 			continue;
 		}
 
 		for (size_t j = i + 1; j < count; ++j) {
 			cEmpirePtr enemy2 = enemies[j];
-			if (!EmpireUtils::ValidNpcEmpire(enemy2.get(), true) || (allianceWithPlayer && !DiplomacyUtils::Alliance(GetPlayerEmpire(), enemy2.get()))) {
+			if (!simulationValidator->ValidEmpire(enemy2.get(), true) || (allianceWithPlayer && !DiplomacyUtils::Alliance(GetPlayerEmpire(), enemy2.get()))) {
 				continue;
 			}
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(enemy1.get(), enemy2.get(), PersistedDiplomacyEventType::DefeatedEnemyTogether);
@@ -70,43 +72,55 @@ member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
 // Create the uplifted by monolith event.
 member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uint32_t, uint32_t, uint32_t, float)) {
 	float detoured(uint32_t politicalID, uint32_t causePoliticalID, uint32_t relationshipID, float scale = 1.0f) {
-		if (IsSpaceGame() &&
-			relationshipID == RelationshipEvents::kRelationshipEventSpaceUpliftedCiv &&
-			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(politicalID), true) &&
-			EmpireUtils::ValidNpcEmpire(StarManager.GetEmpire(causePoliticalID), true)) {
-
-			cCompositionRoot* compositionRoot = cCompositionRoot::Get();
-			cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
-			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), PersistedDiplomacyEventType::UpliftedByMonolith);
-
+		float ret = original_function(this, politicalID, causePoliticalID, relationshipID, scale);
+		if (!IsSpaceGame() || relationshipID != RelationshipEvents::kRelationshipEventSpaceUpliftedCiv)
+		{
+			return ret;
 		}
-		return original_function(this, politicalID, causePoliticalID, relationshipID, scale);
+
+		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+		cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
+
+		if (simulationValidator->ValidEmpire(StarManager.GetEmpire(politicalID), true) &&
+			simulationValidator->ValidEmpire(StarManager.GetEmpire(causePoliticalID), true)) 
+		{
+			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), PersistedDiplomacyEventType::UpliftedByMonolith);
+		}
+		return ret;
 	}
 };
 
 member_detour(DeclareWar__detour, cRelationshipManager, void(cEmpire*, cEmpire*)) {
 	void detoured(Simulator::cEmpire * empire1, Simulator::cEmpire * empire2) {
-		if (IsSpaceGame() && EmpireUtils::ValidNpcEmpire(empire1, true) && EmpireUtils::ValidNpcEmpire(empire2, true)){
-			cCompositionRoot* compositionRoot = cCompositionRoot::Get();
-			cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
-
-			persistedDiplomacyEventManager->DeletePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::NeighborsInPeace);
-			// If the player breaks any truce, all their truces are invalidated.
-			if ((empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire()) &&
-				persistedDiplomacyEventManager->GetPersistedDiplomacyEventBetweenEmpires(empire1, empire2, PersistedDiplomacyEventType::MadePeace) != nullptr) {
-				cEmpire* otherEmpire;
-				if (empire1 == GetPlayerEmpire()) {
-					otherEmpire = empire2;
-				}
-				else {
-					otherEmpire = empire1;
-				}
-				persistedDiplomacyEventManager->DeleteAllPersistedDiplomacyEventsOfType(GetPlayerEmpire(), PersistedDiplomacyEventType::MadePeace);
-				cDiplomacyPopupManager* diplomacyPopUpManager = compositionRoot->diplomacyPopUpManager.get();
-				diplomacyPopUpManager->ShowTruceBrokenPlayer(otherEmpire);
-			}
-		}
 		original_function(this, empire1, empire2);
+		if (!IsSpaceGame())
+		{
+			return;
+		}
+		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+		cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
+		if (!simulationValidator->ValidEmpire(empire1, true) || !simulationValidator->ValidEmpire(empire2, true))
+		{
+			return;
+		}
+
+		persistedDiplomacyEventManager->DeletePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::NeighborsInPeace);
+		// If the player breaks any truce, all their truces are invalidated.
+		if ((empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire()) &&
+			persistedDiplomacyEventManager->GetPersistedDiplomacyEventBetweenEmpires(empire1, empire2, PersistedDiplomacyEventType::MadePeace) != nullptr) {
+			cEmpire* otherEmpire;
+			if (empire1 == GetPlayerEmpire()) {
+				otherEmpire = empire2;
+			}
+			else {
+				otherEmpire = empire1;
+			}
+			persistedDiplomacyEventManager->DeleteAllPersistedDiplomacyEventsOfType(GetPlayerEmpire(), PersistedDiplomacyEventType::MadePeace);
+			cDiplomacyPopupManager* diplomacyPopUpManager = compositionRoot->diplomacyPopUpManager.get();
+			diplomacyPopUpManager->ShowTruceBrokenPlayer(otherEmpire);
+		}
 	}
 };
 
@@ -116,14 +130,13 @@ member_detour(DeclareAlliance__detour, cRelationshipManager, void(cEmpire*, cEmp
 		if (!IsSpaceGame()) {
 			return;
 		}
-		if (!EmpireUtils::ValidNpcEmpire(empire1, true)) {
-			return;
-		}
-		if (!EmpireUtils::ValidNpcEmpire(empire2, true)) {
-			return;
-		}
 		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+		cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
 		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
+		if (!simulationValidator->ValidEmpire(empire1, true) || !simulationValidator->ValidEmpire(empire2, true)) 
+		{
+			return;
+		}
 		persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 	}
 };
@@ -131,18 +144,18 @@ member_detour(DeclareAlliance__detour, cRelationshipManager, void(cEmpire*, cEmp
 member_detour(BreakAlliance__detour, cRelationshipManager, void(cEmpire*, cEmpire*)) {
 	void detoured(Simulator::cEmpire * empire1, Simulator::cEmpire * empire2) {
 		original_function(this, empire1, empire2);
-		if (!IsSpaceGame()) {
+		if (!IsSpaceGame()) 
+		{
 			return;
 		}
-		if (!EmpireUtils::ValidNpcEmpire(empire1, true)) {
-			return;
-		}
-		if (!EmpireUtils::ValidNpcEmpire(empire2, true)) {
-			return;
-		}
-		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
-		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 
+		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+		cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
+		if (!simulationValidator->ValidEmpire(empire1, true) || !simulationValidator->ValidEmpire(empire2, true)) 
+		{
+			return;
+		}
 		persistedDiplomacyEventManager->DeletePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 	}
 };
@@ -161,12 +174,14 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 		if (!IsSpaceGame()) {
 			return;
 		}
+		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
+		cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 		cEmpire* npcEmpire = StarManager.GetEmpire(sourceEmpireID);
-		if (!EmpireUtils::ValidNpcEmpire(npcEmpire)) {
+		if (!simulationValidator->ValidEmpire(npcEmpire)) {
 			return;
 		}
-		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
-		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
+
 
 		if (action.actionID == id("action_peace_offer_1") ||
 			action.actionID == id("action_peace_offer_2") ||
@@ -177,7 +192,7 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpire, PersistedDiplomacyEventType::MadePeace);
 			DeclarePeaceWithPlayerAllianceBlock(npcEmpire);
 			for (cEmpirePtr npcEmpireAlly : npcEmpire->mAllies) {
-				if (!EmpireUtils::ValidNpcEmpire(npcEmpireAlly.get())) {
+				if (!simulationValidator->ValidEmpire(npcEmpireAlly.get())) {
 					continue;
 				}
 				RelationshipManager.ResetRelationship(GetPlayerEmpire()->GetEmpireID(), npcEmpireAlly->GetEmpireID());
@@ -194,7 +209,7 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 			// CreateDefeatedEnemyTogetherForEnemiesOfEmpire runs. Therefore, we must create the "DefeatedEnemyTogether" 
 			// events for the player outside of that function.
 			for (cEmpirePtr enemy : npcEmpire->mEnemies) {
-				if (!EmpireUtils::ValidNpcEmpire(enemy.get()) || !DiplomacyUtils::Alliance(enemy.get(), GetPlayerEmpire())) {
+				if (!simulationValidator->ValidEmpire(enemy.get()) || !DiplomacyUtils::Alliance(enemy.get(), GetPlayerEmpire())) {
 					continue;
 				}
 				persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(enemy.get(), GetPlayerEmpire(), PersistedDiplomacyEventType::DefeatedEnemyTogether);

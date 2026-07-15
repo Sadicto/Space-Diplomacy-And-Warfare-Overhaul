@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "AffinityTextProc.h"
-#include <Spore-Mod-Utils/Include/SporeModUtils.h>
-using namespace SporeModUtils;
 
-AffinityTextProc::AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
+AffinityTextProc::AffinityTextProc(IWindow* affinityTooltipMainWindow, cSimulationValidator* simulationValidator, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey)
 {
 	this->affinityTooltipMainWindow = affinityTooltipMainWindow;
 	this->affinityTooltipNumberWindow = affinityTooltipMainWindow->FindWindowByID(0xAE85024E);
@@ -12,6 +10,7 @@ AffinityTextProc::AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRe
 	this->affinityRolloverModifiersWindow = nullptr;
 	this->affinityRolloverLayout = nullptr;
 
+	this->simulationValidator = simulationValidator;
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	currentEmpire = nullptr;
 	currentAffinity = 0;
@@ -91,7 +90,7 @@ int AffinityTextProc::GetEventFlags() const
 bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 {
 	if (message.IsType(UTFWin::MessageType::kMsgMouseEnter)) {
-		if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())){
+		if (simulationValidator->ValidEmpire(currentEmpire.get())){
 			// Call SetAffinityTooltip first to update it in case the player did something to change the affinity during their conversation with currentEmpire.
 			SetAffinityTooltip(currentEmpire->GetEmpireID());
 			SetAffinityRollover();
@@ -116,7 +115,7 @@ bool AffinityTextProc::HandleUIMessage(IWindow* window, const Message& message)
 void AffinityTextProc::SetAffinityTooltip(uint32_t empireID) {
 	Simulator::cEmpire* empire = StarManager.GetEmpire(empireID);
 	currentEmpire = empire;
-	if (EmpireUtils::ValidNpcEmpire(empire)) {
+	if (simulationValidator->ValidEmpire(empire)) {
 		currentAffinity = empireRelationsAnalyzer->EmpiresAffinity(Simulator::GetPlayerEmpire(), empire);
 		currentAffinityModifierData.clear();
 		empireRelationsAnalyzer->GetEmpiresAffinityModifiersData(currentEmpire.get(), Simulator::GetPlayerEmpire(), currentAffinityModifierData);
@@ -185,7 +184,7 @@ void AffinityTextProc::ResetAffinityRollover() {
 }
 
 void AffinityTextProc::SetAffinityRollover() {
-	if (EmpireUtils::ValidNpcEmpire(currentEmpire.get())) {
+	if (simulationValidator->ValidEmpire(currentEmpire.get())) {
 		affinityRolloverLayout = new UTFWin::UILayout();
 		affinityRolloverLayout->LoadByID(affinityRolloverLayoutId);
 

@@ -44,6 +44,7 @@ void cCompositionRoot::Initialize(){
 	instance = this;
 
 	persistedEventSystem = nullptr;
+	simulationValidator = nullptr;
 
 	diplomacySystem = nullptr;
 	diplomacyConfig = nullptr;
@@ -84,6 +85,7 @@ void cCompositionRoot::Initialize(){
 
 	PropManager.GetPropertyList(id("ConfigurationKeys"), id("SdoConfig"), configurationKeys);
 
+	App::Property::GetKey(configurationKeys.get(), 0xEADAAFDB, simulationValidatorConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x13741BB4, spacePopUpsTextsKey);
 	App::Property::GetKey(configurationKeys.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x57252EFE, archetypesAffinitiesKey);
@@ -113,6 +115,8 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 	if (newModeID == GameModeIDs::kGameSpace) {
 		persistedEventSystem = cPersistedEventSystem::Get();
 
+		simulationValidator = new cSimulationValidator(simulationValidatorConfigKey);
+
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 
 		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
@@ -121,7 +125,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		affinityConfig = new cAffinityConfig(affinityConfigKey);
 
-		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(persistedDiplomacyEventConfig.get(), persistedEventSystem.get());
+		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(simulationValidator.get(), persistedDiplomacyEventConfig.get(), persistedEventSystem.get());
 
 		archetypeAffinityModifier = new cArchetypeAffinityModifier();
 		commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
@@ -151,14 +155,15 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
 
-		empireDiplomacyFactory = new cEmpireDiplomacyFactory(diplomacyConfig.get(), 
+		empireDiplomacyFactory = new cEmpireDiplomacyFactory(simulationValidator.get(),
+			diplomacyConfig.get(),
 			empireRelationsAnalyzer.get(), 
 			diplomacyEventDispatcher.get(), 
 			persistedDiplomacyEventManager.get());
 
 		diplomacySystem = cDiplomacySystem::Get();
 
-		diplomacySystem->InjectDependencies(empireDiplomacyFactory.get());
+		diplomacySystem->InjectDependencies(simulationValidator.get(), empireDiplomacyFactory.get());
 
 		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey, popupsFilterConfigKey);
 
@@ -168,7 +173,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
 
-		diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get(), persistedDiplomacyEventManager.get());
+		diplomacyEventListener = new cDiplomacyEventListener(simulationValidator.get(), diplomacyPopUpManager.get(), empireRelationshipController.get(), persistedDiplomacyEventManager.get());
 
 		MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 
@@ -176,7 +181,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
 		if (globalUiLayout != nullptr) {
 			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
-			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
+			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc(simulationValidator.get());
 			window->AddWinProc(proc);
 		}
 		// Loads the affinity number layout, attaches it to the communications layout,
@@ -190,7 +195,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 
 		UTFWin::IWindow* affinityMainWindow = affinityLayout->FindWindowByID(0x434EB9AD);
-		AffinityTextProc* affinityTextProc = new AffinityTextProc(affinityMainWindow, empireRelationsAnalyzer.get(), affinityTextConfigKey);
+		AffinityTextProc* affinityTextProc = new AffinityTextProc(affinityMainWindow, simulationValidator.get(), empireRelationsAnalyzer.get(), affinityTextConfigKey);
 		affinityMainWindow->AddWinProc(affinityTextProc);
 
 		warfareConfig = new cWarfareConfig(warfareConfigKey);
@@ -199,24 +204,23 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		archetypeStrengthConfig = new cArchetypeStrengthConfig(archetypeStrengthConfigKey, archetypesConfig.get());
 
-		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get(), archetypeStrengthConfig.get());
+		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(simulationValidator.get(), warfareConfig.get(), spaceCombatMetrics.get(), archetypeStrengthConfig.get());
 
 		warfareEventDispatcher = new cWarfareEventDispatcher();
 
-		empireWarfareFactory = new cEmpireWarfareFactory(warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
+		empireWarfareFactory = new cEmpireWarfareFactory(simulationValidator.get(),warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
 
 		warfareSystem = cWarfareSystem::Get();
 
-		warfareSystem->InjectDependencies(empireWarfareFactory.get());
+		warfareSystem->InjectDependencies(simulationValidator.get(), empireWarfareFactory.get());
 
-		warfareEventListener = new cWarfareEventListener();
+		warfareEventListener = new cWarfareEventListener(simulationValidator.get());
 
 		MessageManager.AddListener(warfareEventListener.get(), cPlanetAttackedEvent::ID);
 		cToolStrategy* toolStrategy = ToolManager.GetStrategy(cToolInvasionStrategy::TYPE);
 		cToolInvasionStrategy* toolInvasionStrategy = static_cast<cToolInvasionStrategy*>(toolStrategy);
 		if (toolInvasionStrategy) {
-			toolInvasionStrategy->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
-			toolInvasionStrategy->warfareEventDispatcher = warfareEventDispatcher;
+			toolInvasionStrategy->InjectDependencies(simulationValidator.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
 		}
 	}
 }
@@ -224,6 +228,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
 	if (previousModeID == GameModeIDs::kGameSpace) {
 		persistedEventSystem.reset();
+		simulationValidator.reset();
 
 		diplomacySystem.reset();
 		diplomacyConfig.reset();
@@ -267,8 +272,7 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		cToolStrategy* toolStrategy = ToolManager.GetStrategy(cToolInvasionStrategy::TYPE);
 		cToolInvasionStrategy* toolInvasionStrategy = static_cast<cToolInvasionStrategy*>(toolStrategy);
 		if (toolInvasionStrategy) {
-			toolInvasionStrategy->warfareStrengthAnalyzer.reset();
-			toolInvasionStrategy->warfareEventDispatcher.reset();
+			toolInvasionStrategy->ResetDependencies();
 		}
 	}
 }

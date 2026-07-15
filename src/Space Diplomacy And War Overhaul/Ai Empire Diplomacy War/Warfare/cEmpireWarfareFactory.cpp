@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "cEmpireWarfareFactory.h"
 
-cEmpireWarfareFactory::cEmpireWarfareFactory(cWarfareConfig* warfareConfig,
+cEmpireWarfareFactory::cEmpireWarfareFactory(cSimulationValidator* simulationValidator, 
+	cWarfareConfig* warfareConfig,
 	cWarfareStrengthAnalyzer* warfareStrengthAnalyzer,
 	cWarfareEventDispatcher* warfareEventDispatcher)
 {
+	this->simulationValidator = simulationValidator;
 	this->warfareConfig = warfareConfig;
 	this->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
 	this->warfareEventDispatcher = warfareEventDispatcher;
@@ -37,5 +39,5 @@ void* cEmpireWarfareFactory::Cast(uint32_t type) const
 
 cEmpireWarfare* cEmpireWarfareFactory::CreateEmpireWarfare(Simulator::cEmpire* empire)
 {
-	return new cEmpireWarfare(empire, warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
+	return new cEmpireWarfare(empire, simulationValidator.get(), warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
 }

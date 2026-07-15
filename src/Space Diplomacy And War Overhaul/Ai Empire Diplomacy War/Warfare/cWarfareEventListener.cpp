@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "cWarfareEventListener.h"
 #include "cPlanetAttackedEvent.h"
-#include <Spore-Mod-Utils/Include/SporeModUtils.h>
-using namespace SporeModUtils;
 
-cWarfareEventListener::cWarfareEventListener()
+cWarfareEventListener::cWarfareEventListener(cSimulationValidator* simulationValidator)
 {
+	this->simulationValidator = simulationValidator;
 }
 
 
@@ -32,8 +31,8 @@ bool cWarfareEventListener::HandleMessage(uint32_t messageID, void* message)
 	if (messageID == cPlanetAttackedEvent::ID) {
 		cPlanetAttackedEvent* planetAttackedEvent = static_cast<cPlanetAttackedEvent*>(message);
 		if (planetAttackedEvent != nullptr && 
-			EmpireUtils::ValidNpcEmpire(planetAttackedEvent->aggressorEmpire, true) && 
-			PlanetUtils::InteractablePlanet(planetAttackedEvent->target) && 
+			simulationValidator->ValidEmpire(planetAttackedEvent->aggressorEmpire, true) &&
+			simulationValidator->ValidPlanet(planetAttackedEvent->target) &&
 			planetAttackedEvent->target->GetTechLevel() == Simulator::TechLevel::Empire) {
 
 			OnPlanetAttacked(planetAttackedEvent->aggressorEmpire, planetAttackedEvent->target, planetAttackedEvent->bombers);

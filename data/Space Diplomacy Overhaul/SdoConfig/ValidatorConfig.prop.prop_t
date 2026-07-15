@@ -1,0 +1,4 @@
+# 0 = Ignore only other players' empires
+# 1 = Ignore other players' empires + their direct allies and enemies
+# 2 = Ignore other players' empires + their direct relations + relations of those relations
+int32 empireInvalidationDepth 0

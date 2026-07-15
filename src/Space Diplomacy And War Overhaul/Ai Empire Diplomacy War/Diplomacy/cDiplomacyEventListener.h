@@ -15,7 +15,7 @@ class cDiplomacyEventListener
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyEventListener");
 
-	cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
+	cDiplomacyEventListener(cSimulationValidator* simulationValidator, cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
 	~cDiplomacyEventListener();
 
 	int AddRef() override;
@@ -73,6 +73,9 @@ public:
 	/// @param empire1
 	/// @param empire2
 	void OnNeighborsInPeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include <cSimulationValidator.h>
 
 #define AllianceEnemyButtonProcPtr intrusive_ptr<AllianceEnemyButtonProc>
 
@@ -15,7 +16,7 @@ class AllianceEnemyButtonProc
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::AllianceEnemyButtonProc");
 	
-	AllianceEnemyButtonProc();
+	AllianceEnemyButtonProc(cSimulationValidator* simulationValidator);
 	~AllianceEnemyButtonProc();
 
 	int AddRef() override;
@@ -34,5 +35,9 @@ public:
 	cEmpirePtr selectedEmpire;
 	bool buttonEnabled;
 	eastl::vector<IVisualEffectPtr> alliesAndEnemiesEffects;
-	
+
+private:
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 };

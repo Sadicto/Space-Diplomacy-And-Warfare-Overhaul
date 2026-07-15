@@ -2,6 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include "cEmpireRelationsAnalyzer.h"
+#include "..\cSimulationValidator.h"
 
 #define AffinityTextProcPtr intrusive_ptr<AffinityTextProc>
 
@@ -16,7 +17,7 @@ class AffinityTextProc
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::AffinityTextProc");
 	
-	AffinityTextProc(IWindow* affinityTooltipMainWindow, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
+	AffinityTextProc(IWindow* affinityTooltipMainWindow, cSimulationValidator* simulationValidator, cEmpireRelationsAnalyzer* empireRelationsAnalyzer, ResourceKey affinityTextConfigKey);
 	~AffinityTextProc();
 
 	int AddRef() override;
@@ -46,6 +47,9 @@ public:
 	void SetAffinityRollover();
 
 private:
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	// Pointer to the loaded empireRelationsAnalyzer.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;

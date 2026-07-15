@@ -3,6 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include "cWarfareStrengthAnalyzer.h"
 #include "cWarfareEventDispatcher.h"
+#include <cSimulationValidator.h>
 
 #define cToolInvasionStrategyPtr intrusive_ptr<cToolInvasionStrategy>
 
@@ -25,8 +26,27 @@ public:
 
 	int ProcessCost(int useCost) override;
 
+	/**
+	* @brief Injects the required dependencies into the class.
+	* @param simulationValidator.
+	* @param empireDiplomacyFactory.
+	*/
+	void InjectDependencies(cSimulationValidator* simulationValidator, cWarfareStrengthAnalyzer* warfareStrengthAnalyzer, cWarfareEventDispatcher* warfareEventDispatcher);
+
+	void ResetDependencies();
+
 	int useCost;
 
+private:
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
+
+	// Pointer to the loaded warfare strength analyzer object.
 	cWarfareStrengthAnalyzerPtr warfareStrengthAnalyzer;
+
+	// Pointer to the loaded warfare event dispatcher.
 	cWarfareEventDispatcherPtr warfareEventDispatcher;
+
+	// Indicates whether the class’s dependencies have been injected.
+	bool dependenciesInjected;
 };

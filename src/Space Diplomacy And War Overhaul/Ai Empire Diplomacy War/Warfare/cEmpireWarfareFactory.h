@@ -5,6 +5,7 @@
 #include "cWarfareStrengthAnalyzer.h"
 #include "cWarfareEventDispatcher.h"
 #include "cEmpireWarfare.h"
+#include <cSimulationValidator.h>
 
 #define cEmpireWarfareFactoryPtr intrusive_ptr<cEmpireWarfareFactory>
 
@@ -16,7 +17,8 @@ class cEmpireWarfareFactory
 public:
 	static const uint32_t TYPE = id("SpaceWarfareOverhaul::cEmpireWarfareFactory");
 	
-	cEmpireWarfareFactory(cWarfareConfig* warfareConfig,
+	cEmpireWarfareFactory(cSimulationValidator* simulationValidator, 
+		cWarfareConfig* warfareConfig,
 		cWarfareStrengthAnalyzer* warfareStrengthAnalyzer,
 		cWarfareEventDispatcher* warfareEventDispatcher);
 	~cEmpireWarfareFactory();
@@ -31,6 +33,11 @@ public:
 	 * @return Pointer to the newly created cEmpireWarfare associated with empire.
 	 */
 	cEmpireWarfare* CreateEmpireWarfare(Simulator::cEmpire* empire);
+
+private:
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
 	// Pointer to the loaded warfareConfig.
 	cWarfareConfigPtr warfareConfig;
