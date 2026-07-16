@@ -93,9 +93,9 @@ member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uin
 
 member_detour(DeclareWar__detour, cRelationshipManager, void(cEmpire*, cEmpire*)) {
 	void detoured(Simulator::cEmpire * empire1, Simulator::cEmpire * empire2) {
-		original_function(this, empire1, empire2);
 		if (!IsSpaceGame())
 		{
+			original_function(this, empire1, empire2);
 			return;
 		}
 		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
@@ -103,6 +103,7 @@ member_detour(DeclareWar__detour, cRelationshipManager, void(cEmpire*, cEmpire*)
 		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 		if (!simulationValidator->ValidEmpire(empire1, true) || !simulationValidator->ValidEmpire(empire2, true))
 		{
+			original_function(this, empire1, empire2);
 			return;
 		}
 
@@ -121,6 +122,7 @@ member_detour(DeclareWar__detour, cRelationshipManager, void(cEmpire*, cEmpire*)
 			cDiplomacyPopupManager* diplomacyPopUpManager = compositionRoot->diplomacyPopUpManager.get();
 			diplomacyPopUpManager->ShowTruceBrokenPlayer(otherEmpire);
 		}
+		original_function(this, empire1, empire2);
 	}
 };
 
