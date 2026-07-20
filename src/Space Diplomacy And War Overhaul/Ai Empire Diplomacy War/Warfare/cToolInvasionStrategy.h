@@ -3,7 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include "cWarfareStrengthAnalyzer.h"
 #include "cWarfareEventDispatcher.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 #define cToolInvasionStrategyPtr intrusive_ptr<cToolInvasionStrategy>
 

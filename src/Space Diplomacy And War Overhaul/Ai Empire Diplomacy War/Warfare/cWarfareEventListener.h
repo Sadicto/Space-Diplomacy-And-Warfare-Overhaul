@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 #define cWarfareEventListenerPtr intrusive_ptr<cWarfareEventListener>
 

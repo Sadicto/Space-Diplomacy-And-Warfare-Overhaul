@@ -4,7 +4,7 @@
 #include "Config\cWarfareConfig.h"
 #include "cWarfareStrengthAnalyzer.h"
 #include "cWarfareEventDispatcher.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 #define cEmpireWarfarePtr intrusive_ptr<cEmpireWarfare>
 

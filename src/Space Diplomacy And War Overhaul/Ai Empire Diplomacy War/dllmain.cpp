@@ -21,6 +21,7 @@
 #include "Diplomacy/PersistedEvent/cFormedAllianceEvent.h"
 #include "Diplomacy/PersistedEvent/cDefeatedEnemyTogetherEvent.h"
 #include "Diplomacy/DiplomacyDetours.h"
+#include "cPersistedObject.h"
 
 using namespace SporeModUtils;
 
@@ -33,6 +34,8 @@ void Initialize()
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cPersistedEventSystem(), cPersistedEventSystem::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
+
+	ClassManager.AddFactory(new cPersistedObjectFactory());
 	ClassManager.AddFactory(new cPersistedEventFactory());
 	ClassManager.AddFactory(new cPersistedDiplomacyEventFactory);
 	ClassManager.AddFactory(new cNeighborsInPeaceEventFactory());

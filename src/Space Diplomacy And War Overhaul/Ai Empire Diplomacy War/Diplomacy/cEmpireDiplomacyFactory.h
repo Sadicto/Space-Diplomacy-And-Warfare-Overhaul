@@ -5,7 +5,7 @@
 #include "cEmpireRelationsAnalyzer.h"
 #include "cDiplomacyEventDispatcher.h"
 #include "cEmpireDiplomacy.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 #define cEmpireDiplomacyFactoryPtr intrusive_ptr<cEmpireDiplomacyFactory>
 

@@ -1,23 +1,23 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <Diplomacy/cDiplomacyEffectInfoProvider.h>
-#include <Diplomacy/Config/cDiplomacyConfig.h>
-#include <Diplomacy/cEmpireRelationsAnalyzer.h>
-#include <Diplomacy/cDiplomacyEventDispatcher.h>
-#include <Diplomacy/cDiplomacyEventListener.h>
-#include <Diplomacy/cEmpireDiplomacyFactory.h>
-#include <Warfare/Config/cWarfareConfig.h>
-#include <Warfare/cSpaceCombatMetrics.h>
-#include <Warfare/cWarfareStrengthAnalyzer.h>
-#include <Warfare/cWarfareEventDispatcher.h>
-#include <Warfare/cWarfareEventListener.h>
-#include <Diplomacy/cDiplomacySystem.h>
-#include <Warfare/cWarfareSystem.h>
-#include <Warfare/cEmpireWarfareFactory.h>
-#include <Diplomacy/Config/cAffinityConfig.h>
-#include <cPersistedEventSystem.h>
-#include <Diplomacy/PersistedEvent/cPersistedDiplomacyEventManager.h>
+#include "Diplomacy/cDiplomacyEffectInfoProvider.h"
+#include "Diplomacy/Config/cDiplomacyConfig.h"
+#include "Diplomacy/cEmpireRelationsAnalyzer.h"
+#include "Diplomacy/cDiplomacyEventDispatcher.h"
+#include "Diplomacy/cDiplomacyEventListener.h"
+#include "Diplomacy/cEmpireDiplomacyFactory.h"
+#include "Warfare/Config/cWarfareConfig.h"
+#include "Warfare/cSpaceCombatMetrics.h"
+#include "Warfare/cWarfareStrengthAnalyzer.h"
+#include "Warfare/cWarfareEventDispatcher.h"
+#include "Warfare/cWarfareEventListener.h"
+#include "Diplomacy/cDiplomacySystem.h"
+#include "Warfare/cWarfareSystem.h"
+#include "Warfare/cEmpireWarfareFactory.h"
+#include "Diplomacy/Config/cAffinityConfig.h"
+#include "cPersistedEventSystem.h"
+#include "Diplomacy/PersistedEvent/cPersistedDiplomacyEventManager.h"
 #include "Diplomacy/AffinityModifier/cArchetypeAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cCommonAllyAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
@@ -38,7 +38,7 @@ class cCompositionRoot
 	: public Simulator::cStrategy
 {
 public:
-	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cCompositionRoot");
+	static const uint32_t TYPE = id("SpaceDiplomacyWarfareOverhaul::cCompositionRoot");
 	static const uint32_t NOUN_ID = TYPE;
 
 	int AddRef() override;

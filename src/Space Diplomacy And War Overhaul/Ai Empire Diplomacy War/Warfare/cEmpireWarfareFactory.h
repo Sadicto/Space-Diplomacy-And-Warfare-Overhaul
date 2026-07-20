@@ -5,7 +5,7 @@
 #include "cWarfareStrengthAnalyzer.h"
 #include "cWarfareEventDispatcher.h"
 #include "cEmpireWarfare.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 #define cEmpireWarfareFactoryPtr intrusive_ptr<cEmpireWarfareFactory>
 

@@ -4,7 +4,7 @@
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
 #include "cEmpireWarfare.h"
 #include "cEmpireWarfareFactory.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 #define cWarfareSystemPtr intrusive_ptr<cWarfareSystem>
 

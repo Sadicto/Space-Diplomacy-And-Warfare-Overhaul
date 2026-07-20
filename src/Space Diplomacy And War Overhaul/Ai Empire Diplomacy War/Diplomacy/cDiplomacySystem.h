@@ -4,7 +4,7 @@
 #include "cEmpireDiplomacy.h"
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
 #include "cEmpireDiplomacyFactory.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>

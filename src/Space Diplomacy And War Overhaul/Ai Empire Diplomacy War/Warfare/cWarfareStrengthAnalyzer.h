@@ -4,7 +4,7 @@
 #include "Config\cWarfareConfig.h"
 #include "cSpaceCombatMetrics.h"
 #include "Config\cArchetypeStrengthConfig.h"
-#include <cSimulationValidator.h>
+#include "cSimulationValidator.h"
 
 
 #define cWarfareStrengthAnalyzerPtr intrusive_ptr<cWarfareStrengthAnalyzer>
