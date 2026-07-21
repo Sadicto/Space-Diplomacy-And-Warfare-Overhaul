@@ -18,21 +18,16 @@ Object* cDefeatedEnemyTogetherEventFactory::Create(uint32_t type, ICoreAllocator
 	return new cDefeatedEnemyTogetherEvent();
 }
 const char* cDefeatedEnemyTogetherEventFactory::GetName(uint32_t type) const {
-	return "SpaceDiplomacyOverhaul::cDefeatedEnemyTogetherEvent";
+	return "cDefeatedEnemyTogetherEvent";
 }
 
-uint32_t cDefeatedEnemyTogetherEvent::GetCastID() const {
-	return TYPE;
-}
 uint32_t cDefeatedEnemyTogetherEvent::GetNounID() const {
 	return NOUN_ID;
 }
 
 void* cDefeatedEnemyTogetherEvent::Cast(uint32_t type) const {
 	CLASS_CAST(cDefeatedEnemyTogetherEvent);
-	CLASS_CAST(cPersistedDiplomacyEvent);
-	CLASS_CAST(cPersistedEvent);
-	PARENT_CAST(cGameData);
+	PARENT_CAST(cPersistedDiplomacyEvent);
 	return nullptr;
 }
 

@@ -8,12 +8,14 @@ cEmpireRelationsAnalyzer::cEmpireRelationsAnalyzer(cDiplomacyConfig* diplomacyCo
 	cArchetypesConfig* archetypesConfig, 
 	cAffinityConfig* affinityConfig,
 	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+	ISpaceTimeProvider* spaceTimeProvider,
 	eastl::vector<IAffinityModifierPtr> affinityModifiers)
 {
 	this->diplomacyConfig = diplomacyConfig;
 	this->archetypesConfig = archetypesConfig;
 	this->affinityConfig = affinityConfig;
 	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
+	this->spaceTimeProvider = spaceTimeProvider;
 	this->affinityModifiers = affinityModifiers;
 
 	affinityModifierContext.empire1 = nullptr;
@@ -60,7 +62,7 @@ int cEmpireRelationsAnalyzer::GetEmpireAgressivity(cEmpire* empire) {
 void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1, cEmpire* empire2, eastl::vector<AffinityModifierData>& affinityData) {
 	affinityModifierContext.empire1 = empire1;
 	affinityModifierContext.empire2 = empire2;
-	affinityModifierContext.currentTime = persistedDiplomacyEventManager->CurrentTime();
+	affinityModifierContext.currentTime = spaceTimeProvider->GetCurrentSpaceTime();
 	affinityModifierContext.diplomacyEvents.clear();
 	persistedDiplomacyEventManager->GetPersistedDiplomaticEventsBetweenEmpires(affinityModifierContext.diplomacyEvents, empire1, empire2);
 

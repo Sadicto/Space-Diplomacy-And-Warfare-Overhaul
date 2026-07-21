@@ -16,7 +16,6 @@
 #include "Warfare/cWarfareSystem.h"
 #include "Warfare/cEmpireWarfareFactory.h"
 #include "Diplomacy/Config/cAffinityConfig.h"
-#include "cPersistedEventSystem.h"
 #include "Diplomacy/PersistedEvent/cPersistedDiplomacyEventManager.h"
 #include "Diplomacy/AffinityModifier/cArchetypeAffinityModifier.h"
 #include "Diplomacy/AffinityModifier/cCommonAllyAffinityModifier.h"
@@ -29,6 +28,9 @@
 #include "Diplomacy/AffinityModifier/cWarWithAllyAffinityModifier.h"
 #include "Diplomacy/Config/cPersistedDiplomacyEventConfig.h"
 #include "cSimulationValidator.h"
+#include "cDatabaseManager.h"
+#include "cPersistenceState.h"
+#include "cPersistenceInjector.h"
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
 
@@ -57,12 +59,19 @@ public:
 
 	static Simulator::Attribute ATTRIBUTES[];
 
-	// Pointer to the loaded persisted event system object.
-	// It's not created by the composition root.
-	cPersistedEventSystemPtr persistedEventSystem;
-
 	// Pointer to the loaded simulation validator object.
 	cSimulationValidatorPtr simulationValidator;
+
+	// Pointer to the loaded database manager object.
+	// it's not created by the composition root.
+	cDatabaseManagerPtr databaseManager;
+
+	// Pointer to the loaded persistence state object.
+	// it's not created by the composition root.
+	cPersistenceStatePtr persistenceState;
+
+	// Pointer to the loaded persistence injector object.
+	cPersistenceInjectorPtr persistenceInjector;
 
 	// Pointer to the loaded diplomacy system object.
 	// it's not created by the composition root.

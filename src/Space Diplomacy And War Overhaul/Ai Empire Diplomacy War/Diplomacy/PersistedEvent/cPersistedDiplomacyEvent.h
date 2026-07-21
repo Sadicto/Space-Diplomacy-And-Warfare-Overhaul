@@ -2,7 +2,7 @@
 
 #include <Spore\BasicIncludes.h>
 #include "../cPersistedEvent.h"
-#include <cSimulationValidator.h>
+#include "../cSimulationValidator.h"
 
 #define cPersistedDiplomacyEventPtr intrusive_ptr<cPersistedDiplomacyEvent>
 
@@ -15,45 +15,43 @@ public:
 	static const uint32_t NOUN_ID = TYPE;
 
 	void* Cast(uint32_t type) const override;
-	uint32_t GetCastID() const override;
-	uint32_t GetNounID() const override;
-	bool Write(Simulator::ISerializerStream* stream) override;
-	bool Read(Simulator::ISerializerStream* stream) override;
+	virtual uint32_t GetNounID() const override;
+	virtual bool Write(Simulator::ISerializerStream* stream) override;
+	virtual bool Read(Simulator::ISerializerStream* stream) override;
 
-	bool Valid() override;
+	static Simulator::Attribute ATTRIBUTES[];
 
-
-	/// @brief Returns whether the event is currently active.
-	/// This is a semantic check intended to reflect current diplomatic state.
-	virtual bool Active();
+	virtual bool Valid() override;
 
 	/// @brief Returns the first empire associated with the event.
-	Simulator::cEmpire* GetEmpire1();
+	Simulator::cEmpire* GetEmpire1() const;
 
 	/// @brief Sets the first empire associated with the event.
 	/// @param empire1.
 	void SetEmpire1(Simulator::cEmpire* empire1);
 
 	/// @brief Returns the second empire associated with the event.
-	Simulator::cEmpire* GetEmpire2();
+	Simulator::cEmpire* GetEmpire2() const;
 
 	/// @brief Sets the second empire associated with the event.
 	/// @param empire2.
 	void SetEmpire2(Simulator::cEmpire* empire2);
 
-	static Simulator::Attribute ATTRIBUTES[];
+	void InjectDiplomacyEventDependencies(cSimulationValidator* simulationValidator);
 
 protected:
 
-	uint32_t empire1ID;
+	uint32_t empire1ID = 0;
 
-	uint32_t empire2ID;
+	uint32_t empire2ID = 0;
 
 	// First empire involved in the diplomacy event.
-	cEmpirePtr empire1;
+	cEmpirePtr empire1 = nullptr;
 
 	// Second empire involved in the diplomacy event.
-	cEmpirePtr empire2;
+	cEmpirePtr empire2 = nullptr;
+
+	cSimulationValidatorPtr simulationValidator = nullptr;
 
 };
 

@@ -104,11 +104,23 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="cDatabaseManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="cPersistedEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="cPersistedEventSystem.h">
+    <ClInclude Include="cPersistedObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cPersistenceInjector.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="cPersistenceState.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -240,6 +252,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ISpaceTimeProvider.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Spore-Mod-Utils\ArchetypeUtils\ArchetypeUtils.h" />
     <ClInclude Include="Diplomacy\cDiplomacySystem.h" />
     <ClInclude Include="Diplomacy\DebugDiplomacy.h" />
@@ -308,11 +324,23 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="cDatabaseManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="cPersistedEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="cPersistedEventSystem.cpp">
+    <ClCompile Include="cPersistedObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cPersistenceInjector.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="cPersistenceState.cpp">
       <SubType>
       </SubType>
     </ClCompile>

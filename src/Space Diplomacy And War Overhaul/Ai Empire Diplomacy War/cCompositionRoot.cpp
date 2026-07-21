@@ -19,7 +19,7 @@ int cCompositionRoot::Release() {
 }
 
 const char* cCompositionRoot::GetName() const {
-	return "SpaceDiplomacyOverhaul::cCompositionRoot";
+	return "SpaceDiplomacyWarfareOverhaul::cCompositionRoot";
 }
 
 bool cCompositionRoot::Write(Simulator::ISerializerStream* stream)
@@ -42,9 +42,9 @@ Simulator::Attribute cCompositionRoot::ATTRIBUTES[] ={
 
 void cCompositionRoot::Initialize(){
 	instance = this;
-
-	persistedEventSystem = nullptr;
 	simulationValidator = nullptr;
+	databaseManager = nullptr;
+	persistenceState = nullptr;
 
 	diplomacySystem = nullptr;
 	diplomacyConfig = nullptr;
@@ -112,10 +112,19 @@ void cCompositionRoot::Update(int deltaTime, int deltaGameTime){
 
 
 void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID){
-	if (newModeID == GameModeIDs::kGameSpace) {
-		persistedEventSystem = cPersistedEventSystem::Get();
-
+	if (newModeID == GameModeIDs::kGameSpace) 
+	{
 		simulationValidator = new cSimulationValidator(simulationValidatorConfigKey);
+
+		databaseManager = cDatabaseManager::Get();
+
+		// This method ensures that the db is read or that persistence has been desactivated.
+		persistenceState = databaseManager->GetPersistenceState();
+
+		persistenceInjector = new cPersistenceInjector(persistenceState.get(), simulationValidator.get());
+
+		// Injects dependencies for all cPersistedObjects loaded from the database.
+		databaseManager->InjectDependencies(persistenceInjector.get());
 
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 
@@ -125,7 +134,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		affinityConfig = new cAffinityConfig(affinityConfigKey);
 
-		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(simulationValidator.get(), persistedDiplomacyEventConfig.get(), persistedEventSystem.get());
+		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(simulationValidator.get(), persistedDiplomacyEventConfig.get(), databaseManager.get(), persistenceState.get());
 
 		archetypeAffinityModifier = new cArchetypeAffinityModifier();
 		commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
@@ -151,6 +160,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 			archetypesConfig.get(), 
 			affinityConfig.get(), 
 			persistedDiplomacyEventManager.get(), 
+			persistenceState.get(),
 			affinityModifiers);
 
 		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
@@ -227,8 +237,9 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
 	if (previousModeID == GameModeIDs::kGameSpace) {
-		persistedEventSystem.reset();
 		simulationValidator.reset();
+		databaseManager.reset();
+		persistenceState.reset();
 
 		diplomacySystem.reset();
 		diplomacyConfig.reset();

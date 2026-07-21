@@ -2,9 +2,9 @@
 
 #include <Spore\BasicIncludes.h>
 #include "cPersistedDiplomacyEvent.h"
-#include <cPersistedEventSystem.h>
 #include "../Config/cPersistedDiplomacyEventConfig.h"
 #include "../../cSimulationValidator.h"
+#include "cDatabaseManager.h"
 
 
 #define cPersistedDiplomacyEventManagerPtr intrusive_ptr<cPersistedDiplomacyEventManager>
@@ -17,15 +17,15 @@ class cPersistedDiplomacyEventManager
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPersistedDiplomacyEventManager");
 	
-	cPersistedDiplomacyEventManager(cSimulationValidator* simulationValidator, cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, cPersistedEventSystem* persistedEventSystem);
+	cPersistedDiplomacyEventManager(cSimulationValidator* simulationValidator, 
+		cPersistedDiplomacyEventConfig* persistedDiplomacyEventConfig, 
+		cDatabaseManager* databaseManager,
+		ISpaceTimeProvider* spaceTimeProvider);
 	~cPersistedDiplomacyEventManager();
 
 	int AddRef() override;
 	int Release() override;
 	void* Cast(uint32_t type) const override;
-
-	/// @brief Returns the current persisted-event system time.
-	uint32_t CurrentTime();
 
 	/// @brief Retrieves all active persisted diplomacy events involving an empire.
 	/// @param diplomacyEvents Output vector populated with active events.
@@ -77,8 +77,12 @@ private:
 	// Pointed to the loaded persisted diplomacy event config.
 	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;
 
-	// Pointer to the loaded persistedEventSystem.
-	cPersistedEventSystemPtr persistedEventSystem;
+	// Pointer to the loaded databaseManager.
+	cDatabaseManagerPtr databaseManager;
+
+	// Pointer to the loaded spaceTimeProvider.
+	ISpaceTimeProviderPtr spaceTimeProvider;
+
 
 	// Maps empires to the persisted diplomacy events they are involved in.
 	eastl::map<cEmpirePtr, eastl::vector<cPersistedDiplomacyEventPtr>> diplomacyEventsByEmpire;

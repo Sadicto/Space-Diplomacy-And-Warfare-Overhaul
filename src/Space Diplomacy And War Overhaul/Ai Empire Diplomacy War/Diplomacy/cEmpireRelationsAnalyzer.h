@@ -22,6 +22,7 @@ public:
 		cArchetypesConfig* archetypesConfig, 
 		cAffinityConfig* affinityConfig, 
 		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+		ISpaceTimeProvider* spaceTimeProvider,
 		eastl::vector<IAffinityModifierPtr> affinityModifiers);
 	~cEmpireRelationsAnalyzer();
 
@@ -63,6 +64,9 @@ public:
 
 	// Pointer to the loaded persisted diplomacy event manager.
 	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	// Pointer to the loaded persisted space time provider.
+	ISpaceTimeProviderPtr spaceTimeProvider;
 
 	// Pointers to the loaded affinityModifiers.
 	eastl::vector<IAffinityModifierPtr> affinityModifiers;

@@ -53,7 +53,6 @@
     <ClInclude Include="cCompositionRoot.h" />
     <ClInclude Include="Diplomacy\cEmpireDiplomacyFactory.h" />
     <ClInclude Include="Warfare\cEmpireWarfareFactory.h" />
-    <ClInclude Include="cPersistedEventSystem.h" />
     <ClInclude Include="cPersistedEvent.h" />
     <ClInclude Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.h" />
     <ClInclude Include="Diplomacy\Config\cAffinityConfig.h" />
@@ -81,6 +80,11 @@
     <ClInclude Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.h" />
     <ClInclude Include="Diplomacy\DiplomacyDetours.h" />
     <ClInclude Include="cSimulationValidator.h" />
+    <ClInclude Include="cPersistedObject.h" />
+    <ClInclude Include="ISpaceTimeProvider.h" />
+    <ClInclude Include="cPersistenceState.h" />
+    <ClInclude Include="cDatabaseManager.h" />
+    <ClInclude Include="cPersistenceInjector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,7 +124,6 @@
     <ClCompile Include="cCompositionRoot.cpp" />
     <ClCompile Include="Diplomacy\cEmpireDiplomacyFactory.cpp" />
     <ClCompile Include="Warfare\cEmpireWarfareFactory.cpp" />
-    <ClCompile Include="cPersistedEventSystem.cpp" />
     <ClCompile Include="cPersistedEvent.cpp" />
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.cpp" />
     <ClCompile Include="Diplomacy\Config\cAffinityConfig.cpp" />
@@ -146,6 +149,10 @@
     <ClCompile Include="Diplomacy\PersistedEvent\cMadePeaceEvent.cpp" />
     <ClCompile Include="Diplomacy\Config\cPersistedDiplomacyEventConfig.cpp" />
     <ClCompile Include="cSimulationValidator.cpp" />
+    <ClCompile Include="cPersistedObject.cpp" />
+    <ClCompile Include="cPersistenceState.cpp" />
+    <ClCompile Include="cDatabaseManager.cpp" />
+    <ClCompile Include="cPersistenceInjector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

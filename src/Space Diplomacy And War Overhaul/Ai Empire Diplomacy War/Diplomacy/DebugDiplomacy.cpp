@@ -10,6 +10,9 @@
 #include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
 #include "../cCompositionRoot.h"
 #include "../cSimulationValidator.h"
+#include "cPersistedObject.h"
+#include "cPersistedEvent.h"
+
 
 using namespace Simulator;
 using namespace SporeModUtils;
@@ -45,7 +48,12 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 2: {
-        RelationshipManager.DeclareWar(empire, empireColonizer);
+        cUpliftedByMonolithEventPtr monolithEvent = object_cast<cUpliftedByMonolithEvent>(ClassManager.Create(cUpliftedByMonolithEvent::NOUN_ID));
+        object_cast<cPersistedDiplomacyEvent>(monolithEvent);
+        object_cast<cPersistedEvent>(monolithEvent);
+        object_cast<cPersistedObject>(monolithEvent);
+        int a = 1;
+
         break;
     }
     case 3:  {

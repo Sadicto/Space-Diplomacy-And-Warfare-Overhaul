@@ -14,11 +14,7 @@ Object* cUpliftedByMonolithEventFactory::Create(uint32_t type, ICoreAllocator* p
 	return new cUpliftedByMonolithEvent();
 }
 const char* cUpliftedByMonolithEventFactory::GetName(uint32_t type) const {
-	return "SpaceDiplomacyOverhaul::cUpliftedByMonolithEvent";
-}
-
-uint32_t cUpliftedByMonolithEvent::GetCastID() const {
-	return TYPE;
+	return "cUpliftedByMonolithEvent";
 }
 uint32_t cUpliftedByMonolithEvent::GetNounID() const {
 	return NOUN_ID;
@@ -26,9 +22,7 @@ uint32_t cUpliftedByMonolithEvent::GetNounID() const {
 
 void* cUpliftedByMonolithEvent::Cast(uint32_t type) const {
 	CLASS_CAST(cUpliftedByMonolithEvent);
-	CLASS_CAST(cPersistedDiplomacyEvent);
-	CLASS_CAST(cPersistedEvent);
-	PARENT_CAST(cGameData);
+	PARENT_CAST(cPersistedDiplomacyEvent);
 	return nullptr;
 }
 

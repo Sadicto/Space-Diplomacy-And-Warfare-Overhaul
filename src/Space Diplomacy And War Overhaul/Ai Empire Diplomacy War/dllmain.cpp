@@ -22,6 +22,8 @@
 #include "Diplomacy/PersistedEvent/cDefeatedEnemyTogetherEvent.h"
 #include "Diplomacy/DiplomacyDetours.h"
 #include "cPersistedObject.h"
+#include "cPersistenceState.h"
+#include "cDatabaseManager.h"
 
 using namespace SporeModUtils;
 
@@ -32,16 +34,18 @@ void Initialize()
 	cSimulatorSystem::Get()->AddStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
-	cSimulatorSystem::Get()->AddStrategy(new cPersistedEventSystem(), cPersistedEventSystem::NOUN_ID);
+	cSimulatorSystem::Get()->AddStrategy(new cDatabaseManager(), cDatabaseManager::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
 
 	ClassManager.AddFactory(new cPersistedObjectFactory());
+	ClassManager.AddFactory(new cPersistenceStateFactory());
 	ClassManager.AddFactory(new cPersistedEventFactory());
 	ClassManager.AddFactory(new cPersistedDiplomacyEventFactory);
 	ClassManager.AddFactory(new cNeighborsInPeaceEventFactory());
 	ClassManager.AddFactory(new cMadePeaceEventFactory());
 	ClassManager.AddFactory(new cUpliftedByMonolithEventFactory());
 	ClassManager.AddFactory(new cFormedAllianceEventFactory());
+	ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
 	ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
 
 	// This method is executed when the game starts, before the user interface is shown

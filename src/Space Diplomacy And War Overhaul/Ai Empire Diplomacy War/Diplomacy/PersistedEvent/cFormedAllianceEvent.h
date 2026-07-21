@@ -15,15 +15,11 @@ public:
 	static const uint32_t NOUN_ID = TYPE;
 
 	void* Cast(uint32_t type) const override;
-	uint32_t GetCastID() const override;
 	uint32_t GetNounID() const override;
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
-	/// @brief Returns whether the event is currently active.
-	/// The event remains active while both empires are valid
-	/// and the alliance between them still exists.
-	bool Active() override;
+	bool Valid() override;
 
 	static Simulator::Attribute ATTRIBUTES[];
 
