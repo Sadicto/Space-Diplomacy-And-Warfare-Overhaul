@@ -10,8 +10,7 @@
 #define cDiplomacySystemPtr intrusive_ptr<cDiplomacySystem>
 
 /// Main class of the diplomacy system.
-/// Coordinates diplomacy cycles, instantiates and owns
-/// the other diplomacy-related subsystem classes, and manages
+/// Coordinates diplomacy cycles and manages
 /// cEmpireDiplomacy objects for all relevant empires.
 class cDiplomacySystem
 	: public Simulator::cStrategy
