@@ -64,8 +64,12 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 				OnHostileAlliance(empire1, empire2);
 				break;
 			}
-			case(DiplomacyEventType::DeclareWar): {
-				OnDeclareWar(empire1, empire2);
+			case(DiplomacyEventType::UnprovokedWar): {
+				OnDeclareUnprovokedWar(empire1, empire2);
+				break;
+			}
+			case(DiplomacyEventType::JoinAllyWar): {
+				OnJoinAllyWar(empire1, empire2);
 				break;
 			}
 			case(DiplomacyEventType::ContinueWar): {
@@ -157,21 +161,29 @@ void cDiplomacyEventListener::OnHostileAlliance(Simulator::cEmpire* empire1, Sim
 	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
-void cDiplomacyEventListener::OnDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+void cDiplomacyEventListener::OnDeclareUnprovokedWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	if (empire2 == GetPlayerEmpire()) {
-		/*
-		Simulator::CnvAction action;
-		action.actionID = 0x4C182387;
-		//when the relation is blue face or better this doesn´t work
-		CommManager.HandleSpaceCommAction(action, empire1->GetEmpireID(), empire1->RequireHomePlanet()->GetID(), nullptr);
-		*/
-		diplomacyPopUpManager->ShowDeclareWarPlayer(empire1);
+		diplomacyPopUpManager->ShowDeclareUnprovokedWarPlayer(empire1);
 		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
 		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
 		empireRelationshipController->SetRelationshipEffectMax(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
 	}
 	else {
-		diplomacyPopUpManager->ShowDeclareWarAI(empire1, empire2);
+		diplomacyPopUpManager->ShowDeclareUnprovokedWarAI(empire1, empire2);
+		RelationshipManager.DeclareWar(empire1, empire2);
+	}
+}
+
+void cDiplomacyEventListener::OnJoinAllyWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2)
+{
+	if (empire2 == GetPlayerEmpire()) {
+		diplomacyPopUpManager->ShowJoinAllyWarPlayer(empire1);
+		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
+		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
+		empireRelationshipController->SetRelationshipEffectMax(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
+	}
+	else {
+		diplomacyPopUpManager->ShowJoinAllyWarAI(empire1, empire2);
 		RelationshipManager.DeclareWar(empire1, empire2);
 	}
 }

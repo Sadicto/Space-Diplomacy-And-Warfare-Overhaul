@@ -100,6 +100,9 @@ public:
 
 	eastl::vector<cEmpirePtr> neutrals;
 
+	/// @brief Whether the empire is joining its ally's war.
+	bool joiningAllyWar;
+
 	/*
 	int strenght;
 	int srenghtOfAlliance;

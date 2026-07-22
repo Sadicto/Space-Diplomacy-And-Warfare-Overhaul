@@ -74,14 +74,23 @@ public:
 	/// @param empire The AI empire whose truce was broken.
 	void ShowTruceBrokenPlayer(Simulator::cEmpire* empire);
 
-	/// @brief Shows a notification when two AI empires declare war on each other.
+	/// @brief Shows a notification when one AI empire declares an unprovoked war on another AI empire.
 	/// @param empire1
 	/// @param empire2
-	void ShowDeclareWarAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+	void ShowDeclareUnprovokedWarAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	/// @brief Shows a notification when an AI declares war to the player.
+	/// @brief Shows a notification when an AI declares an unprovoked war on the player.
 	/// @param empire
-	void ShowDeclareWarPlayer(Simulator::cEmpire* empire);
+	void ShowDeclareUnprovokedWarPlayer(Simulator::cEmpire* empire);
+
+	/// @brief Shows a notification when one AI empire joins its ally's war against another AI empire.
+	/// @param empire1
+	/// @param empire2
+	void ShowJoinAllyWarAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Shows a notification when an AI empire joins its ally's war against the player.
+	/// @param empire
+	void ShowJoinAllyWarPlayer(Simulator::cEmpire* empire);
 
 	/// @brief Shows a notification when the player has an unstable alliance.
 	/// @param empire
@@ -146,11 +155,17 @@ public:
 	// Popup text: Player broke truce with AI by initiating a war, voiding all truces..
 	eastl::string16 TruceBrokenPlayerAiText;
 
-	// Popup text: AI declared war on another AI.
-	eastl::string16 WarDeclaredAiAiText;
+	// Popup text: AI declared unprovoked war on another AI.
+	eastl::string16 UnprovokedWarDeclaredAiAiText;
 
-	// Popup text: AI declared war on the player.
-	eastl::string16 WarDeclaredAiPlayerText;
+	// Popup text: One AI empire joined its ally's war against another AI empire.
+	eastl::string16 JoinAllyWarAiAiText;
+
+	// Popup text: An AI empire joined its ally's war against the player.
+	eastl::string16 JoinAllyWarAiPlayerText;
+
+	// Popup text: AI declared unprovoked war on the player.
+	eastl::string16 UnprovokedWarDeclaredAiPlayerText;
 
 	// Popup text: AI weakened alliance with the player due to low affinity.
 	eastl::string16 WeakAllianceAiPlayerText;

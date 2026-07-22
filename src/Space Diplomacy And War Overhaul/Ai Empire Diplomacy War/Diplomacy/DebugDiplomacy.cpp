@@ -129,8 +129,8 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 15: {
-        cPlanetRecord* planet = GetActivePlanetRecord();
-        planet->mTribeData.clear();
+        cSpaceTradeRouteManager* tradeRouteManager = &StarManager.mTradeRouteManager;
+        int b = 1;
         
 
         
@@ -150,11 +150,15 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 18: {
-
+        int id = GetPlayerEmpire()->mPoliticalID;
+        GetPlayerEmpireID();
+        int idEmpire = empire->mPoliticalID;
+        int a = 1;
         break;
     }
     case 19: {
-
+        float rel = compositionRoot->empireRelationsAnalyzer->GetEmpiresRelationship(empire, GetPlayerEmpire());
+        int a = 1;
         
         break;
     }

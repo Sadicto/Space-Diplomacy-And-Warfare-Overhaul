@@ -19,6 +19,8 @@ cEmpireDiplomacy::cEmpireDiplomacy(Simulator::cEmpire* empire,
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	this->diplomacyEventDispatcher = diplomacyEventDispatcher;
 	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
+
+	this->joiningAllyWar = false;
 }
 
 
@@ -220,12 +222,23 @@ void cEmpireDiplomacy::ManageNeutrals() {
 	cEmpire* wartarget = nullptr;
 	if (diplomacyConfig->GetAutoDeclareWarOnAllyEnemies()) {
 		wartarget = FindAllyEnemy();
+		if (wartarget != nullptr)
+		{
+			joiningAllyWar = true;
+		}
 	}
 	if (wartarget == nullptr && (diplomacyConfig->GetStartsWarsWhileAtWar() || empire->mEnemies.size() == 0)) {
 		wartarget = GetWarTarget();
 	}
 	if (wartarget != nullptr) {
-		diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::DeclareWar, empire.get(), wartarget);
+		if (joiningAllyWar)
+		{
+			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::JoinAllyWar, empire.get(), wartarget);
+		}
+		else
+		{
+			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::UnprovokedWar, empire.get(), wartarget);
+		}
 		auto it = eastl::find(neutrals.begin(), neutrals.end(), wartarget);
 		if (it != neutrals.end()) {
 			neutrals.erase(it);

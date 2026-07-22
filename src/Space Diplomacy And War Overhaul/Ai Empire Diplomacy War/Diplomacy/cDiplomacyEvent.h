@@ -10,7 +10,8 @@ enum class DiplomacyEventType {
 	StableAlliance,
 	UnstableAlliance,
 	HostileAlliance,
-	DeclareWar,
+	UnprovokedWar,
+	JoinAllyWar,
 	ContinueWar,
 	MadePeace,
 	NeighborsInPeace
