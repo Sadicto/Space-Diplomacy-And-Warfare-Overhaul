@@ -85,6 +85,7 @@
     <ClInclude Include="cPersistenceState.h" />
     <ClInclude Include="cDatabaseManager.h" />
     <ClInclude Include="cPersistenceInjector.h" />
+    <ClInclude Include="Diplomacy\PersistedEvent\cPreparingToDeclareWarEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -153,6 +154,7 @@
     <ClCompile Include="cPersistenceState.cpp" />
     <ClCompile Include="cDatabaseManager.cpp" />
     <ClCompile Include="cPersistenceInjector.cpp" />
+    <ClCompile Include="Diplomacy\PersistedEvent\cPreparingToDeclareWarEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

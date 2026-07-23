@@ -1,9 +1,9 @@
 key parent civpopupbase~!EventTemplate.prop
-string16 description "War Declared On the Player"
+string16 description "Preparing to Declare War On the Player"
 bool eventAllowDuplicates true
 key eventCategory Warning
 texts eventDescription
-	"War Declared On the Player"
+	"Preparing to Declare War On the Player"
 end
 float eventRemoveTime 500
 float eventStartFadeTime 300

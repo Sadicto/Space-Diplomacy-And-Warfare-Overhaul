@@ -24,6 +24,7 @@
 #include "cPersistedObject.h"
 #include "cPersistenceState.h"
 #include "cDatabaseManager.h"
+#include "Diplomacy/PersistedEvent/cPreparingToDeclareWarEvent.h"
 
 using namespace SporeModUtils;
 
@@ -46,7 +47,7 @@ void Initialize()
 	ClassManager.AddFactory(new cUpliftedByMonolithEventFactory());
 	ClassManager.AddFactory(new cFormedAllianceEventFactory());
 	ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
-	ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
+	ClassManager.AddFactory(new cPreparingForWarEventFactory());
 
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
@@ -61,6 +62,15 @@ void Dispose()
 {
 	// This method is called when the game is closing
 }
+
+member_detour(CalculateRelationshipAbsolute__detour, cRelationshipManager, float(uint32_t, uint32_t, bool))
+{
+	float detoured(uint32_t politicalID1, uint32_t politicalID2, bool a)
+	{
+		float ret = original_function(this, politicalID1, politicalID2, a);
+		return ret;
+	}
+};
 
 
 void AttachDetours()

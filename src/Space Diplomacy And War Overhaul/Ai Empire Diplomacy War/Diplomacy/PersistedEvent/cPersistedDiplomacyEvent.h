@@ -37,6 +37,13 @@ public:
 	/// @param empire2.
 	void SetEmpire2(Simulator::cEmpire* empire2);
 
+	/// @brief Returns whether the order of the empires involved in the event matters.
+	bool IsEmpireOrderImportant() const;
+
+	/// @brief Sets whether the order of the empires involved in the event matters.
+	/// @param value.
+	void SetEmpireOrderImportant(bool value);
+
 	void InjectDiplomacyEventDependencies(cSimulationValidator* simulationValidator);
 
 protected:
@@ -45,11 +52,17 @@ protected:
 
 	uint32_t empire2ID = 0;
 
+	// Needed because bool values can't be serialized.
+	uint32_t empireOrderImportantSerialization = 0;
+
 	// First empire involved in the diplomacy event.
 	cEmpirePtr empire1 = nullptr;
 
 	// Second empire involved in the diplomacy event.
 	cEmpirePtr empire2 = nullptr;
+
+	// Whether the order of the empires involved in the diplomacy event matters.
+	bool empireOrderImportant = false;
 
 	cSimulationValidatorPtr simulationValidator = nullptr;
 

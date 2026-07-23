@@ -4,6 +4,7 @@
 #include "ISpaceTimeProvider.h"
 #include "cSimulationValidator.h"
 #include <cPersistedObject.h>
+#include <Diplomacy/Config/cDiplomacyConfig.h>
 
 #define cPersistenceInjectorPtr intrusive_ptr<cPersistenceInjector>
 
@@ -15,7 +16,7 @@ class cPersistenceInjector
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyWarfareOverhaul::cPersistenceInjector");
 	
-	cPersistenceInjector(ISpaceTimeProvider* spaceTimeProvider, cSimulationValidator* simulationValidator);
+	cPersistenceInjector(ISpaceTimeProvider* spaceTimeProvider, cSimulationValidator* simulationValidator, cDiplomacyConfig* diplomacyConfig);
 	~cPersistenceInjector();
 
 	int AddRef() override;
@@ -28,4 +29,5 @@ public:
 private:
 	ISpaceTimeProviderPtr spaceTimeProvider;
 	cSimulationValidatorPtr simulationValidator;
+	cDiplomacyConfigPtr diplomacyConfig;
 };

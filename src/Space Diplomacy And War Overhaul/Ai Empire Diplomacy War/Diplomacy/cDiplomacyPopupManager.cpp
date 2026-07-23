@@ -15,6 +15,7 @@ cDiplomacyPopupManager::cDiplomacyPopupManager(ResourceKey spacePopUpsConfigKey,
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0xA1003F93, HostileAllianceAiPlayerText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x5A02F668, RelationImprovedAiPlayer);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0xD449A38F, TruceBrokenPlayerAiText);
+	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x2D358008, PreparingToDeclareWarAiPlayerText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0xC6B30031, UnprovokedWarDeclaredAiAiText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x0C829CD8, UnprovokedWarDeclaredAiPlayerText);
 	App::Property::GetString16(spacePopUpsConfigProp.get(), 0x128BC862, JoinAllyWarAiAiText);
@@ -158,6 +159,14 @@ void cDiplomacyPopupManager::ShowTruceBrokenPlayer(Simulator::cEmpire* empire){
 	eastl::string16 popupText = TruceBrokenPlayerAiText;
 	FormatDiplomaticActionMessage(empire, 1, popupText);
 	ResourceKey eventKey = ResourceKey(id("TruceBrokenPlayerAi"), 0, id("SdoSpacePopUps"));
+	ShowPopup(eventKey, popupText);
+}
+
+void cDiplomacyPopupManager::ShowPreparingToDeclareWarAiPlayer(Simulator::cEmpire* empire)
+{
+	eastl::string16 popupText = PreparingToDeclareWarAiPlayerText;
+	FormatDiplomaticActionMessage(empire, 1, popupText);
+	ResourceKey eventKey = ResourceKey(id("PreparingToDeclareWarAiPlayer"), 0, id("SdoSpacePopUps"));
 	ShowPopup(eventKey, popupText);
 }
 

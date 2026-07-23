@@ -248,6 +248,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Diplomacy\PersistedEvent\cPreparingToDeclareWarEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Diplomacy\PersistedEvent\cUpliftedByMonolithEvent.h">
       <SubType>
       </SubType>
@@ -460,6 +464,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Diplomacy\PersistedEvent\cPersistedDiplomacyEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Diplomacy\PersistedEvent\cPreparingToDeclareWarEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>

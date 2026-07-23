@@ -64,6 +64,10 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 				OnHostileAlliance(empire1, empire2);
 				break;
 			}
+			case(DiplomacyEventType::PreparingToDeclareWar): {
+				OnPreparingToDeclareWar(empire1, empire2);
+				break;
+			}
 			case(DiplomacyEventType::UnprovokedWar): {
 				OnDeclareUnprovokedWar(empire1, empire2);
 				break;
@@ -159,6 +163,15 @@ void cDiplomacyEventListener::OnHostileAlliance(Simulator::cEmpire* empire1, Sim
 		}
 	}
 	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
+}
+
+void cDiplomacyEventListener::OnPreparingToDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2)
+{
+	if (empire2 == GetPlayerEmpire())
+	{
+		diplomacyPopUpManager->ShowPreparingToDeclareWarAiPlayer(empire1);
+	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::PreparingToDeclareWarEvent);
 }
 
 void cDiplomacyEventListener::OnDeclareUnprovokedWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {

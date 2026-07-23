@@ -74,6 +74,10 @@ public:
 	/// @param empire The AI empire whose truce was broken.
 	void ShowTruceBrokenPlayer(Simulator::cEmpire* empire);
 
+	/// @brief Shows a notification when an AI empire is preparing to declare war on the player.
+	/// @param empire
+	void ShowPreparingToDeclareWarAiPlayer(Simulator::cEmpire* empire);
+
 	/// @brief Shows a notification when one AI empire declares an unprovoked war on another AI empire.
 	/// @param empire1
 	/// @param empire2
@@ -154,6 +158,9 @@ public:
 
 	// Popup text: Player broke truce with AI by initiating a war, voiding all truces..
 	eastl::string16 TruceBrokenPlayerAiText;
+
+	// Popup text: An AI empire is preparing to declare war on the player.
+	eastl::string16 PreparingToDeclareWarAiPlayerText;
 
 	// Popup text: AI declared unprovoked war on another AI.
 	eastl::string16 UnprovokedWarDeclaredAiAiText;

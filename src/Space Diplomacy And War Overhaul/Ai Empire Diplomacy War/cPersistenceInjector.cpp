@@ -2,11 +2,13 @@
 #include "cPersistenceInjector.h"
 #include <cPersistedEvent.h>
 #include <Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h>
+#include <Diplomacy/PersistedEvent/cPreparingToDeclareWarEvent.h>
 
-cPersistenceInjector::cPersistenceInjector(ISpaceTimeProvider* spaceTimeProvider, cSimulationValidator* simulationValidator)
+cPersistenceInjector::cPersistenceInjector(ISpaceTimeProvider* spaceTimeProvider, cSimulationValidator* simulationValidator, cDiplomacyConfig* diplomacyConfig)
 {
 	this->spaceTimeProvider = spaceTimeProvider;
 	this->simulationValidator = simulationValidator;
+	this->diplomacyConfig = diplomacyConfig;
 }
 
 cPersistenceInjector::~cPersistenceInjector()
@@ -48,6 +50,11 @@ void cPersistenceInjector::InjectObjectDependencies(cPersistedObject* persistedO
 	if (persistedDiplomacyEvent != nullptr)
 	{
 		persistedDiplomacyEvent->InjectDiplomacyEventDependencies(simulationValidator.get());
+	}
+	cPreparingToDeclareWarEvent* preparingForWarEvent = object_cast<cPreparingToDeclareWarEvent>(persistedObject);
+	if (preparingForWarEvent != nullptr)
+	{
+		preparingForWarEvent->InjectPreparingToDeclareWarEventDependencies(diplomacyConfig.get());
 	}
 	persistedObject->SetDependenciesInjected(true);
 }

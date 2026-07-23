@@ -8,6 +8,7 @@ cPersistedDiplomacyEventConfig::cPersistedDiplomacyEventConfig(ResourceKey persi
 	App::Property::GetArrayBool(persistedDiplomacyEventConfigProp.get(), 0x44F772EB, expires);
 	App::Property::GetArrayUInt32(persistedDiplomacyEventConfigProp.get(), 0x9BE6806B, expireTime);
 	App::Property::GetArrayBool(persistedDiplomacyEventConfigProp.get(), 0xACE6F0D9, replacedOnRepeat);
+	App::Property::GetArrayBool(persistedDiplomacyEventConfigProp.get(), 0x2696A2DF, orderImportant);
 }
 
 
@@ -45,6 +46,11 @@ uint32_t cPersistedDiplomacyEventConfig::GetDiplomacyEventExpireTime(PersistedDi
 
 bool cPersistedDiplomacyEventConfig::DiplomacyEventReplacedOnRepeat(PersistedDiplomacyEventType eventType){
 	return replacedOnRepeat[int(eventType)];
+}
+
+bool cPersistedDiplomacyEventConfig::DiplomacyEventOrderImportant(PersistedDiplomacyEventType eventType)
+{
+	return orderImportant[int(eventType)];
 }
 
 

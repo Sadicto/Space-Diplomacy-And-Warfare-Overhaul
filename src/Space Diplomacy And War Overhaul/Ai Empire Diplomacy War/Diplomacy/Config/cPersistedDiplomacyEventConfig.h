@@ -8,7 +8,8 @@ enum class PersistedDiplomacyEventType {
 	FormedAlliance = 1,
 	DefeatedEnemyTogether = 2,
 	UpliftedByMonolith = 3,
-	MadePeace = 4
+	MadePeace = 4,
+	PreparingToDeclareWarEvent = 5
 };
 
 #define cPersistedDiplomacyEventConfigPtr intrusive_ptr<cPersistedDiplomacyEventConfig>
@@ -39,6 +40,9 @@ public:
 	// when the same event is triggered again.
 	bool DiplomacyEventReplacedOnRepeat(PersistedDiplomacyEventType eventType);
 
+	// Gets whether the empire order is important for a persisted diplomacy event type.
+	bool DiplomacyEventOrderImportant(PersistedDiplomacyEventType eventType);;
+
 private:
 
 	// Stores whether each diplomacy event type expires.
@@ -49,4 +53,7 @@ private:
 
 	// Stores whether each diplomacy event type refreshes on repeat.
 	eastl::vector<bool> replacedOnRepeat;
+
+	// Stores whether the empire order matters for each diplomacy event type.
+	eastl::vector<bool> orderImportant;
 };

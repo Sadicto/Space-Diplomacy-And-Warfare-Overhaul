@@ -35,6 +35,7 @@ bool cPersistedDiplomacyEvent::Write(Simulator::ISerializerStream* stream)
 {
 	empire1ID = empire1->GetEmpireID();
 	empire2ID = empire2->GetEmpireID();
+	empireOrderImportantSerialization = uint32_t(empireOrderImportant);
 	return cPersistedEvent::Write(stream) && Simulator::ClassSerializer(this, ATTRIBUTES).Write(stream);
 }
 bool cPersistedDiplomacyEvent::Read(Simulator::ISerializerStream* stream)
@@ -44,6 +45,7 @@ bool cPersistedDiplomacyEvent::Read(Simulator::ISerializerStream* stream)
 	{
 		empire1 = StarManager.GetEmpire(empire1ID);
 		empire2 = StarManager.GetEmpire(empire2ID);
+		empireOrderImportant = bool(empireOrderImportantSerialization);
 	}
 	return success;
 }
@@ -55,6 +57,7 @@ Simulator::Attribute cPersistedDiplomacyEvent::ATTRIBUTES[] = {
 
 	SimAttribute(cPersistedDiplomacyEvent, empire1ID, 0),
 	SimAttribute(cPersistedDiplomacyEvent, empire2ID, 1),
+	SimAttribute(cPersistedDiplomacyEvent, empireOrderImportantSerialization, 2),
 	Simulator::Attribute()
 };
 
@@ -79,6 +82,16 @@ cEmpire* cPersistedDiplomacyEvent::GetEmpire2() const{
 
 void cPersistedDiplomacyEvent::SetEmpire2(cEmpire* empire2) {
 	this->empire2 = empire2;
+}
+
+bool cPersistedDiplomacyEvent::IsEmpireOrderImportant() const
+{
+	return this->empireOrderImportant;
+}
+
+void cPersistedDiplomacyEvent::SetEmpireOrderImportant(bool value)
+{
+	this->empireOrderImportant = empireOrderImportant;
 }
 
 void cPersistedDiplomacyEvent::InjectDiplomacyEventDependencies(cSimulationValidator* simulationValidator)

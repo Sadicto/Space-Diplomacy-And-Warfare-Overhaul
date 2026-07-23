@@ -43,11 +43,11 @@ Simulator::Attribute cCompositionRoot::ATTRIBUTES[] ={
 void cCompositionRoot::Initialize(){
 	instance = this;
 	simulationValidator = nullptr;
+	diplomacyConfig = nullptr;
 	databaseManager = nullptr;
 	persistenceState = nullptr;
 
 	diplomacySystem = nullptr;
-	diplomacyConfig = nullptr;
 	persistedDiplomacyEventConfig = nullptr;
 	archetypesConfig = nullptr;
 	affinityConfig = nullptr;
@@ -116,17 +116,17 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 	{
 		simulationValidator = new cSimulationValidator(simulationValidatorConfigKey);
 
+		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
+
 		databaseManager = cDatabaseManager::Get();
 
 		// This method ensures that the db is read or that persistence has been desactivated.
 		persistenceState = databaseManager->GetPersistenceState();
 
-		persistenceInjector = new cPersistenceInjector(persistenceState.get(), simulationValidator.get());
+		persistenceInjector = new cPersistenceInjector(persistenceState.get(), simulationValidator.get(), diplomacyConfig.get());
 
 		// Injects dependencies for all cPersistedObjects loaded from the database.
 		databaseManager->InjectDependencies(persistenceInjector.get());
-
-		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 
 		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
 
@@ -238,11 +238,11 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
 	if (previousModeID == GameModeIDs::kGameSpace) {
 		simulationValidator.reset();
+		diplomacyConfig.reset();
 		databaseManager.reset();
 		persistenceState.reset();
 
 		diplomacySystem.reset();
-		diplomacyConfig.reset();
 		archetypesConfig.reset();
 		affinityConfig.reset();
 		persistedDiplomacyEventConfig.reset();

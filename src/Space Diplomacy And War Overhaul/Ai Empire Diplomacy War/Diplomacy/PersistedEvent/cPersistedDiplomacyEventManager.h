@@ -9,6 +9,14 @@
 
 #define cPersistedDiplomacyEventManagerPtr intrusive_ptr<cPersistedDiplomacyEventManager>
 
+/// Specifies which empire role to match for order-sensitive diplomacy events.
+enum class EmpireRole
+{
+	Any,
+	Empire1,
+	Empire2
+};
+
 // Class responsible for creating and managing the different PersistedDiplomacyEvents.
 class cPersistedDiplomacyEventManager 
 	: public Object
@@ -32,10 +40,19 @@ public:
 	/// @param empire.
 	void GetPersistedDiplomaticEventsOfEmpire(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire);
 
+	/// @brief Returns the first persisted diplomacy event of the specified type involving an empire.
+	/// @param empire.
+	/// @param eventType.
+	/// @param role Specifies whether the empire must match empire1, empire2, or either.
+	/// @return The persisted diplomacy event, or nullptr if not found.
+	cPersistedDiplomacyEvent* GetPersistedDiplomacyEventOfType(Simulator::cEmpire* empire, PersistedDiplomacyEventType eventType, EmpireRole role = EmpireRole::Any);
+
 	/// @brief Retrieves all active persisted diplomacy events between two empires.
 	/// @param diplomacyEvents Output vector populated with active events.
 	/// @param empire1.
 	/// @param empire2.
+	/// For event types where empire order is significant, the order of
+    ///	empire1 and empire2 must match the order stored by the event.
 	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
 	/// @brief Returns a specific persisted diplomacy event between two empires, if present.
@@ -43,6 +60,8 @@ public:
 	/// @param empire2.
 	/// @param eventType.
 	/// @return The persisted diplomacy event, or nullptr if not found.
+	/// For event types where empire order is significant, the order of
+    ///	empire1 and empire2 must match the order stored by the event.
 	cPersistedDiplomacyEvent* GetPersistedDiplomacyEventBetweenEmpires(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, PersistedDiplomacyEventType eventType);
 
 	/// @brief Creates or updates a persisted diplomacy event between two empires.

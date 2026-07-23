@@ -85,6 +85,7 @@ member_detour(ApplyRelationshipMonolith__detour, cRelationshipManager, float(uin
 		if (simulationValidator->ValidEmpire(StarManager.GetEmpire(politicalID), true) &&
 			simulationValidator->ValidEmpire(StarManager.GetEmpire(causePoliticalID), true)) 
 		{
+			// TODO: check which empire is the causePoliticalID.
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(StarManager.GetEmpire(politicalID), StarManager.GetEmpire(causePoliticalID), PersistedDiplomacyEventType::UpliftedByMonolith);
 		}
 		return ret;

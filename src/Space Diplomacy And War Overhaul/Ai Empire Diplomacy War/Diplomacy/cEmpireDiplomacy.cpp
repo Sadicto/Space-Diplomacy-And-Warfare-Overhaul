@@ -21,6 +21,8 @@ cEmpireDiplomacy::cEmpireDiplomacy(Simulator::cEmpire* empire,
 	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
 
 	this->joiningAllyWar = false;
+	this->decidedToPrepareWarDeclaration = false;
+	this->readyToDeclareWar = false;
 }
 
 
@@ -57,7 +59,7 @@ void cEmpireDiplomacy::ResolveAlliesWar() {
 
 				int affinityWIthAlly1 = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally1.get());
 				int affinityWIthAlly2 = empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally2.get());
-				// affinityWIthAlly1 == affinityWIthAlly2 it's just random.
+				// if  affinityWIthAlly1 == affinityWIthAlly2 it's just random.
 				if (affinityWIthAlly1 > affinityWIthAlly2) {
 					diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::ConflictBreakAlliance, empire.get(), ally2.get());
 					neutrals.push_back(ally2);
@@ -78,12 +80,24 @@ Simulator::cEmpire* cEmpireDiplomacy::FindAllyEnemy() {
 				if (DiplomacyUtils::War(neutral.get(), ally.get()) &&
 					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally.get()) >
 					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), neutral.get())) {
+					joiningAllyWar = true;
 					return neutral.get();
 				}
 			}
 		}
 	}
 	return nullptr;
+}
+
+Simulator::cEmpire* cEmpireDiplomacy::GetPreparingToDeclareWarTarget()
+{
+	cPersistedDiplomacyEvent* preparingToDeclareWarEvent = persistedDiplomacyEventManager->GetPersistedDiplomacyEventOfType(
+		empire.get(), PersistedDiplomacyEventType::PreparingToDeclareWarEvent, EmpireRole::Empire1);
+	if (preparingToDeclareWarEvent == nullptr)
+	{
+		return nullptr;
+	}
+	return preparingToDeclareWarEvent->GetEmpire2();
 }
 
 float cEmpireDiplomacy::AllianceProbability(cEmpire* target) {
@@ -162,6 +176,12 @@ cEmpire* cEmpireDiplomacy::GetBreakAllianceTarget() {
 }
 
 cEmpire* cEmpireDiplomacy::GetWarTarget() {
+	cEmpire* targetEmpire = GetPreparingToDeclareWarTarget();
+	if (targetEmpire != nullptr)
+	{
+		readyToDeclareWar = true;
+		return targetEmpire;
+	}
 	eastl::map<cEmpirePtr, float> probabilitiesOfWar;
 	for (cEmpirePtr neutral : neutrals) {
 		if (simulationValidator->ValidEmpire(neutral.get(), true) && 
@@ -171,6 +191,7 @@ cEmpire* cEmpireDiplomacy::GetWarTarget() {
 	}
 	for (auto pair : probabilitiesOfWar) {
 		if (pair.second > Math::randf()) {
+			decidedToPrepareWarDeclaration = true;
 			return pair.first.get();
 		}
 	}
@@ -222,10 +243,6 @@ void cEmpireDiplomacy::ManageNeutrals() {
 	cEmpire* wartarget = nullptr;
 	if (diplomacyConfig->GetAutoDeclareWarOnAllyEnemies()) {
 		wartarget = FindAllyEnemy();
-		if (wartarget != nullptr)
-		{
-			joiningAllyWar = true;
-		}
 	}
 	if (wartarget == nullptr && (diplomacyConfig->GetStartsWarsWhileAtWar() || empire->mEnemies.size() == 0)) {
 		wartarget = GetWarTarget();
@@ -235,7 +252,11 @@ void cEmpireDiplomacy::ManageNeutrals() {
 		{
 			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::JoinAllyWar, empire.get(), wartarget);
 		}
-		else
+		else if (decidedToPrepareWarDeclaration)
+		{
+			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::PreparingToDeclareWar, empire.get(), wartarget);
+		}
+		else if (readyToDeclareWar)
 		{
 			diplomacyEventDispatcher->DispatchDiplomacyEvent(DiplomacyEventType::UnprovokedWar, empire.get(), wartarget);
 		}

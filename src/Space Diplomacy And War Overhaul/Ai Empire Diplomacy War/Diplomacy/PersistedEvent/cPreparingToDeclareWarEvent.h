@@ -2,15 +2,17 @@
 
 #include <Spore\BasicIncludes.h>
 #include "cPersistedDiplomacyEvent.h"
+#include <Diplomacy/Config/cDiplomacyConfig.h>
 
-#define cUpliftedByMonolithEventPtr intrusive_ptr<cUpliftedByMonolithEvent>
+#define cPreparingToDeclareWarEventPtr intrusive_ptr<cPreparingToDeclareWarEvent>
 
-// Persisted diplomacy event representing empire1 uplifting empire2 using a monolith.
-class cUpliftedByMonolithEvent
+// Persisted diplomacy event representing empire1
+// preparing for a war against empire2.
+class cPreparingToDeclareWarEvent
 	: public cPersistedDiplomacyEvent
 {
 public:
-	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cUpliftedByMonolithEvent");
+	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cPreparingToDeclareWarEvent");
 	static const uint32_t NOUN_ID = TYPE;
 
 	void* Cast(uint32_t type) const override;
@@ -18,12 +20,18 @@ public:
 	bool Write(Simulator::ISerializerStream* stream) override;
 	bool Read(Simulator::ISerializerStream* stream) override;
 
+	bool Valid() override;
+
+	void InjectPreparingToDeclareWarEventDependencies(cDiplomacyConfig* diplomacyConfig);
+
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
+
+	cDiplomacyConfigPtr diplomacyConfig = nullptr;
 };
 
-class cUpliftedByMonolithEventFactory
+class cPreparingForWarEventFactory
 	: public App::ISPClassFactory
 {
 public:

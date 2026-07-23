@@ -62,6 +62,9 @@ public:
 	// Pointer to the loaded simulation validator object.
 	cSimulationValidatorPtr simulationValidator;
 
+	// Pointer to the loaded diplomacy configuration object.
+	cDiplomacyConfigPtr diplomacyConfig;
+
 	// Pointer to the loaded database manager object.
 	// it's not created by the composition root.
 	cDatabaseManagerPtr databaseManager;
@@ -76,9 +79,6 @@ public:
 	// Pointer to the loaded diplomacy system object.
 	// it's not created by the composition root.
 	cDiplomacySystemPtr diplomacySystem;
-
-	// Pointer to the loaded diplomacy configuration object.
-	cDiplomacyConfigPtr diplomacyConfig;
 
 	// Pointer to the loaded persistedDiplomacyEventConfig;
 	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;

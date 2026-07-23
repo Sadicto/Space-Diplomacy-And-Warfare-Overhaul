@@ -54,6 +54,11 @@ public:
 	/// @param empire2
 	void OnHostileAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
+	/// @brief Called when an empire begins preparing to declare war on another.
+	/// @param empire1
+	/// @param empire2
+	void OnPreparingToDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
 	/// @brief Called when an empire declares an unprovoked war on another.
 	/// @param empire1
 	/// @param empire2

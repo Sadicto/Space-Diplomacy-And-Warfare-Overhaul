@@ -44,6 +44,10 @@ public:
 	/// @return Pointer to the qualifying enemy empire, or nullptr if no such empire exists.
 	Simulator::cEmpire* FindAllyEnemy();
 
+	/// @brief Returns the empire this empire is preparing to declare war on.
+	/// @return A pointer to the target empire, or nullptr if no war preparation event exists.
+	Simulator::cEmpire* GetPreparingToDeclareWarTarget();
+
 	/// @brief Calculates the probability of forming an alliance with the target empire.
 	/// @param target.
 	/// @return Probability value in the range [0,1].
@@ -98,10 +102,17 @@ public:
 
 	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
 
+
 	eastl::vector<cEmpirePtr> neutrals;
 
-	/// @brief Whether the empire is joining its ally's war.
+	// Whether the empire is joining its ally's war.
 	bool joiningAllyWar;
+
+	// Whether the empire has decided to begin preparing a declaration of war.
+	bool decidedToPrepareWarDeclaration;
+
+	// Whether the empire has finished preparing and will declare war.
+	bool readyToDeclareWar;
 
 	/*
 	int strenght;
