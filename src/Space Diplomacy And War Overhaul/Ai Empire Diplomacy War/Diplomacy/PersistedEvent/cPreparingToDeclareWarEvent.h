@@ -2,7 +2,8 @@
 
 #include <Spore\BasicIncludes.h>
 #include "cPersistedDiplomacyEvent.h"
-#include <Diplomacy/Config/cDiplomacyConfig.h>
+#include "Diplomacy/Config/cDiplomacyConfig.h"
+#include "Diplomacy/cEmpireRelationshipController.h"
 
 #define cPreparingToDeclareWarEventPtr intrusive_ptr<cPreparingToDeclareWarEvent>
 
@@ -22,13 +23,14 @@ public:
 
 	bool Valid() override;
 
-	void InjectPreparingToDeclareWarEventDependencies(cDiplomacyConfig* diplomacyConfig);
+	void InjectPreparingToDeclareWarEventDependencies(cDiplomacyConfig* diplomacyConfig, cEmpireRelationshipController* empireRelationshipController);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
 private:
 
 	cDiplomacyConfigPtr diplomacyConfig = nullptr;
+	cEmpireRelationshipControllerPtr empireRelationshipController = nullptr;
 };
 
 class cPreparingForWarEventFactory

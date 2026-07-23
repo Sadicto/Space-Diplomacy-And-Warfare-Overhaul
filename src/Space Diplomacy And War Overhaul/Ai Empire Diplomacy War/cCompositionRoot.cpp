@@ -43,7 +43,12 @@ Simulator::Attribute cCompositionRoot::ATTRIBUTES[] ={
 void cCompositionRoot::Initialize(){
 	instance = this;
 	simulationValidator = nullptr;
+
 	diplomacyConfig = nullptr;
+	diplomacyEffectInfoProvider = nullptr;
+	diplomacyEffectAnalyzer = nullptr;
+	empireRelationshipController = nullptr;
+
 	databaseManager = nullptr;
 	persistenceState = nullptr;
 
@@ -67,9 +72,6 @@ void cCompositionRoot::Initialize(){
 	diplomacyEventDispatcher = nullptr;
 	empireDiplomacyFactory = nullptr;
 	diplomacyPopUpManager = nullptr;
-	diplomacyEffectInfoProvider = nullptr;
-	diplomacyEffectAnalyzer = nullptr;
-	empireRelationshipController = nullptr;
 	diplomacyEventListener = nullptr;
 	affinityLayout = nullptr;
 
@@ -116,6 +118,12 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 	{
 		simulationValidator = new cSimulationValidator(simulationValidatorConfigKey);
 
+		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(relationshipEffectsKey);
+
+		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
+
+		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
+
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 
 		databaseManager = cDatabaseManager::Get();
@@ -123,7 +131,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		// This method ensures that the db is read or that persistence has been desactivated.
 		persistenceState = databaseManager->GetPersistenceState();
 
-		persistenceInjector = new cPersistenceInjector(persistenceState.get(), simulationValidator.get(), diplomacyConfig.get());
+		persistenceInjector = new cPersistenceInjector(persistenceState.get(), simulationValidator.get(), diplomacyConfig.get(), empireRelationshipController.get());
 
 		// Injects dependencies for all cPersistedObjects loaded from the database.
 		databaseManager->InjectDependencies(persistenceInjector.get());
@@ -169,19 +177,14 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 			diplomacyConfig.get(),
 			empireRelationsAnalyzer.get(), 
 			diplomacyEventDispatcher.get(), 
-			persistedDiplomacyEventManager.get());
+			persistedDiplomacyEventManager.get(),
+			empireRelationshipController.get());
 
 		diplomacySystem = cDiplomacySystem::Get();
 
 		diplomacySystem->InjectDependencies(simulationValidator.get(), empireDiplomacyFactory.get());
 
 		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey, popupsFilterConfigKey);
-
-		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(relationshipEffectsKey);
-
-		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
-
-		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
 
 		diplomacyEventListener = new cDiplomacyEventListener(simulationValidator.get(), diplomacyPopUpManager.get(), empireRelationshipController.get(), persistedDiplomacyEventManager.get());
 
@@ -238,7 +241,12 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
 	if (previousModeID == GameModeIDs::kGameSpace) {
 		simulationValidator.reset();
+
+		diplomacyEffectInfoProvider.reset();
+		diplomacyEffectAnalyzer.reset();
+		empireRelationshipController.reset();
 		diplomacyConfig.reset();
+
 		databaseManager.reset();
 		persistenceState.reset();
 
@@ -260,9 +268,6 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		diplomacyEventDispatcher.reset();
 		empireDiplomacyFactory.reset();
 		diplomacyPopUpManager.reset();
-		diplomacyEffectInfoProvider.reset();
-		diplomacyEffectAnalyzer.reset();
-		empireRelationshipController.reset();
 
 		MessageManager.RemoveListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 		diplomacyEventListener.reset();

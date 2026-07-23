@@ -31,6 +31,14 @@ void* cEmpireRelationshipController::Cast(uint32_t type) const
 	return nullptr;
 }
 
+float cEmpireRelationshipController::GetEmpiresRelationship(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2)
+{
+	// TODO: Add to the SDK this and the other method.
+	return CALL(Address(ModAPI::ChooseAddress(0x00d04cc0, 0x00d05a60)),
+		float, Args(Simulator::cRelationshipManager*, uint32_t, uint32_t, bool),
+		Args(&RelationshipManager, empire1->GetEmpireID(), empire2->GetEmpireID(), false)) * 10.0f;
+}
+
 float cEmpireRelationshipController::ApplyRelationshipEffect(uint32_t politicalID, uint32_t causePoliticalID, uint32_t effectID) {
 	float currentValue = RelationshipManager.GetRelationshipEventValue(politicalID, causePoliticalID, effectID);
 	float maxScale = diplomacyEffectAnalyzer->GetMaxScale(effectID, currentValue, true);

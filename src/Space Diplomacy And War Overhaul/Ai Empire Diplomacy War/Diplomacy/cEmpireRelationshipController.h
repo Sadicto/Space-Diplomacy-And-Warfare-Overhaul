@@ -18,6 +18,12 @@ public:
 	cEmpireRelationshipController(cDiplomacyEffectAnalyzer* diplomacyEffectAnalyzer);
 	~cEmpireRelationshipController();
 
+	/// @brief Calculates the relationship value between two empires.
+	/// @param empire1 The first empire.
+	/// @param empire2 The second empire.
+	/// @return A float representing the relationship value between the two empires.
+	float GetEmpiresRelationship(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
 	/// @brief Applies the specified relationship effect between two political entities.
 	/// @param politicalID.
 	/// @param causePoliticalID.

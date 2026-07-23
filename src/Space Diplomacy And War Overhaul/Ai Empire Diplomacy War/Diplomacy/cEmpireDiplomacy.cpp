@@ -11,7 +11,8 @@ cEmpireDiplomacy::cEmpireDiplomacy(Simulator::cEmpire* empire,
 	cDiplomacyConfig* diplomacyConfig, 
 	cEmpireRelationsAnalyzer* empireRelationsAnalyzer, 
 	cDiplomacyEventDispatcher* diplomacyEventDispatcher,
-	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+	cEmpireRelationshipController* empireRelationshipController)
 {
 	this->empire = empire;
 	this->simulationValidator = simulationValidator;
@@ -19,6 +20,7 @@ cEmpireDiplomacy::cEmpireDiplomacy(Simulator::cEmpire* empire,
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	this->diplomacyEventDispatcher = diplomacyEventDispatcher;
 	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
+	this->empireRelationshipController = empireRelationshipController;
 
 	this->joiningAllyWar = false;
 	this->decidedToPrepareWarDeclaration = false;
@@ -50,6 +52,13 @@ void* cEmpireDiplomacy::Cast(uint32_t type) const
 	return nullptr;
 }
 
+bool cEmpireDiplomacy::ValidWarTarget(Simulator::cEmpire* warTarget, bool causedByAllyWar)
+{
+	return simulationValidator->ValidEmpire(warTarget, true) &&
+		persistedDiplomacyEventManager->GetPersistedDiplomacyEventBetweenEmpires(empire.get(), warTarget, PersistedDiplomacyEventType::MadePeace) == nullptr &&
+		(causedByAllyWar || warTarget != Simulator::GetPlayerEmpire() || empireRelationshipController->GetEmpiresRelationship(empire.get(), warTarget) < 30.0f);
+}
+
 void cEmpireDiplomacy::ResolveAlliesWar() {
 	for (cEmpirePtr ally1 : empire->mAllies) {
 		for (cEmpirePtr ally2 : empire->mAllies) {
@@ -78,8 +87,10 @@ Simulator::cEmpire* cEmpireDiplomacy::FindAllyEnemy() {
 		if (simulationValidator->ValidEmpire(neutral.get(), true)) {
 			for (cEmpirePtr ally : empire->mAllies) {
 				if (DiplomacyUtils::War(neutral.get(), ally.get()) &&
+					ValidWarTarget(neutral.get(), true) &&
 					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), ally.get()) >
-					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), neutral.get())) {
+					empireRelationsAnalyzer->EmpiresAffinity(empire.get(), neutral.get())) 
+				{
 					joiningAllyWar = true;
 					return neutral.get();
 				}
@@ -177,15 +188,15 @@ cEmpire* cEmpireDiplomacy::GetBreakAllianceTarget() {
 
 cEmpire* cEmpireDiplomacy::GetWarTarget() {
 	cEmpire* targetEmpire = GetPreparingToDeclareWarTarget();
-	if (targetEmpire != nullptr)
+	if (ValidWarTarget(targetEmpire))
 	{
 		readyToDeclareWar = true;
 		return targetEmpire;
 	}
 	eastl::map<cEmpirePtr, float> probabilitiesOfWar;
 	for (cEmpirePtr neutral : neutrals) {
-		if (simulationValidator->ValidEmpire(neutral.get(), true) && 
-			persistedDiplomacyEventManager->GetPersistedDiplomacyEventBetweenEmpires(empire.get(), neutral.get(), PersistedDiplomacyEventType::MadePeace) == nullptr) {
+		if (ValidWarTarget(neutral.get()))
+		{
 			probabilitiesOfWar[neutral] = DeclareWarProbability(neutral.get());
 		}
 	}

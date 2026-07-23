@@ -157,7 +157,6 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 19: {
-        float rel = compositionRoot->empireRelationsAnalyzer->GetEmpiresRelationship(empire, GetPlayerEmpire());
         int a = 1;
         
         break;

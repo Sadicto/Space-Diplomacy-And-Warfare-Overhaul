@@ -89,7 +89,7 @@ bool cPersistedDiplomacyEvent::IsEmpireOrderImportant() const
 	return this->empireOrderImportant;
 }
 
-void cPersistedDiplomacyEvent::SetEmpireOrderImportant(bool value)
+void cPersistedDiplomacyEvent::SetEmpireOrderImportant(bool empireOrderImportant)
 {
 	this->empireOrderImportant = empireOrderImportant;
 }

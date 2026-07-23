@@ -4,11 +4,15 @@
 #include <Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h>
 #include <Diplomacy/PersistedEvent/cPreparingToDeclareWarEvent.h>
 
-cPersistenceInjector::cPersistenceInjector(ISpaceTimeProvider* spaceTimeProvider, cSimulationValidator* simulationValidator, cDiplomacyConfig* diplomacyConfig)
+cPersistenceInjector::cPersistenceInjector(ISpaceTimeProvider* spaceTimeProvider, 
+	cSimulationValidator* simulationValidator, 
+	cDiplomacyConfig* diplomacyConfig,
+	cEmpireRelationshipController* empireRelationshipController)
 {
 	this->spaceTimeProvider = spaceTimeProvider;
 	this->simulationValidator = simulationValidator;
 	this->diplomacyConfig = diplomacyConfig;
+	this->empireRelationshipController = empireRelationshipController;
 }
 
 cPersistenceInjector::~cPersistenceInjector()
@@ -54,7 +58,7 @@ void cPersistenceInjector::InjectObjectDependencies(cPersistedObject* persistedO
 	cPreparingToDeclareWarEvent* preparingForWarEvent = object_cast<cPreparingToDeclareWarEvent>(persistedObject);
 	if (preparingForWarEvent != nullptr)
 	{
-		preparingForWarEvent->InjectPreparingToDeclareWarEventDependencies(diplomacyConfig.get());
+		preparingForWarEvent->InjectPreparingToDeclareWarEventDependencies(diplomacyConfig.get(), empireRelationshipController.get());
 	}
 	persistedObject->SetDependenciesInjected(true);
 }

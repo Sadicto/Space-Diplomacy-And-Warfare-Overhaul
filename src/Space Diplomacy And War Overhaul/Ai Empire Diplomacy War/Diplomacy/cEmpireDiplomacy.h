@@ -23,12 +23,19 @@ public:
 		cDiplomacyConfig* diplomacyConfig, 
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer, 
 		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
-		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+		cEmpireRelationshipController* empireRelationshipController);
 	~cEmpireDiplomacy();
 
 	int AddRef() override;
 	int Release() override;
 	void* Cast(uint32_t type) const override;
+
+	/// @brief Checks whether an empire is a valid target for a war declaration.
+	/// @param warTarget The empire being evaluated as a potential war target.
+	/// @param causedByAllyWar Whether the war declaration is caused by joining an ally's existing war.
+	/// @return True if the empire can be targeted by a war declaration, otherwise false.
+	bool ValidWarTarget(Simulator::cEmpire* warTarget, bool causedByAllyWar = false);
 
 	/**
 	 * @brief Resolves conflicts between allied empires.
@@ -101,6 +108,8 @@ public:
 	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
 
 	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	cEmpireRelationshipControllerPtr empireRelationshipController;
 
 
 	eastl::vector<cEmpirePtr> neutrals;

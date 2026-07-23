@@ -21,7 +21,8 @@ public:
 		cDiplomacyConfig* diplomacyConfig,
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer,
 		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
-		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+		cEmpireRelationshipController* empireRelationshipController);
 	~cEmpireDiplomacyFactory();
 
 	int AddRef() override;
@@ -47,4 +48,6 @@ private:
 	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
 
 	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	cEmpireRelationshipControllerPtr empireRelationshipController;
 };

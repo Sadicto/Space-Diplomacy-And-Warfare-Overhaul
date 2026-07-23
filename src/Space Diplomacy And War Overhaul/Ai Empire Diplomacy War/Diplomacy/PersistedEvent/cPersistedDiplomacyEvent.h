@@ -42,7 +42,7 @@ public:
 
 	/// @brief Sets whether the order of the empires involved in the event matters.
 	/// @param value.
-	void SetEmpireOrderImportant(bool value);
+	void SetEmpireOrderImportant(bool empireOrderImportant);
 
 	void InjectDiplomacyEventDependencies(cSimulationValidator* simulationValidator);
 

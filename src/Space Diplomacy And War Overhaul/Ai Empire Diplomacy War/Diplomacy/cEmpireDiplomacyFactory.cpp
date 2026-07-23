@@ -5,13 +5,15 @@ cEmpireDiplomacyFactory::cEmpireDiplomacyFactory(cSimulationValidator* simulatio
 	cDiplomacyConfig* diplomacyConfig,
 	cEmpireRelationsAnalyzer* empireRelationsAnalyzer,
 	cDiplomacyEventDispatcher* diplomacyEventDispatcher,
-	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+	cEmpireRelationshipController* empireRelationshipController)
 {
 	this->simulationValidator = simulationValidator;
 	this->diplomacyConfig = diplomacyConfig;
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	this->diplomacyEventDispatcher = diplomacyEventDispatcher;
 	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
+	this->empireRelationshipController = empireRelationshipController;
 }
 
 
@@ -45,7 +47,8 @@ cEmpireDiplomacy* cEmpireDiplomacyFactory::CreateEmpireDiplomacy(Simulator::cEmp
 		diplomacyConfig.get(), 
 		empireRelationsAnalyzer.get(), 
 		diplomacyEventDispatcher.get(), 
-		persistedDiplomacyEventManager.get());
+		persistedDiplomacyEventManager.get(),
+		empireRelationshipController.get());
 }
 
 
