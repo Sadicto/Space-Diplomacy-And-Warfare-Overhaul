@@ -4,13 +4,21 @@
 
 #define cSimulationValidatorPtr intrusive_ptr<cSimulationValidator>
 
-/// 0 = Ignore only other players' empires
-/// 1 = Ignore other players' empires + their direct allies and enemies
-/// 2 = Ignore other players' empires + their direct relations + relations of those relations
+/// 0 = Ignore only other players' empires.
+/// 1 = Ignore other players' empires + their direct allies and enemies.
+/// 2 = Ignore other players' empires + their direct relations + relations of those relations.
 enum class EmpireInvalidationDepth {
 	othersPlayerEmpiresOnly = 0,
 	directRelations = 1,
 	indirectRelations = 2
+};
+
+/// 0 = Homeworld.
+/// 1 = Player's current position.
+enum class ActiveRangeReference
+{
+	Homeworld = 0,
+	CurrentPosition = 1
 };
 
 /// Validates Simulation objects like empires, stars,
@@ -64,7 +72,17 @@ public:
 	 */
 	bool ValidPlanet(Simulator::cPlanetRecord* planet);
 
+	/**
+	 * Returns the position used as the active range origin.
+	 * @return The active range origin.
+	 */
+	Math::Vector3 GetActiveRangeOrigin();
+
+private:
+
 	EmpireInvalidationDepth empireInvalidationDepth;
 
 	eastl::set<cEmpirePtr> invalidEmpires;
+
+	ActiveRangeReference activeRangeReference;
 };

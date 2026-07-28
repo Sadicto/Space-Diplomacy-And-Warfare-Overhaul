@@ -131,7 +131,7 @@ void cDiplomacySystem::StartDiplomacyCycle() {
 	empiresDiplomacy.clear();
 
 	eastl::vector<cEmpirePtr> empires;
-	EmpireUtils::GetEmpiresInRadius(GetPlayerHomePlanet()->GetStarRecord()->mPosition, activeRadius, empires);
+	EmpireUtils::GetEmpiresInRadius(simulationValidator->GetActiveRangeOrigin(), activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
 		if (simulationValidator->ValidEmpire(empire.get())) {
 			cEmpireDiplomacyPtr empireDiplomacy = empireDiplomacyFactory->CreateEmpireDiplomacy(empire.get());

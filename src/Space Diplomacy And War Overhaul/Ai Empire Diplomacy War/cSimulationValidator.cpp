@@ -6,11 +6,14 @@ using namespace Simulator;
 
 
 cSimulationValidator::cSimulationValidator(ResourceKey validatorConfigKey){
-	PropertyListPtr validatosConfigProp;
-	PropManager.GetPropertyList(validatorConfigKey.instanceID, validatorConfigKey.groupID, validatosConfigProp);
+	PropertyListPtr validatorConfigProp;
+	PropManager.GetPropertyList(validatorConfigKey.instanceID, validatorConfigKey.groupID, validatorConfigProp);
 	int empireInvalidationDepthInt;
-	App::Property::GetInt32(validatosConfigProp.get(), 0x903BB67C, empireInvalidationDepthInt);
+	App::Property::GetInt32(validatorConfigProp.get(), 0x903BB67C, empireInvalidationDepthInt);
 	empireInvalidationDepth = EmpireInvalidationDepth(empireInvalidationDepthInt);
+	int activeRangeReferenceInt;
+	App::Property::GetInt32(validatorConfigProp.get(), 0x29AC73B9, activeRangeReferenceInt);
+	activeRangeReference = ActiveRangeReference(activeRangeReferenceInt);
 
 	for (const auto& empire : StarManager.GetEmpires()) {
 		if (((empire.second->mFlags & EmpireFlags::kEmpireFlagFromSaveGame) != 0) && empire.second != Simulator::GetPlayerEmpire()) {
@@ -79,4 +82,25 @@ bool cSimulationValidator::ValidStar(Simulator::cStarRecord* star){
 
 bool cSimulationValidator::ValidPlanet(Simulator::cPlanetRecord* planet){
 	return PlanetUtils::InteractablePlanet(planet);
+}
+
+Math::Vector3 cSimulationValidator::GetActiveRangeOrigin()
+{
+	Math::Vector3 origin;
+	switch (activeRangeReference)
+	{
+	case(ActiveRangeReference::Homeworld): {
+		origin = GetPlayerHomePlanet()->GetStarRecord()->mPosition;
+		break;
+	}
+	case(ActiveRangeReference::CurrentPosition): {
+		origin = GetActiveStarRecord()->mPosition;
+		break;
+	}
+	default: {
+		origin = GetPlayerHomePlanet()->GetStarRecord()->mPosition;
+		break;
+	}
+	}
+	return origin;
 }

@@ -2,3 +2,8 @@
 # 1 = Ignore other players' empires + their direct allies and enemies
 # 2 = Ignore other players' empires + their direct relations + relations of those relations
 int32 empireInvalidationDepth 0
+
+# Origin used for active range calculations.
+# 0 = Homeworld
+# 1 = Player's current position
+int32 activeRangeReference  1
