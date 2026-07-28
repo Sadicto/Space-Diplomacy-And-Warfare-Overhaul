@@ -15,14 +15,29 @@ cSimulationValidator::cSimulationValidator(ResourceKey validatorConfigKey){
 	App::Property::GetInt32(validatorConfigProp.get(), 0x29AC73B9, activeRangeReferenceInt);
 	activeRangeReference = ActiveRangeReference(activeRangeReferenceInt);
 
-	for (const auto& empire : StarManager.GetEmpires()) {
-		if (((empire.second->mFlags & EmpireFlags::kEmpireFlagFromSaveGame) != 0) && empire.second != Simulator::GetPlayerEmpire()) {
+	for (const auto& empire : StarManager.GetEmpires()) 
+	{
+		if (empire.second == nullptr)
+		{
+			continue;
+		}
+		if (((empire.second->mFlags & EmpireFlags::kEmpireFlagFromSaveGame) != 0) && empire.second != Simulator::GetPlayerEmpire()) 
+		{
 			invalidEmpires.insert(empire.second);
-			if (empireInvalidationDepth == EmpireInvalidationDepth::directRelations) {
-				InvalidateAlliesAndEnemies(empire.second.get());
-			}
-			else if (empireInvalidationDepth == EmpireInvalidationDepth::indirectRelations) {
-				InvalidateAlliesAndEnemies(empire.second.get(), true);
+			cStarRecord* homeStar = empire.second->GetHomeStarRecord();
+			// All player empires, including those from deleted saves, are excluded.
+			// However, allies and enemies are only invalidated for player empires
+			// whose save game still exists.
+			if (homeStar != nullptr && (homeStar->mFlags & StarFlags::kStarFlagSaveGame) != 0)
+			{
+				if (empireInvalidationDepth == EmpireInvalidationDepth::directRelations) 
+				{
+					InvalidateAlliesAndEnemies(empire.second.get());
+				}
+				else if (empireInvalidationDepth == EmpireInvalidationDepth::indirectRelations) 
+				{
+					InvalidateAlliesAndEnemies(empire.second.get(), true);
+				}
 			}
 		}
 	}
