@@ -12,7 +12,7 @@ uint32s expireTime
 	0 	# FormedAlliance
 	3600000 # DefeatedEnemyTogether, 60 minutes
 	0 	# UpliftedByMonolith
-	3600000 # MadePeace 60 minutes
+	2700000 # MadePeace 45 minutes
 	1200000	# PreparingToDeclareWarEvent 20 minutes
 end
 

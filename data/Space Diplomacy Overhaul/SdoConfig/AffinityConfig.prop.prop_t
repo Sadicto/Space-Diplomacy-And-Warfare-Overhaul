@@ -20,8 +20,8 @@ uint32s upgradeTime
 	1  	 # DefeatedCommonEnemy
 	1  	 # UpliftedByMonolith
 	1  	 # MadePeace
-	7200000  # LongPeace, 120 minutes
-	6000000  # LongAlliance, 100 minutes
+	5400000  # LongPeace, 90 minutes
+	4200000  # LongAlliance, 70 minutes
 end
 
 bools decays
@@ -43,7 +43,7 @@ uint32s decayTime
 	1  	 # WarWithAlly
 	1800000  # DefeatedCommonEnemy, 30 minutes
 	1  	 # UpliftedByMonolith
-	3600000  # MadePeace, 60 minutes
+	2700000  # MadePeace, 45 minutes
 	1  	 # LongPeace
 	1  	 # LongAlliance
 end
