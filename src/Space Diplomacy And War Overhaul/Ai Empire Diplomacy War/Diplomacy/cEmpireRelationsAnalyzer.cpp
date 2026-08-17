@@ -64,7 +64,7 @@ void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1,
 	affinityModifierContext.empire2 = empire2;
 	affinityModifierContext.currentTime = spaceTimeProvider->GetCurrentSpaceTime();
 	affinityModifierContext.diplomacyEvents.clear();
-	persistedDiplomacyEventManager->GetPersistedDiplomaticEventsBetweenEmpires(affinityModifierContext.diplomacyEvents, empire1, empire2);
+	persistedDiplomacyEventManager->GetPersistedDiplomaticEventsBetweenEmpires(affinityModifierContext.diplomacyEvents, empire1, empire2, false);
 
 	for (IAffinityModifierPtr affinityModifier : affinityModifiers) {
 		affinityData.push_back(affinityModifier->GetAffinityModifierData(affinityModifierContext));

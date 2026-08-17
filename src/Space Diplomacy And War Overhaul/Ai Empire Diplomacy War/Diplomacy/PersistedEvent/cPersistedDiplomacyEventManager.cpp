@@ -140,16 +140,25 @@ cPersistedDiplomacyEvent* cPersistedDiplomacyEventManager::GetPersistedDiplomacy
 	return nullptr;
 }
 
-void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, cEmpire* empire1, cEmpire* empire2) 
+void cPersistedDiplomacyEventManager::GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, cEmpire* empire1, cEmpire* empire2, bool respectEmpireOrder)
 {
 	eastl::vector<cPersistedDiplomacyEventPtr> diplomacyEventOfEmpire1;
 	GetPersistedDiplomaticEventsOfEmpire(diplomacyEventOfEmpire1, empire1);
 	for (const  cPersistedDiplomacyEventPtr& diplomacyEvent : diplomacyEventOfEmpire1) 
 	{
-		if ((diplomacyEvent->IsEmpireOrderImportant() && diplomacyEvent->GetEmpire2() == empire2) ||
-			(!diplomacyEvent->IsEmpireOrderImportant() && (diplomacyEvent->GetEmpire1() == empire2 || diplomacyEvent->GetEmpire2() == empire2))) 
+		if (diplomacyEvent->IsEmpireOrderImportant() && respectEmpireOrder)
 		{
-			diplomacyEvents.push_back(diplomacyEvent);
+			if (diplomacyEvent->GetEmpire1() == empire1 && diplomacyEvent->GetEmpire2() == empire2)
+			{
+				diplomacyEvents.push_back(diplomacyEvent);
+			}
+		}
+		else
+		{
+			if (diplomacyEvent->GetEmpire1() == empire2 || diplomacyEvent->GetEmpire2() == empire2)
+			{
+				diplomacyEvents.push_back(diplomacyEvent);
+			}
 		}
 	}
 }

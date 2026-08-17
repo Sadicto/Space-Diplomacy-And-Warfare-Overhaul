@@ -51,9 +51,9 @@ public:
 	/// @param diplomacyEvents Output vector populated with active events.
 	/// @param empire1.
 	/// @param empire2.
-	/// For event types where empire order is significant, the order of
-    ///	empire1 and empire2 must match the order stored by the event.
-	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+	/// @param respectEmpireOrder If true, for event types where empire order is significant, 
+	/// only events where empire1/empire2 match the stored order are returned.
+	void GetPersistedDiplomaticEventsBetweenEmpires(eastl::vector<cPersistedDiplomacyEventPtr>& diplomacyEvents, Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, bool respectEmpireOrder = true);
 
 	/// @brief Returns a specific persisted diplomacy event between two empires, if present.
 	/// @param empire1.
