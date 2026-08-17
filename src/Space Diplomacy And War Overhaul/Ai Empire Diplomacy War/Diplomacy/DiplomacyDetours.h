@@ -199,7 +199,6 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 				}
 				RelationshipManager.ResetRelationship(GetPlayerEmpire()->GetEmpireID(), npcEmpireAlly->GetEmpireID());
 				RelationshipManager.DeclarePeace(GetPlayerEmpire(), npcEmpireAlly.get());
-				// TODO: Reapply the archetype relationship effects.
 				persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpireAlly.get(), PersistedDiplomacyEventType::MadePeace);
 				DeclarePeaceWithPlayerAllianceBlock(npcEmpireAlly.get());
 			}
