@@ -30,8 +30,8 @@ using namespace SporeModUtils;
 
 void Initialize()
 {
-	CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
-	CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
+	// CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
+	// CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
