@@ -9,6 +9,13 @@
 
 #define cEmpireRelationsAnalyzerPtr intrusive_ptr<cEmpireRelationsAnalyzer>
 
+enum class MutuallyExclusiveModifierGroup
+{
+	StableRelations,
+	WarTogether
+
+};
+
 // Responsible for evaluating core bilateral diplomatic metrics between empires,
 // including affinity, aggressiveness, and diplomatic range.
 class cEmpireRelationsAnalyzer 
@@ -52,6 +59,12 @@ public:
 	/// @param empire2 The second empire.
 	/// @return An integer representing the diplomatic affinity between the two empires, based on shared enemies, archetypes, and past events.
 	int EmpiresAffinity(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+private:
+
+	bool BelongsToGroup(const AffinityModifierData& data, MutuallyExclusiveModifierGroup group);
+
+	void SetEffectiveForGroup(eastl::vector<AffinityModifierData>& affinityData, MutuallyExclusiveModifierGroup group);
 
 	// Pointer to the loaded diplomacy configuration object.
 	cDiplomacyConfigPtr diplomacyConfig;

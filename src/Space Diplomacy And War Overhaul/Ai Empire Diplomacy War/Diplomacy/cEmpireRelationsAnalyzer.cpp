@@ -69,56 +69,12 @@ void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1,
 	for (IAffinityModifierPtr affinityModifier : affinityModifiers) {
 		affinityData.push_back(affinityModifier->GetAffinityModifierData(affinityModifierContext));
 	}
-	int effectiveStableRelationsAffinityGain = 0;
-	int priorityEffectiveStableRelations = -1;
-	int positionEfectiveStableRelations = -1;
-	int effectiveWarTogetherAffinity = 0;
-	int priorityEffectiveWarTogether = -1;
-	int positionEffectiveWarTogether = -1;
-	// Set effective for each affinityModifierData. If changing something from here refactor this for into something less horrible.
-	for (uint32_t i = 0; i < affinityData.size(); i++) {
-		AffinityModifierData& affinityModifierData = affinityData[i];
-		if (affinityModifierData.active) {
-			if (affinityModifierData.stableRelationsMutuallyExclusive) {
-				if (affinityModifierData.affinityGain > effectiveStableRelationsAffinityGain || 
-					(affinityModifierData.affinityGain == effectiveStableRelationsAffinityGain && affinityModifierData.priority > priorityEffectiveStableRelations)) {
-
-					effectiveStableRelationsAffinityGain = affinityModifierData.affinityGain;
-					priorityEffectiveStableRelations = affinityModifierData.priority;
-					affinityModifierData.effective = true;
-					if (positionEfectiveStableRelations > -1) {
-						affinityData[positionEfectiveStableRelations].effective = false;
-					}
-					positionEfectiveStableRelations = i;
-				}
-				else {
-					affinityModifierData.effective = false;
-				}
-			}
-			else if (affinityModifierData.warTogetherMutuallyExclusive) {
-				if (affinityModifierData.affinityGain > effectiveWarTogetherAffinity ||
-					(affinityModifierData.affinityGain == effectiveWarTogetherAffinity && affinityModifierData.priority > priorityEffectiveWarTogether)) {
-
-					effectiveWarTogetherAffinity = affinityModifierData.affinityGain;
-					priorityEffectiveWarTogether = affinityModifierData.priority;
-					affinityModifierData.effective = true;
-					if (positionEffectiveWarTogether > -1) {
-						affinityData[positionEffectiveWarTogether].effective = false;
-					}
-					positionEffectiveWarTogether = i;
-				}
-				else {
-					affinityModifierData.effective = false;
-				}
-			}
-			else {
-				affinityModifierData.effective = true;
-			}
-		}
-		else {
-			affinityModifierData.effective = false;
-		}
+	for (AffinityModifierData& affinityModifierData :affinityData)
+	{
+		affinityModifierData.effective = affinityModifierData.active;
 	}
+	SetEffectiveForGroup(affinityData, MutuallyExclusiveModifierGroup::StableRelations);
+	SetEffectiveForGroup(affinityData, MutuallyExclusiveModifierGroup::WarTogether);
 }
 
 int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2) {
@@ -131,4 +87,59 @@ int cEmpireRelationsAnalyzer::EmpiresAffinity(cEmpire* empire1, cEmpire* empire2
 		}
 	}
 	return affinity;
+}
+
+bool cEmpireRelationsAnalyzer::BelongsToGroup(const AffinityModifierData& data, MutuallyExclusiveModifierGroup group)
+{
+	switch (group) {
+	case MutuallyExclusiveModifierGroup::WarTogether:
+	{
+		return data.warTogetherMutuallyExclusive;
+	}
+	case MutuallyExclusiveModifierGroup::StableRelations:
+	{
+		return data.stableRelationsMutuallyExclusive;
+	}
+	}
+	return false;
+}
+
+void cEmpireRelationsAnalyzer::SetEffectiveForGroup(eastl::vector<AffinityModifierData>& affinityData, MutuallyExclusiveModifierGroup group)
+{
+	AffinityModifierData* winner = nullptr;
+	// Find the winner of the group.
+	for (AffinityModifierData& affinityModifierData : affinityData)
+	{
+		if (!affinityModifierData.active || !BelongsToGroup(affinityModifierData, group))
+		{
+			continue;
+		}
+		if (winner == nullptr)
+		{
+			winner = &affinityModifierData;
+			continue;
+		}
+		if (affinityModifierData.affinityGain > winner->affinityGain ||
+			(affinityModifierData.affinityGain == winner->affinityGain && affinityModifierData.priority > winner->priority))
+		{
+			winner = &affinityModifierData;
+		}
+
+	}
+	// Set effective = true for the winner and effective = false for the rest of the group.
+	for (AffinityModifierData & affinityModifierData : affinityData)
+	{
+		if (!affinityModifierData.active || !BelongsToGroup(affinityModifierData, group))
+		{
+			continue;
+		}
+		if (&affinityModifierData == winner)
+		{
+			affinityModifierData.effective = true;
+		}
+		else
+		{
+			affinityModifierData.effective = false;
+		}
+	}
 }

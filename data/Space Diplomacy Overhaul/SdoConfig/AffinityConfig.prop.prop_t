@@ -104,6 +104,6 @@ bools warTogetherMutuallyExclusive
 	true  # DefeatedCommonEnemy
 	false # UpliftedByMonolith
 	false # MadePeace
-	true  # LongPeace
-	true  # LongAlliance
+	false # LongPeace
+	false # LongAlliance
 end
