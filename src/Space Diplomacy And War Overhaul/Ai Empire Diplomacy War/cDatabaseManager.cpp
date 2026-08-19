@@ -136,7 +136,7 @@ void cDatabaseManager::Dispose() {
 
 void cDatabaseManager::Update(int deltaTime, int deltaGameTime) {
 	if (IsSpaceGame() && persistenceState != nullptr) {
-		persistenceState->IncrementSpaceTime(uint32_t (deltaTime));
+		persistenceState->IncrementSpaceTime(uint32_t (deltaGameTime));
 	}
 }
 

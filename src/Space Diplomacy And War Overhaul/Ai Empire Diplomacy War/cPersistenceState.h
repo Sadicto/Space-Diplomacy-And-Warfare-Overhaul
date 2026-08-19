@@ -35,8 +35,8 @@ public:
 
 	uint32_t GetCurrentSpaceTime() override;
 
-	/// Increments 'spaceStageTime' by 'deltaTime'.
-	void IncrementSpaceTime(uint32_t deltaTime);
+	/// Increments 'spaceStageTime' by 'deltaGameTime'.
+	void IncrementSpaceTime(uint32_t deltaGameTime);
 
 private:
 	eastl::string16 modVersion;

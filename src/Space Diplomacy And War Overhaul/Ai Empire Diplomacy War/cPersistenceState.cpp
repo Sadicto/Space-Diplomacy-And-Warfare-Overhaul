@@ -70,9 +70,9 @@ uint32_t cPersistenceState::GetCurrentSpaceTime()
 	return this->spaceStageTime;
 }
 
-void cPersistenceState::IncrementSpaceTime(uint32_t deltaTime)
+void cPersistenceState::IncrementSpaceTime(uint32_t deltaGameTime)
 {
-	this->spaceStageTime += deltaTime;
+	this->spaceStageTime += deltaGameTime;
 }
 
 
