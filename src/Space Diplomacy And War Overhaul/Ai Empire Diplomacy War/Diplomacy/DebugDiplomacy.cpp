@@ -83,12 +83,11 @@ void DebugDiplomacy::ParseLine(const ArgScript::Line& line) {
         break;
     }
     case 8: {
-        cPersistedDiplomacyEventPtr persistedDiplomacyEvent = simulator_new<cPersistedDiplomacyEvent>();
-        persistedDiplomacyEvent->SetCreationTime(4);
-        persistedDiplomacyEvent->SetExpirationTime(0);
-        persistedDiplomacyEvent->SetExpires(false);
-        persistedDiplomacyEvent->SetEmpire1(GetPlayerEmpire());
-        persistedDiplomacyEvent->SetEmpire2(empire);
+        PlanetUtils::FillPlanetPlants(GetActivePlanetRecord());
+        PlanetUtils::FillPlanetCreatures(GetActivePlanetRecord());
+        eastl::vector<ResourceKey> a;
+        SpiceUtils::GetSpices(a);
+        int b = 1;
         break;
 
     }

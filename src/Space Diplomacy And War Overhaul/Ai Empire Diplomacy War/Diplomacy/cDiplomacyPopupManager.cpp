@@ -220,7 +220,7 @@ void cDiplomacyPopupManager::ShowHostileAlliance(Simulator::cEmpire* empire) {
 }
 
 bool cDiplomacyPopupManager::ShowToPlayerCreateAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+	if (Simulator::GetPlayer()->PlayerContactedEmpire(empire1->mPoliticalID) && Simulator::GetPlayer()->PlayerContactedEmpire(empire2->mPoliticalID)) {
 		switch (popupFilterCreateAlliance) {
 		case(PopupFilter::None): {
 			return false;
@@ -249,7 +249,7 @@ bool cDiplomacyPopupManager::ShowToPlayerCreateAlliance(Simulator::cEmpire* empi
 }
 
 bool cDiplomacyPopupManager::ShowToPlayerBreakAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+	if (Simulator::GetPlayer()->PlayerContactedEmpire(empire1->mPoliticalID) && Simulator::GetPlayer()->PlayerContactedEmpire(empire2->mPoliticalID)) {
 		switch (popupFilterBreakAlliance) {
 		case(PopupFilter::None): {
 			return false;
@@ -278,7 +278,7 @@ bool cDiplomacyPopupManager::ShowToPlayerBreakAlliance(Simulator::cEmpire* empir
 }
 
 bool cDiplomacyPopupManager::ShowToPlayerDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+	if (Simulator::GetPlayer()->PlayerContactedEmpire(empire1->mPoliticalID) && Simulator::GetPlayer()->PlayerContactedEmpire(empire2->mPoliticalID)) {
 		switch (popupFilterDeclareWar) {
 		case(PopupFilter::None): {
 			return false;
@@ -307,7 +307,7 @@ bool cDiplomacyPopupManager::ShowToPlayerDeclareWar(Simulator::cEmpire* empire1,
 }
 
 void cDiplomacyPopupManager::ShowMadePeaceAI(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2){
-	if (DiplomacyUtils::PlayerContactedEmpire(empire1) && DiplomacyUtils::PlayerContactedEmpire(empire2)) {
+	if (Simulator::GetPlayer()->PlayerContactedEmpire(empire1->mPoliticalID) && Simulator::GetPlayer()->PlayerContactedEmpire(empire2->mPoliticalID)) {
 		eastl::string16 popupText = MadePeaceAiAiText;
 		FormatDiplomaticActionMessage(empire1, empire2, popupText);
 		ResourceKey eventKey = ResourceKey(id("MadePeaceAiAi"), 0, id("SdoSpacePopUps"));

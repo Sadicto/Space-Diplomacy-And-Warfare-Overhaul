@@ -70,7 +70,7 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 
 			if (simulationValidator->ValidEmpire(empireInCurrentStar)) {
 				selectedEmpire = empireInCurrentStar;
-				if (SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireInCurrentStar)) {
+				if (Simulator::GetPlayer()->PlayerContactedEmpire(empireInCurrentStar->mPoliticalID)) {
 					CreateAlliesAndEnemiesEffecsForSelectedEmpire();
 				}
 			}
@@ -85,7 +85,7 @@ bool AllianceEnemyButtonProc::HandleUIMessage(IWindow* window, const Message& me
 
 void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 	for (cEmpirePtr empireEnemy : selectedEmpire->mEnemies) {
-		if (simulationValidator->ValidEmpire(empireEnemy.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireEnemy.get())) {
+		if (simulationValidator->ValidEmpire(empireEnemy.get(), true) && Simulator::GetPlayer()->PlayerContactedEmpire(empireEnemy->mPoliticalID)) {
 			for (cStarRecordPtr star : empireEnemy->mStars) {
 				IVisualEffectPtr visualEffect;
 				if (SporeModUtils::StarUtils::GetDistanceBetweenStars(Simulator::GetActiveStarRecord(), star.get()) < 20 &&
@@ -101,7 +101,7 @@ void AllianceEnemyButtonProc::CreateAlliesAndEnemiesEffecsForSelectedEmpire() {
 		}
 	}
 	for (cEmpirePtr empireAlly : selectedEmpire->mAllies) {
-		if (simulationValidator->ValidEmpire(empireAlly.get(), true) && SporeModUtils::DiplomacyUtils::PlayerContactedEmpire(empireAlly.get())) {
+		if (simulationValidator->ValidEmpire(empireAlly.get(), true) && Simulator::GetPlayer()->PlayerContactedEmpire(empireAlly->mPoliticalID)) {
 			for (cStarRecordPtr star : empireAlly->mStars) {
 				IVisualEffectPtr visualEffect;
 				if (SporeModUtils::StarUtils::GetDistanceBetweenStars(Simulator::GetActiveStarRecord(), star.get()) < 20 &&

@@ -198,7 +198,7 @@ void cEmpireWarfare::SelectAndAttackTargets() {
 	if (empire->mEnemies.size() == 0) {
 		return;
 	}
-	range = warfareConfig->GetWarfareRange(EmpireUtils::GetEmpireLevel(empire.get()));
+	range = warfareConfig->GetWarfareRange(empire->GetWeaponryLevel());
 	CalculateAttackPriorities();
 	float bombersPerCycle = warfareStrengthAnalyzer->GetBombersProducedByEmpire(empire.get());
 	float currentBombers = bombersPerCycle;

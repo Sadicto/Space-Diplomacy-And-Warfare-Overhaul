@@ -63,15 +63,6 @@ void Dispose()
 	// This method is called when the game is closing
 }
 
-member_detour(CalculateRelationshipAbsolute__detour, cRelationshipManager, float(uint32_t, uint32_t, bool))
-{
-	float detoured(uint32_t politicalID1, uint32_t politicalID2, bool a)
-	{
-		float ret = original_function(this, politicalID1, politicalID2, a);
-		return ret;
-	}
-};
-
 
 void AttachDetours()
 {
@@ -82,7 +73,7 @@ void AttachDetours()
 	BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
 	HandleSpaceCommAction__detour::attach(GetAddress(cCommManager, HandleSpaceCommAction));
 	ShowEvent__detour::attach(GetAddress(cUIEventLog, ShowEvent));
-	EmpireDestroyed__detour::attach(Address(ModAPI::ChooseAddress(0x00c33c30, 0x00c34480)));
+	EmpireDestroyed__detour::attach(GetAddress(cEmpire, Destroy));
 }
 
 // Generally, you don't need to touch any code here

@@ -51,12 +51,11 @@ void* cEmpireRelationsAnalyzer::Cast(uint32_t type) const
 }
 
 float cEmpireRelationsAnalyzer::GetEmpireDiplomaticRange(cEmpire* empire) {
-	int empireLevel = EmpireUtils::GetEmpireLevel(empire);
-	return diplomacyConfig->GetDiplomacyRange(empireLevel);
+	return diplomacyConfig->GetDiplomacyRange(empire->GetWeaponryLevel());
 }
 
 int cEmpireRelationsAnalyzer::GetEmpireAgressivity(cEmpire* empire) {
-	return archetypesConfig->GetArchetypeAgressivtyByPowerLevel(empire->mArchetype, EmpireUtils::GetEmpireLevel(empire));
+	return archetypesConfig->GetArchetypeAgressivtyByPowerLevel(empire->mArchetype, empire->GetWeaponryLevel());
 }
 
 void cEmpireRelationsAnalyzer::GetEmpiresAffinityModifiersData(cEmpire* empire1, cEmpire* empire2, eastl::vector<AffinityModifierData>& affinityData) {
