@@ -63,6 +63,20 @@ void Dispose()
 	// This method is called when the game is closing
 }
 
+/// When an empire raids the system of another empire and the player is in the galactic view,
+/// a UFO spawns in a system of the first empire and travels to the target system.
+/// This is entirely cosmetic and can cause a crash in some, yet to be determined, circumstances.
+/// This is the method that controls whether to spawn that UFO or not, we always return false
+/// to prevent those UFOs from spawning and avoid that crash.
+member_detour(ShouldSpawnRaiderUFO__detour, cRaidEvent, bool())
+{
+	bool detoured()
+	{
+		bool ret = original_function(this);
+		return false;
+	}
+};
+
 
 void AttachDetours()
 {
@@ -74,6 +88,8 @@ void AttachDetours()
 	HandleSpaceCommAction__detour::attach(GetAddress(cCommManager, HandleSpaceCommAction));
 	ShowEvent__detour::attach(GetAddress(cUIEventLog, ShowEvent));
 	EmpireDestroyed__detour::attach(GetAddress(cEmpire, Destroy));
+	ShouldSpawnRaiderUFO__detour::attach(Address(ModAPI::ChooseAddress(0x00c5adc0, 0x00c5b860)));
+
 }
 
 // Generally, you don't need to touch any code here

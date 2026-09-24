@@ -42,31 +42,49 @@ void DebugWarfare::ParseLine(const ArgScript::Line& line)
         break;
     }
     case 3: {
-        //cPlanetRecord* planet = GetActivePlanetRecord();
-        uint32_t empireID = GetActiveStarRecord()->mEmpireID;
-        cEmpire* empire = StarManager.GetEmpire(empireID);
-        //cMission* mission = MissionManager.CreateMission(id("RaidEvent"), planetC, empire);
-        cMission* mission = MissionManager.CreateMission(id("RaidWarPlayer"), GetActivePlanetRecord(), empire);
+        uint32_t eventId;
+        Simulator::cEmpire* aggressorEmpire = selectedEmpire;
+        Simulator::cEmpire* targetEmpire = StarManager.GetEmpire(empire->GetEmpireID());
+        cPlanetRecord* target = nullptr;
+        for (cPlanetRecordPtr planet : GetActiveStarRecord()->GetPlanetRecords())
+        {
+            if (planet->GetTechLevel() == TechLevel::Empire)
+            {
+                target = planet.get();
+                break;
+            }
+        }
+        if (target == nullptr)
+        {
+            break;
+        }
+        if (targetEmpire == Simulator::GetPlayerEmpire()) {
+            eventId = id("RaidWarPlayer");
+        }
+        else {
+            eventId = id("RaidWar");
+        }
+        Simulator::cMission* mission = MissionManager.CreateMission(eventId, target, targetEmpire);
+        Simulator::cRaidEvent* raidEvent = static_cast<Simulator::cRaidEvent*>(mission);
         cPlanetPtr planetTarget;
-        StarManager.RecordToPlanet(GetActivePlanetRecord(), planetTarget);
-        cRaidEvent* raidEvent = static_cast<cRaidEvent*>(mission);
-        //void* raidEventPointer = mission->Cast(cRaidEvent::TYPE);
-        //cRaidEvent* raidEvent = static_cast<cRaidEvent*>(raidEventPointer);
-        raidEvent->mAttackerEmpire = selectedEmpire->GetEmpireID();
+        StarManager.RecordToPlanet(target, planetTarget);
+        raidEvent->mAttackerEmpire = aggressorEmpire->GetEmpireID();
         raidEvent->mpTargetPlanet = planetTarget;
-        raidEvent->mNumBombers = 10;
-        //raidEvent->mShowDefaultEventLog = false;
+        raidEvent->mNumBombers = 7;
+        // raidEvent->mPendingUFOKey = aggressorEmpire->mUFOKey;
         raidEvent->AcceptMission();
 
         break;
     }
     case 4: {
-
-
+        Simulator::cEmpire* aggressorEmpire = selectedEmpire;
+        Simulator::cEmpire* targetEmpire = StarManager.GetEmpire(empire->GetEmpireID());
+        int a = 1;
         break;
     }
     case 5: {
-
+        uint32_t ba = baseAddress;
+        int b = 1;
 
 
         break;
