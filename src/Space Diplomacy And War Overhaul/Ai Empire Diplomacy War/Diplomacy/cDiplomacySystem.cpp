@@ -119,10 +119,18 @@ void cDiplomacySystem::InjectDependencies(cSimulationValidator* simulationValida
 }
 
 void cDiplomacySystem::DiplomacySubCycle() {
-	if (empireToManage != empiresDiplomacy.end()) {
-		if (simulationValidator->ValidEmpire(empireToManage->get()->empire.get())) {
-			empireToManage->get()->ManageDiplomacy();
+	for (int i = 0; i < empiresPerSubCycle; i++)
+	{
+		if (empireToManage == empiresDiplomacy.end())
+		{
+			break;
 		}
+		if (!simulationValidator->ValidEmpire(empireToManage->get()->empire.get()))
+		{
+			++empireToManage;
+			continue;
+		}
+		empireToManage->get()->ManageDiplomacy();
 		++empireToManage;
 	}
 }

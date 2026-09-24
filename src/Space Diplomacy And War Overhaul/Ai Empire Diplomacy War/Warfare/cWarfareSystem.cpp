@@ -116,10 +116,18 @@ void cWarfareSystem::InjectDependencies(cSimulationValidator* simulationValidato
 }
 
 void cWarfareSystem::WarfareSubCycle() {
-	if (empireToManage != empiresWarfare.end()) {
-		if (simulationValidator->ValidEmpire(empireToManage->get()->empire.get())) {
-			empireToManage->get()->SelectAndAttackTargets();
+	for (int i = 0; i < empiresPerSubCycle; i++)
+	{
+		if (empireToManage == empiresWarfare.end())
+		{
+			break;
 		}
+		if (!simulationValidator->ValidEmpire(empireToManage->get()->empire.get()))
+		{
+			++empireToManage;
+			continue;
+		}
+		empireToManage->get()->SelectAndAttackTargets();
 		++empireToManage;
 	}
 }
