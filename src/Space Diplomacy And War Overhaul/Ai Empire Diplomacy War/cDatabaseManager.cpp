@@ -260,7 +260,7 @@ uint32_t cDatabaseManager::GetSavegameIdentifier()
 	{
 		return 0;
 	}
-	return GetPlayerEmpireID();
+	return GetPlayer()->mUniqueGameID;
 }
 
 ResourceKey cDatabaseManager::GetResourceKey(cPersistedObject* persistedObject)
