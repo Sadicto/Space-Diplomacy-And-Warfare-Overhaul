@@ -187,6 +187,9 @@ private:
 	// Key used to load the archetypes agressivities prop.
 	ResourceKey archetypesAgressivitiesKey;
 
+	// Key used to load the archetypes relationship effects prop.
+	ResourceKey archetypesRelationshipEffectsKey;
+
 	// Key used to load the popups texts prop.
 	ResourceKey spacePopUpsTextsKey;
 

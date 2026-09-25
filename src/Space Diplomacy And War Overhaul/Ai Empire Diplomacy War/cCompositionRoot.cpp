@@ -93,6 +93,7 @@ void cCompositionRoot::Initialize(){
 	App::Property::GetKey(configurationKeys.get(), 0x57252EFE, archetypesAffinitiesKey);
 	App::Property::GetKey(configurationKeys.get(), 0xE7AD6134, persistedDiplomacyEventConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x142ECBFA, archetypesAgressivitiesKey);
+	App::Property::GetKey(configurationKeys.get(), 0x801234A3, archetypesRelationshipEffectsKey);
 	App::Property::GetKey(configurationKeys.get(), 0x5598934F, affinityConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x76F0A8F2, popupsFilterConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x82AE7927, relationshipEffectsKey);
@@ -122,7 +123,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
 
-		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
+		empireRelationshipController = new cEmpireRelationshipController(archetypesRelationshipEffectsKey, diplomacyEffectAnalyzer.get());
 
 		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
 

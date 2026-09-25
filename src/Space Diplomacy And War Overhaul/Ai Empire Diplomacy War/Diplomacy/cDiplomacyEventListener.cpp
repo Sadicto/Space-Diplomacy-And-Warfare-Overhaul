@@ -210,7 +210,7 @@ void cDiplomacyEventListener::OnMadePeace(Simulator::cEmpire* empire1, Simulator
 
 	}
 	else {
-		RelationshipManager.ResetRelationship(empire1->GetEmpireID(), empire2->GetEmpireID());
+		empireRelationshipController->ResetRelationship(empire1, empire2);
 		RelationshipManager.DeclarePeace(empire1, empire2);
 		diplomacyPopUpManager->ShowMadePeaceAI(empire1, empire2);
 		// Remove empire2 from empire1's mEnemies.

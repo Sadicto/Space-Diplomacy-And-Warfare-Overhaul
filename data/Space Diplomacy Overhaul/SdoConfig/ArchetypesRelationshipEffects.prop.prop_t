@@ -1,0 +1,8 @@
+key warriorRelationshipEffects space_npc_relationship_effects~!spg_warrior.prop
+key traderRelationshipEffects space_npc_relationship_effects~!spg_trader.prop
+key scientistRelationshipEffects space_npc_relationship_effects~!spg_scientist.prop
+key shamanRelationshipEffects space_npc_relationship_effects~!spg_shaman.prop
+key bardRelationshipEffects space_npc_relationship_effects~!spg_bard.prop
+key zealotRelationshipEffects space_npc_relationship_effects~!spg_zealot.prop
+key diplomatRelationshipEffects space_npc_relationship_effects~!spg_diplomat.prop
+key ecologistRelationshipEffects space_npc_relationship_effects~!spg_ecologist.prop

@@ -178,6 +178,7 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 		}
 		cCompositionRoot* compositionRoot = cCompositionRoot::Get();
 		cSimulationValidator* simulationValidator = compositionRoot->simulationValidator.get();
+		cEmpireRelationshipController* empireRelationshipController = compositionRoot->empireRelationshipController.get();
 		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager = compositionRoot->persistedDiplomacyEventManager.get();
 		cEmpire* npcEmpire = StarManager.GetEmpire(sourceEmpireID);
 		if (!simulationValidator->ValidEmpire(npcEmpire)) {
@@ -185,11 +186,12 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 		}
 
 
-		if (action.actionID == id("action_peace_offer_1") ||
+		if ((action.actionID == id("action_peace_offer_1") ||
 			action.actionID == id("action_peace_offer_2") ||
 			action.actionID == id("action_peace_offer_3") ||
 			action.actionID == id("action_peace_offer_4") ||
-			action.actionID == id("action_peace_offer_5")) {
+			action.actionID == id("action_peace_offer_5")) &&
+			!DiplomacyUtils::War(GetPlayerEmpire(), npcEmpire)) {
 
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpire, PersistedDiplomacyEventType::MadePeace);
 			DeclarePeaceWithPlayerAllianceBlock(npcEmpire);
@@ -197,8 +199,12 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 				if (!simulationValidator->ValidEmpire(npcEmpireAlly.get())) {
 					continue;
 				}
-				RelationshipManager.ResetRelationship(GetPlayerEmpire()->GetEmpireID(), npcEmpireAlly->GetEmpireID());
-				RelationshipManager.DeclarePeace(GetPlayerEmpire(), npcEmpireAlly.get());
+				if (DiplomacyUtils::War(GetPlayerEmpire(), npcEmpireAlly.get()))
+				{
+					//RelationshipManager.ResetRelationship(GetPlayerEmpire()->GetEmpireID(), npcEmpireAlly->GetEmpireID());
+					empireRelationshipController->ResetRelationship(GetPlayerEmpire(), npcEmpireAlly.get());
+					RelationshipManager.DeclarePeace(GetPlayerEmpire(), npcEmpireAlly.get());
+				}
 				persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpireAlly.get(), PersistedDiplomacyEventType::MadePeace);
 				DeclarePeaceWithPlayerAllianceBlock(npcEmpireAlly.get());
 			}
