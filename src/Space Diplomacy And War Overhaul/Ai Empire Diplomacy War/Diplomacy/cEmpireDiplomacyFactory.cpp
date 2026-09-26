@@ -1,13 +1,19 @@
 #include "stdafx.h"
 #include "cEmpireDiplomacyFactory.h"
 
-cEmpireDiplomacyFactory::cEmpireDiplomacyFactory(cDiplomacyConfig* diplomacyConfig,
+cEmpireDiplomacyFactory::cEmpireDiplomacyFactory(cSimulationValidator* simulationValidator, 
+	cDiplomacyConfig* diplomacyConfig,
 	cEmpireRelationsAnalyzer* empireRelationsAnalyzer,
-	cDiplomacyEventDispatcher* diplomacyEventDispatcher)
+	cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+	cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+	cEmpireRelationshipController* empireRelationshipController)
 {
+	this->simulationValidator = simulationValidator;
 	this->diplomacyConfig = diplomacyConfig;
 	this->empireRelationsAnalyzer = empireRelationsAnalyzer;
 	this->diplomacyEventDispatcher = diplomacyEventDispatcher;
+	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
+	this->empireRelationshipController = empireRelationshipController;
 }
 
 
@@ -37,7 +43,12 @@ void* cEmpireDiplomacyFactory::Cast(uint32_t type) const
 
 cEmpireDiplomacy* cEmpireDiplomacyFactory::CreateEmpireDiplomacy(Simulator::cEmpire* empire)
 {
-	return new cEmpireDiplomacy(empire, diplomacyConfig.get(), empireRelationsAnalyzer.get(), diplomacyEventDispatcher.get());
+	return new cEmpireDiplomacy(empire, simulationValidator.get(), 
+		diplomacyConfig.get(), 
+		empireRelationsAnalyzer.get(), 
+		diplomacyEventDispatcher.get(), 
+		persistedDiplomacyEventManager.get(),
+		empireRelationshipController.get());
 }
 
 

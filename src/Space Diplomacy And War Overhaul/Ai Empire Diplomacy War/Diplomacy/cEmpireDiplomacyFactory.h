@@ -5,6 +5,7 @@
 #include "cEmpireRelationsAnalyzer.h"
 #include "cDiplomacyEventDispatcher.h"
 #include "cEmpireDiplomacy.h"
+#include "cSimulationValidator.h"
 
 #define cEmpireDiplomacyFactoryPtr intrusive_ptr<cEmpireDiplomacyFactory>
 
@@ -16,9 +17,12 @@ class cEmpireDiplomacyFactory
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireDiplomacyFactory");
 	
-	cEmpireDiplomacyFactory(cDiplomacyConfig* diplomacyConfig,
+	cEmpireDiplomacyFactory(cSimulationValidator* simulationValidator, 
+		cDiplomacyConfig* diplomacyConfig,
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer,
-		cDiplomacyEventDispatcher* diplomacyEventDispatcher);
+		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+		cEmpireRelationshipController* empireRelationshipController);
 	~cEmpireDiplomacyFactory();
 
 	int AddRef() override;
@@ -32,12 +36,18 @@ public:
 	 */
 	cEmpireDiplomacy* CreateEmpireDiplomacy(Simulator::cEmpire* empire);
 
-	// Pointer to the loaded diplomacy configuration object.
+private:
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
+
 	cDiplomacyConfigPtr diplomacyConfig;
 
-	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
 
-	// Pointer to the loaded diplomacy event dispatcher.
 	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
+
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	cEmpireRelationshipControllerPtr empireRelationshipController;
 };

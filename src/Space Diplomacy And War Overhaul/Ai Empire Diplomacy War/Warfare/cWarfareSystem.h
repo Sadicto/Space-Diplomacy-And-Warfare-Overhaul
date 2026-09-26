@@ -4,17 +4,12 @@
 #include <Spore\Simulator\SubSystem\SimulatorSystem.h>
 #include "cEmpireWarfare.h"
 #include "cEmpireWarfareFactory.h"
+#include "cSimulationValidator.h"
 
 #define cWarfareSystemPtr intrusive_ptr<cWarfareSystem>
 
-///
-/// In your dllmain Initialize method, add the system like this:
-/// ModAPI::AddSimulatorStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
-///
-
 /// Main class of the warfare system.
-/// Coordinates warfare cycles and subcycles, instantiates and owns
-/// the other warfare-related subsystem classes, and manages
+/// Coordinates warfare cycles and subcycles and manages
 /// cEmpireWarfare objects for all empires in range.
 class cWarfareSystem
 	: public Simulator::cStrategy
@@ -41,8 +36,9 @@ public:
 	/**
 	* @brief Injects the required dependencies into the manager.
 	* @param empireWarfareFactory.
+	* @param simulationValidator.
 	*/
-	void InjectDependencies(cEmpireWarfareFactory* empireWarfareFactory);
+	void InjectDependencies(cSimulationValidator* simulationValidator, cEmpireWarfareFactory* empireWarfareFactory);
 
 	/// @brief Executes one subcycle of the warfare system.
 	/// Processes the next empire in the queue and manages its warfare actions.
@@ -62,11 +58,14 @@ private:
 	// Iterator to the next empire whose warfare will be managed..
 	eastl::vector<cEmpireWarfarePtr>::iterator empireToManage;
 
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
+
 	// Pointer to the loaded empireWarfareFactory;
 	cEmpireWarfareFactoryPtr empireWarfareFactory;
 
 	// Indicates whether the manager’s dependencies have been injected.
-	bool ready;
+	bool dependenciesInjected;
 
 	// Time passed (in miliseconds) since the cycle has started.
 	int elapsedTime;

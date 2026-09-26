@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "cDiplomacyEventListener.h"
 #include "cDiplomacyEvent.h"
-#include <Spore-Mod-Utils/Include/SporeModUtils.h>
 #include <Spore/Simulator/SubSystem/CommManager.h>
 
-using namespace SporeModUtils;
 using namespace Simulator;
 
-cDiplomacyEventListener::cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController)
+cDiplomacyEventListener::cDiplomacyEventListener(cSimulationValidator* simulationValidator, cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager)
 {
+	this->simulationValidator = simulationValidator;
 	this->diplomacyPopUpManager = diplomacyPopUpManager;
 	this->empireRelationshipController = empireRelationshipController;
+	this->persistedDiplomacyEventManager = persistedDiplomacyEventManager;
 }
 
 
@@ -38,7 +38,7 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 		cDiplomacyEvent* diplomacyEvent = static_cast<cDiplomacyEvent*>(message);
 		cEmpire* empire1 = diplomacyEvent->empire1;
 		cEmpire* empire2 = diplomacyEvent->empire2;
-		if (EmpireUtils::ValidNpcEmpire(empire1, true) && EmpireUtils::ValidNpcEmpire(empire2, true)) {
+		if (simulationValidator->ValidEmpire(empire1, true) && simulationValidator->ValidEmpire(empire2, true)) {
 			switch (diplomacyEvent->eventType) {
 			case(DiplomacyEventType::FormAlliance): {
 				OnFormAlliance(empire1, empire2);
@@ -64,13 +64,28 @@ bool cDiplomacyEventListener::HandleMessage(uint32_t messageID, void* message)
 				OnHostileAlliance(empire1, empire2);
 				break;
 			}
-			case(DiplomacyEventType::DeclareWar): {
-				OnDeclareWar(empire1, empire2);
+			case(DiplomacyEventType::PreparingToDeclareWar): {
+				OnPreparingToDeclareWar(empire1, empire2);
+				break;
+			}
+			case(DiplomacyEventType::UnprovokedWar): {
+				OnDeclareUnprovokedWar(empire1, empire2);
+				break;
+			}
+			case(DiplomacyEventType::JoinAllyWar): {
+				OnJoinAllyWar(empire1, empire2);
 				break;
 			}
 			case(DiplomacyEventType::ContinueWar): {
 				OnContinueWar(empire1, empire2);
 				break;
+			}
+			case(DiplomacyEventType::MadePeace): {
+				OnMadePeace(empire1, empire2);
+				break;
+			}
+			case(DiplomacyEventType::NeighborsInPeace): {
+				OnNeighborsInPeace(empire1, empire2);
 			}
 			default: {
 				return true;
@@ -119,6 +134,7 @@ void cDiplomacyEventListener::OnConflictBreakAlliance(Simulator::cEmpire* empire
 
 void cDiplomacyEventListener::OnStableAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
 void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
@@ -132,6 +148,7 @@ void cDiplomacyEventListener::OnUnstableAlliance(Simulator::cEmpire* empire1, Si
 	else {
 
 	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
 // Unused.
@@ -145,28 +162,75 @@ void cDiplomacyEventListener::OnHostileAlliance(Simulator::cEmpire* empire1, Sim
 			diplomacyPopUpManager->ShowHostileAlliance(empire1);
 		}
 	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::FormedAlliance);
 }
 
-void cDiplomacyEventListener::OnDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+void cDiplomacyEventListener::OnPreparingToDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2)
+{
+	if (empire2 == GetPlayerEmpire())
+	{
+		diplomacyPopUpManager->ShowPreparingToDeclareWarAiPlayer(empire1);
+	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::PreparingToDeclareWarEvent);
+}
+
+void cDiplomacyEventListener::OnDeclareUnprovokedWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	if (empire2 == GetPlayerEmpire()) {
-		/*
-		Simulator::CnvAction action;
-		action.actionID = 0x4C182387;
-		//when the relation is blue face or better this doesn´t work
-		CommManager.HandleSpaceCommAction(action, empire1->GetEmpireID(), empire1->RequireHomePlanet()->GetID(), nullptr);
-		*/
-		diplomacyPopUpManager->ShowDeclareWarPlayer(empire1);
+		diplomacyPopUpManager->ShowDeclareUnprovokedWarPlayer(empire1);
 		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
 		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
 		empireRelationshipController->SetRelationshipEffectMax(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
 	}
 	else {
-		diplomacyPopUpManager->ShowDeclareWarAI(empire1, empire2);
+		diplomacyPopUpManager->ShowDeclareUnprovokedWarAI(empire1, empire2);
+		RelationshipManager.DeclareWar(empire1, empire2);
+	}
+}
+
+void cDiplomacyEventListener::OnJoinAllyWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2)
+{
+	if (empire2 == GetPlayerEmpire()) {
+		diplomacyPopUpManager->ShowJoinAllyWarPlayer(empire1);
+		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceCreateAlliance);
+		empireRelationshipController->SetRelationshipEffectZero(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceAcceptGift);
+		empireRelationshipController->SetRelationshipEffectMax(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
+	}
+	else {
+		diplomacyPopUpManager->ShowJoinAllyWarAI(empire1, empire2);
 		RelationshipManager.DeclareWar(empire1, empire2);
 	}
 }
 
 void cDiplomacyEventListener::OnContinueWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
 	empireRelationshipController->ApplyRelationshipEffect(empire1->GetEmpireID(), empire2->GetEmpireID(), RelationshipEvents::kRelationshipEventSpaceStartedWar);
+}
+
+void cDiplomacyEventListener::OnMadePeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2){
+	if (empire1 == GetPlayerEmpire() || empire2 == GetPlayerEmpire()) {
+
+	}
+	else {
+		empireRelationshipController->ResetRelationship(empire1, empire2);
+		RelationshipManager.DeclarePeace(empire1, empire2);
+		diplomacyPopUpManager->ShowMadePeaceAI(empire1, empire2);
+		// Remove empire2 from empire1's mEnemies.
+		empire1->mEnemies.erase(
+			eastl::remove_if(empire1->mEnemies.begin(), empire1->mEnemies.end(),
+				[empire2](const cEmpirePtr& e) { return e.get() == empire2; }),
+			empire1->mEnemies.end()
+		);
+
+		// Remove empire1 from empire2's mEnemies.
+		empire2->mEnemies.erase(
+			eastl::remove_if(empire2->mEnemies.begin(), empire2->mEnemies.end(),
+				[empire1](const cEmpirePtr& e) { return e.get() == empire1; }),
+			empire2->mEnemies.end()
+		);
+	}
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::MadePeace);
+}
+
+void cDiplomacyEventListener::OnNeighborsInPeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2){
+	persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(empire1, empire2, PersistedDiplomacyEventType::NeighborsInPeace);
 }
 

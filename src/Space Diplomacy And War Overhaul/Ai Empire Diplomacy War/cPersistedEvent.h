@@ -1,52 +1,67 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
+#include "cPersistedObject.h"
+#include "ISpaceTimeProvider.h"
 
 #define cPersistedEventPtr intrusive_ptr<cPersistedEvent>
 
-enum class ActionOnExpiry {
-	Nothing,
-	DeclareWar,
-	DecayAffinity
-};
-
-///
-/// In your dllmain Initialize method, add the factory like this:
-/// ClassManager.AddFactory(new cPersistedEventFactory());
-///
-/// Then you will be able to create instances of this class by doing:
-/// auto obj = simulator_new<cPersistedEvent>();
-
+/// Extends cPersistedObject to persist an object's 'creationTime' and 'expirationTime', along with the methods associated with them.
 class cPersistedEvent
-	: public Simulator::cGameData
+	: public cPersistedObject
 {
 public:
-	static const uint32_t TYPE = id("Ai_Empire_Diplomacy::cPersistedEvent");
+	static const uint32_t TYPE = id("SpaceDiplomacyWarfareOverhaul::cPersistedEvent");
 	static const uint32_t NOUN_ID = TYPE;
 
-	int AddRef() override;
-	int Release() override;
-	void* Cast(uint32_t type) const override;
-	uint32_t GetCastID() const override;
-	uint32_t GetNounID() const override;
-	bool Write(Simulator::ISerializerStream* stream) override;
-	bool Read(Simulator::ISerializerStream* stream) override;
+	virtual void* Cast(uint32_t type) const override;
+	virtual uint32_t GetNounID() const override;
+	virtual bool Write(Simulator::ISerializerStream* stream) override;
+	virtual bool Read(Simulator::ISerializerStream* stream) override;
 
+	bool virtual Valid() override;
+
+	/// @brief Returns whether this event has an expiration time.
 	bool Expires();
 
+	/// @brief Sets whether this event expires.
+	/// @param decays.
+	void SetExpires(bool decays);
+
+	/// @brief Returns the creation time of the event.
+	uint32_t GetCreationTime();
+
+	/// @brief Sets the creation time of the event.
+	/// @param creationTime.
+	void SetCreationTime(uint32_t creationTime);
+
+	/// @brief Returns the expiration time of the event.
 	uint32_t GetExpirationTime();
 
-	ActionOnExpiry GetExpireAction();
+	/// @brief Sets the expiration time of the event.
+	/// @param expirationTime.
+	void SetExpirationTime(uint32_t expirationTime);
+
+	void InjectEventDependencies(ISpaceTimeProvider* spaceTimeProvider);
 
 	static Simulator::Attribute ATTRIBUTES[];
 
+
 private:
 
-	bool expires;
+	// Needed because bool values can't be serialized.
+	uint32_t expiresSerialization = 0;
 
-	uint32_t expirationTime;
+	// Whether the event expires after a given time.
+	bool expires = false;
 
-	ActionOnExpiry expireAction;
+	// Time at which the event was created.
+	uint32_t creationTime = 0;
+
+	// Time at which the event expires, if applicable.
+	uint32_t expirationTime = 0;
+
+	ISpaceTimeProviderPtr spaceTimeProvider = nullptr;
 };
 
 class cPersistedEventFactory

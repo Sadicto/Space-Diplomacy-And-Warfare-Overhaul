@@ -4,6 +4,8 @@ string8s postinitList
 	"PopupsFilter PopupsFilter-CreateAlliance"
 	"PopupsFilter PopupsFilter-BreakAlliance"
 	"PopupsFilter PopupsFilter-DeclareWar"
+	"ValidatorConfig ValidatorConfig-empireInvalidationDepth"
+	"ValidatorConfig ValidatorConfig-activeRangeReference"
 end
 
 key ManagerConfig SdoConfig!ManagerConfig.prop
@@ -16,3 +18,7 @@ key PopupsFilter SdoConfig!PopupsFilter.prop
 key PopupsFilter-CreateAlliance SdoConfig!PopupsFilter-CreateAlliance.prop
 key PopupsFilter-BreakAlliance SdoConfig!PopupsFilter-BreakAlliance.prop
 key PopupsFilter-DeclareWar SdoConfig!PopupsFilter-DeclareWar.prop
+
+key ValidatorConfig SdoConfig!ValidatorConfig.prop
+key ValidatorConfig-empireInvalidationDepth SdoConfig!ValidatorConfig-empireInvalidationDepth.prop
+key ValidatorConfig-activeRangeReference SdoConfig!ValidatorConfig-activeRangeReference.prop

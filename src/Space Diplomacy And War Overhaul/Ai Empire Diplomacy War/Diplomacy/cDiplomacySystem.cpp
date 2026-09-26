@@ -43,7 +43,7 @@ Simulator::Attribute cDiplomacySystem::ATTRIBUTES[] = {
 
 void cDiplomacySystem::Initialize() {
 	instance = this;
-	ready = false;
+	dependenciesInjected = false;
 	cycle = 0;
 
 	PropertyListPtr managerConfigProp;
@@ -68,7 +68,7 @@ void cDiplomacySystem::Dispose() {
 }
 
 void cDiplomacySystem::Update(int deltaTime, int deltaGameTime) {
-	if (IsSpaceGame() && ready) {
+	if (IsSpaceGame() && dependenciesInjected) {
 		elapsedTime += deltaGameTime;
 		if (elapsedTime > cycleInterval) {
 			StartDiplomacyCycle();
@@ -97,8 +97,9 @@ void cDiplomacySystem::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 	if (previousModeID == GameModeIDs::kGameSpace) {
 
 		empiresDiplomacy.clear();
+		simulationValidator.reset();
 		empireDiplomacyFactory.reset();
-		ready = false;
+		dependenciesInjected = false;
 	}
 }
 
@@ -111,16 +112,25 @@ cDiplomacySystem* cDiplomacySystem::Get() {
 	return instance;
 }
 
-void cDiplomacySystem::InjectDependencies(cEmpireDiplomacyFactory* empireDiplomacyFactory){
+void cDiplomacySystem::InjectDependencies(cSimulationValidator* simulationValidator, cEmpireDiplomacyFactory* empireDiplomacyFactory){
+	this->simulationValidator = simulationValidator;
 	this->empireDiplomacyFactory = empireDiplomacyFactory;
-	ready = true;
+	dependenciesInjected = true;
 }
 
 void cDiplomacySystem::DiplomacySubCycle() {
-	if (empireToManage != empiresDiplomacy.end()) {
-		if (EmpireUtils::ValidNpcEmpire(empireToManage->get()->empire.get())) {
-			empireToManage->get()->ManageDiplomacy();
+	for (int i = 0; i < empiresPerSubCycle; i++)
+	{
+		if (empireToManage == empiresDiplomacy.end())
+		{
+			break;
 		}
+		if (!simulationValidator->ValidEmpire(empireToManage->get()->empire.get()))
+		{
+			++empireToManage;
+			continue;
+		}
+		empireToManage->get()->ManageDiplomacy();
 		++empireToManage;
 	}
 }
@@ -129,9 +139,9 @@ void cDiplomacySystem::StartDiplomacyCycle() {
 	empiresDiplomacy.clear();
 
 	eastl::vector<cEmpirePtr> empires;
-	EmpireUtils::GetEmpiresInRadius(GetPlayerHomePlanet()->GetStarRecord()->mPosition, activeRadius, empires);
+	EmpireUtils::GetEmpiresInRadius(simulationValidator->GetActiveRangeOrigin(), activeRadius, empires);
 	for (cEmpirePtr empire : empires) {
-		if (EmpireUtils::ValidNpcEmpire(empire.get())) {
+		if (simulationValidator->ValidEmpire(empire.get())) {
 			cEmpireDiplomacyPtr empireDiplomacy = empireDiplomacyFactory->CreateEmpireDiplomacy(empire.get());
 			empiresDiplomacy.push_back(empireDiplomacy);
 		}

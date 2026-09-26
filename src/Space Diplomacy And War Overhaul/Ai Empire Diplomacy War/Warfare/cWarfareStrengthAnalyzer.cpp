@@ -6,8 +6,13 @@
 using namespace SporeModUtils;
 using namespace Simulator;
 
-cWarfareStrengthAnalyzer::cWarfareStrengthAnalyzer(cWarfareConfig* warfareConfig, cSpaceCombatMetrics* spaceCombatMetrics, cArchetypeStrengthConfig* archetypeStrengthConfig)
+cWarfareStrengthAnalyzer::cWarfareStrengthAnalyzer(cSimulationValidator* simulationValidator,
+    cWarfareConfig* warfareConfig, 
+    cSpaceCombatMetrics* 
+    spaceCombatMetrics, 
+    cArchetypeStrengthConfig* archetypeStrengthConfig)
 {
+    this->simulationValidator = simulationValidator;
     this->warfareConfig = warfareConfig;
 	this->spaceCombatMetrics = spaceCombatMetrics;
     this->archetypeStrengthConfig = archetypeStrengthConfig;
@@ -61,7 +66,7 @@ int cWarfareStrengthAnalyzer::GetBomberForceForPlanet(Simulator::cEmpire* empire
 }
 
 int cWarfareStrengthAnalyzer::GetBomberForceForSystem(Simulator::cEmpire* empire, Simulator::cStarRecord* star){
-    if (!StarUtils::ValidStar(star, true, false, false, false, false)) {
+    if (!simulationValidator->ValidStar(star)) {
         return 0;
     }
     int requiredBombers = 0;
@@ -118,7 +123,7 @@ float cWarfareStrengthAnalyzer::GetBombersProducedByPlanet(Simulator::cPlanetRec
 float cWarfareStrengthAnalyzer::GetBombersProducedBySystem(Simulator::cStarRecord* star){
     float bombersProduced = 0;
     for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
-        if (PlanetUtils::InteractablePlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire) {
+        if (simulationValidator->ValidPlanet(planet.get()) && planet->GetTechLevel() == TechLevel::Empire) {
             bombersProduced += GetBombersProducedByPlanet(planet.get());
         }
     }
@@ -141,7 +146,7 @@ float cWarfareStrengthAnalyzer::AdjustBombersForCaps(float bomberCount) {
 float cWarfareStrengthAnalyzer::GetBombersProducedByEmpire(Simulator::cEmpire* empire){
     float bombersProduced = 0;
     for (cStarRecordPtr star : empire->mStars) {
-        if (StarUtils::ValidStar(star.get())) {
+        if (simulationValidator->ValidStar(star.get())) {
             bombersProduced += GetBombersProducedBySystem(star.get());
         }
     }
