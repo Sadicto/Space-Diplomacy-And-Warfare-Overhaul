@@ -40,11 +40,10 @@ Affinity bonuses from long-lasting alliances and long-lasting peace do not stack
 
 The comm tab shows your affinity with the empire.
 
-(Screenshot showing several affinity bonuses and the long-alliance bonus overriding the long-peace bonus)
+![AffinityTooltip](images/AffinityTooltip.png "Affinity Tooltip ")
+*Affinity Interface*
 
 The long alliance and long peace bonuses don't stack, which is why the long peace bonus appears greyed out in the image. The same happens with the common enemy and defeated common enemy bonuses.
-
-
 
 ### AI Alliances
 - AI empires only form alliances with other AI empires they have positive affinity with. 
@@ -67,6 +66,9 @@ The long alliance and long peace bonuses don't stack, which is why the long peac
   - Joining an ally's war: If within range of an empire that is at war with an ally, the AI will automatically declare war on its ally's enemy, as long as it has lower affinity with the target than with the ally.
   - War on its own initiative: If neighboring an empire with an affinity of zero or lower and a relationship below 30 (worse than blue face), the AI may decide to declare war, with the probability depending on the archetype's aggressiveness. In the player's case, they receive a notification informing them that the empire is preparing to declare war, which can be avoided by raising the relationship to 30 or higher.
 
+![PreparingForWarNotificacion](images/PreparingForWarNotificacion.png "An empire preparing for war against the player ")
+*An empire preparing for war against the player*
+
 ### Player Wars
 - With this new system for declaring wars, AI empires will no longer demand tribute from the player.
 
@@ -77,12 +79,11 @@ When the player takes an action that ends a war against an AI empire, a 40-minut
 
 The remaining truce duration can be seen in the affinity interface of the communications panel. If the player breaks the truce (by starting a war with the empire), all of the player's active truces will be cancelled.
 
-(Image of a truce showing the remaining time)
+![AffinityTruce](images/AffinityTruce.png "Truce time")
+*The truce's remaining time, as shown in the affinity interface*
 
-(Image of the notification for breaking a truce)
-
-
-
+![BreakingTruceNotification](images/BreakingTruceNotification.png "Breaking truce notification")
+*Consequences of breaking a truce*
 
 ### Notifications
 The player will receive notifications for:
@@ -91,7 +92,7 @@ The player will receive notifications for:
 - Alliances
 - Broken alliances
 
-![DiplomacyNotifications](images/.png "Diplomacy Notifications")
+![DiplomacyNotifications](images/DiplomacyNotification.png "Diplomacy Notifications")
 *Diplomacy Notifications*
 
 ### Galaxy View Changes
@@ -111,10 +112,10 @@ The player will receive notifications for:
 - The player now has access to a new tool called **“Invasion Call”**, allowing the player to summon a fleet from their empire to an enemy system.
 - The fleet size and cost of using the tool depend on the planet’s defenses, using the same logic as the AI.
 
-![InvasionCallTooltip](images/.png "Invasion Call Tool")
+![InvasionCallTooltip](images/InvasionCallTooltip.png "Invasion Call Tooltip")
 *Invasion Call: Tooltip*
 
-![InvasionCallPlanet](images/.png "Invasion Call ")
+![InvasionCallPlanet](images/InvasionCallEffect.png "Invasion Call effect")
 *Invasion Call: Summoned a Player Fleet*
 
 ### Customization and Settings
@@ -139,5 +140,6 @@ The player will receive notifications for:
 - Knights and Wanderers are not fully integrated into the affinity system, they get treated as Warriors or Diplomats respectively.
 - AI attack strength against the player is the same as against other empires, which can be harder than intended if you don’t have *Defensive Ships in Player Colonies* installed.
 - Not balanced for Uber Turret yet.
+- Uninstalling the mod leaves behind the diplomacyWarfareOverhaulDB file in Spore/Games/Game0. You can delete it manually, but leaving it there shouldn't have any negative effect.
 
 This is a very large mod that changes many aspects of the game. For any issues or suggestions, contact me on Discord or create an issue on GitHub.
