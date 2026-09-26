@@ -7,57 +7,57 @@ int32s WarriorAgressivity
 end
 
 int32s TraderAgressivity
-	-3
-	-2
-	-1
 	0
 	1
+	1
+	2
+	2
 end
 
 int32s ScientistAgressivity
-	-3
-	-2
-	-1
-	0
+	1
 	2
+	2
+	3
+	3
 end
 
 int32s ShamanAgressivity
-	-6
-	-5
 	-5
 	-4
-	-3
-end
-
-int32s BardAgressivity
 	-4
 	-3
 	-2
+end
+
+int32s BardAgressivity
 	-1
 	0
+	0
+	1
+	1
 end
 
 int32s ZealotAgressivity
-	-4
-	-3
-	-1
-	2
+	3
+	4
+	4
+	5
 	5
 end
 
 int32s DiplomatAgressivity
-	-5
 	-4
 	-3
-	-2
-	-2
-end
-
-int32s EcologistAgressivity
-	-4
-	-4
 	-3
 	-2
 	-1
+end
+
+int32s EcologistAgressivity
+	-2
+	-1
+	-1
+	0
+	0
 end

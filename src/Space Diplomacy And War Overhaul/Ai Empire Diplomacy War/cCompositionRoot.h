@@ -1,28 +1,38 @@
 #pragma once
 
 #include <Spore\BasicIncludes.h>
-#include <Diplomacy/cDiplomacyEffectInfoProvider.h>
-#include <Diplomacy/Config/cDiplomacyConfig.h>
-#include <Diplomacy/cEmpireRelationsAnalyzer.h>
-#include <Diplomacy/cDiplomacyEventDispatcher.h>
-#include <Diplomacy/cDiplomacyEventListener.h>
-#include <Diplomacy/cEmpireDiplomacyFactory.h>
-#include <Warfare/Config/cWarfareConfig.h>
-#include <Warfare/cSpaceCombatMetrics.h>
-#include <Warfare/cWarfareStrengthAnalyzer.h>
-#include <Warfare/cWarfareEventDispatcher.h>
-#include <Warfare/cWarfareEventListener.h>
-#include <Diplomacy/cDiplomacySystem.h>
-#include <Warfare/cWarfareSystem.h>
-#include <Warfare/cEmpireWarfareFactory.h>
-#include <Diplomacy/Config/cAffinityConfig.h>
+#include "Diplomacy/cDiplomacyEffectInfoProvider.h"
+#include "Diplomacy/Config/cDiplomacyConfig.h"
+#include "Diplomacy/cEmpireRelationsAnalyzer.h"
+#include "Diplomacy/cDiplomacyEventDispatcher.h"
+#include "Diplomacy/cDiplomacyEventListener.h"
+#include "Diplomacy/cEmpireDiplomacyFactory.h"
+#include "Warfare/Config/cWarfareConfig.h"
+#include "Warfare/cSpaceCombatMetrics.h"
+#include "Warfare/cWarfareStrengthAnalyzer.h"
+#include "Warfare/cWarfareEventDispatcher.h"
+#include "Warfare/cWarfareEventListener.h"
+#include "Diplomacy/cDiplomacySystem.h"
+#include "Warfare/cWarfareSystem.h"
+#include "Warfare/cEmpireWarfareFactory.h"
+#include "Diplomacy/Config/cAffinityConfig.h"
+#include "Diplomacy/PersistedEvent/cPersistedDiplomacyEventManager.h"
+#include "Diplomacy/AffinityModifier/cArchetypeAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cCommonAllyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cCommonEnemyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cDefeatedCommonEnemyAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cLongAllianceAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cLongPeaceAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cMadePeaceAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cUpliftedByMonolithAffinityModifier.h"
+#include "Diplomacy/AffinityModifier/cWarWithAllyAffinityModifier.h"
+#include "Diplomacy/Config/cPersistedDiplomacyEventConfig.h"
+#include "cSimulationValidator.h"
+#include "cDatabaseManager.h"
+#include "cPersistenceState.h"
+#include "cPersistenceInjector.h"
 
 #define cCompositionRootPtr intrusive_ptr<cCompositionRoot>
-
-///
-/// In your dllmain Initialize method, add the system like this:
-/// ModAPI::AddSimulatorStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
-///
 
 /// Singleton class that handles dependency injection
 /// for all other classes in the mod.
@@ -30,7 +40,7 @@ class cCompositionRoot
 	: public Simulator::cStrategy
 {
 public:
-	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cCompositionRoot");
+	static const uint32_t TYPE = id("SpaceDiplomacyWarfareOverhaul::cCompositionRoot");
 	static const uint32_t NOUN_ID = TYPE;
 
 	int AddRef() override;
@@ -49,36 +59,65 @@ public:
 
 	static Simulator::Attribute ATTRIBUTES[];
 
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
 
+	// Pointer to the loaded diplomacy configuration object.
+	cDiplomacyConfigPtr diplomacyConfig;
 
-private:
-	
-	static cCompositionRoot* instance;
+	// Pointer to the loaded database manager object.
+	// it's not created by the composition root.
+	cDatabaseManagerPtr databaseManager;
+
+	// Pointer to the loaded persistence state object.
+	// it's not created by the composition root.
+	cPersistenceStatePtr persistenceState;
+
+	// Pointer to the loaded persistence injector object.
+	cPersistenceInjectorPtr persistenceInjector;
 
 	// Pointer to the loaded diplomacy system object.
 	// it's not created by the composition root.
 	cDiplomacySystemPtr diplomacySystem;
 
-	// Key used to load the diplomacy configuration prop.
-	ResourceKey diplomacyConfigKey;
-
-	// Pointer to the loaded diplomacy configuration object.
-	cDiplomacyConfigPtr diplomacyConfig;
-
-	// Key used to load the archetypes affinities prop.
-	ResourceKey archetypesAffinitiesKey;
-
-	// Key used to load the affinity config prop.
-	ResourceKey affinityConfigKey;
-
-	// Key used to load the archetypes agressivities prop.
-	ResourceKey archetypesAgressivitiesKey;
+	// Pointer to the loaded persistedDiplomacyEventConfig;
+	cPersistedDiplomacyEventConfigPtr persistedDiplomacyEventConfig;
 
 	// Pointer to the loaded archetypes affinities object.
 	cArchetypesConfigPtr archetypesConfig;
 
 	// Pointer to the loaded affinity config object.
 	cAffinityConfigPtr affinityConfig;
+
+	// Pointer to the loaded persisted diplomacy event manager.
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	// Pointer to the loaded archetype affinity modifier.
+	cArchetypeAffinityModifierPtr archetypeAffinityModifier;
+
+	// Pointer to the loaded common enemy affinity modifier.
+	cCommonEnemyAffinityModifierPtr commonEnemyAffinityModifier;
+
+	// Pointer to the loaded common ally affinity modifier.
+	cCommonAllyAffinityModifierPtr commonAllyAffinityModifier;
+
+	// Pointer to the loaded war with ally affinity modifier.
+	cWarWithAllyAffinityModifierPtr warWithAllyAffinityModifier;
+
+	// Pointer to the loaded defeated common enemy affinity modifier.
+	cDefeatedCommonEnemyAffinityModifierPtr defeatedCommonEnemyAffinityModifier;
+
+	// Pointer to the loaded uplifted by monolith affinity modifier.
+	cUpliftedByMonolithAffinityModifierPtr upliftedByMonolithAffinityModifier;
+
+	// Pointer to the loaded made peace affinity modifier.
+	cMadePeaceAffinityModifierPtr madePeaceAffinityModifier;
+
+	// Pointer to the loaded long peace affinity modifier.
+	cLongPeaceAffinityModifierPtr longPeaceAffinityModifier;
+
+	// Pointer to the loaded long alliance affinity modifier.
+	cLongAllianceAffinityModifierPtr longAllianceAffinityModifier;
 
 	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
@@ -92,12 +131,6 @@ private:
 	// Pointer to the loaded diplomacy event listener object.
 	cDiplomacyEventListenerPtr diplomacyEventListener;
 
-	// Key used to load the popups texts prop.
-	ResourceKey spacePopUpsTextsKey;
-
-	// Key used to load the popups filter config.
-	ResourceKey popupsFilterConfigKey;
-
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
@@ -107,24 +140,12 @@ private:
 	// Pointer to the loaded diplomacy effect analyzer.
 	cDiplomacyEffectAnalyzerPtr diplomacyEffectAnalyzer;
 
-	// Key used to load the relationship effects prop.
-	ResourceKey relationshipEffectsKey;
-
 	// Pointer to the loaded diplomacy effect info provider.
 	cDiplomacyEffectInfoProviderPtr diplomacyEffectInfoProvider;
 
 	// Pointer to the loaded warfare system.
 	// It's not created by the composition root.
 	cWarfareSystemPtr warfareSystem;
-
-	// Key used to load the warfare config prop.
-	ResourceKey warfareConfigKey;
-
-	// Pointer to the loaded warfareConfig.
-	cWarfareConfigPtr warfareConfig;
-
-	// Key used to load the space combat prop.
-	ResourceKey spaceCombatKey;
 
 	// Pointer to the loaded spaceCombatMetrics.
 	cSpaceCombatMetricsPtr spaceCombatMetrics;
@@ -141,11 +162,54 @@ private:
 	// Pointer to the loaded warfareEventListener.
 	cWarfareEventListenerPtr warfareEventListener;
 
-	// Key used to load the archetypeStrengthConfig prop.
-	ResourceKey archetypeStrengthConfigKey;
-
 	// Pointer to the loaded ArchetypeStrengthConfig
 	cArchetypeStrengthConfigPtr archetypeStrengthConfig;
+
+private:
+	
+	static cCompositionRoot* instance;
+
+	// Key used to load the simulation validator prop.
+	ResourceKey simulationValidatorConfigKey;
+
+	// Key used to load the diplomacy configuration prop.
+	ResourceKey diplomacyConfigKey;
+
+	// Key used to load the persisted diplomacy event config prop.
+	ResourceKey persistedDiplomacyEventConfigKey;
+
+	// Key used to load the archetypes affinities prop.
+	ResourceKey archetypesAffinitiesKey;
+
+	// Key used to load the affinity config prop.
+	ResourceKey affinityConfigKey;
+
+	// Key used to load the archetypes agressivities prop.
+	ResourceKey archetypesAgressivitiesKey;
+
+	// Key used to load the archetypes relationship effects prop.
+	ResourceKey archetypesRelationshipEffectsKey;
+
+	// Key used to load the popups texts prop.
+	ResourceKey spacePopUpsTextsKey;
+
+	// Key used to load the popups filter config.
+	ResourceKey popupsFilterConfigKey;
+
+	// Key used to load the relationship effects prop.
+	ResourceKey relationshipEffectsKey;
+
+	// Key used to load the warfare config prop.
+	ResourceKey warfareConfigKey;
+
+	// Pointer to the loaded warfareConfig.
+	cWarfareConfigPtr warfareConfig;
+
+	// Key used to load the space combat prop.
+	ResourceKey spaceCombatKey;
+
+	// Key used to load the archetypeStrengthConfig prop.
+	ResourceKey archetypeStrengthConfigKey;
 
 	// Pointer to the loaded affinityLayout.
 	UTFWin::UILayout* affinityLayout;

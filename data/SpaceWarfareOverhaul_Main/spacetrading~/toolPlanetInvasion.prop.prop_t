@@ -1,8 +1,8 @@
 texts spaceToolDescription
-	"Planet Invasion"
+	"Invasion Call"
 end
 texts spaceToolDetailDescription
-	"Use on a planet to summon an invasion force from your empire."
+	"Use on a planet or system to summon an invasion force from your empire."
 end
 key spaceToolImageID ufotools~!0xD08C0068.png
 float spaceTradingAbundance 20

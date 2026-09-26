@@ -1,0 +1,35 @@
+bools expires
+	false 	# NeighborsInPeace
+	false 	# FormedAlliance
+	true  	# DefeatedEnemyTogether
+	false 	# UpliftedByMonolith
+	true  	# MadePeace
+	true 	# PreparingToDeclareWarEvent
+end
+
+uint32s expireTime
+	0 	# NeighborsInPeace
+	0 	# FormedAlliance
+	3600000 # DefeatedEnemyTogether, 60 minutes
+	0 	# UpliftedByMonolith
+	2700000 # MadePeace 45 minutes
+	1200000	# PreparingToDeclareWarEvent 20 minutes
+end
+
+bools replaceOnRepeat
+	false 	# NeighborsInPeace
+	false 	# FormedAlliance
+	true 	# DefeatedEnemyTogether
+	false 	# UpliftedByMonolith
+	true 	# MadePeace
+	true 	# PreparingToDeclareWarEvent
+end
+
+bools empireOrderImportant
+	false	# NeighborsInPeace
+	false	# FormedAlliance
+	false	# DefeatedEnemyTogether
+	true	# UpliftedByMonolith
+	false	# MadePeace
+	true 	# PreparingToDeclareWarEvent
+end

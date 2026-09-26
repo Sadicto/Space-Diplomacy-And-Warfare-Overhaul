@@ -128,22 +128,22 @@ int cSpaceCombatMetrics::GetTurretsInT3()
 
 float cSpaceCombatMetrics::GetBomberHealthByEmpire(Simulator::cEmpire* empire)
 {
-	return GetBomberHealthByLevel(EmpireUtils::GetEmpireLevel(empire));
+	return GetBomberHealthByLevel(empire->GetWeaponryLevel());
 }
 
 float cSpaceCombatMetrics::GetFighterHealthByEmpire(Simulator::cEmpire* empire)
 {
-	return GetFighterHealthByLevel(EmpireUtils::GetEmpireLevel(empire));
+	return GetFighterHealthByLevel(empire->GetWeaponryLevel());
 }
 
 float cSpaceCombatMetrics::GetDefenderHealthByEmpire(Simulator::cEmpire* empire)
 {
-	return GetDefenderHealthByLevel(EmpireUtils::GetEmpireLevel(empire));
+	return GetDefenderHealthByLevel(empire->GetWeaponryLevel());
 }
 
 float cSpaceCombatMetrics::GetTurretHealthByEmpire(Simulator::cEmpire* empire)
 {
-	return GetTurretHealthByLevel(EmpireUtils::GetEmpireLevel(empire));
+	return GetTurretHealthByLevel(empire->GetWeaponryLevel());
 }
 
 int cSpaceCombatMetrics::GetDefendersInPlanet(Simulator::cPlanetRecord* planet)

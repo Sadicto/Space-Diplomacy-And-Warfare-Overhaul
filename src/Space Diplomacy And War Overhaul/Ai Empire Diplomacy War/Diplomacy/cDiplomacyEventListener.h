@@ -3,6 +3,7 @@
 #include <Spore\BasicIncludes.h>
 #include "cDiplomacyPopupManager.h"
 #include "cEmpireRelationshipController.h"
+#include "PersistedEvent/cPersistedDiplomacyEventManager.h"
 
 #define cDiplomacyEventListenerPtr intrusive_ptr<cDiplomacyEventListener>
 
@@ -14,7 +15,7 @@ class cDiplomacyEventListener
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cDiplomacyEventListener");
 
-	cDiplomacyEventListener(cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController);
+	cDiplomacyEventListener(cSimulationValidator* simulationValidator, cDiplomacyPopupManager* diplomacyPopUpManager, cEmpireRelationshipController* empireRelationshipController, cPersistedDiplomacyEventManager* persistedDiplomacyEventManager);
 	~cDiplomacyEventListener();
 
 	int AddRef() override;
@@ -53,20 +54,46 @@ public:
 	/// @param empire2
 	void OnHostileAlliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
-	/// @brief Called when an empire declares war on another.
+	/// @brief Called when an empire begins preparing to declare war on another.
 	/// @param empire1
 	/// @param empire2
-	void OnDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+	void OnPreparingToDeclareWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Called when an empire declares an unprovoked war on another.
+	/// @param empire1
+	/// @param empire2
+	void OnDeclareUnprovokedWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Called when an empire joins its ally's war against another empire.
+	/// @param empire1
+	/// @param empire2
+	void OnJoinAllyWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
 	/// @brief Called when an empire decides to continue an ongoing war.
 	/// @param empire1
 	/// @param empire2
 	void OnContinueWar(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
+	/// @brief Called when two empires make peace after a war.
+	/// @param empire1
+	/// @param empire2
+	void OnMadePeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	/// @brief Called when two empires are neighbors in peace.
+	/// @param empire1
+	/// @param empire2
+	void OnNeighborsInPeace(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
+
 	// Pointer to the loaded diplomacy popup manager.
 	cDiplomacyPopupManagerPtr diplomacyPopUpManager;
 
 	// Pointer to the loaded empire relationship controller.
 	cEmpireRelationshipControllerPtr empireRelationshipController;
+
+	// Pointer to the loaded persisted diplomacy event manager.
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
 	
 };

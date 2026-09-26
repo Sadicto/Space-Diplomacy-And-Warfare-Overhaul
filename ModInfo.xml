@@ -12,10 +12,23 @@
 
 	<!-- RadiusConfig -->
 	<componentGroup displayName="Active Radius" unique="Space-Diplomacy-And-Warfare-Overhaul_Radius_Config">
-		<component game="GalacticAdventures" displayName="40 pc" description="Only empires within 40 pc of the player's homeworld will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_40Radius_Config" defaultChecked="false">Space-Diplomacy-Overhaul_40Radius_Config.package</component>
-		<component game="GalacticAdventures" displayName="60 pc" description="Only empires within 60 pc of the player's homeworld will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_60Radius_Config" defaultChecked="false">Space-Diplomacy-Overhaul_60Radius_Config.package</component>
-		<component game="GalacticAdventures" displayName="100 pc" description="Only empires within 100 pc of the player's homeworld will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_100Radius_Config" defaultChecked="true">Space-Diplomacy-Overhaul_100Radius_Config.package</component>
-		<component game="GalacticAdventures" displayName="200 pc" description="Only empires within 200 pc of the player's homeworld will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_200Radius_Config" defaultChecked="false">Space-Diplomacy-Overhaul_200Radius_Config.package</component>
+		<component game="GalacticAdventures" displayName="40 pc" description="Only empires within 40 pc of the active range center will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_40Radius_Config" defaultChecked="false">Space-Diplomacy-Overhaul_40Radius_Config.package</component>
+		<component game="GalacticAdventures" displayName="60 pc" description="Only empires within 60 pc of the active range center will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_60Radius_Config" defaultChecked="false">Space-Diplomacy-Overhaul_60Radius_Config.package</component>
+		<component game="GalacticAdventures" displayName="100 pc" description="Only empires within 100 pc of the active range center will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_100Radius_Config" defaultChecked="true">Space-Diplomacy-Overhaul_100Radius_Config.package</component>
+		<component game="GalacticAdventures" displayName="200 pc" description="Only empires within 200 pc of the active range center will be affected by the mod." unique="SpaceDiplomacyAndWarOverhaul_200Radius_Config" defaultChecked="false">Space-Diplomacy-Overhaul_200Radius_Config.package</component>
+	</componentGroup>
+
+	<!-- Active Range Center -->
+	<componentGroup displayName="Active Range Center" unique="Space-Diplomacy-Overhaul_ActiveRangeReference_Config">
+		<component game="GalacticAdventures" displayName="Homeworld" description="The mod uses the player's homeworld as the center of the active range." unique="SpaceDiplomacyAndWarOverhaul_HomeworldActiveRangeReference_Config" defaultChecked="true">Space-Diplomacy-Overhaul_HomeworldActiveRangeReference_Config.package</component>
+		<component game="GalacticAdventures" displayName="Current Position" description="The mod uses the player's current position as the center of the active range." unique="SpaceDiplomacyAndWarOverhaul_CurrentPositionActiveRangeReference_Config" defaultChecked="false">Space-Diplomacy-Overhaul_CurrentPositionActiveRangeReference_Config.package</component>
+	</componentGroup>
+
+	<!-- Ignore Other Players' Empires -->
+	<componentGroup displayName="Player Exclusion Depth" unique="Space-Diplomacy-Overhaul_EmpireInvalidationDepth_Config">
+		<component game="GalacticAdventures" displayName="Players Only" description="The mod ignores only other players' empires." unique="SpaceDiplomacyAndWarOverhaul_OnlyPlayersInvalidationDepth_Config" defaultChecked="false">Space-Diplomacy-Overhaul_OnlyPlayersInvalidationDepth_Config.package</component>
+		<component game="GalacticAdventures" displayName="Players + Direct Relations" description="The mod ignores other players' empires and their direct allies and enemies." unique="SpaceDiplomacyAndWarOverhaul_DirectRelationsInvalidationDepth_Config" defaultChecked="true">Space-Diplomacy-Overhaul_DirectRelationsInvalidationDepth_Config.package</component>
+		<component game="GalacticAdventures" displayName="Players + Indirect Relations" description="The mod ignores other players' empires, their direct allies and enemies, and the direct allies and enemies of those empires." unique="SpaceDiplomacyAndWarOverhaul_IndirectRelationsInvalidationDepth_Config" defaultChecked="false">Space-Diplomacy-Overhaul_IndirectRelationsInvalidationDepth_Config.package</component>
 	</componentGroup>
 
 	<!-- Effects -->
@@ -120,6 +133,15 @@
 	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_60Radius_Config.package</remove>
 	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_100Radius_Config.package</remove>
 	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_200Radius_Config.package</remove>
+
+	<!-- Active Range Center -->
+	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_HomeworldActiveRangeReference_Config.package</remove>
+	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_CurrentPositionActiveRangeReference_Config.package</remove>
+
+	<!-- Ignore Other Players' Empires -->
+	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_OnlyPlayersInvalidationDepth_Config.package</remove>
+	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_DirectRelationsInvalidationDepth_Config.package</remove>
+	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_IndirectRelationsInvalidationDepth_Config.package</remove>
 
 	<!-- Alliance Notifications -->
 	<remove game="GalacticAdventures">Space-Diplomacy-Overhaul_AllianceNotificationsAll_Config.package</remove>

@@ -19,7 +19,7 @@ int cCompositionRoot::Release() {
 }
 
 const char* cCompositionRoot::GetName() const {
-	return "Ai_Empire_Diplomacy::cCompositionRoot";
+	return "SpaceDiplomacyWarfareOverhaul::cCompositionRoot";
 }
 
 bool cCompositionRoot::Write(Simulator::ISerializerStream* stream)
@@ -42,18 +42,36 @@ Simulator::Attribute cCompositionRoot::ATTRIBUTES[] ={
 
 void cCompositionRoot::Initialize(){
 	instance = this;
+	simulationValidator = nullptr;
+
+	diplomacyConfig = nullptr;
+	diplomacyEffectInfoProvider = nullptr;
+	diplomacyEffectAnalyzer = nullptr;
+	empireRelationshipController = nullptr;
+
+	databaseManager = nullptr;
+	persistenceState = nullptr;
 
 	diplomacySystem = nullptr;
-	diplomacyConfig = nullptr;
+	persistedDiplomacyEventConfig = nullptr;
 	archetypesConfig = nullptr;
 	affinityConfig = nullptr;
+	persistedDiplomacyEventManager = nullptr;
+
+	archetypeAffinityModifier = nullptr;
+	commonEnemyAffinityModifier = nullptr;
+	commonAllyAffinityModifier = nullptr;
+	warWithAllyAffinityModifier = nullptr;
+	defeatedCommonEnemyAffinityModifier = nullptr;
+	upliftedByMonolithAffinityModifier = nullptr;
+	madePeaceAffinityModifier = nullptr;
+	longPeaceAffinityModifier = nullptr;
+	longAllianceAffinityModifier = nullptr;
+
 	empireRelationsAnalyzer = nullptr;
 	diplomacyEventDispatcher = nullptr;
 	empireDiplomacyFactory = nullptr;
 	diplomacyPopUpManager = nullptr;
-	diplomacyEffectInfoProvider = nullptr;
-	diplomacyEffectAnalyzer = nullptr;
-	empireRelationshipController = nullptr;
 	diplomacyEventListener = nullptr;
 	affinityLayout = nullptr;
 
@@ -69,10 +87,13 @@ void cCompositionRoot::Initialize(){
 
 	PropManager.GetPropertyList(id("ConfigurationKeys"), id("SdoConfig"), configurationKeys);
 
+	App::Property::GetKey(configurationKeys.get(), 0xEADAAFDB, simulationValidatorConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x13741BB4, spacePopUpsTextsKey);
 	App::Property::GetKey(configurationKeys.get(), 0x6FCEBDBF, diplomacyConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x57252EFE, archetypesAffinitiesKey);
+	App::Property::GetKey(configurationKeys.get(), 0xE7AD6134, persistedDiplomacyEventConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x142ECBFA, archetypesAgressivitiesKey);
+	App::Property::GetKey(configurationKeys.get(), 0x801234A3, archetypesRelationshipEffectsKey);
 	App::Property::GetKey(configurationKeys.get(), 0x5598934F, affinityConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x76F0A8F2, popupsFilterConfigKey);
 	App::Property::GetKey(configurationKeys.get(), 0x82AE7927, relationshipEffectsKey);
@@ -94,32 +115,79 @@ void cCompositionRoot::Update(int deltaTime, int deltaGameTime){
 
 
 void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID){
-	if (newModeID == GameModeIDs::kGameSpace) {
-		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
-
-		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
-
-		affinityConfig = new cAffinityConfig(affinityConfigKey);
-
-		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), archetypesConfig.get(), affinityConfig.get());
-
-		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
-
-		empireDiplomacyFactory = new cEmpireDiplomacyFactory(diplomacyConfig.get(), empireRelationsAnalyzer.get(), diplomacyEventDispatcher.get());
-
-		diplomacySystem = cDiplomacySystem::Get();
-
-		diplomacySystem->InjectDependencies(empireDiplomacyFactory.get());
-
-		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey, popupsFilterConfigKey);
+	if (newModeID == GameModeIDs::kGameSpace) 
+	{
+		simulationValidator = new cSimulationValidator(simulationValidatorConfigKey);
 
 		diplomacyEffectInfoProvider = new cDiplomacyEffectInfoProvider(relationshipEffectsKey);
 
 		diplomacyEffectAnalyzer = new cDiplomacyEffectAnalyzer(diplomacyEffectInfoProvider.get());
 
-		empireRelationshipController = new cEmpireRelationshipController(diplomacyEffectAnalyzer.get());
+		empireRelationshipController = new cEmpireRelationshipController(archetypesRelationshipEffectsKey, diplomacyEffectAnalyzer.get());
 
-		diplomacyEventListener = new cDiplomacyEventListener(diplomacyPopUpManager.get(), empireRelationshipController.get());
+		diplomacyConfig = new cDiplomacyConfig(diplomacyConfigKey);
+
+		databaseManager = cDatabaseManager::Get();
+
+		// This method ensures that the db is read or that persistence has been desactivated.
+		persistenceState = databaseManager->GetPersistenceState();
+
+		persistenceInjector = new cPersistenceInjector(persistenceState.get(), simulationValidator.get(), diplomacyConfig.get(), empireRelationshipController.get());
+
+		// Injects dependencies for all cPersistedObjects loaded from the database.
+		databaseManager->InjectDependencies(persistenceInjector.get());
+
+		archetypesConfig = new cArchetypesConfig(archetypesAffinitiesKey, archetypesAgressivitiesKey);
+
+		persistedDiplomacyEventConfig = new cPersistedDiplomacyEventConfig(persistedDiplomacyEventConfigKey);
+
+		affinityConfig = new cAffinityConfig(affinityConfigKey);
+
+		persistedDiplomacyEventManager = new cPersistedDiplomacyEventManager(simulationValidator.get(), persistedDiplomacyEventConfig.get(), databaseManager.get(), persistenceState.get());
+
+		archetypeAffinityModifier = new cArchetypeAffinityModifier();
+		commonEnemyAffinityModifier = new cCommonEnemyAffinityModifier();
+		commonAllyAffinityModifier = new cCommonAllyAffinityModifier();
+		warWithAllyAffinityModifier = new cWarWithAllyAffinityModifier();
+		defeatedCommonEnemyAffinityModifier = new cDefeatedCommonEnemyAffinityModifier();
+		upliftedByMonolithAffinityModifier = new cUpliftedByMonolithAffinityModifier();
+		madePeaceAffinityModifier = new cMadePeaceAffinityModifier();
+		longPeaceAffinityModifier = new cLongPeaceAffinityModifier();
+		longAllianceAffinityModifier = new cLongAllianceAffinityModifier();
+		eastl::vector<IAffinityModifierPtr> affinityModifiers;
+		affinityModifiers.push_back(archetypeAffinityModifier);
+		affinityModifiers.push_back(commonEnemyAffinityModifier);
+		affinityModifiers.push_back(commonAllyAffinityModifier);
+		affinityModifiers.push_back(warWithAllyAffinityModifier);
+		affinityModifiers.push_back(defeatedCommonEnemyAffinityModifier);
+		affinityModifiers.push_back(upliftedByMonolithAffinityModifier);
+		affinityModifiers.push_back(madePeaceAffinityModifier);
+		affinityModifiers.push_back(longPeaceAffinityModifier);
+		affinityModifiers.push_back(longAllianceAffinityModifier);
+
+		empireRelationsAnalyzer = new cEmpireRelationsAnalyzer(diplomacyConfig.get(), 
+			archetypesConfig.get(), 
+			affinityConfig.get(), 
+			persistedDiplomacyEventManager.get(), 
+			persistenceState.get(),
+			affinityModifiers);
+
+		diplomacyEventDispatcher = new cDiplomacyEventDispatcher();
+
+		empireDiplomacyFactory = new cEmpireDiplomacyFactory(simulationValidator.get(),
+			diplomacyConfig.get(),
+			empireRelationsAnalyzer.get(), 
+			diplomacyEventDispatcher.get(), 
+			persistedDiplomacyEventManager.get(),
+			empireRelationshipController.get());
+
+		diplomacySystem = cDiplomacySystem::Get();
+
+		diplomacySystem->InjectDependencies(simulationValidator.get(), empireDiplomacyFactory.get());
+
+		diplomacyPopUpManager = new cDiplomacyPopupManager(spacePopUpsTextsKey, popupsFilterConfigKey);
+
+		diplomacyEventListener = new cDiplomacyEventListener(simulationValidator.get(), diplomacyPopUpManager.get(), empireRelationshipController.get(), persistedDiplomacyEventManager.get());
 
 		MessageManager.AddListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 
@@ -127,13 +195,13 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 		UILayoutPtr globalUiLayout = SimulatorSpaceGame.GetUI()->mpGlobalUI->mpLayout;
 		if (globalUiLayout != nullptr) {
 			UTFWin::IWindow* window = globalUiLayout->FindWindowByID(0x02E1CBD7);
-			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc();
+			AllianceEnemyButtonProc* proc = new AllianceEnemyButtonProc(simulationValidator.get());
 			window->AddWinProc(proc);
 		}
 		// Loads the affinity number layout, attaches it to the communications layout,
 		// and creates the AffinityTextProc.
 		affinityLayout = new UTFWin::UILayout();
-		affinityLayout->LoadByID(0x7db34bf7); // layouts_atlas~!AffinityLayout.spui.
+		affinityLayout->LoadByID(0x33a59dda); // layouts_atlas~!AffinityTooltip.spui.
 
 		UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
 		UTFWin::IWindow* commScreenWindow = mainWindow->FindWindowByID(0x0493AB00)->GetParent();
@@ -141,7 +209,7 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 
 		UTFWin::IWindow* affinityMainWindow = affinityLayout->FindWindowByID(0x434EB9AD);
-		AffinityTextProc* affinityTextProc = new AffinityTextProc(affinityMainWindow, empireRelationsAnalyzer.get(), affinityTextConfigKey);
+		AffinityTextProc* affinityTextProc = new AffinityTextProc(affinityMainWindow, simulationValidator.get(), empireRelationsAnalyzer.get(), affinityTextConfigKey);
 		affinityMainWindow->AddWinProc(affinityTextProc);
 
 		warfareConfig = new cWarfareConfig(warfareConfigKey);
@@ -150,41 +218,57 @@ void cCompositionRoot::OnModeEntered(uint32_t previousModeID, uint32_t newModeID
 
 		archetypeStrengthConfig = new cArchetypeStrengthConfig(archetypeStrengthConfigKey, archetypesConfig.get());
 
-		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(warfareConfig.get(), spaceCombatMetrics.get(), archetypeStrengthConfig.get());
+		warfareStrengthAnalyzer = new cWarfareStrengthAnalyzer(simulationValidator.get(), warfareConfig.get(), spaceCombatMetrics.get(), archetypeStrengthConfig.get());
 
 		warfareEventDispatcher = new cWarfareEventDispatcher();
 
-		empireWarfareFactory = new cEmpireWarfareFactory(warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
+		empireWarfareFactory = new cEmpireWarfareFactory(simulationValidator.get(),warfareConfig.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
 
 		warfareSystem = cWarfareSystem::Get();
 
-		warfareSystem->InjectDependencies(empireWarfareFactory.get());
+		warfareSystem->InjectDependencies(simulationValidator.get(), empireWarfareFactory.get());
 
-		warfareEventListener = new cWarfareEventListener();
+		warfareEventListener = new cWarfareEventListener(simulationValidator.get());
 
 		MessageManager.AddListener(warfareEventListener.get(), cPlanetAttackedEvent::ID);
 		cToolStrategy* toolStrategy = ToolManager.GetStrategy(cToolInvasionStrategy::TYPE);
 		cToolInvasionStrategy* toolInvasionStrategy = static_cast<cToolInvasionStrategy*>(toolStrategy);
 		if (toolInvasionStrategy) {
-			toolInvasionStrategy->warfareStrengthAnalyzer = warfareStrengthAnalyzer;
-			toolInvasionStrategy->warfareEventDispatcher = warfareEventDispatcher;
+			toolInvasionStrategy->InjectDependencies(simulationValidator.get(), warfareStrengthAnalyzer.get(), warfareEventDispatcher.get());
 		}
 	}
 }
 
 void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID){
 	if (previousModeID == GameModeIDs::kGameSpace) {
-		diplomacySystem.reset();
+		simulationValidator.reset();
+
+		diplomacyEffectInfoProvider.reset();
+		diplomacyEffectAnalyzer.reset();
+		empireRelationshipController.reset();
 		diplomacyConfig.reset();
+
+		databaseManager.reset();
+		persistenceState.reset();
+
+		diplomacySystem.reset();
 		archetypesConfig.reset();
 		affinityConfig.reset();
+		persistedDiplomacyEventConfig.reset();
+		persistedDiplomacyEventManager.reset();
+		archetypeAffinityModifier.reset();
+		commonEnemyAffinityModifier.reset();
+		commonAllyAffinityModifier.reset();
+		warWithAllyAffinityModifier.reset();
+		defeatedCommonEnemyAffinityModifier.reset();
+		upliftedByMonolithAffinityModifier.reset();
+		madePeaceAffinityModifier.reset();
+		longPeaceAffinityModifier.reset();
+		longAllianceAffinityModifier.reset();
 		empireRelationsAnalyzer.reset();
 		diplomacyEventDispatcher.reset();
 		empireDiplomacyFactory.reset();
 		diplomacyPopUpManager.reset();
-		diplomacyEffectInfoProvider.reset();
-		diplomacyEffectAnalyzer.reset();
-		empireRelationshipController.reset();
 
 		MessageManager.RemoveListener(diplomacyEventListener.get(), cDiplomacyEvent::ID);
 		diplomacyEventListener.reset();
@@ -205,8 +289,7 @@ void cCompositionRoot::OnModeExited(uint32_t previousModeID, uint32_t newModeID)
 		cToolStrategy* toolStrategy = ToolManager.GetStrategy(cToolInvasionStrategy::TYPE);
 		cToolInvasionStrategy* toolInvasionStrategy = static_cast<cToolInvasionStrategy*>(toolStrategy);
 		if (toolInvasionStrategy) {
-			toolInvasionStrategy->warfareStrengthAnalyzer.reset();
-			toolInvasionStrategy->warfareEventDispatcher.reset();
+			toolInvasionStrategy->ResetDependencies();
 		}
 	}
 }

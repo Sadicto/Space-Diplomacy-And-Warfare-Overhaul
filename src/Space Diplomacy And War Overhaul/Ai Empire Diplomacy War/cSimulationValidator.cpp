@@ -1,0 +1,121 @@
+#include "stdafx.h"
+#include "cSimulationValidator.h"
+#include <Spore-Mod-Utils/Include/SporeModUtils.h>
+using namespace SporeModUtils;
+using namespace Simulator;
+
+
+cSimulationValidator::cSimulationValidator(ResourceKey validatorConfigKey){
+	PropertyListPtr validatorConfigProp;
+	PropManager.GetPropertyList(validatorConfigKey.instanceID, validatorConfigKey.groupID, validatorConfigProp);
+	int empireInvalidationDepthInt;
+	App::Property::GetInt32(validatorConfigProp.get(), 0x903BB67C, empireInvalidationDepthInt);
+	empireInvalidationDepth = EmpireInvalidationDepth(empireInvalidationDepthInt);
+	int activeRangeReferenceInt;
+	App::Property::GetInt32(validatorConfigProp.get(), 0x29AC73B9, activeRangeReferenceInt);
+	activeRangeReference = ActiveRangeReference(activeRangeReferenceInt);
+
+	for (const auto& empire : StarManager.GetEmpires()) 
+	{
+		if (empire.second == nullptr)
+		{
+			continue;
+		}
+		if (((empire.second->mFlags & EmpireFlags::kEmpireFlagFromSaveGame) != 0) && empire.second != Simulator::GetPlayerEmpire()) 
+		{
+			invalidEmpires.insert(empire.second);
+			cStarRecord* homeStar = empire.second->GetHomeStarRecord();
+			// All player empires, including those from deleted saves, are excluded.
+			// However, allies and enemies are only invalidated for player empires
+			// whose save game still exists.
+			if (homeStar != nullptr && (homeStar->mFlags & StarFlags::kStarFlagSaveGame) != 0)
+			{
+				if (empireInvalidationDepth == EmpireInvalidationDepth::directRelations) 
+				{
+					InvalidateAlliesAndEnemies(empire.second.get());
+				}
+				else if (empireInvalidationDepth == EmpireInvalidationDepth::indirectRelations) 
+				{
+					InvalidateAlliesAndEnemies(empire.second.get(), true);
+				}
+			}
+		}
+	}
+}
+
+cSimulationValidator::~cSimulationValidator()
+{
+}
+
+// For internal use, do not modify.
+int cSimulationValidator::AddRef()
+{
+	return DefaultRefCounted::AddRef();
+}
+
+// For internal use, do not modify.
+int cSimulationValidator::Release()
+{
+	return DefaultRefCounted::Release();
+}
+
+// You can extend this function to return any other types your class implements.
+void* cSimulationValidator::Cast(uint32_t type) const
+{
+	CLASS_CAST(Object);
+	CLASS_CAST(cSimulationValidator);
+	return nullptr;
+}
+
+void cSimulationValidator::InvalidateAlliesAndEnemies(Simulator::cEmpire* empire, bool includeIndirectRelations){
+	for (cEmpirePtr ally : empire->mAllies) {
+		if (EmpireUtils::ValidNpcEmpire(ally.get()) && invalidEmpires.find(ally) == invalidEmpires.end()) {
+			invalidEmpires.insert(ally);
+			if (includeIndirectRelations) {
+				InvalidateAlliesAndEnemies(ally.get());
+			}
+		}
+	}
+	for (cEmpirePtr enemy : empire->mEnemies) {
+		if (EmpireUtils::ValidNpcEmpire(enemy.get()) && invalidEmpires.find(enemy) == invalidEmpires.end()) {
+			invalidEmpires.insert(enemy);
+			if (includeIndirectRelations) {
+				InvalidateAlliesAndEnemies(enemy.get());
+			}
+		}
+	}
+}
+
+bool cSimulationValidator::ValidEmpire(Simulator::cEmpire* empire, bool includePlayer, bool includeGrox){
+	return EmpireUtils::ValidNpcEmpire(empire, includePlayer, includeGrox) &&
+		invalidEmpires.find(empire) == invalidEmpires.end();
+}
+
+bool cSimulationValidator::ValidStar(Simulator::cStarRecord* star){
+	return StarUtils::ValidStar(star, true, false, false, true, false);
+}
+
+bool cSimulationValidator::ValidPlanet(Simulator::cPlanetRecord* planet){
+	return PlanetUtils::InteractablePlanet(planet);
+}
+
+Math::Vector3 cSimulationValidator::GetActiveRangeOrigin()
+{
+	Math::Vector3 origin;
+	switch (activeRangeReference)
+	{
+	case(ActiveRangeReference::Homeworld): {
+		origin = GetPlayerHomePlanet()->GetStarRecord()->mPosition;
+		break;
+	}
+	case(ActiveRangeReference::CurrentPosition): {
+		origin = GetActiveStarRecord()->mPosition;
+		break;
+	}
+	default: {
+		origin = GetPlayerHomePlanet()->GetStarRecord()->mPosition;
+		break;
+	}
+	}
+	return origin;
+}

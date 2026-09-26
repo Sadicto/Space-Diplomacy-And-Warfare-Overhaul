@@ -18,15 +18,24 @@ class cEmpireDiplomacy
 public:
 	static const uint32_t TYPE = id("SpaceDiplomacyOverhaul::cEmpireDiplomacy");
 	
-	cEmpireDiplomacy(Simulator::cEmpire* empire, 
+	cEmpireDiplomacy(Simulator::cEmpire* empire,
+		cSimulationValidator* simulationValidator,
 		cDiplomacyConfig* diplomacyConfig, 
 		cEmpireRelationsAnalyzer* empireRelationsAnalyzer, 
-		cDiplomacyEventDispatcher* diplomacyEventDispatcher);
+		cDiplomacyEventDispatcher* diplomacyEventDispatcher,
+		cPersistedDiplomacyEventManager* persistedDiplomacyEventManager,
+		cEmpireRelationshipController* empireRelationshipController);
 	~cEmpireDiplomacy();
 
 	int AddRef() override;
 	int Release() override;
 	void* Cast(uint32_t type) const override;
+
+	/// @brief Checks whether an empire is a valid target for a war declaration.
+	/// @param warTarget The empire being evaluated as a potential war target.
+	/// @param causedByAllyWar Whether the war declaration is caused by joining an ally's existing war.
+	/// @return True if the empire can be targeted by a war declaration, otherwise false.
+	bool ValidWarTarget(Simulator::cEmpire* warTarget, bool causedByAllyWar = false);
 
 	/**
 	 * @brief Resolves conflicts between allied empires.
@@ -41,6 +50,10 @@ public:
 	/// empire has for that ally.
 	/// @return Pointer to the qualifying enemy empire, or nullptr if no such empire exists.
 	Simulator::cEmpire* FindAllyEnemy();
+
+	/// @brief Returns the empire this empire is preparing to declare war on.
+	/// @return A pointer to the target empire, or nullptr if no war preparation event exists.
+	Simulator::cEmpire* GetPreparingToDeclareWarTarget();
 
 	/// @brief Calculates the probability of forming an alliance with the target empire.
 	/// @param target.
@@ -85,16 +98,33 @@ public:
 	// Pointer to the empire this object is managing.
 	cEmpirePtr empire;
 
-	// Pointer to the loaded diplomacy configuration object.
+	// Pointer to the loaded simulation validator object.
+	cSimulationValidatorPtr simulationValidator;
+
 	cDiplomacyConfigPtr diplomacyConfig;
 
-	// Pointer to the loaded empire relations analyzer object.
 	cEmpireRelationsAnalyzerPtr empireRelationsAnalyzer;
 
 	cDiplomacyEventDispatcherPtr diplomacyEventDispatcher;
 
+	cPersistedDiplomacyEventManagerPtr persistedDiplomacyEventManager;
+
+	cEmpireRelationshipControllerPtr empireRelationshipController;
+
+
 	eastl::vector<cEmpirePtr> neutrals;
 
+	// Whether the empire is joining its ally's war.
+	bool joiningAllyWar;
+
+	// Whether the empire has decided to begin preparing a declaration of war.
+	bool decidedToPrepareWarDeclaration;
+
+	// Whether the empire has finished preparing and will declare war.
+	bool readyToDeclareWar;
+
+	/*
 	int strenght;
 	int srenghtOfAlliance;
+	*/
 };

@@ -14,18 +14,40 @@
 #include "Diplomacy/AffinityTextProc.h"
 #include "cCompositionRoot.h"
 #include "cPersistedEvent.h"
+#include "Diplomacy/PersistedEvent/cPersistedDiplomacyEvent.h"
+#include "Diplomacy/PersistedEvent/cNeighborsInPeaceEvent.h"
+#include "Diplomacy/PersistedEvent/cMadePeaceEvent.h"
+#include "Diplomacy/PersistedEvent/cUpliftedByMonolithEvent.h"
+#include "Diplomacy/PersistedEvent/cFormedAllianceEvent.h"
+#include "Diplomacy/PersistedEvent/cDefeatedEnemyTogetherEvent.h"
+#include "Diplomacy/DiplomacyDetours.h"
+#include "cPersistedObject.h"
+#include "cPersistenceState.h"
+#include "cDatabaseManager.h"
+#include "Diplomacy/PersistedEvent/cPreparingToDeclareWarEvent.h"
 
 using namespace SporeModUtils;
 
 void Initialize()
 {
-	//CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
-	//CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
+	// CheatManager.AddCheat("DebugDiplomacy", new DebugDiplomacy());
+	// CheatManager.AddCheat("DebugWarfare", new DebugWarfare());
 	cSimulatorSystem::Get()->AddStrategy(new cCompositionRoot(), cCompositionRoot::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cDiplomacySystem(), cDiplomacySystem::NOUN_ID);
 	cSimulatorSystem::Get()->AddStrategy(new cWarfareSystem(), cWarfareSystem::NOUN_ID);
+	cSimulatorSystem::Get()->AddStrategy(new cDatabaseManager(), cDatabaseManager::NOUN_ID);
 	ToolManager.AddStrategy(new cToolInvasionStrategy(), cToolInvasionStrategy::TYPE);
-	//ClassManager.AddFactory(new cPersistedEventFactory());
+
+	ClassManager.AddFactory(new cPersistedObjectFactory());
+	ClassManager.AddFactory(new cPersistenceStateFactory());
+	ClassManager.AddFactory(new cPersistedEventFactory());
+	ClassManager.AddFactory(new cPersistedDiplomacyEventFactory);
+	ClassManager.AddFactory(new cNeighborsInPeaceEventFactory());
+	ClassManager.AddFactory(new cMadePeaceEventFactory());
+	ClassManager.AddFactory(new cUpliftedByMonolithEventFactory());
+	ClassManager.AddFactory(new cFormedAllianceEventFactory());
+	ClassManager.AddFactory(new cDefeatedEnemyTogetherEventFactory());
+	ClassManager.AddFactory(new cPreparingForWarEventFactory());
 
 	// This method is executed when the game starts, before the user interface is shown
 	// Here you can do things such as:
@@ -41,24 +63,33 @@ void Dispose()
 	// This method is called when the game is closing
 }
 
-// Call the affinityTextProc when starting a commEvent with an empire.
-member_detour(ShowCommEvent__detour, cCommManager, void(cCommEvent*)) {
-	void detoured(cCommEvent * pEvent) {
-		original_function(this, pEvent);
-		if (IsSpaceGame()) {
-			UTFWin::IWindow* mainWindow = WindowManager.GetMainWindow();
-			UTFWin::IWindow* textWindow = mainWindow->FindWindowByID(0x434EB9AD);
-			AffinityTextProc* affinityTextProcAux = nullptr;
-			UTFWin::IWinProc* proc = textWindow->GetNextWinProc(affinityTextProcAux);
-			AffinityTextProc* affinityTextProc = object_cast<AffinityTextProc>(proc);
-			affinityTextProc->SetAffinityText(pEvent->mSource);
-		}
+/// When an empire raids the system of another empire and the player is in the galactic view,
+/// a UFO spawns in a system of the first empire and travels to the target system.
+/// This is entirely cosmetic and can cause a crash in some, yet to be determined, circumstances.
+/// This is the method that controls whether to spawn that UFO or not, we always return false
+/// to prevent those UFOs from spawning and avoid that crash.
+member_detour(ShouldSpawnRaiderUFO__detour, cRaidEvent, bool())
+{
+	bool detoured()
+	{
+		bool ret = original_function(this);
+		return false;
 	}
 };
+
 
 void AttachDetours()
 {
 	ShowCommEvent__detour::attach(GetAddress(cCommManager, ShowCommEvent));
+	ApplyRelationshipMonolith__detour::attach(GetAddress(cRelationshipManager, ApplyRelationship));
+	DeclareWar__detour::attach(GetAddress(cRelationshipManager, DeclareWar));
+	DeclareAlliance__detour::attach(GetAddress(cRelationshipManager, DeclareAlliance));
+	BreakAlliance__detour::attach(GetAddress(cRelationshipManager, BreakAlliance));
+	HandleSpaceCommAction__detour::attach(GetAddress(cCommManager, HandleSpaceCommAction));
+	ShowEvent__detour::attach(GetAddress(cUIEventLog, ShowEvent));
+	EmpireDestroyed__detour::attach(GetAddress(cEmpire, Destroy));
+	ShouldSpawnRaiderUFO__detour::attach(Address(ModAPI::ChooseAddress(0x00c5adc0, 0x00c5b860)));
+
 }
 
 // Generally, you don't need to touch any code here
