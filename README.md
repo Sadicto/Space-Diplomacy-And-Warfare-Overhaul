@@ -66,7 +66,7 @@ The long alliance and long peace bonuses don't stack, which is why the long peac
   - Joining an ally's war: If within range of an empire that is at war with an ally, the AI will automatically declare war on its ally's enemy, as long as it has lower affinity with the target than with the ally.
   - War on its own initiative: If neighboring an empire with an affinity of zero or lower and a relationship below 30 (worse than blue face), the AI may decide to declare war, with the probability depending on the archetype's aggressiveness. In the player's case, they receive a notification informing them that the empire is preparing to declare war, which can be avoided by raising the relationship to 30 or higher.
 
-![PreparingForWarNotificacion](images/PreparingForWarNotification.png "An empire preparing for war against the player")
+![PreparingForWarNotification](images/PreparingForWarNotification.png "An empire preparing for war against the player")
 *An empire preparing for war against the player*
 
 ### Player Wars
@@ -125,10 +125,10 @@ The player will receive notifications for:
 - **Relationship Effects:** Rebalances relationship effects to make it harder to reach a high relationship with an empire, forcing the player to engage with the affinity system. Can be set to vanilla-like to override these changes.
 - **AI Aggressiveness:** Adjusts the base probability of AI empires starting wars. Options are low, normal and high.
 - **Notifications:** Adjust which notifications the player receives based on type and relationship. For alliance formations, broken alliances, and war declarations, you can choose to receive no notifications, only notifications involving allies and/or enemies, or all notifications regardless of participants. 
-- **Space Combat:** Rebalances all space combat values (from player weapons to empires ships' health) for smoother early-to-late game progression. No changes are made to empires of level 5, the Grox, or the highest-level weapons, changes buff lower levels to reduce power spikes. Includes an option to remove the tool Rally-Call while buffing the base damage of all player and posse weapons.  Also includes an option to leave space combat unchanged.
+- **Space Combat:** Rebalances all space combat values (from player weapons to empire ships' health) for smoother early-to-late game progression. No changes are made to empires of level 5, the Grox, or the highest-level weapons, changes buff lower levels to reduce power spikes. Includes an option to remove the tool Rally-Call while buffing the base damage of all player and posse weapons.  Also includes an option to leave space combat unchanged.
 - **AI Bomber Production Rate:** Multiplier for AI bomber production, ranging from 15% of the base rate to four times as fast.
 - **Player Bomber Cost:** Sets the cost of each bomber when using the “Invasion Call” tool. 
-- **Hostile Archetype Buffs:** increases bomber production for AI empires with archetypes incompatible with the player, making the space stage more challenging. Ranges from no buffs to extreme buff.
+- **Hostile Archetype Buffs:** increases bomber production for AI empires with archetypes incompatible with the player, making the space stage more challenging. Ranges from no buffs to extreme buffs.
 - **Warrior & Zealot Buffs:** Buffs AI Zealots and Warriors empires to compensate for their diplomatic isolation. Warriors receive a flat +4 to bomber production (a buff stronger in the early game) while Zealots get a x1.20 multiplier, a general buff that is stronger in the late game.
 - **Sensible AI Colonization Patch:** Compatibility patch for the Sensible AI Colonization mod. Apply if the mod is installed. 
 
