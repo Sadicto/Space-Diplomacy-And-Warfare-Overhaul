@@ -62,6 +62,18 @@ void* cWarfareConfig::Cast(uint32_t type) const
 
 float cWarfareConfig::GetWarfareRange(int empireLevel)
 {
+	if (warfareRange.empty())
+	{
+		return 1.0f;
+	}
+	if (empireLevel < 0)
+	{
+		return warfareRange[0];
+	}
+	if (empireLevel >= int(warfareRange.size()))
+	{
+		return warfareRange.back();
+	}
 	return warfareRange[empireLevel];
 }
 
