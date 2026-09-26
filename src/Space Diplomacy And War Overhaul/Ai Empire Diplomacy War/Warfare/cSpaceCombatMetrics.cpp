@@ -78,21 +78,69 @@ void* cSpaceCombatMetrics::Cast(uint32_t type) const
 
 float cSpaceCombatMetrics::GetBomberHealthByLevel(int empireLevel)
 {
+	if (healthBomber.empty())
+	{
+		return 1.0f;
+	}
+	if (empireLevel < 0)
+	{
+		return healthBomber[0];
+	}
+	if (empireLevel >= int(healthBomber.size()))
+	{
+		return healthBomber.back();
+	}
 	return healthBomber[empireLevel];
 }
 
 float cSpaceCombatMetrics::GetFighterHealthByLevel(int empireLevel)
 {
+	if (healthFighter.empty())
+	{
+		return 1.0f;
+	}
+	if (empireLevel < 0)
+	{
+		return healthFighter[0];
+	}
+	if (empireLevel >= int(healthFighter.size()))
+	{
+		return healthFighter.back();
+	}
 	return healthFighter[empireLevel];
 }
 
 float cSpaceCombatMetrics::GetDefenderHealthByLevel(int empireLevel)
 {
+	if (healthDefender.empty())
+	{
+		return 1.0f;
+	}
+	if (empireLevel < 0)
+	{
+		return healthDefender[0];
+	}
+	if (empireLevel >= int(healthDefender.size()))
+	{
+		return healthDefender.back();
+	}
 	return healthDefender[empireLevel];
 }
 
 float cSpaceCombatMetrics::GetTurretHealthByLevel(int empireLevel)
 {
+	if (healthTurret.empty())
+	{
+		return 1.0f;
+	}
+	if (empireLevel < 0)
+	{
+		return healthTurret[0];
+	}
+	if (empireLevel >= int(healthTurret.size()))
+	{
+		return healthTurret.back();
+	}
 	return healthTurret[empireLevel];
 }
 

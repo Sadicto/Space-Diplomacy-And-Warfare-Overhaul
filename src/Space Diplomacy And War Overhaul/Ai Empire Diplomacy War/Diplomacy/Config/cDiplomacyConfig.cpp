@@ -73,6 +73,18 @@ void* cDiplomacyConfig::Cast(uint32_t type) const
 }
 
 float cDiplomacyConfig::GetDiplomacyRange(int level) {
+	if (diplomacyRange.empty())
+	{
+		return 1.0f;
+	}
+	if (level < 0)
+	{
+		return diplomacyRange[0];
+	}
+	if (level >= int(diplomacyRange.size()))
+	{
+		return diplomacyRange.back();
+	}
 	return diplomacyRange[level];
 }
 

@@ -57,5 +57,18 @@ int cArchetypesConfig::GetArchetypesAffinity(Simulator::Archetypes archetype1, S
 }
 
 int cArchetypesConfig::GetArchetypeAgressivtyByPowerLevel(Simulator::Archetypes archetype, int powerLevel) {
-	return archetypesAgressivities[ArchetypeUtils::GetBaseArchetype(archetype)][powerLevel];
+	eastl::vector<int> archetypeAgressivity = archetypesAgressivities[ArchetypeUtils::GetBaseArchetype(archetype)];
+	if (archetypeAgressivity.empty())
+	{
+		return 1;
+	}
+	if (powerLevel < 0)
+	{
+		return archetypeAgressivity[0];
+	}
+	if (powerLevel >= int(archetypeAgressivity.size()))
+	{
+		return archetypeAgressivity.back();
+	}
+	return archetypeAgressivity[powerLevel];
 }
