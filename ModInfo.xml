@@ -25,7 +25,7 @@
 	</componentGroup>
 
 	<!-- Ignore Other Players' Empires -->
-	<componentGroup displayName="Ignore Other Players' Empires" unique="Space-Diplomacy-Overhaul_EmpireInvalidationDepth_Config">
+	<componentGroup displayName="Player Exclusion Depth" unique="Space-Diplomacy-Overhaul_EmpireInvalidationDepth_Config">
 		<component game="GalacticAdventures" displayName="Players Only" description="The mod ignores only other players' empires." unique="SpaceDiplomacyAndWarOverhaul_OnlyPlayersInvalidationDepth_Config" defaultChecked="false">Space-Diplomacy-Overhaul_OnlyPlayersInvalidationDepth_Config.package</component>
 		<component game="GalacticAdventures" displayName="Players + Direct Relations" description="The mod ignores other players' empires and their direct allies and enemies." unique="SpaceDiplomacyAndWarOverhaul_DirectRelationsInvalidationDepth_Config" defaultChecked="true">Space-Diplomacy-Overhaul_DirectRelationsInvalidationDepth_Config.package</component>
 		<component game="GalacticAdventures" displayName="Players + Indirect Relations" description="The mod ignores other players' empires, their direct allies and enemies, and the direct allies and enemies of those empires." unique="SpaceDiplomacyAndWarOverhaul_IndirectRelationsInvalidationDepth_Config" defaultChecked="false">Space-Diplomacy-Overhaul_IndirectRelationsInvalidationDepth_Config.package</component>
