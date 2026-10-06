@@ -193,6 +193,7 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 			action.actionID == id("action_peace_offer_5")) &&
 			!DiplomacyUtils::War(GetPlayerEmpire(), npcEmpire)) {
 
+			empireRelationshipController->ResetRelationship(GetPlayerEmpire(), npcEmpire);
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpire, PersistedDiplomacyEventType::MadePeace);
 			DeclarePeaceWithPlayerAllianceBlock(npcEmpire);
 			for (cEmpirePtr npcEmpireAlly : npcEmpire->mAllies) {
@@ -210,6 +211,7 @@ member_detour(HandleSpaceCommAction__detour, cCommManager, void(const CnvAction&
 			}
 		}
 		else if (action.actionID == id("action_accept_surrender")) {
+			empireRelationshipController->ResetRelationship(GetPlayerEmpire(), npcEmpire);
 			persistedDiplomacyEventManager->CreatePersistedDiplomacyEvent(GetPlayerEmpire(), npcEmpire, PersistedDiplomacyEventType::MadePeace);
 			CreateDefeatedEnemyTogetherForEnemiesOfEmpire(npcEmpire, true);
 			// Since original_function is called at the start, the player is no longer an enemy of npcEmpire when 
